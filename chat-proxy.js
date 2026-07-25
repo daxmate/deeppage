@@ -1,116 +1,163 @@
 // ==============================================
 // DeepPage — Chat Proxy (runs on chat.deepseek.com)
-// Makes API calls from the DeepSeek domain,
-// leveraging the user's browser session cookies.
+// MAIN world — hooks fetch to inject page context
 // ==============================================
 
-const API_ENDPOINTS = [
-  'https://chat.deepseek.com/api/v0/chat/completions',
-  'https://chat.deepseek.com/api/chat',
-  'https://api.deepseek.com/v1/chat/completions'
-];
-
-let cachedEndpoint = null;
+const API_PATH = '/api/v0/chat/completion';
+let context = null;          // current page context
+let originalFetch = null;    // saved original fetch
+let nextContextMsg = null;   // system message to inject
 
 // ==============================================
-// API call
+// UI: injected indicator bar
 // ==============================================
 
-async function callDeepSeekAPI(pageContext, question, history) {
-  const messages = [
-    {
-      role: 'system',
-      content: `你是一个网页助手。用户正在浏览一个网页，以下是网页内容。请根据这些内容回答用户的问题。\n\n${pageContext}`
-    },
-    ...(history || []).map(m => ({ role: m.role, content: m.content })),
-    { role: 'user', content: question }
-  ];
+let indicatorEl = null;
 
-  const body = JSON.stringify({
-    model: 'deepseek-chat',
-    messages,
-    stream: false
+function createIndicator() {
+  if (indicatorEl) return;
+
+  indicatorEl = document.createElement('div');
+  indicatorEl.id = '__dp-indicator';
+  indicatorEl.style.cssText = [
+    'position: fixed',
+    'z-index: 2147483647',
+    'top: 60px',
+    'right: 16px',
+    'background: #4A6CF7',
+    'color: white',
+    'padding: 6px 14px',
+    'border-radius: 20px',
+    'font-size: 12px',
+    'font-family: -apple-system, system-ui, sans-serif',
+    'box-shadow: 0 2px 8px rgba(74,108,247,.3)',
+    'cursor: pointer',
+    'display: none',
+    'align-items: center',
+    'gap: 6px',
+    'max-width: 280px',
+    'white-space: nowrap',
+    'overflow: hidden',
+    'text-overflow: ellipsis',
+    'transition: opacity .3s'
+  ].join(';');
+  indicatorEl.innerHTML = '🧊 <span id="__dp-indicator-text">正在加载...</span>';
+
+  indicatorEl.addEventListener('click', () => {
+    clearContext();
   });
 
-  // Try cached endpoint first, then fallback
-  const endpoints = cachedEndpoint
-    ? [cachedEndpoint, ...API_ENDPOINTS.filter(e => e !== cachedEndpoint)]
-    : API_ENDPOINTS;
+  document.body.appendChild(indicatorEl);
+}
 
-  let lastError = null;
+function showIndicator(title) {
+  createIndicator();
+  const span = document.getElementById('__dp-indicator-text');
+  if (span) span.textContent = `📄 ${title}`;
+  indicatorEl.style.display = 'flex';
+}
 
-  for (const url of endpoints) {
-    try {
-      const resp = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body,
-        credentials: 'include'  // critical: send cookies
-      });
+function hideIndicator() {
+  if (indicatorEl) indicatorEl.style.display = 'none';
+}
 
-      if (!resp.ok) {
-        const text = await resp.text().catch(() => '');
-        // If it's HTML (SPA page), skip this endpoint
-        if (text.trimStart().startsWith('<!')) {
-          lastError = new Error('端点返回页面而非 API (可能是 SPA 路由)');
-          continue;
-        }
-        throw new Error(`HTTP ${resp.status}: ${text.slice(0, 200)}`);
-      }
-
-      const data = await resp.json();
-
-      // Cache the working endpoint
-      cachedEndpoint = url;
-      chrome.storage.sync.set({ deepseekEndpoint: url });
-
-      // Extract reply text (handle multiple response formats)
-      const reply = data.choices?.[0]?.message?.content ||
-        data.message?.content ||
-        data.response ||
-        data.text ||
-        JSON.stringify(data);
-
-      return { text: reply };
-
-    } catch (err) {
-      lastError = err;
-    }
-  }
-
-  throw lastError || new Error('所有 API 端点均失败');
+function clearContext() {
+  context = null;
+  nextContextMsg = null;
+  hideIndicator();
 }
 
 // ==============================================
-// Listen for messages from background
+// Hook window.fetch to inject context
 // ==============================================
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  switch (message.action) {
-    case 'chat':
-      callDeepSeekAPI(message.pageContext, message.question, message.history)
-        .then(sendResponse)
-        .catch(err => sendResponse({ error: err.message }));
-      return true;  // keep channel open for async
+function installFetchHook() {
+  if (originalFetch) return; // already hooked
+  originalFetch = window.fetch.bind(window);
+
+  const _this = this;
+
+  window.fetch = function(input, init = {}) {
+    const url = typeof input === 'string' ? input : (input.url || '');
+
+    // Only intercept DeepSeek completion API calls
+    if (url.includes(API_PATH) && init && init.body && nextContextMsg) {
+      try {
+        const body = JSON.parse(typeof init.body === 'string' ? init.body : new TextDecoder().decode(init.body));
+        const messages = body.messages || [];
+
+        // Check if our system message is already injected
+        const alreadyInjected = messages.some(m =>
+          m.role === 'system' && m.content && m.content.startsWith('【DeepPage】')
+        );
+
+        if (!alreadyInjected && messages.length > 0) {
+          // Prepend our context as first system message
+          const newMessages = [nextContextMsg, ...messages];
+          const newBody = JSON.stringify({ ...body, messages: newMessages });
+
+          // Clone init and replace body
+          const newInit = { ...init };
+          if (typeof init.body === 'string') {
+            newInit.body = newBody;
+          } else {
+            newInit.body = new TextEncoder().encode(newBody);
+          }
+          return originalFetch(input, newInit);
+        }
+      } catch (e) {
+        // Parsing failed, don't modify
+      }
+    }
+
+    return originalFetch(input, init);
+  };
+}
+
+// ==============================================
+// Receive page context from extension
+// ==============================================
+
+function handleInjectContext(pageContext) {
+  context = pageContext;
+
+  // Build the system message to inject
+  const formatted = [
+    `【DeepPage】你正在帮用户分析一个网页：`,
+    ``,
+    `标题: ${pageContext.title}`,
+    `URL: ${pageContext.url}`,
+    ``,
+    `以下是网页全文：`,
+    pageContext.text
+  ].join('\n');
+
+  nextContextMsg = { role: 'system', content: formatted };
+
+  // Show indicator
+  showIndicator(pageContext.title);
+}
+
+// ==============================================
+// Listen for extension messages
+// ==============================================
+
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  switch (msg.action) {
+    case 'injectContext':
+      handleInjectContext(msg.pageContext);
+      sendResponse({ ok: true });
+      break;
 
     case 'ping':
-      sendResponse({ alive: true });
-      return false;
+      sendResponse({ alive: true, hasContext: !!context });
+      break;
   }
 });
 
 // ==============================================
-// Init: restore cached endpoint
+// Init
 // ==============================================
 
-chrome.storage.sync.get('deepseekEndpoint', (result) => {
-  if (result.deepseekEndpoint) {
-    cachedEndpoint = result.deepseekEndpoint;
-  }
-});
-
-// Export endpoint info for debugging
-window.__DEEPPAGE_ENDPOINT = cachedEndpoint;
+installFetchHook();
+createIndicator();
