@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "DeepPage",
+  "version": "0.1.0",
+  "description": "在浏览网页时与 DeepSeek 对话——总结全文、提炼要点、自由问答",
+  "author": "daxmate",
+
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+
+  "host_permissions": [
+    "https://chat.deepseek.com/*"
+  ],
+
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "exclude_matches": ["https://chat.deepseek.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["https://chat.deepseek.com/*"],
+      "js": ["chat-proxy.js"],
+      "run_at": "document_idle",
+      "world": "MAIN"
+    }
+  ],
+
+  "action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "DeepPage"
+  }
+}
