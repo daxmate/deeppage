@@ -10,8 +10,9 @@ function injectStyles() {
     /* ----- 面板容器 ----- */
     #__dp-panel {
       position: fixed !important;
-      left: 100px;
-      top: 100px;
+      left: auto;
+      right: 24px;
+      top: 80px;
       width: 420px;
       height: 480px;
       min-width: 260px;
