@@ -1,72 +1,79 @@
 // ==============================================
 // DeepPage — Service Worker
-// Routes: content.js ↔ chat-proxy.js
+// Opens DeepSeek popup, routes messages
 // ==============================================
 
 // ==============================================
-// Find the hidden chat.deepseek.com tab
+// Open DeepSeek as a popup window
 // ==============================================
 
-async function findDeepSeekTab() {
-  const tabs = await chrome.tabs.query({ url: 'https://chat.deepseek.com/*' });
-  if (tabs.length > 0) return tabs[0];
+async function openPopup(pageContext) {
+  // Store context in session for chat-proxy.js
+  await chrome.storage.session.set({ deeppage_context: pageContext });
 
-  // Open a hidden tab in the background
-  const tab = await chrome.tabs.create({
-    url: 'https://chat.deepseek.com',
-    active: false  // don't steal focus
+  const W = 440, H = 620;
+
+  // Check if we already have a DeepPage popup open
+  const existing = await chrome.tabs.query({
+    url: 'https://chat.deepseek.com/*',
+    windowType: 'popup'
   });
-  return tab;
-}
 
-// ==============================================
-// Wait for proxy to be ready
-// ==============================================
-
-async function waitForProxy(tabId, retries = 30) {
-  for (let i = 0; i < retries; i++) {
-    try {
-      const resp = await chrome.tabs.sendMessage(tabId, { action: 'loginCheck' });
-      if (resp && typeof resp.loggedIn === 'boolean') return resp;
-    } catch {}
-    await new Promise(r => setTimeout(r, 1000));
+  if (existing.length > 0) {
+    // Focus existing popup
+    await chrome.windows.update(existing[0].windowId, { focused: true });
+    await chrome.tabs.update(existing[0].id, { active: true });
+    // Update its context
+    await chrome.tabs.sendMessage(existing[0].id, {
+      action: 'setContext',
+      pageContext
+    }).catch(() => {});
+    return;
   }
-  return { loggedIn: false };
+
+  // Open new popup
+  await chrome.windows.create({
+    url: 'https://chat.deepseek.com',
+    type: 'popup',
+    width: W,
+    height: H,
+    left: 980,
+    top: 60
+  });
 }
 
 // ==============================================
-// Handlers
+// Request page context (for chat-proxy.js)
+// ==============================================
+
+async function getStoredContext() {
+  const { deeppage_context } = await chrome.storage.session.get('deeppage_context');
+  return deeppage_context || null;
+}
+
+// ==============================================
+// Message handlers
 // ==============================================
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   switch (msg.action) {
-    case 'chat':
-      handleChat(msg).then(sendResponse).catch(err => sendResponse({ error: err.message }));
+    case 'openDeepSeekPopup':
+      chrome.storage.session.get('deeppage_context').then(({ deeppage_context }) => {
+        if (deeppage_context) {
+          openPopup(deeppage_context);
+        }
+      });
+      sendResponse({ ok: true });
+      return false;
+
+    case 'getContext':
+      // Used by chat-proxy.js to read stored page context
+      getStoredContext().then(ctx => sendResponse({ context: ctx }));
       return true;
 
-    case 'loginCheck':
-      // Check if proxy is available
-      chrome.tabs.query({ url: 'https://chat.deepseek.com/*' })
-        .then(tabs => sendResponse({ loggedIn: tabs.length > 0 }))
-        .catch(() => sendResponse({ loggedIn: false }));
-      return true;
+    case 'clearContext':
+      chrome.storage.session.remove('deeppage_context');
+      sendResponse({ ok: true });
+      return false;
   }
 });
-
-async function handleChat(msg) {
-  const tab = await findDeepSeekTab();
-  if (!tab) throw new Error('无法打开 chat.deepseek.com');
-
-  const status = await waitForProxy(tab.id);
-  if (!status.loggedIn) {
-    throw new Error('未检测到登录状态。请在 chat.deepseek.com 上登录并发送一条消息');
-  }
-
-  const resp = await chrome.tabs.sendMessage(tab.id, {
-    action: 'chat',
-    pageContext: msg.pageContext,
-    question: msg.question
-  });
-
-  return resp;
-}
