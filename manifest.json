@@ -42,9 +42,18 @@
         "https://chat.deepseek.com/*"
       ],
       "js": [
+        "chat-bridge.js"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://chat.deepseek.com/*"
+      ],
+      "js": [
         "chat-proxy.js"
       ],
-      "run_at": "document_idle",
+      "run_at": "document_start",
       "world": "MAIN"
     }
   ],
