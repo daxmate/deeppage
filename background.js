@@ -1,135 +1,68 @@
 // ==============================================
 // DeepPage — Service Worker
-// Opens side panel, manages DeepSeek tab, routes messages
+// Routes API calls to api.deepseek.com
 // ==============================================
 
-let pendingContext = null;
+const API_URL = 'https://api.deepseek.com/v1/chat/completions';
 
-// ==============================================
-// Find or create hidden DeepSeek tab
-// ==============================================
+async function getApiKey() {
+  const { deepseekApiKey } = await chrome.storage.sync.get('deepseekApiKey');
+  return deepseekApiKey || null;
+}
 
-async function ensureDeepSeekTab() {
-  const tabs = await chrome.tabs.query({ url: 'https://chat.deepseek.com/*' });
-  if (tabs.length > 0) return tabs[0].id;
+async function callDeepSeek(messages) {
+  const apiKey = await getApiKey();
+  if (!apiKey) throw new Error('NO_API_KEY');
 
-  // Create hidden tab
-  const tab = await chrome.tabs.create({
-    url: 'https://chat.deepseek.com',
-    active: false
+  const resp = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      model: 'deepseek-v4-flash',
+      messages,
+      stream: false
+    })
   });
-  return tab.id;
-}
 
-async function waitForBridge(tabId) {
-  for (let i = 0; i < 20; i++) {
-    try {
-      const resp = await chrome.tabs.sendMessage(tabId, { action: 'ping' });
-      if (resp?.alive) return true;
-    } catch {}
-    await new Promise(r => setTimeout(r, 1000));
+  const data = await resp.json();
+  if (!resp.ok) {
+    const msg = data?.error?.message || data?.message || JSON.stringify(data);
+    throw new Error(`API ${resp.status}: ${msg}`);
   }
-  return false;
+  return data.choices?.[0]?.message?.content || '';
 }
-
-// ==============================================
-// Get context from side panel
-// ==============================================
-
-async function getContextFromSidePanel() {
-  const panels = await chrome.tabs.query({ url: chrome.runtime.getURL('sidepanel.html') });
-  if (panels.length === 0) return null;
-
-  try {
-    const resp = await chrome.tabs.sendMessage(panels[0].id, { action: 'getContext' });
-    return resp?.context || null;
-  } catch {
-    return null;
-  }
-}
-
-// ==============================================
-// Open side panel
-// ==============================================
-
-async function openSidePanel(tabId) {
-  try {
-    await chrome.sidePanel.open({ tabId });
-  } catch {
-    // sidePanel.open was added in Chrome 116
-    // Fallback: open via action click
-    await chrome.sidePanel.setOptions({
-      tabId,
-      path: 'sidepanel.html',
-      enabled: true
-    });
-  }
-}
-
-// ==============================================
-// Message handlers
-// ==============================================
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   switch (msg.action) {
-    case 'openDeepPage':
-      handleOpenDeepPage(msg.pageContext, sender.tab?.id)
-        .catch(err => console.error('[DeepPage]', err));
-      sendResponse({ ok: true });
-      return false;
-
     case 'chat':
-      handleChat(msg)
-        .then(sendResponse)
-        .catch(err => sendResponse({ error: err.message }));
-      return true;
-
-    case 'checkLogin':
-      ensureDeepSeekTab().then(async (tabId) => {
-        const ready = await waitForBridge(tabId);
-        if (!ready) return sendResponse({ loggedIn: false });
-        try {
-          const resp = await chrome.tabs.sendMessage(tabId, { action: 'checkLogin' });
-          sendResponse(resp);
-        } catch {
-          sendResponse({ loggedIn: false });
-        }
+      handleChat(msg).then(sendResponse).catch(err => {
+        sendResponse({ error: err.message });
       });
       return true;
-
+    case 'checkLogin':
+      getApiKey().then(key => sendResponse({ loggedIn: !!key }));
+      return true;
     case 'openLogin':
-      chrome.tabs.create({ url: 'https://chat.deepseek.com', active: true });
-      return false;
-
-    case 'getPendingContext':
-      const ctx = pendingContext;
-      pendingContext = null;
-      sendResponse({ context: ctx });
+      chrome.tabs.create({ url: 'https://platform.deepseek.com/api_keys', active: true });
       return false;
   }
 });
 
-async function handleOpenDeepPage(pageContext, tabId) {
-  pendingContext = pageContext;
-
-  // Open side panel
-  if (tabId) {
-    await openSidePanel(tabId);
-  } else {
-    await chrome.sidePanel.open({});
-  }
-}
+chrome.action.onClicked.addListener(() => {
+  chrome.runtime.openOptionsPage();
+});
 
 async function handleChat(msg) {
-  // Find or wait for DeepSeek tab
-  const tabId = await ensureDeepSeekTab();
-  const ready = await waitForBridge(tabId);
-  if (!ready) throw new Error('chat.deepseek.com 尚未加载完成');
-
-  const resp = await chrome.tabs.sendMessage(tabId, {
-    action: 'chat',
-    question: msg.question,
-    pageContext: msg.pageContext
-  });
-  return resp;
+  const systemPrompt = msg.pageContext
+    ? `你是一个网页助手。用户正在浏览以下网页，请根据网页内容回答问题。\n\n标题: ${msg.pageContext.title}\nURL: ${msg.pageContext.url}\n\n网页全文：\n${msg.pageContext.text}`
+    : '你是一个网页助手。';
+  const messages = [
+    { role: 'system', content: systemPrompt },
+    ...(msg.chatHistory || [])
+  ];
+  const reply = await callDeepSeek(messages);
+  return { text: reply };
 }
