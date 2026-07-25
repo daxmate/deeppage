@@ -1,40 +1,11 @@
-/* ========================================
-   DeepPage — Floating Button (opens popup)
-   ======================================== */
-
+/* Floating button only */
 #__dp-btn {
-  position: fixed;
-  z-index: 2147483646;
-  right: 20px;
-  bottom: 20px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: none;
-  background: #4A6CF7;
-  color: white;
-  font-size: 22px;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgba(74, 108, 247, .35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform .2s, box-shadow .2s;
-  user-select: none;
-  line-height: 1;
+  position: fixed; z-index: 2147483646; right: 20px; bottom: 20px;
+  width: 48px; height: 48px; border-radius: 50%; border: none;
+  background: #4A6CF7; color: white; font-size: 22px; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(74,108,247,.35);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .2s; user-select: none;
 }
-
-#__dp-btn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 6px 24px rgba(74, 108, 247, .45);
-}
-
-#__dp-btn:active {
-  transform: scale(.92);
-}
-
-@media (prefers-color-scheme: dark) {
-  #__dp-btn {
-    box-shadow: 0 4px 16px rgba(74, 108, 247, .25);
-  }
-}
+#__dp-btn:hover { transform: scale(1.08); }
+#__dp-btn:active { transform: scale(.92); }
