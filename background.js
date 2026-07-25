@@ -31,14 +31,18 @@ async function openPopup(pageContext) {
     return;
   }
 
-  // Open new popup
+  // Open new popup (right side of current window)
+  const win = await chrome.windows.getLastFocused();
+  const left = win.left + win.width - W - 20;
+  const top = win.top + 60;
+
   await chrome.windows.create({
     url: 'https://chat.deepseek.com',
     type: 'popup',
     width: W,
     height: H,
-    left: 980,
-    top: 60
+    left: Math.max(left, 0),
+    top: Math.max(top, 0)
   });
 }
 
