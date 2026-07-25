@@ -1,50 +1,74 @@
-# 🧊 DeepPage
+# DeepPage
 
 在浏览网页时与 DeepSeek 对话——总结全文、提炼要点、自由问答。
 
 ## 功能
 
-- **悬浮按钮** — 浏览任意网页时，右下角悬浮按钮一键打开
-- **侧边对话** — 不离开当前页面，直接与 DeepSeek 对话
-- **全文理解** — 自动提取并加载当前页面内容作为对话背景
-- **总结要点** — 一键生成文章摘要
-- **自由提问** — 针对页面内容任意追问
+- **内嵌对话面板** — 点击右下角按钮，在当前页面直接展开聊天气泡
+- **一键快捷操作** — 总结全文、提炼要点、翻译，点一下就行
+- **全文理解** — 自动提取页面正文作为对话上下文
+- **对话记忆** — 同一页面保持完整聊天历史，关闭面板不丢失
+- **可拖拽 / 可调整大小** — 面板位置随意拖动，大小自由缩放
+- **Dark Mode** — 自动适配系统暗色主题
 
 ## 使用方式
 
 1. 安装扩展后访问任意网页
-2. 点击右下角 🧊 按钮打开侧边栏
-3. 如果未登录 DeepSeek，点击提示前往 [chat.deepseek.com](https://chat.deepseek.com) 登录
-4. 登录后返回即可直接对话
+2. 点击右下角 DeepSeek 图标打开对话面板
+3. 首次使用需配置 API Key：
+   - 右键扩展图标 → **选项**
+   - 输入你的 [DeepSeek API Key](https://platform.deepseek.com/api_keys)
+   - 点击保存
+4. 点击快捷按钮（总结 / 要点 / 翻译），或自由提问
 
 ## 隐私说明
 
 - 插件仅读取当前网页的文本内容（不包含图片、样式、脚本）
-- 网页内容仅用于向 DeepSeek 发送请求，不会上传到其他第三方
-- 使用你本机浏览器中 DeepSeek 的登录会话，无需额外 API Key
+- 网页内容仅用于向 DeepSeek API 发送请求，不会上传到其他第三方
+- 使用你自己的 API Key，数据不经过任何第三方中转
+
+## 技术原理
+
+```
+┌─────────────────┐   chrome.runtime   ┌──────────────────┐
+│  Content Script │ ──────────────────→│  Service Worker  │
+│  (内嵌对话面板)  │                    │  (调用 API)      │
+│  提取页面内容    │ ←─────────────────│  fetch ...       │
+│  用户界面交互    │                    │  api.deepseek.com │
+└─────────────────┘                    └────────┬─────────┘
+                                                │
+                                         POST /v1/chat/completions
+                                                │
+                                         ┌──────▼──────┐
+                                         │  DeepSeek    │
+                                         │  官方 API     │
+                                         └─────────────┘
+```
+
+- 直接调用 DeepSeek 官方 API（标准 OpenAI 兼容接口）
+- 支持 `deepseek-v4-flash` / `deepseek-v4-pro` 模型
+- 无需隐藏标签页、无需处理 PoW 反爬
 
 ## 开发
 
 纯原生 Chrome Extension（Manifest V3），无构建步骤。
 
 ```bash
-git clone ...
-# 打开 chrome://extensions → 加载已解压的扩展程序 → 选择项目目录
+git clone https://github.com/daxmate/deeppage.git
 ```
 
-## 技术原理
+在 `chrome://extensions` → 加载已解压的扩展程序 → 选择项目目录。
+
+### 项目结构
 
 ```
-┌───────────────────┐   sendMessage   ┌───────────────┐
-│   Content Script  │ ───────────────→│  Service      │
-│   (浮动按钮+面板) │                 │  Worker       │
-│   提取页面内容     │                 │  + Cookie 读取│
-│                   │ ←──────────────│  → DeepSeek   │
-└───────────────────┘                 └───────┬───────┘
-                                        fetch(API)
-                                              │
-                                        ┌─────▼─────┐
-                                        │ DeepSeek  │
-                                        │ 后端       │
-                                        └───────────┘
+├── manifest.json          # 扩展配置
+├── background.js          # 后台服务 — API 调用
+├── content.js             # 内容脚本 — 按钮 + 对话面板
+├── options.html / .js     # 设置页面 — API Key 配置
+└── icons/                 # DeepSeek 官方图标
 ```
+
+## License
+
+MIT
