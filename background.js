@@ -1,83 +1,63 @@
 // ==============================================
 // DeepPage — Service Worker
-// Opens DeepSeek popup, routes messages
+// Opens DeepSeek popup, stores context
 // ==============================================
 
-// ==============================================
-// Open DeepSeek as a popup window
-// ==============================================
+let currentContext = null;
+
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (msg.action === 'openPopup') {
+    currentContext = msg.pageContext;
+
+    openPopup(msg.pageContext).catch(err =>
+      console.error('[DeepPage] popup error:', err)
+    );
+
+    sendResponse({ ok: true });
+    return false;
+  }
+
+  if (msg.action === 'getContext') {
+    sendResponse({ context: currentContext });
+    return false;
+  }
+
+  if (msg.action === 'ping') {
+    sendResponse({ alive: true });
+    return false;
+  }
+});
 
 async function openPopup(pageContext) {
-  // Store context in session for chat-proxy.js
-  await chrome.storage.session.set({ deeppage_context: pageContext });
-
-  const W = 440, H = 620;
-
-  // Check if we already have a DeepPage popup open
+  // Check existing popup
   const existing = await chrome.tabs.query({
     url: 'https://chat.deepseek.com/*',
     windowType: 'popup'
   });
 
   if (existing.length > 0) {
-    // Focus existing popup
-    await chrome.windows.update(existing[0].windowId, { focused: true });
-    await chrome.tabs.update(existing[0].id, { active: true });
-    // Update its context
-    await chrome.tabs.sendMessage(existing[0].id, {
-      action: 'setContext',
-      pageContext
-    }).catch(() => {});
+    const tab = existing[0];
+    await chrome.windows.update(tab.windowId, { focused: true });
+    await chrome.tabs.update(tab.id, { active: true });
+    // Update context
+    try {
+      await chrome.tabs.sendMessage(tab.id, { action: 'setContext', pageContext });
+    } catch {}
     return;
   }
 
-  // Open new popup (right side of current window)
-  const win = await chrome.windows.getLastFocused();
-  const left = win.left + win.width - W - 20;
-  const top = win.top + 60;
+  // Open popup
+  const W = 440, H = 620;
+
+  const lastWin = await chrome.windows.getLastFocused();
+  const left = (lastWin?.left || 0) + (lastWin?.width || 1200) - W - 20;
+  const top = (lastWin?.top || 0) + 60;
 
   await chrome.windows.create({
     url: 'https://chat.deepseek.com',
     type: 'popup',
-    width: W,
-    height: H,
+    width: W, height: H,
     left: Math.max(left, 0),
     top: Math.max(top, 0)
   });
 }
-
-// ==============================================
-// Request page context (for chat-proxy.js)
-// ==============================================
-
-async function getStoredContext() {
-  const { deeppage_context } = await chrome.storage.session.get('deeppage_context');
-  return deeppage_context || null;
-}
-
-// ==============================================
-// Message handlers
-// ==============================================
-
-chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  switch (msg.action) {
-    case 'openDeepSeekPopup':
-      chrome.storage.session.get('deeppage_context').then(({ deeppage_context }) => {
-        if (deeppage_context) {
-          openPopup(deeppage_context);
-        }
-      });
-      sendResponse({ ok: true });
-      return false;
-
-    case 'getContext':
-      // Used by chat-proxy.js to read stored page context
-      getStoredContext().then(ctx => sendResponse({ context: ctx }));
-      return true;
-
-    case 'clearContext':
-      chrome.storage.session.remove('deeppage_context');
-      sendResponse({ ok: true });
-      return false;
-  }
-});
