@@ -1,163 +1,165 @@
 // ==============================================
 // DeepPage — Chat Proxy (runs on chat.deepseek.com)
-// MAIN world — hooks fetch to inject page context
+// MAIN world — extracts Bearer token, makes API calls
 // ==============================================
 
-const API_PATH = '/api/v0/chat/completion';
-let context = null;          // current page context
-let originalFetch = null;    // saved original fetch
-let nextContextMsg = null;   // system message to inject
+const API_URL = 'https://chat.deepseek.com/api/v0/chat/completion';
+let capturedHeaders = {};
 
 // ==============================================
-// UI: injected indicator bar
+// Extract Bearer token from page internals
 // ==============================================
 
-let indicatorEl = null;
+function extractBearerToken() {
+  // Scan all localStorage keys
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    try {
+      const raw = localStorage.getItem(key);
+      if (!raw || raw.length < 20) continue;
 
-function createIndicator() {
-  if (indicatorEl) return;
-
-  indicatorEl = document.createElement('div');
-  indicatorEl.id = '__dp-indicator';
-  indicatorEl.style.cssText = [
-    'position: fixed',
-    'z-index: 2147483647',
-    'top: 60px',
-    'right: 16px',
-    'background: #4A6CF7',
-    'color: white',
-    'padding: 6px 14px',
-    'border-radius: 20px',
-    'font-size: 12px',
-    'font-family: -apple-system, system-ui, sans-serif',
-    'box-shadow: 0 2px 8px rgba(74,108,247,.3)',
-    'cursor: pointer',
-    'display: none',
-    'align-items: center',
-    'gap: 6px',
-    'max-width: 280px',
-    'white-space: nowrap',
-    'overflow: hidden',
-    'text-overflow: ellipsis',
-    'transition: opacity .3s'
-  ].join(';');
-  indicatorEl.innerHTML = '🧊 <span id="__dp-indicator-text">正在加载...</span>';
-
-  indicatorEl.addEventListener('click', () => {
-    clearContext();
-  });
-
-  document.body.appendChild(indicatorEl);
-}
-
-function showIndicator(title) {
-  createIndicator();
-  const span = document.getElementById('__dp-indicator-text');
-  if (span) span.textContent = `📄 ${title}`;
-  indicatorEl.style.display = 'flex';
-}
-
-function hideIndicator() {
-  if (indicatorEl) indicatorEl.style.display = 'none';
-}
-
-function clearContext() {
-  context = null;
-  nextContextMsg = null;
-  hideIndicator();
-}
-
-// ==============================================
-// Hook window.fetch to inject context
-// ==============================================
-
-function installFetchHook() {
-  if (originalFetch) return; // already hooked
-  originalFetch = window.fetch.bind(window);
-
-  const _this = this;
-
-  window.fetch = function(input, init = {}) {
-    const url = typeof input === 'string' ? input : (input.url || '');
-
-    // Only intercept DeepSeek completion API calls
-    if (url.includes(API_PATH) && init && init.body && nextContextMsg) {
-      try {
-        const body = JSON.parse(typeof init.body === 'string' ? init.body : new TextDecoder().decode(init.body));
-        const messages = body.messages || [];
-
-        // Check if our system message is already injected
-        const alreadyInjected = messages.some(m =>
-          m.role === 'system' && m.content && m.content.startsWith('【DeepPage】')
-        );
-
-        if (!alreadyInjected && messages.length > 0) {
-          // Prepend our context as first system message
-          const newMessages = [nextContextMsg, ...messages];
-          const newBody = JSON.stringify({ ...body, messages: newMessages });
-
-          // Clone init and replace body
-          const newInit = { ...init };
-          if (typeof init.body === 'string') {
-            newInit.body = newBody;
-          } else {
-            newInit.body = new TextEncoder().encode(newBody);
-          }
-          return originalFetch(input, newInit);
-        }
-      } catch (e) {
-        // Parsing failed, don't modify
+      // Try as JSON (Supabase auth token)
+      const parsed = JSON.parse(raw);
+      if (parsed.access_token && parsed.access_token.length > 20) {
+        return parsed.access_token;
+      }
+      if (parsed.token && parsed.token.length > 20) {
+        return parsed.token;
+      }
+      // Supabase format: { currentSession: { access_token: ... } }
+      if (parsed.currentSession?.access_token) {
+        return parsed.currentSession.access_token;
+      }
+    } catch {
+      // Not JSON, try as plain token string
+      if (key.includes('token') || key.includes('auth') || key.includes('session')) {
+        // Could be a JWT
+        const parts = key.split('.');
+        if (parts.length === 3) return key; // JWT
       }
     }
+  }
+  return null;
+}
 
-    return originalFetch(input, init);
+// ==============================================
+// Hook fetch to capture auth headers
+// ==============================================
+
+const originalFetch = window.fetch.bind(window);
+
+window.fetch = function(input, init) {
+  const url = typeof input === 'string' ? input : (input.url || '');
+
+  // Capture headers from DeepSeek's own API requests
+  if (url.includes('/api/v0/chat/completion') && init?.headers) {
+    const h = init.headers;
+    const auth = h.Authorization || h.authorization;
+    if (auth) capturedHeaders.authorization = auth;
+  }
+
+  return originalFetch(input, init);
+};
+
+// ==============================================
+// Make API call to DeepSeek
+// ==============================================
+
+async function sendToDeepSeek(pageContext, question) {
+  let token = capturedHeaders.authorization;
+
+  if (!token) {
+    const raw = extractBearerToken();
+    if (raw) token = `Bearer ${raw}`;
+  }
+
+  if (!token) {
+    throw new Error('请在 chat.deepseek.com 上发送一条消息初始化连接');
+  }
+
+  const systemMsg = `你是一个网页助手。用户正在浏览一个网页，需要你帮助分析。\n\n` +
+    `网页标题: ${pageContext.title}\n网页URL: ${pageContext.url}\n\n` +
+    `以下是网页全文：\n${pageContext.text}`;
+
+  const body = JSON.stringify({
+    model: 'deepseek-chat',
+    messages: [
+      { role: 'system', content: systemMsg },
+      { role: 'user', content: question }
+    ],
+    stream: false
+  });
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': ***,
+    'Origin': 'https://chat.deepseek.com',
+    'Referer': 'https://chat.deepseek.com/',
+    'x-client-bundle-id': 'com.deepseek.chat',
+    'x-client-locale': navigator.language || 'zh_CN',
+    'x-client-platform': 'web',
+    'x-client-timezone-offset': String(-new Date().getTimezoneOffset()),
+    'x-client-version': '2.2.0'
   };
+
+  const resp = await fetch(API_URL, {
+    method: 'POST',
+    headers,
+    body
+  });
+
+  if (!resp.ok) {
+    const text = await resp.text().catch(() => '');
+    throw new Error(`API ${resp.status}: ${text.slice(0, 200)}`);
+  }
+
+  // Parse SSE response
+  const text = await resp.text();
+  let reply = '';
+  for (const line of text.split('\n')) {
+    if (line.startsWith('data: ')) {
+      try {
+        const data = JSON.parse(line.slice(6));
+        const content = data.choices?.[0]?.delta?.content ||
+          data.choices?.[0]?.message?.content || '';
+        if (content) reply += content;
+      } catch {}
+    }
+  }
+
+  if (!reply) {
+    reply = text; // fallback
+  }
+
+  return reply.trim();
 }
 
 // ==============================================
-// Receive page context from extension
-// ==============================================
-
-function handleInjectContext(pageContext) {
-  context = pageContext;
-
-  // Build the system message to inject
-  const formatted = [
-    `【DeepPage】你正在帮用户分析一个网页：`,
-    ``,
-    `标题: ${pageContext.title}`,
-    `URL: ${pageContext.url}`,
-    ``,
-    `以下是网页全文：`,
-    pageContext.text
-  ].join('\n');
-
-  nextContextMsg = { role: 'system', content: formatted };
-
-  // Show indicator
-  showIndicator(pageContext.title);
-}
-
-// ==============================================
-// Listen for extension messages
+// Listen for messages
 // ==============================================
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   switch (msg.action) {
-    case 'injectContext':
-      handleInjectContext(msg.pageContext);
-      sendResponse({ ok: true });
-      break;
+    case 'chat':
+      sendToDeepSeek(msg.pageContext, msg.question)
+        .then(text => sendResponse({ text }))
+        .catch(err => sendResponse({ error: err.message }));
+      return true;
 
-    case 'ping':
-      sendResponse({ alive: true, hasContext: !!context });
-      break;
+    case 'loginCheck':
+      const hasToken = !!(capturedHeaders.authorization || extractBearerToken());
+      sendResponse({ loggedIn: hasToken });
+      return false;
   }
 });
 
 // ==============================================
-// Init
+// Try to auto-capture token on load
 // ==============================================
 
-installFetchHook();
-createIndicator();
+setTimeout(() => {
+  const token = extractBearerToken();
+  if (token) {
+    capturedHeaders.authorization = `Bearer ***}`;
+  }
+}, 500);

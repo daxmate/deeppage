@@ -1,71 +1,72 @@
 // ==============================================
 // DeepPage — Service Worker
-// Routes: content script ↔ chat.deepseek.com proxy
+// Routes: content.js ↔ chat-proxy.js
 // ==============================================
 
 // ==============================================
-// Find or activate DeepSeek tab
+// Find the hidden chat.deepseek.com tab
 // ==============================================
 
-async function ensureDeepSeekTab() {
+async function findDeepSeekTab() {
   const tabs = await chrome.tabs.query({ url: 'https://chat.deepseek.com/*' });
-  if (tabs.length > 0) {
-    // Activate existing tab
-    const tab = tabs[0];
-    await chrome.tabs.update(tab.id, { active: true });
-    await chrome.windows.update(tab.windowId, { focused: true });
-    return tab;
-  }
-  // Open new tab
-  const tab = await chrome.tabs.create({ url: 'https://chat.deepseek.com', active: true });
+  if (tabs.length > 0) return tabs[0];
+
+  // Open a hidden tab in the background
+  const tab = await chrome.tabs.create({
+    url: 'https://chat.deepseek.com',
+    active: false  // don't steal focus
+  });
   return tab;
 }
 
 // ==============================================
-// Wait for proxy to be ready on the tab
+// Wait for proxy to be ready
 // ==============================================
 
-async function waitForProxy(tabId, retries = 20) {
+async function waitForProxy(tabId, retries = 30) {
   for (let i = 0; i < retries; i++) {
     try {
-      const resp = await chrome.tabs.sendMessage(tabId, { action: 'ping' });
-      if (resp?.alive) return true;
+      const resp = await chrome.tabs.sendMessage(tabId, { action: 'loginCheck' });
+      if (resp && typeof resp.loggedIn === 'boolean') return resp;
     } catch {}
-    await new Promise(r => setTimeout(r, 500));
+    await new Promise(r => setTimeout(r, 1000));
   }
-  return false;
+  return { loggedIn: false };
 }
 
 // ==============================================
-// Message handlers
+// Handlers
 // ==============================================
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === 'sendToDeepSeek') {
-    handleSendToDeepSeek(message.pageContext).catch(err => {
-      console.error('[DeepPage] Failed:', err);
-    });
-    sendResponse({ ok: true });
-    return false;
-  }
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  switch (msg.action) {
+    case 'chat':
+      handleChat(msg).then(sendResponse).catch(err => sendResponse({ error: err.message }));
+      return true;
 
-  if (message.action === 'ping') {
-    sendResponse({ alive: true });
-    return false;
+    case 'loginCheck':
+      // Check if proxy is available
+      chrome.tabs.query({ url: 'https://chat.deepseek.com/*' })
+        .then(tabs => sendResponse({ loggedIn: tabs.length > 0 }))
+        .catch(() => sendResponse({ loggedIn: false }));
+      return true;
   }
 });
 
-async function handleSendToDeepSeek(pageContext) {
-  // Get or open DeepSeek tab
-  const tab = await ensureDeepSeekTab();
-  if (!tab) throw new Error('Cannot open chat.deepseek.com');
+async function handleChat(msg) {
+  const tab = await findDeepSeekTab();
+  if (!tab) throw new Error('无法打开 chat.deepseek.com');
 
-  // Wait for proxy to load
-  await waitForProxy(tab.id);
+  const status = await waitForProxy(tab.id);
+  if (!status.loggedIn) {
+    throw new Error('未检测到登录状态。请在 chat.deepseek.com 上登录并发送一条消息');
+  }
 
-  // Tell proxy to inject context
-  await chrome.tabs.sendMessage(tab.id, {
-    action: 'injectContext',
-    pageContext
+  const resp = await chrome.tabs.sendMessage(tab.id, {
+    action: 'chat',
+    pageContext: msg.pageContext,
+    question: msg.question
   });
+
+  return resp;
 }
