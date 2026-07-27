@@ -624,18 +624,18 @@ function createButton() {
     .getElementById("__dp-btn-summarize")
     .addEventListener("click", () => {
       document.getElementById("__dp-input").value =
-        "请用中文总结这篇网页的核心内容";
+        "请用中文总结这篇网页正文部分的核心内容";
       sendMessage();
     });
   document.getElementById("__dp-btn-outline").addEventListener("click", () => {
     document.getElementById("__dp-input").value =
-      "请提炼这篇网页的要点，以列表形式列出";
+      "请提炼这篇网页正文部分的要点，以列表形式列出";
     sendMessage();
   });
   document
     .getElementById("__dp-btn-translate")
     .addEventListener("click", () => {
-      document.getElementById("__dp-input").value = "请将这篇网页翻译成中文";
+      document.getElementById("__dp-input").value = "请将这篇网页的正文部分翻译成中文";
       sendMessage();
     });
   document.getElementById("__dp-input").addEventListener("keydown", (e) => {
