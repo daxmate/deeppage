@@ -513,6 +513,16 @@ function showLoginNotice(show) {
   sendBtn.disabled = show;
 }
 
+function handleClickOutside(e) {
+  const panel = document.getElementById("__dp-panel");
+  const btn = document.getElementById("__dp-btn");
+  if (!panel || !btn) return;
+  // 点击在面板内部或浮动按钮上 → 不处理
+  if (panel.contains(e.target) || btn.contains(e.target)) return;
+  // 面板当前开启 → 关闭
+  if (panelOpen) togglePanel();
+}
+
 function togglePanel() {
   panelOpen = !panelOpen;
   const panel = document.getElementById("__dp-panel");
@@ -537,7 +547,13 @@ function togglePanel() {
           .classList.remove("__dp-hidden");
       }
     });
+
+    // 延迟一帧添加，避免点击按钮打开面板时立即触发关闭
+    setTimeout(() => {
+      document.addEventListener("click", handleClickOutside);
+    }, 0);
   } else {
+    document.removeEventListener("click", handleClickOutside);
     document.getElementById("__dp-quick-actions").classList.add("__dp-hidden");
   }
 }
