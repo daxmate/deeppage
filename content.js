@@ -14,7 +14,8 @@ function injectStyles() {
       right: 24px;
       top: 80px;
       width: 420px;
-      height: 480px;
+      height: calc(100vh * 2 / 3);
+      max-height: calc(100vh - 100px);
       min-width: 260px;
       min-height: 280px;
       background: #ffffff;
