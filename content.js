@@ -796,7 +796,8 @@ async function loadActiveConversation() {
       return;
     }
   }
-  // 无保存的对话 → 显示默认欢迎
+  // 无保存的对话 → 创建新对话并显示默认欢迎
+  await getOrCreateConv();
   document.getElementById('__dp-chat').innerHTML = '';
   addMsg('assistant', `📄 ${t('contextLoaded', pageContext ? pageContext.title : '')}`, { skipTrack: true, dataset: { msgType: 'context-loaded' } });
 }
