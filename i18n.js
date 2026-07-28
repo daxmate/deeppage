@@ -106,8 +106,7 @@ const TRANSLATIONS = {
     newButtonLabel: '新規ボタン',
     languageLabel: '言語',
   },
-
-// 支持的语言列表
+};
 const LANGUAGES = [
   { code: 'zh_CN', label: '中文' },
   { code: 'en', label: 'English' },
