@@ -317,9 +317,9 @@ let panelOpen = false;
 let pageContext = null;
 
 const DEFAULT_QUICK_ACTIONS = [
-  { id: 'summarize', label: '📝 总结全文', prompt: '请用中文总结这篇网页正文部分的核心内容' },
-  { id: 'outline', label: '🎯 提炼要点', prompt: '请提炼这篇网页正文部分的要点，以列表形式列出' },
-  { id: 'translate', label: '🌐 翻译', prompt: '请将这篇网页的正文部分翻译成中文' },
+  { id: 'summarize', label: t('defaultSummarizeLabel'), prompt: t('defaultSummarizePrompt') },
+  { id: 'outline', label: t('defaultOutlineLabel'), prompt: t('defaultOutlinePrompt') },
+  { id: 'translate', label: t('defaultTranslateLabel'), prompt: t('defaultTranslatePrompt') },
 ];
 
 let quickActions = [];
@@ -390,15 +390,15 @@ function createChatPanel() {
     </div>
     <div id="__dp-quick-actions" class="__dp-hidden"></div>
     <div id="__dp-login-notice" class="__dp-hidden">
-      <div>需要配置 DeepSeek API Key</div>
+      <div>${t('loginNoticeTitle')}</div>
       <div class="__dp-small">
-        · 点击扩展图标 → 选项 → 输入 API Key<br>
-        · 或去 <a href="https://platform.deepseek.com/api_keys" target="_blank">platform.deepseek.com</a> 获取
+        ${t('loginNoticeStep1')}<br>
+        ${t('loginNoticeStep2')}
       </div>
     </div>
     <div id="__dp-chat"></div>
     <div id="__dp-input-row">
-      <textarea id="__dp-input" placeholder="输入问题..." rows="1"></textarea>
+      <textarea id="__dp-input" placeholder="${t('inputPlaceholder')}" rows="1"></textarea>
       <button id="__dp-send">➤</button>
     </div>
     <!-- 四个拖拽手柄 -->
@@ -615,7 +615,7 @@ function togglePanel() {
     updateContext(pageContext.title);
     if (!chatHistory.length) {
       document.getElementById("__dp-chat").innerHTML = "";
-      addMsg("assistant", `📄 已加载「${pageContext.title}」作为对话背景`);
+      addMsg("assistant", `📄 ${t('contextLoaded', [pageContext.title])}`);
     }
     document.getElementById("__dp-input").focus();
 
@@ -662,7 +662,7 @@ async function sendMessage() {
     if (resp?.error) {
       addMsg(
         "assistant",
-        `❌ ${resp.error === "NO_API_KEY" ? "未配置 API Key，请在扩展设置中配置" : resp.error}`,
+        `❌ ${resp.error === "NO_API_KEY" ? t('errorNoApiKey') : resp.error}`,
       );
       if (resp.error === "NO_API_KEY") showLoginNotice(true);
       chatHistory.pop();

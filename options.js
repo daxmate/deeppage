@@ -1,7 +1,9 @@
+const i18n = chrome.i18n.getMessage.bind(chrome.i18n);
+
 const DEFAULT_ACTIONS = [
-  { label: '📝 总结全文', prompt: '请用中文总结这篇网页正文部分的核心内容' },
-  { label: '🎯 提炼要点', prompt: '请提炼这篇网页正文部分的要点，以列表形式列出' },
-  { label: '🌐 翻译', prompt: '请将这篇网页的正文部分翻译成中文' },
+  { label: i18n('defaultSummarizeLabel'), prompt: i18n('defaultSummarizePrompt') },
+  { label: i18n('defaultOutlineLabel'), prompt: i18n('defaultOutlinePrompt') },
+  { label: i18n('defaultTranslateLabel'), prompt: i18n('defaultTranslatePrompt') },
 ];
 
 let actions = [];
@@ -20,12 +22,12 @@ function render() {
     card.innerHTML = `
       <div class="card-header">
         <span class="card-index">${i + 1}</span>
-        <label>按钮文字</label>
-        <input class="fld-label" type="text" placeholder="如 📝 总结全文" />
-        <button class="btn-del" title="删除">✕</button>
+        <label>${i18n('buttonLabel')}</label>
+        <input class="fld-label" type="text" placeholder="${i18n('buttonLabelPlaceholder')}" />
+        <button class="btn-del" title="${i18n('deleteButton')}">✕</button>
       </div>
-      <label>提示词</label>
-      <textarea class="fld-prompt" rows="2" placeholder="点击按钮时自动输入的提示词"></textarea>
+      <label>${i18n('promptLabel')}</label>
+      <textarea class="fld-prompt" rows="2" placeholder="${i18n('promptPlaceholder')}"></textarea>
     `;
     card.querySelector('.fld-label').value = action.label || '';
     card.querySelector('.fld-prompt').value = action.prompt || '';
@@ -51,7 +53,7 @@ chrome.storage.sync.get(
 
 // ---- 添加 ----
 btnAdd.addEventListener('click', () => {
-  actions.push({ label: '新按钮', prompt: '' });
+  actions.push({ label: i18n('newButtonLabel'), prompt: '' });
   render();
   const cards = container.querySelectorAll('.action-card');
   if (cards.length) cards[cards.length - 1].scrollIntoView({ behavior: 'smooth' });
@@ -60,7 +62,7 @@ btnAdd.addEventListener('click', () => {
 // ---- 保存 ----
 saveBtn.addEventListener('click', async () => {
   const key = document.getElementById('apiKey').value.trim();
-  if (!key) { showStatus('请输入 API Key', 'err'); return; }
+  if (!key) { showStatus(i18n('apiKeyRequired'), 'err'); return; }
 
   const cards = container.querySelectorAll('.action-card');
   const cleaned = [];
@@ -76,7 +78,7 @@ saveBtn.addEventListener('click', async () => {
   });
   actions = cleaned;
   render();
-  showStatus('✅ 已保存', 'ok');
+  showStatus(i18n('savedSuccess'), 'ok');
 });
 
 function showStatus(msg, cls) {

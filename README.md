@@ -10,6 +10,7 @@
 - **对话记忆** — 同一页面保持完整聊天历史，关闭面板不丢失
 - **可拖拽 / 可调整大小** — 面板位置随意拖动，大小自由缩放
 - **Markdown 渲染** — 对话回复支持标题、列表、表格、代码块、引用、任务列表等完整 Markdown（基于 marked）
+- **多语言** — 支持中文和英文界面，自动适配浏览器语言
 - **Dark Mode** — 自动适配系统暗色主题
 
 ## 使用方式
@@ -63,6 +64,9 @@ git clone https://github.com/daxmate/deeppage.git
 ### 项目结构
 
 ```
+├── _locales/              # 多语言文件
+│   ├── en/messages.json
+│   └── zh_CN/messages.json
 ├── manifest.json          # 扩展配置
 ├── background.js          # 后台服务 — API 调用
 ├── content.js             # 内容脚本 — 按钮 + 对话面板

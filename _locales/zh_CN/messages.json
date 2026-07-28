@@ -1,0 +1,72 @@
+{
+  "appName": { "message": "DeepPage", "description": "扩展名称" },
+  "appDesc": {
+    "message": "在浏览网页时与 DeepSeek 对话——总结全文、提炼要点、自由问答",
+    "description": "扩展描述"
+  },
+
+  "panelTitle": { "message": "DeepPage", "description": "面板标题" },
+  "contextBarPrefix": { "message": "📄", "description": "上下文栏图标前缀" },
+  "inputPlaceholder": { "message": "输入问题...", "description": "输入框占位符" },
+  "contextLoaded": {
+    "message": "📄 已加载「$title$」作为对话背景",
+    "description": "页面加载成功提示",
+    "placeholders": { "title": { "content": "$1", "example": "页面标题" } }
+  },
+  "loginNoticeTitle": { "message": "需要配置 DeepSeek API Key", "description": "登录提示标题" },
+  "loginNoticeStep1": {
+    "message": "· 点击扩展图标 → 选项 → 输入 API Key",
+    "description": "登录提示步骤1"
+  },
+  "loginNoticeStep2": {
+    "message": "· 或去 <a href=\"https://platform.deepseek.com/api_keys\" target=\"_blank\">platform.deepseek.com</a> 获取",
+    "description": "登录提示步骤2"
+  },
+  "errorNoApiKey": {
+    "message": "❌ 未配置 API Key，请在扩展设置中配置",
+    "description": "未设置 API Key 错误"
+  },
+
+  "optionTitle": { "message": "DeepPage 设置", "description": "选项页标题" },
+  "optionDesc": {
+    "message": "使用 DeepSeek 官方 API 与浏览的网页对话",
+    "description": "选项页描述"
+  },
+  "apiKeyLabel": { "message": "DeepSeek API Key", "description": "API Key 标签" },
+  "apiKeyPlaceholder": { "message": "sk-...", "description": "API Key 输入框占位符" },
+  "getApiKeyLink": {
+    "message": "从 platform.deepseek.com 获取",
+    "description": "获取 API Key 链接文字"
+  },
+  "quickActionsSection": { "message": "快捷操作按钮", "description": "快捷按钮区域标题" },
+  "addButton": { "message": "＋ 添加按钮", "description": "添加按钮文字" },
+  "saveButton": { "message": "保存", "description": "保存按钮文字" },
+  "savedSuccess": { "message": "✅ 已保存", "description": "保存成功提示" },
+  "apiKeyRequired": { "message": "请输入 API Key", "description": "API Key 为空提示" },
+  "buttonLabel": { "message": "按钮文字", "description": "按钮文字标签" },
+  "promptLabel": { "message": "提示词", "description": "提示词标签" },
+  "buttonLabelPlaceholder": { "message": "如 📝 总结全文", "description": "按钮文字输入框占位符" },
+  "promptPlaceholder": {
+    "message": "点击按钮时自动输入的提示词",
+    "description": "提示词输入框占位符"
+  },
+  "deleteButton": { "message": "删除", "description": "删除按钮 title" },
+
+  "defaultSummarizeLabel": { "message": "📝 总结全文", "description": "默认按钮：总结" },
+  "defaultSummarizePrompt": {
+    "message": "请用中文总结这篇网页正文部分的核心内容",
+    "description": "默认提示词：总结"
+  },
+  "defaultOutlineLabel": { "message": "🎯 提炼要点", "description": "默认按钮：要点" },
+  "defaultOutlinePrompt": {
+    "message": "请提炼这篇网页正文部分的要点，以列表形式列出",
+    "description": "默认提示词：要点"
+  },
+  "defaultTranslateLabel": { "message": "🌐 翻译", "description": "默认按钮：翻译" },
+  "defaultTranslatePrompt": {
+    "message": "请将这篇网页的正文部分翻译成中文",
+    "description": "默认提示词：翻译"
+  },
+
+  "newButtonLabel": { "message": "新按钮", "description": "新添加按钮的默认文字" }
+}
