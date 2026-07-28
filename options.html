@@ -8,79 +8,130 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
-  font-size: 14px; color: #1f2937;
-  padding: 40px; max-width: 540px; margin: 0 auto;
+  font-size: 14px;
+  color: #1f2937;
+  background: #f5f5f7;
+  padding: 32px;
+  max-width: 740px;
+  margin: 0 auto;
 }
-h1 { font-size: 20px; margin-bottom: 8px; }
-p { color: #6b7280; margin-bottom: 24px; }
 
-/* Tab styles */
+/* ===== Layout ===== */
+#options-panel {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+#options-layout { display: flex; min-height: 400px; }
+#option-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 170px;
+  padding: 20px 12px;
+  background: #f0f0f2;
+}
+#tab-contents { flex: 1; min-width: 0; padding: 24px 28px; }
+
+/* ===== Sidebar ===== */
+.tab-section-header {
+  font-size: 11px;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 16px 12px 6px;
+}
 .option-tab {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   width: 100%;
-  padding: 10px 16px;
+  padding: 8px 12px;
   border: none;
   background: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  color: #9ca3af;
+  color: #6b7280;
   cursor: pointer;
   border-radius: 8px;
   text-align: left;
-  transition: color 0.15s, background 0.15s;
+  transition: all 0.12s;
 }
-.option-tab:hover { color: #4A6CF7; background: #f3f4f6; }
-.option-tab.active {
-  color: #4A6CF7;
-  background: #eef2ff;
-}
-.__dp-dark-options .option-tab { color: #6b7280; }
-.__dp-dark-options .option-tab:hover { color: #6B8AFF; background: #25262b; }
-.__dp-dark-options .option-tab.active { color: #6B8AFF; background: #1a2740; }
-@media (prefers-color-scheme: dark) {
-  #option-tabs { border-right-color: #373a40; }
-  .option-tab { color: #6b7280; }
-  .option-tab:hover { color: #6B8AFF; background: #25262b; }
-  .option-tab.active { color: #6B8AFF; background: #1a2740; }
-}
-label { display: block; font-weight: 600; margin-bottom: 6px; }
-input, textarea {
-  width: 100%; padding: 10px 14px; border: 1px solid #d1d5db;
-  border-radius: 8px; font-size: 14px; font-family: monospace;
-}
-input:focus, textarea:focus { border-color: #4A6CF7; outline: none; }
-textarea { resize: vertical; font-family: inherit; }
-small { display: block; color: #9ca3af; margin: 4px 0 16px; }
-button {
-  border: none; border-radius: 8px;
-  cursor: pointer; font-weight: 600;
-}
-#status { margin-top: 12px; font-size: 13px; }
-#status.ok { color: #059669; }
-#status.err { color: #dc2626; }
+.option-tab:hover { color: #1f2937; background: #e5e7eb; }
+.option-tab.active { color: #1f2937; background: #dbeafe; font-weight: 600; }
+.option-tab svg { flex-shrink: 0; opacity: 0.5; }
+.option-tab.active svg { opacity: 0.9; color: #4A6CF7; }
 
-.section-title {
-  font-size: 16px; margin: 24px 0 12px;
-  padding-top: 20px; border-top: 1px solid #e5e7eb;
+/* ===== Content Cards ===== */
+.settings-group { margin-bottom: 24px; }
+.settings-group-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  padding-left: 2px;
 }
-
-/* 外观设置卡片 */
-.appearance-card {
-  background: #f9fafb; border: 1px solid #e5e7eb;
-  border-radius: 10px; padding: 14px; margin-bottom: 12px;
+.settings-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
-.appearance-row {
-  display: flex; align-items: center;
+.settings-row {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
+  padding: 14px 18px;
+  gap: 16px;
 }
-.appearance-row span { font-size: 14px; font-weight: 500; }
+.settings-row + .settings-row { border-top: 1px solid #f3f4f6; }
+.settings-row-label { font-size: 13px; font-weight: 500; color: #1f2937; }
+.settings-row-desc { font-size: 12px; color: #9ca3af; margin-top: 2px; }
+.settings-row-control { flex-shrink: 0; }
 
-/* 开关组件 */
+.settings-row-control select,
+.settings-row-control input:not([type="range"]) {
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  color: #1f2937;
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+  min-width: 160px;
+}
+.settings-row-control select:focus,
+.settings-row-control input:focus { border-color: #4A6CF7; box-shadow: 0 0 0 2px rgba(74,108,247,0.15); }
+.settings-row-control input[type="password"] { font-family: monospace; }
+.settings-row-control input::placeholder { color: #d1d5db; }
+
+/* Model row */
+.model-row-control { display: flex; gap: 6px; align-items: stretch; }
+.model-row-control select { min-width: 160px; }
+.model-row-control button {
+  padding: 0 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #f9fafb;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.12s;
+}
+.model-row-control button:hover { background: #e5e7eb; color: #1f2937; border-color: #4A6CF7; }
+
+/* ===== Toggle ===== */
 .toggle-switch {
   position: relative;
   display: inline-block;
-  width: 44px;
-  height: 24px;
+  width: 36px;
+  height: 20px;
   cursor: pointer;
 }
 .toggle-switch input { display: none; }
@@ -88,250 +139,417 @@ button {
   position: absolute;
   inset: 0;
   background: #d1d5db;
-  border-radius: 24px;
+  border-radius: 20px;
   transition: background 0.2s;
 }
 .toggle-slider::before {
   content: '';
   position: absolute;
-  width: 20px; height: 20px;
+  width: 16px; height: 16px;
   left: 2px; top: 2px;
   background: white;
   border-radius: 50%;
   transition: transform 0.2s;
 }
-.toggle-switch input:checked + .toggle-slider {
-  background: #4A6CF7;
-}
-.toggle-switch input:checked + .toggle-slider::before {
-  transform: translateX(20px);
-}
+.toggle-switch input:checked + .toggle-slider { background: #4A6CF7; }
+.toggle-switch input:checked + .toggle-slider::before { transform: translateX(16px); }
 
-/* 按钮卡片 */
-.action-card {
-  background: #f9fafb; border: 1px solid #e5e7eb;
-  border-radius: 10px; padding: 14px; margin-bottom: 12px;
-}
-.action-card .card-header {
-  display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
-}
-.action-card .card-index {
-  font-size: 12px; color: #9ca3af; font-weight: 600;
-  background: #e5e7eb; border-radius: 50%;
-  width: 22px; height: 22px; display: flex;
-  align-items: center; justify-content: center;
-}
-.action-card label { font-size: 13px; margin-bottom: 4px; }
-.action-card input { font-size: 13px; padding: 8px 10px; }
-.action-card textarea { font-size: 13px; padding: 8px 10px; min-height: 48px; }
-.action-card .btn-del {
-  margin-left: auto; background: #fee2e2; color: #dc2626;
-  width: 28px; height: 28px; border-radius: 6px;
-  font-size: 16px; line-height: 1; display: flex;
-  align-items: center; justify-content: center;
-}
-.action-card .btn-del:hover { background: #fecaca; }
-
+/* ===== Buttons ===== */
 .btn-primary {
-  padding: 10px 24px; background: #4A6CF7; color: white; font-size: 14px;
+  padding: 8px 20px;
+  background: #4A6CF7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
 }
 .btn-primary:hover { background: #6B8AFF; }
 
-.btn-add {
-  padding: 8px 16px; background: #eef2ff; color: #4A6CF7;
-  font-size: 13px; border: 1px dashed #4A6CF7;
-}
-.btn-add:hover { background: #dbe8ff; }
-
-#refreshModelsBtn {
-  background: #f3f4f6;
-  border: 1px solid #d1d5db;
+.btn-test {
+  padding: 6px 14px;
+  background: #f9fafb;
   color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.12s;
 }
-#refreshModelsBtn:hover { background: #e5e7eb; }
+.btn-test:hover { border-color: #4A6CF7; color: #4A6CF7; }
+.btn-test:disabled { opacity: 0.5; cursor: not-allowed; }
 
+/* ===== Action Cards (Quick Actions) ===== */
+#actions-container { display: flex; flex-direction: column; gap: 12px; }
+.action-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.action-card-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f9fafb;
+  border-bottom: 1px solid #f3f4f6;
+  gap: 10px;
+}
+.action-card-index {
+  font-size: 11px;
+  font-weight: 600;
+  color: #9ca3af;
+  background: #e5e7eb;
+  border-radius: 50%;
+  width: 20px; height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.action-card-label-input {
+  flex: 1;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  outline: none;
+  color: #1f2937;
+  min-width: 0;
+}
+.action-card-label-input:focus { border-color: #4A6CF7; }
+.action-card-del {
+  background: none;
+  border: none;
+  color: #d1d5db;
+  width: 24px; height: 24px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.12s;
+}
+.action-card-del:hover { color: #f87171; background: #fef2f2; }
+.action-card-body { padding: 12px 16px; }
+.action-card-body label { font-size: 11px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 6px; }
+.action-card-body textarea {
+  width: 100%;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 13px;
+  outline: none;
+  color: #1f2937;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 44px;
+}
+.action-card-body textarea:focus { border-color: #4A6CF7; }
+
+.btn-add {
+  padding: 10px 16px;
+  background: none;
+  color: #4A6CF7;
+  border: 1px dashed #4A6CF7;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.12s;
+  width: 100%;
+  text-align: center;
+}
+.btn-add:hover { background: #eef2ff; }
+
+/* ===== Status ===== */
+#status { font-size: 13px; }
+#status.ok { color: #059669; }
+#status.err { color: #dc2626; }
+#testApiStatus { font-size: 12px; }
+
+/* ===== Range ===== */
+input[type="range"] {
+  width: 100%;
+  accent-color: #4A6CF7;
+  background: none;
+  border: none;
+  padding: 0;
+  height: 20px;
+}
+.range-labels { display: flex; justify-content: space-between; margin-top: 2px; font-size: 11px; color: #9ca3af; }
+small { display: block; color: #9ca3af; font-size: 12px; margin-top: 4px; }
+small a { color: #4A6CF7; text-decoration: none; }
+small a:hover { text-decoration: underline; }
+
+/* ===== Dark Mode ===== */
 @media (prefers-color-scheme: dark) {
   body { background: #1a1b1e; color: #e4e5e7; }
-  input, textarea, select {
-    background: #25262b; border-color: #373a40; color: #e4e5e7;
+  #options-panel { background: #212529; border-color: #2c3035; box-shadow: none; }
+  #option-tabs { background: #1a1d1e; }
+  #tab-contents { }
+  .option-tab { color: #6b7280; }
+  .option-tab:hover { color: #e4e5e7; background: #25262b; }
+  .option-tab.active { color: #e4e5e7; background: #2c2f33; font-weight: 500; }
+  .option-tab svg { opacity: 0.4; }
+  .option-tab.active svg { opacity: 0.9; color: #6B8AFF; }
+  .settings-group-title { color: #6b7280; }
+  .settings-card { background: #212529; border-color: #2c3035; box-shadow: none; }
+  .settings-row + .settings-row { border-top-color: #2c3035; }
+  .settings-row-label { color: #e4e5e7; }
+  .settings-row-desc { color: #6b7280; }
+  .settings-row-control select,
+  .settings-row-control input:not([type="range"]) {
+    background: #2c3035; border-color: #373a40; color: #e4e5e7;
   }
-  input:focus, textarea:focus { border-color: #4A6CF7; }
-  h1, h2, label { color: #e4e5e7; }
-  p, small { color: #9ca3af; }
-  .action-card {
-    background: #222328; border-color: #373a40;
-  }
-  .action-card .card-index {
-    background: #373a40; color: #9ca3af;
-  }
-  .action-card .btn-del {
-    background: #4a1a1a; color: #f87171;
-  }
-  .action-card .btn-del:hover {
-    background: #5c2020;
-  }
-  .btn-add {
-    background: #1a2740; color: #6B8AFF; border-color: #4A6CF7;
-  }
-  .btn-add:hover {
-    background: #253a5a;
-  }
-  .section-title { border-top-color: #373a40; }
-  .appearance-card {
-    background: #222328; border-color: #373a40;
-  }
-  .appearance-row span { color: #e4e5e7; }
-  #refreshModelsBtn { background: #25262b; border: 1px solid #373a40; color: #e4e5e7; }
-  #refreshModelsBtn:hover { background: #323338; border-color: #4A6CF7; }
+  .settings-row-control select:focus,
+  .settings-row-control input:focus { border-color: #4A6CF7; box-shadow: 0 0 0 2px rgba(74,108,247,0.2); }
+  .settings-row-control input::placeholder { color: #4b5563; }
+  .model-row-control button { background: #2c3035; border-color: #373a40; color: #6b7280; }
+  .model-row-control button:hover { background: #323338; color: #e4e5e7; border-color: #4A6CF7; }
   .toggle-slider { background: #4b5563; }
   .toggle-slider::before { background: #e4e5e7; }
-  .toggle-switch input:checked + .toggle-slider {
-    background: #4A6CF7;
-  }
+  .toggle-switch input:checked + .toggle-slider { background: #4A6CF7; }
+  .btn-test { background: #2c3035; border-color: #373a40; color: #9ca3af; }
+  .btn-test:hover { border-color: #4A6CF7; color: #6B8AFF; }
+  .action-card { background: #212529; border-color: #2c3035; box-shadow: none; }
+  .action-card-header { background: #1e2025; border-bottom-color: #2c3035; }
+  .action-card-index { background: #373a40; color: #6b7280; }
+  .action-card-label-input { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
+  .action-card-label-input:focus { border-color: #4A6CF7; }
+  .action-card-del { color: #4b5563; }
+  .action-card-del:hover { color: #f87171; background: #4a1a1a; }
+  .action-card-body label { color: #6b7280; }
+  .action-card-body textarea { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
+  .action-card-body textarea:focus { border-color: #4A6CF7; }
+  .btn-add { color: #6B8AFF; border-color: #4A6CF7; }
+  .btn-add:hover { background: #1a2740; }
   #status.ok { color: #34d399; }
   #status.err { color: #f87171; }
+  small { color: #6b7280; }
+  small a { color: #6B8AFF; }
 }
-/* 手动 dark mode 切换 */
-.__dp-dark-options {
-  background: #1a1b1e; color: #e4e5e7;
-}
-.__dp-dark-options input,
-.__dp-dark-options textarea,
-.__dp-dark-options select {
-  background: #25262b; border-color: #373a40; color: #e4e5e7;
-}
-.__dp-dark-options input:focus,
-.__dp-dark-options textarea:focus { border-color: #4A6CF7; }
-.__dp-dark-options h1,
-.__dp-dark-options h2,
-.__dp-dark-options label { color: #e4e5e7; }
-.__dp-dark-options p,
-.__dp-dark-options small { color: #9ca3af; }
-.__dp-dark-options .action-card {
-  background: #222328; border-color: #373a40;
-}
-.__dp-dark-options .action-card .card-index {
-  background: #373a40; color: #9ca3af;
-}
-.__dp-dark-options .action-card .btn-del {
-  background: #4a1a1a; color: #f87171;
-}
-.__dp-dark-options .action-card .btn-del:hover {
-  background: #5c2020;
-}
-.__dp-dark-options .btn-add {
-  background: #1a2740; color: #6B8AFF; border-color: #4A6CF7;
-}
-.__dp-dark-options .btn-add:hover {
-  background: #253a5a;
-}
-.__dp-dark-options .section-title { border-top-color: #373a40; }
-.__dp-dark-options #max-rounds-value { color: #9ca3af; }
-.__dp-dark-options input[type="range"] { accent-color: #6B8AFF; }
-.__dp-dark-options input[type="text"] { background: #25262b; border-color: #373a40; color: #e4e5e7; }
-.__dp-dark-options #refreshModelsBtn { background: #25262b; border: 1px solid #373a40; color: #e4e5e7; }
-.__dp-dark-options #refreshModelsBtn:hover { background: #323338; border-color: #4A6CF7; }
-.__dp-dark-options select { background: #25262b; border-color: #373a40; color: #e4e5e7; }
-.__dp-dark-options .appearance-card {
-  background: #222328; border-color: #373a40;
-}
-.__dp-dark-options .appearance-row span { color: #e4e5e7; }
+
+/* Manual dark mode for .__dp-dark-options (same as @media) */
+.__dp-dark-options { background: #1a1b1e; color: #e4e5e7; }
+.__dp-dark-options #options-panel { background: #212529; border-color: #2c3035; box-shadow: none; }
+.__dp-dark-options #option-tabs { background: #1a1d1e; }
+.__dp-dark-options .option-tab { color: #6b7280; }
+.__dp-dark-options .option-tab:hover { color: #e4e5e7; background: #25262b; }
+.__dp-dark-options .option-tab.active { color: #e4e5e7; background: #2c2f33; font-weight: 500; }
+.__dp-dark-options .option-tab svg { opacity: 0.4; }
+.__dp-dark-options .option-tab.active svg { opacity: 0.9; color: #6B8AFF; }
+.__dp-dark-options .settings-group-title { color: #6b7280; }
+.__dp-dark-options .settings-card { background: #212529; border-color: #2c3035; box-shadow: none; }
+.__dp-dark-options .settings-row + .settings-row { border-top-color: #2c3035; }
+.__dp-dark-options .settings-row-label { color: #e4e5e7; }
+.__dp-dark-options .settings-row-desc { color: #6b7280; }
+.__dp-dark-options .settings-row-control select,
+.__dp-dark-options .settings-row-control input:not([type="range"]) { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
+.__dp-dark-options .settings-row-control select:focus,
+.__dp-dark-options .settings-row-control input:focus { border-color: #4A6CF7; box-shadow: 0 0 0 2px rgba(74,108,247,0.2); }
+.__dp-dark-options .model-row-control button { background: #2c3035; border-color: #373a40; color: #6b7280; }
+.__dp-dark-options .model-row-control button:hover { background: #323338; color: #e4e5e7; border-color: #4A6CF7; }
 .__dp-dark-options .toggle-slider { background: #4b5563; }
 .__dp-dark-options .toggle-slider::before { background: #e4e5e7; }
-.__dp-dark-options .toggle-switch input:checked + .toggle-slider {
-  background: #4A6CF7;
-}
+.__dp-dark-options .toggle-switch input:checked + .toggle-slider { background: #4A6CF7; }
+.__dp-dark-options .btn-test { background: #2c3035; border-color: #373a40; color: #9ca3af; }
+.__dp-dark-options .btn-test:hover { border-color: #4A6CF7; color: #6B8AFF; }
+.__dp-dark-options .action-card { background: #212529; border-color: #2c3035; box-shadow: none; }
+.__dp-dark-options .action-card-header { background: #1e2025; border-bottom-color: #2c3035; }
+.__dp-dark-options .action-card-index { background: #373a40; color: #6b7280; }
+.__dp-dark-options .action-card-label-input { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
+.__dp-dark-options .action-card-del:hover { color: #f87171; background: #4a1a1a; }
+.__dp-dark-options .action-card-body textarea { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
+.__dp-dark-options .btn-add { color: #6B8AFF; border-color: #4A6CF7; }
+.__dp-dark-options .btn-add:hover { background: #1a2740; }
 .__dp-dark-options #status.ok { color: #34d399; }
 .__dp-dark-options #status.err { color: #f87171; }
+.__dp-dark-options small a { color: #6B8AFF; }
 </style>
 </head>
 <body>
-<h1 style="margin-bottom:4px"><svg width="24" height="24" viewBox="0 0 512 509.64" fill="none" style="vertical-align:middle;margin-right:6px"><path fill="#4D6BFE" fill-rule="nonzero" d="M440.898 139.167c-4.001-1.961-5.723 1.776-8.062 3.673-.801.612-1.479 1.407-2.154 2.141-5.848 6.246-12.681 10.349-21.607 9.859-13.048-.734-24.192 3.368-34.04 13.348-2.093-12.307-9.048-19.658-19.635-24.37-5.54-2.449-11.141-4.9-15.02-10.227-2.708-3.795-3.447-8.021-4.801-12.185-.861-2.509-1.725-5.082-4.618-5.512-3.139-.49-4.372 2.142-5.601 4.349-4.925 9.002-6.833 18.921-6.647 28.962.432 22.597 9.972 40.597 28.932 53.397 2.154 1.47 2.707 2.939 2.032 5.082-1.293 4.41-2.832 8.695-4.186 13.105-.862 2.817-2.157 3.429-5.172 2.205-10.402-4.346-19.391-10.778-27.332-18.553-13.481-13.044-25.668-27.434-40.873-38.702a177.614 177.614 0 00-10.834-7.409c-15.512-15.063 2.032-27.434 6.094-28.902 4.247-1.532 1.478-6.797-12.251-6.736-13.727.061-26.285 4.653-42.288 10.777-2.34.92-4.801 1.593-7.326 2.142-14.527-2.756-29.608-3.368-45.367-1.593-29.671 3.305-53.368 17.329-70.788 41.272-20.928 28.785-25.854 61.482-19.821 95.59 6.34 35.943 24.683 65.704 52.876 88.974 29.239 24.123 62.911 35.943 101.32 33.677 23.329-1.346 49.307-4.468 78.607-29.27 7.387 3.673 15.142 5.144 28.008 6.246 9.911.92 19.452-.49 26.839-2.019 11.573-2.449 10.773-13.166 6.586-15.124-33.915-15.797-26.47-9.368-33.24-14.573 17.235-20.39 43.213-41.577 53.369-110.222.8-5.448.121-8.877 0-13.287-.061-2.692.553-3.734 3.632-4.041 8.494-.981 16.742-3.305 24.314-7.471 21.975-12.002 30.84-31.719 32.933-55.355.307-3.612-.061-7.348-3.879-9.245v-.003zM249.4 351.89c-32.872-25.838-48.814-34.352-55.4-33.984-6.155.368-5.048 7.41-3.694 12.002 1.415 4.532 3.264 7.654 5.848 11.634 1.785 2.634 3.017 6.551-1.784 9.493-10.587 6.55-28.993-2.205-29.856-2.635-21.421-12.614-39.334-29.269-51.954-52.047-12.187-21.924-19.267-45.435-20.435-70.542-.308-6.061 1.478-8.207 7.509-9.307 7.94-1.471 16.127-1.778 24.068-.615 33.547 4.9 62.108 19.902 86.054 43.66 13.666 13.531 24.007 29.699 34.658 45.496 11.326 16.778 23.514 32.761 39.026 45.865 5.479 4.592 9.848 8.083 14.035 10.656-12.62 1.407-33.673 1.714-48.075-9.676zm15.899-102.519c.521-2.111 2.421-3.658 4.722-3.658a4.74 4.74 0 011.661.305c.678.246 1.293.614 1.786 1.163.861.859 1.354 2.083 1.354 3.368 0 2.695-2.154 4.837-4.862 4.837a4.748 4.748 0 01-4.738-4.034 5.01 5.01 0 01.077-1.981zm47.208 26.915c-2.606.996-5.2 1.778-7.707 1.88-4.679.244-9.787-1.654-12.556-3.981-4.308-3.612-7.386-5.631-8.679-11.941-.554-2.695-.247-6.858.246-9.246 1.108-5.144-.124-8.451-3.754-11.451-2.954-2.449-6.711-3.122-10.834-3.122-1.539 0-2.954-.673-4.001-1.224-1.724-.856-3.139-3-1.785-5.634.432-.856 2.525-2.939 3.018-3.305 5.6-3.185 12.065-2.144 18.034.244 5.54 2.266 9.727 6.429 15.759 12.307 6.155 7.102 7.263 9.063 10.773 14.39 2.771 4.163 5.294 8.451 7.018 13.348.877 2.561.071 4.74-2.341 6.277-.981.625-2.109 1.044-3.191 1.458z"/></svg> <span id="l10n-optionTitle">DeepPage</span></h1>
-<p id="l10n-optionDesc" style="margin-bottom:16px">Chat with DeepSeek while browsing</p>
 
-<div id="options-layout" style="display:flex;gap:24px;align-items:flex-start">
-<div id="option-tabs" style="display:flex;flex-direction:column;gap:2px;min-width:120px;border-right:2px solid #e5e7eb;padding-right:16px;">
-  <button class="option-tab active" data-tab="api"><span id="l10n-tabApi">API</span></button>
-  <button class="option-tab" data-tab="quick"><span id="l10n-tabQuick">Quick Actions</span></button>
-  <button class="option-tab" data-tab="appearance"><span id="l10n-tabAppearance">Appearance</span></button>
+<div id="options-panel">
+<div id="options-layout">
+
+<!-- Sidebar -->
+<div id="option-tabs">
+  <div class="tab-section-header">CONFIGURATION</div>
+  <button class="option-tab active" data-tab="api">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/></svg>
+    <span id="l10n-tabApi">API</span>
+  </button>
+  <button class="option-tab" data-tab="quick">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    <span id="l10n-tabQuick">Quick Actions</span>
+  </button>
+  <div class="tab-section-header">PREFERENCES</div>
+  <button class="option-tab" data-tab="appearance">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    <span id="l10n-tabAppearance">Appearance</span>
+  </button>
 </div>
-<div id="tab-contents" style="flex:1;min-width:0">
 
+<!-- Content -->
+<div id="tab-contents">
+
+<!-- ===== API Tab ===== -->
 <div id="tab-api" class="tab-panel">
+  <div class="settings-group">
+    <div class="settings-group-title">CONNECTION</div>
+    <div class="settings-card">
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label"><span id="l10n-apiProviderLabel">API Provider</span></div>
+          <div class="settings-row-desc"><span id="l10n-apiProviderHint">Choose your AI provider</span></div>
+        </div>
+        <div class="settings-row-control">
+          <select id="apiProvider" style="min-width:180px"></select>
+        </div>
+      </div>
+      <div class="settings-row" id="api-custom-type-section" style="display:none">
+        <div>
+          <div class="settings-row-label"><span id="l10n-apiTypeLabel">API Format</span></div>
+          <div class="settings-row-desc"><span id="l10n-apiTypeDesc">OpenAI-compatible or Anthropic format</span></div>
+        </div>
+        <div class="settings-row-control">
+          <select id="apiType">
+            <option value="openai">OpenAI-compatible</option>
+            <option value="anthropic">Anthropic</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<label for="apiProvider"><span id="l10n-apiProviderLabel">API Provider</span></label>
-<select id="apiProvider" style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;margin-bottom:12px"></select>
-
-<div id="api-custom-type-section" class="__dp-hidden">
-  <label for="apiType"><span id="l10n-apiTypeLabel">API Format</span></label>
-  <select id="apiType" style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;margin-bottom:12px">
-    <option value="openai">OpenAI-compatible</option>
-    <option value="anthropic">Anthropic</option>
-  </select>
+  <div class="settings-group">
+    <div class="settings-group-title">ENDPOINT</div>
+    <div class="settings-card">
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label"><span id="l10n-apiBaseUrlLabel">Base URL</span></div>
+          <div class="settings-row-desc"><span id="l10n-apiBaseUrlHint2">API endpoint address</span></div>
+        </div>
+        <div class="settings-row-control">
+          <input type="text" id="apiBaseUrl" placeholder="https://api.deepseek.com/v1" autocomplete="off" style="width:220px" />
+        </div>
+      </div>
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label"><span id="l10n-apiKeyLabel">API Key</span></div>
+          <div class="settings-row-desc"><a href="" target="_blank" id="apiKeyLink"><span id="l10n-getApiKeyLink">Get API Key</span></a></div>
+        </div>
+        <div class="settings-row-control">
+          <input type="password" id="apiKey" placeholder="sk-..." autocomplete="off" style="width:220px" />
+        </div>
+      </div>
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label"><span id="l10n-apiModelLabel">Model</span></div>
+          <div class="settings-row-desc"><span id="l10n-apiModelHint2">Select or enter model name</span></div>
+        </div>
+        <div class="settings-row-control">
+          <div class="model-row-control">
+            <select id="apiModel">
+              <option value="">-- select or enter model name --</option>
+            </select>
+            <button id="refreshModelsBtn" title="Refresh model list">↻</button>
+          </div>
+        </div>
+      </div>
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label">Test Connection</div>
+          <div class="settings-row-desc"><span id="l10n-testApiDesc">Verify API key and endpoint</span></div>
+        </div>
+        <div class="settings-row-control" style="display:flex;align-items:center;gap:8px">
+          <button id="testApiBtn" class="btn-test"><span id="l10n-testApiButton">Test Connection</span></button>
+          <span id="testApiStatus"></span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<label for="apiBaseUrl"><span id="l10n-apiBaseUrlLabel">Base URL</span></label>
-<input type="text" id="apiBaseUrl" placeholder="https://api.deepseek.com/v1" autocomplete="off" style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;margin-bottom:12px" />
-<small><span id="l10n-apiBaseUrlHint">Auto-filled for known providers; editable if you need a custom endpoint</span></small>
-
-<label for="apiKey"><span id="l10n-apiKeyLabel">API Key</span></label>
-<input type="password" id="apiKey" placeholder="sk-..." autocomplete="off" />
-<small id="apiKeyLink"><a href="" target="_blank"><span id="l10n-getApiKeyLink">Get API Key</span></a></small>
-
-<label for="apiModel" style="margin-top:12px;display:block"><span id="l10n-apiModelLabel">Model</span></label>
-<div style="display:flex;gap:6px;align-items:stretch">
-  <select id="apiModel" style="flex:1;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px">
-    <option value="">-- select or enter model name --</option>
-  </select>
-  <button id="refreshModelsBtn" title="Refresh model list" style="padding:0 12px;border-radius:8px;cursor:pointer;font-size:16px">↻</button>
-</div>
-<small><span id="l10n-apiModelHint">Auto-filled for known providers; click ↻ to fetch from API after connecting</span></small>
-
-<button id="testApiBtn" class="btn-primary" style="background:#6b7280;margin-top:10px"><span id="l10n-testApiButton">Test Connection</span></button>
-<span id="testApiStatus" style="margin-left:10px;font-size:13px"></span>
-
-
-</div><!-- end tab-api -->
+<!-- ===== Appearance Tab ===== -->
 <div id="tab-appearance" class="tab-panel" style="display:none">
-<h2 class="section-title" style="margin-top:0;padding-top:0;border-top:none"><span id="l10n-languageLabel">Language</span></h2>
-<select id="language-select" style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;margin-bottom:20px"></select>
+  <div class="settings-group">
+    <div class="settings-group-title">LANGUAGE</div>
+    <div class="settings-card">
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label"><span id="l10n-languageLabel">Language</span></div>
+          <div class="settings-row-desc"><span id="l10n-languageDesc">Interface language</span></div>
+        </div>
+        <div class="settings-row-control">
+          <select id="language-select"></select>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<div class="appearance-card">
-  <div class="appearance-row">
-    <span id="l10n-darkModeLabel">Dark Mode</span>
-    <label class="toggle-switch">
-      <input type="checkbox" id="dark-mode-toggle" />
-      <span class="toggle-slider"></span>
-    </label>
+  <div class="settings-group">
+    <div class="settings-group-title">THEME</div>
+    <div class="settings-card">
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label"><span id="l10n-darkModeLabel">Dark Mode</span></div>
+          <div class="settings-row-desc"><span id="l10n-darkModeDesc">Use dark theme</span></div>
+        </div>
+        <div class="settings-row-control">
+          <label class="toggle-switch">
+            <input type="checkbox" id="dark-mode-toggle" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <div class="settings-group-title">CONVERSATION</div>
+    <div class="settings-card">
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label"><span id="l10n-maxRoundsLabel">Max Conversation Rounds</span></div>
+          <div class="settings-row-desc"><span id="l10n-maxRoundsDesc2">Older messages beyond this limit will be trimmed</span></div>
+        </div>
+        <div class="settings-row-control" style="min-width:180px">
+          <input type="range" id="max-rounds" min="2" max="100" value="20" />
+          <div class="range-labels"><span id="max-rounds-value">20</span><span>100</span></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<h2 class="section-title"><span id="l10n-maxRoundsLabel">Max Conversation Rounds</span></h2>
-<div class="appearance-card">
-  <input type="range" id="max-rounds" min="2" max="100" value="20" style="width:100%;accent-color:#4A6CF7" />
-  <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:13px;color:#6b7280">
-    <span id="max-rounds-value">20</span>
-    <span id="l10n-maxRoundsDesc">Older messages beyond this limit will be trimmed</span>
-  </div>
-</div>
-
-</div><!-- end tab-appearance -->
-
+<!-- ===== Quick Actions Tab ===== -->
 <div id="tab-quick" class="tab-panel" style="display:none">
-<h2 class="section-title" style="margin-top:0;padding-top:0;border-top:none"><span id="l10n-quickActionsSection">Quick Action Buttons</span></h2>
+  <div class="settings-group">
+    <div class="settings-group-title">BUTTONS</div>
+    <div id="actions-container"></div>
+    <button id="btn-add" class="btn-add"><span id="l10n-addButton">Add Button</span></button>
+  </div>
+</div>
 
-<div id="actions-container"></div>
-
-<button id="btn-add" class="btn-add"><span id="l10n-addButton">Add Button</span></button>
-
-</div><!-- end tab-quick -->
 </div><!-- end tab-contents -->
 </div><!-- end options-layout -->
+</div><!-- end options-panel -->
 
-<p style="margin-top:24px">
+<!-- Save -->
+<div style="margin-top:24px;display:flex;align-items:center;gap:16px">
   <button id="saveBtn" class="btn-primary"><span id="l10n-saveButton">Save</span></button>
-</p>
-<div id="status" style="margin-top:12px"></div>
+  <div id="status"></div>
+</div>
 
 <script src="i18n.js"></script>
 <script src="options.js"></script>

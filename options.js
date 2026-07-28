@@ -116,13 +116,13 @@ function updateApiUI(providerId) {
   // API Type selector (for Custom)
   const customTypeSection = document.getElementById('api-custom-type-section');
   if (p.id === 'custom') {
-    customTypeSection.classList.remove('__dp-hidden');
+    customTypeSection.style.display = '';
     const apiTypeSelect = document.getElementById('apiType');
     // Preserve user's last choice if switching between custom types
     const stored = localStorage.getItem('deeppage_custom_api_type');
     if (stored) apiTypeSelect.value = stored;
   } else {
-    customTypeSection.classList.add('__dp-hidden');
+    customTypeSection.style.display = 'none';
     const apiTypeSelect = document.getElementById('apiType');
     apiTypeSelect.value = p.type;
   }
@@ -143,18 +143,19 @@ function render() {
     const card = document.createElement('div');
     card.className = 'action-card';
     card.innerHTML = `
-      <div class="card-header">
-        <span class="card-index">${i + 1}</span>
-        <label>${t('buttonLabel')}</label>
-        <input class="fld-label" type="text" placeholder="${t('buttonLabelPlaceholder')}" />
-        <button class="btn-del" title="${t('deleteButton')}">✕</button>
+      <div class="action-card-header">
+        <span class="action-card-index">${i + 1}</span>
+        <input class="action-card-label-input" type="text" placeholder="${t('buttonLabelPlaceholder')}" />
+        <button class="action-card-del" title="${t('deleteButton')}">✕</button>
       </div>
-      <label>${t('promptLabel')}</label>
-      <textarea class="fld-prompt" rows="2" placeholder="${t('promptPlaceholder')}"></textarea>
+      <div class="action-card-body">
+        <label>${t('promptLabel')}</label>
+        <textarea class="fld-prompt" rows="2" placeholder="${t('promptPlaceholder')}"></textarea>
+      </div>
     `;
-    card.querySelector('.fld-label').value = action.label || '';
+    card.querySelector('.action-card-label-input').value = action.label || '';
     card.querySelector('.fld-prompt').value = action.prompt || '';
-    card.querySelector('.btn-del').addEventListener('click', () => {
+    card.querySelector('.action-card-del').addEventListener('click', () => {
       actions.splice(i, 1);
       render();
     });
