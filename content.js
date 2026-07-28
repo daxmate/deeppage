@@ -799,11 +799,11 @@ async function getOrCreateConv() {
     messages: [],
     context: null,
   };
+  // 只创建内存中的对话，等有消息时再保存到 storage
   data.conversations.unshift(conv);
   data.activeId = conv.id;
   currentConvId = conv.id;
   currentMessages = [];
-  await saveConversations(data);
   return data;
 }
 
@@ -852,8 +852,34 @@ async function clearContext() {
 async function saveCurrentMessages() {
   const data = await loadConversations();
   if (!currentConvId) return;
-  const conv = data.conversations.find(c => c.id === currentConvId);
-  if (!conv) return;
+
+  // 空对话不保存 — 从 storage 移除
+  if (!currentMessages.length) {
+    const oldLen = data.conversations.length;
+    data.conversations = data.conversations.filter(c => c.id !== currentConvId);
+    if (data.activeId === currentConvId) {
+      data.activeId = data.conversations.length > 0 ? data.conversations[0].id : null;
+    }
+    if (data.conversations.length !== oldLen) {
+      await saveConversations(data);
+    }
+    return;
+  }
+
+  // 查找或创建 storage 中的对话记录
+  let conv = data.conversations.find(c => c.id === currentConvId);
+  if (!conv) {
+    conv = {
+      id: currentConvId,
+      title: t('newChat') || 'New Chat',
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      messages: [],
+      context: null,
+    };
+    data.conversations.unshift(conv);
+    data.activeId = currentConvId;
+  }
   conv.messages = currentMessages.map(m => ({
     role: m.role,
     content: m.content,
@@ -916,22 +942,26 @@ async function switchConversation(convId) {
 async function deleteConversation(convId) {
   const data = await loadConversations();
   data.conversations = data.conversations.filter(c => c.id !== convId);
+  // 如果删掉了当前对话，activeId 跳到第一个
   if (data.activeId === convId) {
     data.activeId = data.conversations.length > 0 ? data.conversations[0].id : null;
+    currentConvId = data.activeId;
   }
   await saveConversations(data);
-  if (!data.activeId) {
-    // 没有对话了，开始新的
-    currentConvId = null;
-    currentMessages = [];
-    document.getElementById('__dp-chat').innerHTML = '';
-    await getOrCreateConv();
-  } else if (data.activeId !== currentConvId) {
-    // 删掉了当前对话，切换到第一个
-    await switchConversation(data.activeId);
-  } else {
-    // 删掉的是别的对话，重新渲染历史列表
+  // 始终刷新历史列表并停留在当前视图，不切换回聊天
+  const list = document.getElementById('__dp-history-list');
+  if (list && !list.classList.contains('__dp-hide')) {
     renderHistoryList();
+  } else {
+    // 不在历史视图，正常处理
+    if (!data.activeId) {
+      currentConvId = null;
+      currentMessages = [];
+      document.getElementById('__dp-chat').innerHTML = '';
+      await getOrCreateConv();
+    } else if (data.activeId !== currentConvId) {
+      await switchConversation(data.activeId);
+    }
   }
 }
 
