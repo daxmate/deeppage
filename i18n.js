@@ -4,6 +4,7 @@
 
 // 翻译数据（从 messages.json 生成）
 const TRANSLATIONS = {
+
   zh_CN: {
     appName: 'DeepPage',
     appDesc: '在浏览网页时与 DeepSeek 对话——总结全文、提炼要点、自由问答',
@@ -38,6 +39,7 @@ const TRANSLATIONS = {
     newButtonLabel: '新按钮',
     languageLabel: '语言',
   },
+
   en: {
     appName: 'DeepPage',
     appDesc: 'Chat with DeepSeek while browsing — summarize, outline, translate, and ask questions',
@@ -72,6 +74,7 @@ const TRANSLATIONS = {
     newButtonLabel: 'New Button',
     languageLabel: 'Language',
   },
+
   ja: {
     appName: 'DeepPage',
     appDesc: 'ウェブ閲覧中にDeepSeekと会話 — 要約、要点抽出、翻訳、自由な質問',
@@ -106,18 +109,277 @@ const TRANSLATIONS = {
     newButtonLabel: '新規ボタン',
     languageLabel: '言語',
   },
+
+  zh_TW: {
+    appName: 'DeepPage',
+    appDesc: '在瀏覽網頁時與 DeepSeek 對話——總結全文、提煉要點、自由問答',
+    panelTitle: 'DeepPage',
+    inputPlaceholder: '輸入問題...',
+    contextLoaded: '已載入「$1」作為對話背景',
+    loginNoticeTitle: '需要設定 DeepSeek API Key',
+    loginNoticeStep1: '· 點擊擴充功能圖示 → 選項 → 輸入 API Key',
+    loginNoticeStep2: '· 或前往 platform.deepseek.com 取得',
+    errorNoApiKey: '❌ 未設定 API Key，請在擴充功能設定中設定',
+    optionTitle: 'DeepPage 設定',
+    optionDesc: '使用 DeepSeek 官方 API 與瀏覽的網頁對話',
+    apiKeyLabel: 'DeepSeek API Key',
+    apiKeyPlaceholder: 'sk-...',
+    getApiKeyLink: '從 platform.deepseek.com 取得',
+    quickActionsSection: '快速操作按鈕',
+    addButton: '＋ 新增按鈕',
+    saveButton: '儲存',
+    savedSuccess: '✅ 已儲存',
+    apiKeyRequired: '請輸入 API Key',
+    buttonLabel: '按鈕文字',
+    promptLabel: '提示詞',
+    buttonLabelPlaceholder: '如 📝 總結全文',
+    promptPlaceholder: '點擊按鈕時自動輸入的提示詞',
+    deleteButton: '刪除',
+    defaultSummarizeLabel: '📝 總結全文',
+    defaultSummarizePrompt: '請用繁體中文總結這篇網頁正文部分的核心內容',
+    defaultOutlineLabel: '🎯 提煉要點',
+    defaultOutlinePrompt: '請提煉這篇網頁正文部分的要點，以列表形式列出',
+    defaultTranslateLabel: '🌐 翻譯',
+    defaultTranslatePrompt: '請將這篇網頁的正文部分翻譯成繁體中文',
+    newButtonLabel: '新按鈕',
+    languageLabel: '語言',
+  },
+
+  ko: {
+    appName: 'DeepPage',
+    appDesc: '웹 탐색 중 DeepSeek와 대화 — 요약, 핵심 정리, 번역, 자유 질문',
+    panelTitle: 'DeepPage',
+    inputPlaceholder: '질문 입력...',
+    contextLoaded: '"$1"을(를) 대화 배경으로 불러왔습니다',
+    loginNoticeTitle: 'DeepSeek API 키가 필요합니다',
+    loginNoticeStep1: '· 확장 프로그램 아이콘 → 옵션 → API 키 입력',
+    loginNoticeStep2: '· 또는 platform.deepseek.com에서 받기',
+    errorNoApiKey: '❌ API 키가 설정되지 않았습니다. 확장 프로그램 옵션에서 설정해주세요.',
+    optionTitle: 'DeepPage 설정',
+    optionDesc: 'DeepSeek 공식 API를 사용하여 웹 탐색 중 채팅',
+    apiKeyLabel: 'DeepSeek API Key',
+    apiKeyPlaceholder: 'sk-...',
+    getApiKeyLink: 'platform.deepseek.com에서 받기',
+    quickActionsSection: '빠른 작업 버튼',
+    addButton: '＋ 버튼 추가',
+    saveButton: '저장',
+    savedSuccess: '✅ 저장됨',
+    apiKeyRequired: 'API 키를 입력해주세요',
+    buttonLabel: '버튼 라벨',
+    promptLabel: '프롬프트',
+    buttonLabelPlaceholder: '예: 📝 요약',
+    promptPlaceholder: '버튼 클릭 시 자동 입력되는 프롬프트',
+    deleteButton: '삭제',
+    defaultSummarizeLabel: '📝 요약',
+    defaultSummarizePrompt: '이 웹페이지 본문의 핵심 내용을 한국어로 요약해주세요',
+    defaultOutlineLabel: '🎯 핵심 정리',
+    defaultOutlinePrompt: '이 웹페이지의 핵심 포인트를 목록 형식으로 추출해주세요',
+    defaultTranslateLabel: '🌐 번역',
+    defaultTranslatePrompt: '이 웹페이지의 본문을 한국어로 번역해주세요',
+    newButtonLabel: '새 버튼',
+    languageLabel: '언어',
+  },
+
+  es: {
+    appName: 'DeepPage',
+    appDesc: 'Chatea con DeepSeek mientras navegas — resume, extrae puntos clave, traduce y pregunta',
+    panelTitle: 'DeepPage',
+    inputPlaceholder: 'Pregunta algo...',
+    contextLoaded: 'Se cargó «$1» como contexto de conversación',
+    loginNoticeTitle: 'Se requiere una clave de API de DeepSeek',
+    loginNoticeStep1: '· Haz clic en el icono de la extensión → Opciones → Ingresa la clave API',
+    loginNoticeStep2: '· O consíguela en platform.deepseek.com',
+    errorNoApiKey: '❌ Clave API no configurada. Configúrala en las opciones de la extensión.',
+    optionTitle: 'Configuración de DeepPage',
+    optionDesc: 'Chatea con DeepSeek usando la API oficial mientras navegas por la web',
+    apiKeyLabel: 'Clave de API de DeepSeek',
+    apiKeyPlaceholder: 'sk-...',
+    getApiKeyLink: 'Consíguela en platform.deepseek.com',
+    quickActionsSection: 'Botones de acción rápida',
+    addButton: '＋ Añadir botón',
+    saveButton: 'Guardar',
+    savedSuccess: '✅ Guardado',
+    apiKeyRequired: 'Por favor, ingresa una clave de API',
+    buttonLabel: 'Texto del botón',
+    promptLabel: 'Indicación',
+    buttonLabelPlaceholder: 'ej. 📝 Resumir',
+    promptPlaceholder: 'Indicación enviada al hacer clic en el botón',
+    deleteButton: 'Eliminar',
+    defaultSummarizeLabel: '📝 Resumir',
+    defaultSummarizePrompt: 'Por favor, resume el contenido principal de esta página web en español',
+    defaultOutlineLabel: '🎯 Puntos clave',
+    defaultOutlinePrompt: 'Por favor, extrae los puntos clave de esta página web y enuméralos',
+    defaultTranslateLabel: '🌐 Traducir',
+    defaultTranslatePrompt: 'Por favor, traduce el contenido principal de esta página web al español',
+    newButtonLabel: 'Nuevo botón',
+    languageLabel: 'Idioma',
+  },
+
+  fr: {
+    appName: 'DeepPage',
+    appDesc: 'Discutez avec DeepSeek pendant la navigation — résumer, points clés, traduire, poser des questions',
+    panelTitle: 'DeepPage',
+    inputPlaceholder: 'Posez une question...',
+    contextLoaded: '« $1 » chargé comme contexte de conversation',
+    loginNoticeTitle: 'Clé API DeepSeek requise',
+    loginNoticeStep1: '· Cliquez sur l\'icône de l\'extension → Options → Entrez la clé API',
+    loginNoticeStep2: '· Ou obtenez-en une sur platform.deepseek.com',
+    errorNoApiKey: '❌ Clé API non configurée. Veuillez la configurer dans les options de l\'extension.',
+    optionTitle: 'Paramètres DeepPage',
+    optionDesc: 'Discutez avec DeepSeek via l\'API officielle en naviguant sur le web',
+    apiKeyLabel: 'Clé API DeepSeek',
+    apiKeyPlaceholder: 'sk-...',
+    getApiKeyLink: 'Obtenez-en une sur platform.deepseek.com',
+    quickActionsSection: 'Boutons d\'action rapide',
+    addButton: '＋ Ajouter un bouton',
+    saveButton: 'Enregistrer',
+    savedSuccess: '✅ Enregistré',
+    apiKeyRequired: 'Veuillez entrer une clé API',
+    buttonLabel: 'Étiquette du bouton',
+    promptLabel: 'Invite',
+    buttonLabelPlaceholder: 'ex. 📝 Résumer',
+    promptPlaceholder: 'Invite envoyée lors du clic sur le bouton',
+    deleteButton: 'Supprimer',
+    defaultSummarizeLabel: '📝 Résumer',
+    defaultSummarizePrompt: 'Veuillez résumer le contenu principal de cette page web en français',
+    defaultOutlineLabel: '🎯 Points clés',
+    defaultOutlinePrompt: 'Veuillez extraire les points clés de cette page web et les lister',
+    defaultTranslateLabel: '🌐 Traduire',
+    defaultTranslatePrompt: 'Veuillez traduire le contenu principal de cette page web en français',
+    newButtonLabel: 'Nouveau bouton',
+    languageLabel: 'Langue',
+  },
+
+  de: {
+    appName: 'DeepPage',
+    appDesc: 'Chatte mit DeepSeek beim Surfen — zusammenfassen, Schlüsselpunkte, übersetzen, Fragen stellen',
+    panelTitle: 'DeepPage',
+    inputPlaceholder: 'Frage eingeben...',
+    contextLoaded: '„$1“ als Gesprächskontext geladen',
+    loginNoticeTitle: 'DeepSeek-API-Schlüssel erforderlich',
+    loginNoticeStep1: '· Klicke auf das Erweiterungssymbol → Optionen → API-Schlüssel eingeben',
+    loginNoticeStep2: '· Oder hole einen auf platform.deepseek.com',
+    errorNoApiKey: '❌ Kein API-Schlüssel konfiguriert. Bitte in den Erweiterungsoptionen einrichten.',
+    optionTitle: 'DeepPage-Einstellungen',
+    optionDesc: 'Chatte mit DeepSeek über die offizielle API beim Surfen im Web',
+    apiKeyLabel: 'DeepSeek-API-Schlüssel',
+    apiKeyPlaceholder: 'sk-...',
+    getApiKeyLink: 'Hole einen auf platform.deepseek.com',
+    quickActionsSection: 'Schnellaktion-Buttons',
+    addButton: '＋ Button hinzufügen',
+    saveButton: 'Speichern',
+    savedSuccess: '✅ Gespeichert',
+    apiKeyRequired: 'Bitte gib einen API-Schlüssel ein',
+    buttonLabel: 'Button-Beschriftung',
+    promptLabel: 'Eingabeaufforderung',
+    buttonLabelPlaceholder: 'z. B. 📝 Zusammenfassen',
+    promptPlaceholder: 'Text, der beim Klicken auf den Button gesendet wird',
+    deleteButton: 'Löschen',
+    defaultSummarizeLabel: '📝 Zusammenfassen',
+    defaultSummarizePrompt: 'Bitte fasse den Kerninhalt dieser Webseite auf Deutsch zusammen',
+    defaultOutlineLabel: '🎯 Schlüsselpunkte',
+    defaultOutlinePrompt: 'Bitte extrahiere die wichtigsten Punkte dieser Webseite und liste sie auf',
+    defaultTranslateLabel: '🌐 Übersetzen',
+    defaultTranslatePrompt: 'Bitte übersetze den Hauptinhalt dieser Webseite ins Deutsche',
+    newButtonLabel: 'Neuer Button',
+    languageLabel: 'Sprache',
+  },
+
+  ru: {
+    appName: 'DeepPage',
+    appDesc: 'Общайтесь с DeepSeek во время просмотра — резюмируйте, выделяйте ключевые моменты, переводите, задавайте вопросы',
+    panelTitle: 'DeepPage',
+    inputPlaceholder: 'Задайте вопрос...',
+    contextLoaded: '«$1» загружен как контекст беседы',
+    loginNoticeTitle: 'Требуется ключ API DeepSeek',
+    loginNoticeStep1: '· Нажмите на значок расширения → Параметры → Введите ключ API',
+    loginNoticeStep2: '· Или получите его на platform.deepseek.com',
+    errorNoApiKey: '❌ Ключ API не настроен. Пожалуйста, настройте его в параметрах расширения.',
+    optionTitle: 'Настройки DeepPage',
+    optionDesc: 'Общайтесь с DeepSeek через официальный API во время просмотра веб-страниц',
+    apiKeyLabel: 'Ключ API DeepSeek',
+    apiKeyPlaceholder: 'sk-...',
+    getApiKeyLink: 'Получить на platform.deepseek.com',
+    quickActionsSection: 'Кнопки быстрых действий',
+    addButton: '＋ Добавить кнопку',
+    saveButton: 'Сохранить',
+    savedSuccess: '✅ Сохранено',
+    apiKeyRequired: 'Пожалуйста, введите ключ API',
+    buttonLabel: 'Текст кнопки',
+    promptLabel: 'Подсказка',
+    buttonLabelPlaceholder: 'например 📝 Резюме',
+    promptPlaceholder: 'Текст, отправляемый при нажатии кнопки',
+    deleteButton: 'Удалить',
+    defaultSummarizeLabel: '📝 Резюме',
+    defaultSummarizePrompt: 'Пожалуйста, резюмируйте основное содержание этой веб-страницы на русском языке',
+    defaultOutlineLabel: '🎯 Ключевые моменты',
+    defaultOutlinePrompt: 'Пожалуйста, выделите ключевые моменты этой веб-страницы и перечислите их',
+    defaultTranslateLabel: '🌐 Перевести',
+    defaultTranslatePrompt: 'Пожалуйста, переведите основное содержание этой веб-страницы на русский язык',
+    newButtonLabel: 'Новая кнопка',
+    languageLabel: 'Язык',
+  },
+
+  vi: {
+    appName: 'DeepPage',
+    appDesc: 'Trò chuyện với DeepSeek trong khi duyệt web — tóm tắt, rút gọn ý chính, dịch thuật, hỏi đáp',
+    panelTitle: 'DeepPage',
+    inputPlaceholder: 'Nhập câu hỏi...',
+    contextLoaded: 'Đã tải «$1» làm ngữ cảnh hội thoại',
+    loginNoticeTitle: 'Yêu cầu khóa API DeepSeek',
+    loginNoticeStep1: '· Nhấp biểu tượng tiện ích → Tùy chọn → Nhập khóa API',
+    loginNoticeStep2: '· Hoặc lấy tại platform.deepseek.com',
+    errorNoApiKey: '❌ Chưa cấu hình khóa API. Vui lòng cấu hình trong tùy chọn tiện ích.',
+    optionTitle: 'Cài đặt DeepPage',
+    optionDesc: 'Trò chuyện với DeepSeek bằng API chính thức trong khi duyệt web',
+    apiKeyLabel: 'Khóa API DeepSeek',
+    apiKeyPlaceholder: 'sk-...',
+    getApiKeyLink: 'Lấy tại platform.deepseek.com',
+    quickActionsSection: 'Nút thao tác nhanh',
+    addButton: '＋ Thêm nút',
+    saveButton: 'Lưu',
+    savedSuccess: '✅ Đã lưu',
+    apiKeyRequired: 'Vui lòng nhập khóa API',
+    buttonLabel: 'Nhãn nút',
+    promptLabel: 'Lời nhắc',
+    buttonLabelPlaceholder: 'vd 📝 Tóm tắt',
+    promptPlaceholder: 'Lời nhắc tự động gửi khi nhấp nút',
+    deleteButton: 'Xóa',
+    defaultSummarizeLabel: '📝 Tóm tắt',
+    defaultSummarizePrompt: 'Vui lòng tóm tắt nội dung chính của trang web này bằng tiếng Việt',
+    defaultOutlineLabel: '🎯 Ý chính',
+    defaultOutlinePrompt: 'Vui lòng rút trích các ý chính của trang web này và liệt kê chúng',
+    defaultTranslateLabel: '🌐 Dịch',
+    defaultTranslatePrompt: 'Vui lòng dịch nội dung chính của trang web này sang tiếng Việt',
+    newButtonLabel: 'Nút mới',
+    languageLabel: 'Ngôn ngữ',
+  },
+
 };
 const LANGUAGES = [
   { code: 'zh_CN', label: '中文' },
+  { code: 'zh_TW', label: '繁體中文' },
   { code: 'en', label: 'English' },
   { code: 'ja', label: '日本語' },
+  { code: 'ko', label: '한국어' },
+  { code: 'es', label: 'Español' },
+  { code: 'fr', label: 'Français' },
+  { code: 'de', label: 'Deutsch' },
+  { code: 'ru', label: 'Русский' },
+  { code: 'vi', label: 'Tiếng Việt' },
 ];
 
 // 获取当前语言代码
 function detectLanguage() {
   const nav = (navigator.language || '').replace('-', '_');
-  if (nav.startsWith('zh')) return 'zh_CN';
+  if (nav.startsWith('zh')) return nav.startsWith('zh_TW') || nav.startsWith('zh_HK') || nav.startsWith('zh_MO') ? 'zh_TW' : 'zh_CN';
   if (nav.startsWith('ja')) return 'ja';
+  if (nav.startsWith('ko')) return 'ko';
+  if (nav.startsWith('es')) return 'es';
+  if (nav.startsWith('fr')) return 'fr';
+  if (nav.startsWith('de')) return 'de';
+  if (nav.startsWith('ru')) return 'ru';
+  if (nav.startsWith('vi')) return 'vi';
   return 'en';
 }
 
@@ -133,20 +395,17 @@ function setStoredLanguage(code, callback) {
 }
 
 // ---- 核心 t() 函数 ----
-// 同步模式（用于 options.js 中 JS 模板）
 function t(key, ...args) {
-  // 尝试从全局语言变量获取
   const lang = window.__dp_lang || detectLanguage();
   const dict = TRANSLATIONS[lang] || TRANSLATIONS.en;
   let text = dict[key] || key;
-  // 替换 $1, $2 等占位符
   args.forEach((arg, i) => {
     text = text.replace(new RegExp('\\$' + (i + 1), 'g'), arg);
   });
   return text;
 }
 
-// 异步模式（用于 content.js，需要先加载语言）
+// ---- 异步加载语言 ----
 function loadLanguage(callback) {
   getStoredLanguage((stored) => {
     window.__dp_lang = stored || detectLanguage();
@@ -154,7 +413,7 @@ function loadLanguage(callback) {
   });
 }
 
-// 服务函数：获取当前语言（用于下拉框选中）
+// ---- 获取当前语言 ----
 function getCurrentLang() {
   return window.__dp_lang || detectLanguage();
 }
