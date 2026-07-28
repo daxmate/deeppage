@@ -493,16 +493,8 @@ function injectStyles() {
         border-color: #4a6cf7;
       }
       .__dp-loading span {
-        
-      .__dp-history-item:hover { background: #2a2b30; }
-      .__dp-history-item.active { background: #1a2740; }
-      .__dp-history-title { color: #e4e5e7; }
-      .__dp-history-del { color: #6b7280; }
-      .__dp-history-del:hover {
-        background: rgba(239,68,68,0.15);
-        color: #f87171;
+        background: #6B8AFF;
       }
-    }
       .__dp-copy-btn {
         background: rgba(255,255,255,0.1);
         color: #9ca3af;
@@ -514,6 +506,15 @@ function injectStyles() {
       .__dp-copy-btn.__dp-copied {
         color: #34d399;
       }
+      .__dp-history-item:hover { background: #2a2b30; }
+      .__dp-history-item.active { background: #1a2740; }
+      .__dp-history-title { color: #e4e5e7; }
+      .__dp-history-del { color: #6b7280; }
+      .__dp-history-del:hover {
+        background: rgba(239,68,68,0.15);
+        color: #f87171;
+      }
+    }
     /* 手动 dark mode 切换 */
     #__dp-panel.__dp-dark {
       background: #1a1b1e;
