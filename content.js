@@ -688,8 +688,12 @@ async function sendMessage() {
 function createButton() {
   if (document.getElementById("__dp-btn")) return;
 
-  // 初始化语言
-  loadLanguage(() => { initDefaultActions(); });
+  // 先用检测的语言初始化，再异步加载存储的偏好
+  window.__dp_lang = detectLanguage();
+  initDefaultActions();
+  loadLanguage(() => {
+    initDefaultActions();
+  });
   injectStyles();
 
   const btn = document.createElement("button");

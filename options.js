@@ -27,15 +27,10 @@ function populateLanguageSelect() {
 loadLanguage(() => {
   localizePage();
   populateLanguageSelect();
+  loadSavedData();
 });
 
 // ---- 常量 ----
-const DEFAULT_ACTIONS = [
-  { label: t('defaultSummarizeLabel'), prompt: t('defaultSummarizePrompt') },
-  { label: t('defaultOutlineLabel'), prompt: t('defaultOutlinePrompt') },
-  { label: t('defaultTranslateLabel'), prompt: t('defaultTranslatePrompt') },
-];
-
 let actions = [];
 
 const container = document.getElementById('actions-container');
@@ -70,16 +65,23 @@ function render() {
 }
 
 // ---- 加载已保存数据 ----
-chrome.storage.sync.get(
-  ['deepseekApiKey', 'quickActions'],
-  (result) => {
-    document.getElementById('apiKey').value = result.deepseekApiKey || '';
-    actions = (result.quickActions && result.quickActions.length)
-      ? result.quickActions.map(a => ({ label: a.label, prompt: a.prompt }))
-      : DEFAULT_ACTIONS.map(a => ({ ...a }));
-    render();
-  },
-);
+function loadSavedData() {
+  chrome.storage.sync.get(
+    ['deepseekApiKey', 'quickActions'],
+    (result) => {
+      document.getElementById('apiKey').value = result.deepseekApiKey || '';
+      const defaults = [
+        { label: t('defaultSummarizeLabel'), prompt: t('defaultSummarizePrompt') },
+        { label: t('defaultOutlineLabel'), prompt: t('defaultOutlinePrompt') },
+        { label: t('defaultTranslateLabel'), prompt: t('defaultTranslatePrompt') },
+      ];
+      actions = (result.quickActions && result.quickActions.length)
+        ? result.quickActions.map(a => ({ label: a.label, prompt: a.prompt }))
+        : defaults.map(a => ({ ...a }));
+      render();
+    },
+  );
+}
 
 // ---- 语言切换 ----
 document.getElementById('language-select').addEventListener('change', (e) => {
