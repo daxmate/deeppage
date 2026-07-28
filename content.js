@@ -449,19 +449,35 @@ function enableResize(panelEl) {
         const dx = ev.clientX - startX;
         const dy = ev.clientY - startY;
 
-        let newW = startW,
-          newH = startH;
-        let newLeft = startLeft,
-          newTop = startTop;
+        let newW = startW, newH = startH;
+        let newLeft = startLeft, newTop = startTop;
 
-        // 只有 br，简化逻辑
-        newW = Math.max(minW, startW + dx);
-        newH = Math.max(minH, startH + dy);
+        switch (dir) {
+          case "tl":
+            newW = Math.max(minW, startW - dx);
+            newH = Math.max(minH, startH - dy);
+            newLeft = startLeft + (startW - newW);
+            newTop = startTop + (startH - newH);
+            break;
+          case "tr":
+            newW = Math.max(minW, startW + dx);
+            newH = Math.max(minH, startH - dy);
+            newTop = startTop + (startH - newH);
+            break;
+          case "bl":
+            newW = Math.max(minW, startW - dx);
+            newH = Math.max(minH, startH + dy);
+            newLeft = startLeft + (startW - newW);
+            break;
+          case "br":
+            newW = Math.max(minW, startW + dx);
+            newH = Math.max(minH, startH + dy);
+            break;
+        }
 
-        const maxX = window.innerWidth - newW;
-        const maxY = window.innerHeight - newH;
-        newLeft = Math.max(0, Math.min(newLeft, maxX));
-        newTop = Math.max(0, Math.min(newTop, maxY));
+        // 边界限制
+        newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - newW));
+        newTop = Math.max(0, Math.min(newTop, window.innerHeight - newH));
 
         panelEl.style.setProperty("width", newW + "px", "important");
         panelEl.style.setProperty("height", newH + "px", "important");
