@@ -72,18 +72,53 @@ const TRANSLATIONS = {
     newButtonLabel: 'New Button',
     languageLabel: 'Language',
   },
-};
+  ja: {
+    appName: 'DeepPage',
+    appDesc: 'ウェブ閲覧中にDeepSeekと会話 — 要約、要点抽出、翻訳、自由な質問',
+    panelTitle: 'DeepPage',
+    inputPlaceholder: '質問を入力...',
+    contextLoaded: '「$1」を会話の背景として読み込みました',
+    loginNoticeTitle: 'DeepSeek API キーが必要です',
+    loginNoticeStep1: '· 拡張機能アイコン → オプション → APIキーを入力',
+    loginNoticeStep2: '· または platform.deepseek.com で取得',
+    errorNoApiKey: '❌ API キーが設定されていません。拡張機能のオプションで設定してください。',
+    optionTitle: 'DeepPage 設定',
+    optionDesc: 'DeepSeek 公式 API を使用してウェブ閲覧中にチャット',
+    apiKeyLabel: 'DeepSeek API Key',
+    apiKeyPlaceholder: 'sk-...',
+    getApiKeyLink: 'platform.deepseek.com で取得',
+    quickActionsSection: 'クイックアクションボタン',
+    addButton: '＋ ボタンを追加',
+    saveButton: '保存',
+    savedSuccess: '✅ 保存しました',
+    apiKeyRequired: 'API キーを入力してください',
+    buttonLabel: 'ボタンラベル',
+    promptLabel: 'プロンプト',
+    buttonLabelPlaceholder: '例 📝 要約',
+    promptPlaceholder: 'ボタンクリック時に送信されるプロンプト',
+    deleteButton: '削除',
+    defaultSummarizeLabel: '📝 要約',
+    defaultSummarizePrompt: 'このウェブページの本文の核心内容を日本語で要約してください',
+    defaultOutlineLabel: '🎯 ポイント抽出',
+    defaultOutlinePrompt: 'このウェブページの要点をリスト形式で抽出してください',
+    defaultTranslateLabel: '🌐 翻訳',
+    defaultTranslatePrompt: 'このウェブページの本文を日本語に翻訳してください',
+    newButtonLabel: '新規ボタン',
+    languageLabel: '言語',
+  },
 
 // 支持的语言列表
 const LANGUAGES = [
   { code: 'zh_CN', label: '中文' },
   { code: 'en', label: 'English' },
+  { code: 'ja', label: '日本語' },
 ];
 
 // 获取当前语言代码
 function detectLanguage() {
   const nav = (navigator.language || '').replace('-', '_');
   if (nav.startsWith('zh')) return 'zh_CN';
+  if (nav.startsWith('ja')) return 'ja';
   return 'en';
 }
 
