@@ -250,6 +250,81 @@ function injectStyles() {
     .__dp-bubble input[type="checkbox"] { margin: 0 4px 0 0; pointer-events: none; }
     .__dp-bubble p { margin: 4px 0; }
 
+    /* 聊天历史列表 */
+    #__dp-history-list {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+    }
+    #__dp-history-list.__dp-hide { display: none; }
+    #__dp-chat.__dp-hide { display: none; }
+    .__dp-history-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .__dp-history-back {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #4A6CF7;
+      font-size: 13px;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .__dp-history-back:hover { color: #3451b2; }
+    .__dp-history-back span { text-decoration: underline; }
+    .__dp-history-new {
+      background: #4A6CF7;
+      border: none;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .__dp-history-new:hover { background: #3451b2; }
+    .__dp-history-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+    }
+    .__dp-history-empty {
+      text-align: center;
+      color: #9ca3af;
+      font-size: 13px;
+      padding: 24px 0;
+    }
+    .__dp-history-item {
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 4px;
+      transition: background 0.12s;
+    }
+    .__dp-history-item:hover { background: #f3f4f6; }
+    .__dp-history-item.active { background: #eff6ff; }
+    .__dp-history-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1f2937;
+      line-height: 1.4;
+      word-break: break-all;
+    }
+    .__dp-history-meta {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
     /* 复制按钮 */
     .__dp-msg.__dp-assistant {
       position: relative;
@@ -415,6 +490,12 @@ function injectStyles() {
     #__dp-panel.__dp-dark .__dp-copy-btn.__dp-copied {
       color: #34d399;
     }
+    #__dp-panel.__dp-dark .__dp-history-header { border-bottom-color: #373a40; }
+    #__dp-panel.__dp-dark .__dp-history-back { color: #6B8AFF; }
+    #__dp-panel.__dp-dark .__dp-history-back:hover { color: #8aa4ff; }
+    #__dp-panel.__dp-dark .__dp-history-item:hover { background: #2a2b30; }
+    #__dp-panel.__dp-dark .__dp-history-item.active { background: #1a2740; }
+    #__dp-panel.__dp-dark .__dp-history-title { color: #e4e5e7; }
       background: #25262b;
       color: #e4e5e7;
     }
@@ -528,6 +609,207 @@ function injectStyles() {
 // ==============================================
 // 原有功能：内容提取、聊天逻辑等（保持不变）
 // ==============================================
+// 聊天历史管理
+// ==============================================
+
+let currentMessages = [];
+let currentConvId = null;
+
+function generateId() {
+  return 'conv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+}
+
+function formatRelativeTime(ts) {
+  const diff = Date.now() - ts;
+  const min = Math.floor(diff / 60000);
+  if (min < 1) return t('justNow') || 'just now';
+  if (min < 60) return min + 'm';
+  const hr = Math.floor(min / 60);
+  if (hr < 24) return hr + 'h';
+  const day = Math.floor(hr / 24);
+  return day + 'd';
+}
+
+async function loadConversations() {
+  const result = await chrome.storage.local.get('deeppage_convs');
+  return result.deeppage_convs || { conversations: [], activeId: null };
+}
+
+async function saveConversations(data) {
+  await chrome.storage.local.set({ deeppage_convs: data });
+}
+
+async function getOrCreateConv() {
+  const data = await loadConversations();
+  if (currentConvId && data.conversations.find(c => c.id === currentConvId)) {
+    return data;
+  }
+  const conv = {
+    id: generateId(),
+    title: t('newChat') || 'New Chat',
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+    messages: [],
+  };
+  data.conversations.unshift(conv);
+  data.activeId = conv.id;
+  currentConvId = conv.id;
+  currentMessages = [];
+  await saveConversations(data);
+  return data;
+}
+
+async function saveCurrentMessages() {
+  const data = await loadConversations();
+  if (!currentConvId) return;
+  const conv = data.conversations.find(c => c.id === currentConvId);
+  if (!conv) return;
+  conv.messages = currentMessages.map(m => ({
+    role: m.role,
+    content: m.content,
+    timestamp: m.timestamp
+  }));
+  conv.updatedAt = Date.now();
+  // 从第一条用户消息自动生成标题
+  const firstUser = currentMessages.find(m => m.role === 'user');
+  if (firstUser) {
+    const t = firstUser.content.replace(/^.{0,50}[\s\S]*/, (s) => s.slice(0, 50));
+    conv.title = t.length < firstUser.content.length ? t + '…' : t;
+  }
+  data.activeId = currentConvId;
+  await saveConversations(data);
+}
+
+async function switchConversation(convId) {
+  const data = await loadConversations();
+  const conv = data.conversations.find(c => c.id === convId);
+  if (!conv) return;
+  // Clear chat
+  const chat = document.getElementById('__dp-chat');
+  chat.innerHTML = '';
+  currentConvId = conv.id;
+  currentMessages = conv.messages.map(m => ({
+    role: m.role,
+    content: m.content,
+    timestamp: m.timestamp
+  }));
+  // 重建 chatHistory 用于 API 上下文
+  chatHistory = currentMessages.map(m => ({ role: m.role, content: m.content }));
+  // Re-render messages
+  for (const msg of currentMessages) {
+    addMsg(msg.role, msg.content, { skipTrack: true });
+  }
+  data.activeId = conv.id;
+  await saveConversations(data);
+  showChat();
+}
+
+async function deleteConversation(convId) {
+  const data = await loadConversations();
+  data.conversations = data.conversations.filter(c => c.id !== convId);
+  if (data.activeId === convId) {
+    data.activeId = data.conversations.length > 0 ? data.conversations[0].id : null;
+  }
+  await saveConversations(data);
+  if (!data.activeId) {
+    // 没有对话了，开始新的
+    currentConvId = null;
+    currentMessages = [];
+    document.getElementById('__dp-chat').innerHTML = '';
+    await getOrCreateConv();
+  } else if (data.activeId !== currentConvId) {
+    // 删掉了当前对话，切换到第一个
+    await switchConversation(data.activeId);
+  } else {
+    // 删掉的是别的对话，重新渲染历史列表
+    renderHistoryList();
+  }
+}
+
+async function newConversation() {
+  currentConvId = null;
+  currentMessages = [];
+  chatHistory = [];
+  document.getElementById('__dp-chat').innerHTML = '';
+  await getOrCreateConv();
+  showChat();
+}
+
+async function loadActiveConversation() {
+  const data = await loadConversations();
+  if (data.activeId && data.conversations.length > 0) {
+    const conv = data.conversations.find(c => c.id === data.activeId);
+    if (conv && conv.messages.length > 0) {
+      currentConvId = conv.id;
+      currentMessages = conv.messages.map(m => ({
+        role: m.role, content: m.content, timestamp: m.timestamp
+      }));
+      chatHistory = currentMessages.map(m => ({ role: m.role, content: m.content }));
+      const chat = document.getElementById('__dp-chat');
+      chat.innerHTML = '';
+      for (const msg of currentMessages) {
+        addMsg(msg.role, msg.content, { skipTrack: true });
+      }
+      return;
+    }
+  }
+  // 无保存的对话 → 显示默认欢迎
+  document.getElementById('__dp-chat').innerHTML = '';
+  addMsg('assistant', `📄 ${t('contextLoaded', pageContext ? pageContext.title : '')}`, { dataset: { msgType: 'context-loaded' } });
+}
+
+function showHistory() {
+  const chat = document.getElementById('__dp-chat');
+  chat.classList.add('__dp-hide');
+  let list = document.getElementById('__dp-history-list');
+  if (!list) {
+    list = document.createElement('div');
+    list.id = '__dp-history-list';
+    chat.parentNode.insertBefore(list, chat.nextSibling);
+  }
+  list.classList.remove('__dp-hide');
+  renderHistoryList();
+}
+
+function showChat() {
+  const chat = document.getElementById('__dp-chat');
+  chat.classList.remove('__dp-hide');
+  const list = document.getElementById('__dp-history-list');
+  if (list) list.classList.add('__dp-hide');
+}
+
+async function renderHistoryList() {
+  const list = document.getElementById('__dp-history-list');
+  if (!list) return;
+  const data = await loadConversations();
+  list.innerHTML = `
+    <div class="__dp-history-header">
+      <button class="__dp-history-back" title="${t('backToChat') || 'Back'}">← <span>${t('backToChat') || 'Back'}</span></button>
+      <button class="__dp-history-new">+</button>
+    </div>
+    <div class="__dp-history-scroll">
+      ${data.conversations.length === 0 ? '<div class="__dp-history-empty">' + (t('historyEmpty') || 'No conversations') + '</div>' : ''}
+      ${data.conversations.map(c => `
+        <div class="__dp-history-item${c.id === currentConvId ? ' active' : ''}" data-id="${c.id}">
+          <div class="__dp-history-title">${escapeHtml(c.title)}</div>
+          <div class="__dp-history-meta">${c.messages.length} msg · ${formatRelativeTime(c.updatedAt)}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  // Bind events
+  list.querySelectorAll('.__dp-history-item').forEach(el => {
+    el.addEventListener('click', () => switchConversation(el.dataset.id));
+  });
+  list.querySelector('.__dp-history-back')?.addEventListener('click', showChat);
+  list.querySelector('.__dp-history-new')?.addEventListener('click', newConversation);
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
 let chatPanel = null;
 let panelOpen = false;
 let pageContext = null;
@@ -611,6 +893,7 @@ function createChatPanel() {
       <span><svg width="18" height="18" viewBox="0 0 512 509.64" fill="none" style="vertical-align:middle"><path fill="currentColor" fill-rule="nonzero" d="M440.898 139.167c-4.001-1.961-5.723 1.776-8.062 3.673-.801.612-1.479 1.407-2.154 2.141-5.848 6.246-12.681 10.349-21.607 9.859-13.048-.734-24.192 3.368-34.04 13.348-2.093-12.307-9.048-19.658-19.635-24.37-5.54-2.449-11.141-4.9-15.02-10.227-2.708-3.795-3.447-8.021-4.801-12.185-.861-2.509-1.725-5.082-4.618-5.512-3.139-.49-4.372 2.142-5.601 4.349-4.925 9.002-6.833 18.921-6.647 28.962.432 22.597 9.972 40.597 28.932 53.397 2.154 1.47 2.707 2.939 2.032 5.082-1.293 4.41-2.832 8.695-4.186 13.105-.862 2.817-2.157 3.429-5.172 2.205-10.402-4.346-19.391-10.778-27.332-18.553-13.481-13.044-25.668-27.434-40.873-38.702a177.614 177.614 0 00-10.834-7.409c-15.512-15.063 2.032-27.434 6.094-28.902 4.247-1.532 1.478-6.797-12.251-6.736-13.727.061-26.285 4.653-42.288 10.777-2.34.92-4.801 1.593-7.326 2.142-14.527-2.756-29.608-3.368-45.367-1.593-29.671 3.305-53.368 17.329-70.788 41.272-20.928 28.785-25.854 61.482-19.821 95.59 6.34 35.943 24.683 65.704 52.876 88.974 29.239 24.123 62.911 35.943 101.32 33.677 23.329-1.346 49.307-4.468 78.607-29.27 7.387 3.673 15.142 5.144 28.008 6.246 9.911.92 19.452-.49 26.839-2.019 11.573-2.449 10.773-13.166 6.586-15.124-33.915-15.797-26.47-9.368-33.24-14.573 17.235-20.39 43.213-41.577 53.369-110.222.8-5.448.121-8.877 0-13.287-.061-2.692.553-3.734 3.632-4.041 8.494-.981 16.742-3.305 24.314-7.471 21.975-12.002 30.84-31.719 32.933-55.355.307-3.612-.061-7.348-3.879-9.245v-.003zM249.4 351.89c-32.872-25.838-48.814-34.352-55.4-33.984-6.155.368-5.048 7.41-3.694 12.002 1.415 4.532 3.264 7.654 5.848 11.634 1.785 2.634 3.017 6.551-1.784 9.493-10.587 6.55-28.993-2.205-29.856-2.635-21.421-12.614-39.334-29.269-51.954-52.047-12.187-21.924-19.267-45.435-20.435-70.542-.308-6.061 1.478-8.207 7.509-9.307 7.94-1.471 16.127-1.778 24.068-.615 33.547 4.9 62.108 19.902 86.054 43.66 13.666 13.531 24.007 29.699 34.658 45.496 11.326 16.778 23.514 32.761 39.026 45.865 5.479 4.592 9.848 8.083 14.035 10.656-12.62 1.407-33.673 1.714-48.075-9.676zm15.899-102.519c.521-2.111 2.421-3.658 4.722-3.658a4.74 4.74 0 011.661.305c.678.246 1.293.614 1.786 1.163.861.859 1.354 2.083 1.354 3.368 0 2.695-2.154 4.837-4.862 4.837a4.748 4.748 0 01-4.738-4.034 5.01 5.01 0 01.077-1.981zm47.208 26.915c-2.606.996-5.2 1.778-7.707 1.88-4.679.244-9.787-1.654-12.556-3.981-4.308-3.612-7.386-5.631-8.679-11.941-.554-2.695-.247-6.858.246-9.246 1.108-5.144-.124-8.451-3.754-11.451-2.954-2.449-6.711-3.122-10.834-3.122-1.539 0-2.954-.673-4.001-1.224-1.724-.856-3.139-3-1.785-5.634.432-.856 2.525-2.939 3.018-3.305 5.6-3.185 12.065-2.144 18.034.244 5.54 2.266 9.727 6.429 15.759 12.307 6.155 7.102 7.263 9.063 10.773 14.39 2.771 4.163 5.294 8.451 7.018 13.348.877 2.561.071 4.74-2.341 6.277-.981.625-2.109 1.044-3.191 1.458z"/></svg> DeepPage</span>
       <select id="__dp-lang-select" class="__dp-lang-select"></select>
       <button id="__dp-dark-toggle" class="__dp-dark-toggle" title="Toggle dark mode"></button>
+      <button id="__dp-history-btn" title="${t('historyButton') || 'History'}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></button>
       <button id="__dp-close">✕</button>
     </div>
     <div id="__dp-context-bar" class="__dp-hidden">
@@ -787,6 +1070,11 @@ function addMsg(role, text, extra) {
   bubble.innerHTML = markdownToHtml(text);
   div.appendChild(bubble);
 
+  // 追踪消息（跳过历史加载时的重渲染）
+  if (!extra || !extra.skipTrack) {
+    currentMessages.push({ role, content: text, timestamp: Date.now() });
+  }
+
   // AI 回复添加复制按钮
   if (role === 'assistant') {
     const copyBtn = document.createElement('button');
@@ -862,8 +1150,8 @@ function togglePanel() {
     pageContext = extractPageContent();
     updateContext(pageContext.title);
     if (!chatHistory.length) {
-      document.getElementById("__dp-chat").innerHTML = "";
-      addMsg("assistant", `📄 ${t('contextLoaded', pageContext.title)}`, { dataset: { msgType: 'context-loaded' } });
+      // 加载当前对话（如果有保存的）
+      loadActiveConversation();
     }
     document.getElementById("__dp-input").focus();
 
@@ -899,6 +1187,7 @@ async function sendMessage() {
   showLoading();
 
   chatHistory.push({ role: "user", content: text });
+  saveCurrentMessages();
 
   try {
     const resp = await chrome.runtime.sendMessage({
@@ -919,6 +1208,7 @@ async function sendMessage() {
 
     addMsg("assistant", resp.text);
     chatHistory.push({ role: "assistant", content: resp.text });
+    saveCurrentMessages();
   } catch (err) {
     addMsg("assistant", `❌ ${err.message}`);
     chatHistory.pop();
@@ -957,6 +1247,7 @@ function createButton() {
   // 绑定事件
   document.getElementById("__dp-close").addEventListener("click", togglePanel);
   document.getElementById("__dp-send").addEventListener("click", sendMessage);
+  document.getElementById("__dp-history-btn").addEventListener("click", showHistory);
 
   // 语言选择器
   const langSelect = document.getElementById('__dp-lang-select');
@@ -994,6 +1285,9 @@ function createButton() {
       // 更新输入框占位符
       const input = document.getElementById('__dp-input');
       if (input) input.placeholder = t('inputPlaceholder');
+      // 更新历史按钮提示
+      const histBtn = document.getElementById('__dp-history-btn');
+      if (histBtn) histBtn.title = t('historyButton') || 'History';
       if (panelOpen) {
         loadQuickActionsFromStorage();
       }
