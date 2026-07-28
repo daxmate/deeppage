@@ -237,6 +237,47 @@ function injectStyles() {
     .__dp-bubble p { margin: 4px 0; }
 
     @media (prefers-color-scheme: dark) {
+      #__dp-panel {
+        background: #1a1b1e;
+        color: #e4e5e7;
+        border-color: #373a40;
+      }
+      #__dp-panel-header {
+        border-bottom-color: #373a40;
+      }
+      #__dp-context-bar {
+        background: #1a2740;
+      }
+      #__dp-quick-actions {
+        background: #1a1b1e;
+        border-bottom-color: #373a40;
+      }
+      #__dp-quick-actions button {
+        background: #25262b;
+        color: #e4e5e7;
+        border-color: #373a40;
+      }
+      #__dp-quick-actions button:hover {
+        background: #4a6cf7;
+        color: white;
+        border-color: #4a6cf7;
+      }
+      #__dp-chat {
+        background: #1a1b1e;
+      }
+      .__dp-assistant .__dp-bubble {
+        background: #25262b;
+        color: #e4e5e7;
+      }
+      .__dp-bubble code {
+        background: #333;
+      }
+      .__dp-bubble pre {
+        background: #2a2b2e;
+      }
+      .__dp-bubble a {
+        color: #6B8AFF;
+      }
       .__dp-bubble blockquote {
         border-left-color: #6B8AFF;
         color: #a0a4b0;
@@ -251,6 +292,21 @@ function injectStyles() {
       }
       .__dp-bubble hr {
         border-top-color: #373a40;
+      }
+      #__dp-input-row {
+        background: #1a1b1e;
+        border-top-color: #373a40;
+      }
+      #__dp-input {
+        background: #25262b;
+        border-color: #373a40;
+        color: #e4e5e7;
+      }
+      #__dp-input:focus {
+        border-color: #4a6cf7;
+      }
+      .__dp-loading span {
+        background: #6B8AFF;
       }
     }
 

@@ -69,6 +69,37 @@ button {
   font-size: 13px; border: 1px dashed #4A6CF7;
 }
 .btn-add:hover { background: #dbe8ff; }
+
+@media (prefers-color-scheme: dark) {
+  body { background: #1a1b1e; color: #e4e5e7; }
+  input, textarea, select {
+    background: #25262b; border-color: #373a40; color: #e4e5e7;
+  }
+  input:focus, textarea:focus { border-color: #4A6CF7; }
+  h1, h2, label { color: #e4e5e7; }
+  p, small { color: #9ca3af; }
+  .action-card {
+    background: #222328; border-color: #373a40;
+  }
+  .action-card .card-index {
+    background: #373a40; color: #9ca3af;
+  }
+  .action-card .btn-del {
+    background: #4a1a1a; color: #f87171;
+  }
+  .action-card .btn-del:hover {
+    background: #5c2020;
+  }
+  .btn-add {
+    background: #1a2740; color: #6B8AFF; border-color: #4A6CF7;
+  }
+  .btn-add:hover {
+    background: #253a5a;
+  }
+  .section-title { border-top-color: #373a40; }
+  #status.ok { color: #34d399; }
+  #status.err { color: #f87171; }
+}
 </style>
 </head>
 <body>
