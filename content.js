@@ -694,6 +694,7 @@ function injectStyles() {
 
 let currentMessages = [];
 let currentConvId = null;
+let _sending = false;
 
 function generateId() {
   return 'conv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
@@ -1305,6 +1306,8 @@ function togglePanel() {
 }
 
 async function sendMessage() {
+  if (_sending) return;
+  _sending = true;
   const input = document.getElementById("__dp-input");
   const text = input.value.trim();
   if (!text) return;
@@ -1318,28 +1321,77 @@ async function sendMessage() {
   chatHistory.push({ role: "user", content: text });
   saveCurrentMessages();
 
+  // 流式输出
   try {
-    const resp = await chrome.runtime.sendMessage({
-      action: "chat",
-      pageContext,
-      chatHistory,
+    const port = chrome.runtime.connect({ name: 'chat-stream' });
+    
+    const fullTextPromise = new Promise((resolve, reject) => {
+      let fullText = '';
+      let assistantDiv = null;
+      let assistantBubble = null;
+      let firstChunk = true;
+
+      port.onMessage.addListener((resp) => {
+        if (resp.type === 'chunk') {
+          // 第一次收到 chunk：移除 loading 并创建 assistant 气泡
+          if (firstChunk) {
+            const loading = document.querySelector('.__dp-loading');
+            if (loading) loading.remove();
+            const chat = document.getElementById('__dp-chat');
+            assistantDiv = document.createElement('div');
+            assistantDiv.className = '__dp-msg __dp-assistant';
+            assistantBubble = document.createElement('div');
+            assistantBubble.className = '__dp-bubble';
+            assistantDiv.appendChild(assistantBubble);
+            chat.appendChild(assistantDiv);
+            scrollChat();
+            firstChunk = false;
+          }
+          fullText += resp.text;
+          // 保留滚动位置
+          const chat = document.getElementById('__dp-chat');
+          const wasAtBottom = chat.scrollTop + chat.clientHeight >= chat.scrollHeight - 2;
+          assistantBubble.innerHTML = markdownToHtml(fullText);
+          if (wasAtBottom) scrollChat();
+        } else if (resp.type === 'done') {
+          // 添加复制按钮
+          if (assistantDiv && assistantBubble) {
+            const copyBtn = document.createElement('button');
+            copyBtn.className = '__dp-copy-btn';
+            copyBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+            copyBtn.title = t('copyButton') || 'Copy';
+            copyBtn.addEventListener('click', () => {
+              navigator.clipboard.writeText(fullText).then(() => {
+                copyBtn.classList.add('__dp-copied');
+                setTimeout(() => copyBtn.classList.remove('__dp-copied'), 1500);
+              });
+            });
+            assistantDiv.appendChild(copyBtn);
+          }
+          resolve(fullText);
+        } else if (resp.type === 'error') {
+          reject(new Error(resp.text));
+        }
+      });
+
+      // 发送请求
+      port.postMessage({ action: 'chat', pageContext, chatHistory });
     });
 
-    if (resp?.error) {
-      addMsg(
-        "assistant",
-        `❌ ${resp.error === "NO_API_KEY" ? t('errorNoApiKey') : resp.error}`,
-      );
-      if (resp.error === "NO_API_KEY") showLoginNotice(true);
-      chatHistory.pop();
-      return;
-    }
-
-    addMsg("assistant", resp.text);
-    chatHistory.push({ role: "assistant", content: resp.text });
+    const fullText = await fullTextPromise;
+    chatHistory.push({ role: "assistant", content: fullText });
     saveCurrentMessages();
+    _sending = false;
+
   } catch (err) {
-    addMsg("assistant", `❌ ${err.message}`);
+    _sending = false;
+    // 移除 loading
+    const loading = document.querySelector('.__dp-loading');
+    if (loading) loading.remove();
+
+    const errMsg = err.message === "NO_API_KEY" ? t('errorNoApiKey') : err.message;
+    addMsg("assistant", `❌ ${errMsg}`);
+    if (err.message === "NO_API_KEY") showLoginNotice(true);
     chatHistory.pop();
   }
 }
