@@ -936,6 +936,9 @@ function createButton() {
   initDefaultActions();
   loadLanguage(() => {
     initDefaultActions();
+    // 面板已创建则更新占位符
+    const inp = document.getElementById('__dp-input');
+    if (inp) inp.placeholder = t('inputPlaceholder');
   });
   injectStyles();
 
