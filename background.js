@@ -9,13 +9,19 @@ const API_PATHS = {
 };
 
 const API_PROVIDERS = {
-  deepseek:  { type: 'openai',    baseUrl: 'https://api.deepseek.com/v1',            model: 'deepseek-v4-flash' },
-  openai:    { type: 'openai',    baseUrl: 'https://api.openai.com/v1',              model: 'gpt-4o-mini' },
-  groq:      { type: 'openai',    baseUrl: 'https://api.groq.com/openai/v1',         model: 'llama3-70b-8192' },
-  ollama:    { type: 'openai',    baseUrl: 'http://localhost:11434/v1',              model: 'llama3.2' },
-  together:  { type: 'openai',    baseUrl: 'https://api.together.xyz/v1',            model: 'mistralai/Mixtral-8x22B-Instruct-v0.1' },
-  anthropic: { type: 'anthropic', baseUrl: 'https://api.anthropic.com',              model: 'claude-sonnet-4-20250514' },
-  custom:    { type: 'openai',    baseUrl: '',                                       model: '' },
+  deepseek:   { type: 'openai',    baseUrl: 'https://api.deepseek.com/v1',                       model: 'deepseek-v4-flash' },
+  moonshot:   { type: 'openai',    baseUrl: 'https://api.moonshot.cn/v1',                        model: 'kimi-latest' },
+  zhipu:      { type: 'openai',    baseUrl: 'https://open.bigmodel.cn/api/paas/v4',              model: 'glm-4-plus' },
+  qwen:       { type: 'openai',    baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',  model: 'qwen-turbo' },
+  doubao:     { type: 'openai',    baseUrl: 'https://ark.cn-beijing.volces.com/api/v3',           model: 'ep-20250601000000-sample' },
+  yi:         { type: 'openai',    baseUrl: 'https://api.lingyiwanwu.com/v1',                     model: 'yi-lightning' },
+  siliconflow:{ type: 'openai',    baseUrl: 'https://api.siliconflow.cn/v1',                      model: 'deepseek-v4-flash' },
+  openai:     { type: 'openai',    baseUrl: 'https://api.openai.com/v1',                          model: 'gpt-4o-mini' },
+  groq:       { type: 'openai',    baseUrl: 'https://api.groq.com/openai/v1',                     model: 'llama3-70b-8192' },
+  ollama:     { type: 'openai',    baseUrl: 'http://localhost:11434/v1',                          model: 'llama3.2' },
+  together:   { type: 'openai',    baseUrl: 'https://api.together.xyz/v1',                        model: 'mistralai/Mixtral-8x22B-Instruct-v0.1' },
+  anthropic:  { type: 'anthropic', baseUrl: 'https://api.anthropic.com',                          model: 'claude-sonnet-4-20250514' },
+  custom:     { type: 'openai',    baseUrl: '',                                                   model: '' },
 };
 
 async function getSettings() {
@@ -126,6 +132,11 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         apiType: s.apiType, model: s.model, loggedIn: !!s.apiKey
       }));
       return true;
+    case 'getModels':
+      fetchModels().then(sendResponse).catch(err => {
+        sendResponse({ models: [], error: err.message });
+      });
+      return true;
   }
 });
 
@@ -222,4 +233,42 @@ async function testApiConnection() {
   const data = await resp.json();
   if (!resp.ok) return { ok: false, error: `API ${resp.status}: ${formatError(apiType, data)}` };
   return { ok: true, model: testModel };
+}
+
+// ===== 获取模型列表 =====
+async function fetchModels() {
+  const { apiType, baseUrl, apiKey, model } = await getSettings();
+  if (!apiKey) return { models: [], error: 'NO_API_KEY' };
+
+  if (apiType === 'anthropic') {
+    // Anthropic: return hardcoded list
+    return {
+      models: [
+        'claude-sonnet-4-20250514',
+        'claude-3-5-sonnet-20241022',
+        'claude-3-opus-20240229',
+        'claude-3-haiku-20240307',
+        'claude-3-5-haiku-20241022',
+      ].map(id => ({ id }))
+    };
+  }
+
+  // OpenAI-compatible: GET /models
+  const url = `${baseUrl.replace(/\/+$/, '')}/models`;
+  const headers = { 'Authorization': `Bearer ${apiKey}` };
+
+  try {
+    const resp = await fetch(url, { headers });
+    if (!resp.ok) {
+      return { models: [], error: `API ${resp.status}` };
+    }
+    const data = await resp.json();
+    // Standard OpenAI format: { data: [{ id: "...", ... }, ...] }
+    if (data?.data && Array.isArray(data.data)) {
+      return { models: data.data };
+    }
+    return { models: [], error: 'Unexpected format' };
+  } catch (err) {
+    return { models: [], error: err.message };
+  }
 }

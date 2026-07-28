@@ -90,14 +90,14 @@ function updateApiUI(providerId) {
     ? (p.type === 'anthropic' ? 'https://api.anthropic.com' : 'https://api.deepseek.com/v1')
     : p.baseUrl;
 
-  // Model
-  const modelInput = document.getElementById('apiModel');
+  // Model — populate select with default for known providers
+  const modelSelect = document.getElementById('apiModel');
   if (p.id !== 'custom' && p.model) {
-    modelInput.value = p.model;
+    modelSelect.innerHTML = `<option value="${p.model}">${p.model}</option>`;
+    modelSelect.value = p.model;
   } else {
-    modelInput.value = '';
+    modelSelect.innerHTML = '<option value="">-- enter manually --</option>';
   }
-  modelInput.placeholder = p.model || 'model-name';
 
   // API Type selector (for Custom)
   const customTypeSection = document.getElementById('api-custom-type-section');
@@ -175,11 +175,15 @@ function loadSavedData() {
       // API Key — new apiKey first, fallback deepseekApiKey
       document.getElementById('apiKey').value = result.apiKey || result.deepseekApiKey || '';
 
-      // Model
-      const modelInput = document.getElementById('apiModel');
-      const storedModel = result.apiModel;
-      if (storedModel && (providerId === 'custom' || storedModel !== getProvider(providerId)?.model)) {
-        modelInput.value = storedModel;
+      // Model — populate select
+      const modelSelect = document.getElementById('apiModel');
+      const p = getProvider(providerId);
+      if (p && p.id !== 'custom' && p.model && !result.apiModel) {
+        modelSelect.innerHTML = `<option value="${p.model}">${p.model}</option>`;
+        modelSelect.value = p.model;
+      } else if (result.apiModel) {
+        modelSelect.innerHTML = `<option value="${result.apiModel}">${result.apiModel}</option>`;
+        modelSelect.value = result.apiModel;
       }
 
       // Quick actions
@@ -283,6 +287,23 @@ document.getElementById('testApiBtn').addEventListener('click', async () => {
     if (result.ok) {
       statusEl.textContent = t('testApiSuccess') || '✅ Connection OK';
       statusEl.style.color = '#34d399';
+      // 测试成功后获取模型列表
+      chrome.runtime.sendMessage({ action: 'getModels' }).then(modelsResult => {
+        if (modelsResult.models && modelsResult.models.length > 0) {
+          const modelSelect = document.getElementById('apiModel');
+          const currentVal = modelSelect.value;
+          modelSelect.innerHTML = '<option value="">-- select model --</option>';
+          modelsResult.models.forEach(m => {
+            const opt = document.createElement('option');
+            opt.value = m.id;
+            opt.textContent = m.id;
+            modelSelect.appendChild(opt);
+          });
+          if (currentVal && [...modelSelect.options].some(o => o.value === currentVal)) {
+            modelSelect.value = currentVal;
+          }
+        }
+      });
     } else {
       statusEl.textContent = (t('testApiFailed') || '❌ Connection failed:') + (result.error || '');
       statusEl.style.color = '#f87171';
@@ -294,6 +315,32 @@ document.getElementById('testApiBtn').addEventListener('click', async () => {
 
   btn.disabled = false;
   btn.textContent = t('testApiButton') || 'Test Connection';
+});
+
+// ---- 刷新模型列表 ----
+document.getElementById('refreshModelsBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('refreshModelsBtn');
+  btn.textContent = '⟳';
+  btn.disabled = true;
+  try {
+    const result = await chrome.runtime.sendMessage({ action: 'getModels' });
+    if (result.models && result.models.length > 0) {
+      const modelSelect = document.getElementById('apiModel');
+      const currentVal = modelSelect.value;
+      modelSelect.innerHTML = '<option value="">-- select model --</option>';
+      result.models.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m.id;
+        opt.textContent = m.id;
+        modelSelect.appendChild(opt);
+      });
+      if (currentVal && [...modelSelect.options].some(o => o.value === currentVal)) {
+        modelSelect.value = currentVal;
+      }
+    }
+  } catch (_) {}
+  btn.disabled = false;
+  btn.textContent = '↻';
 });
 
 // ---- 添加按钮 ----
