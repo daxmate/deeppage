@@ -19,6 +19,13 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 - **Clear Context** — One-click button in the panel header to reset conversation while keeping the latest message
 - **Export Conversation** — Export button: copy Markdown, copy plain text, or download .md with page title and URL
 - **Draggable / Resizable** — Panel position and size are freely adjustable; initial vertical centering
+
+### 🐛 Bug Fixes
+- Export: streaming responses not tracked in currentMessages, export showed empty
+- Download .md no longer closes the panel
+- Deleting empty conversation no longer blanks the history list
+- Empty conversations no longer saved to storage
+- Dark mode: context bar text & assistant bubble background invisible
 - **Markdown Rendering** — Full GFM support via marked (headings, lists, tables, code blocks, blockquotes, task lists)
 - **Multi-language** — 10 languages with on-the-fly switching via panel or options
 - **Dark Mode** — Auto-adapts to system theme; manual toggle from panel or options
