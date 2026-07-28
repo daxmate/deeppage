@@ -574,7 +574,7 @@ function addMsg(role, text, extra) {
   const div = document.createElement("div");
   div.className = `__dp-msg __dp-${role}`;
   if (extra && extra.dataset) {
-    Object.keys(extra.dataset).forEach((k) => div.setAttribute('data-' + k, extra.dataset[k]));
+    Object.keys(extra.dataset).forEach((k) => { div.dataset[k] = extra.dataset[k]; });
   }
   const bubble = document.createElement("div");
   bubble.className = "__dp-bubble";
