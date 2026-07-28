@@ -893,6 +893,7 @@ function createButton() {
     updateLangSelection();
   });
   langSelect.addEventListener('change', (e) => {
+    e.stopPropagation();
     window.__dp_lang = e.target.value;
     setStoredLanguage(e.target.value, () => {
       // 重新初始化默认按钮并刷新
@@ -925,7 +926,8 @@ function createButton() {
   chrome.storage.sync.get('darkMode', (result) => {
     applyDarkMode(!!result.darkMode);
   });
-  darkBtn.addEventListener('click', () => {
+  darkBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
     const isDark = chatPanel.classList.contains('__dp-dark');
     applyDarkMode(!isDark);
     chrome.storage.sync.set({ darkMode: !isDark });
