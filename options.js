@@ -1,5 +1,18 @@
 const i18n = chrome.i18n.getMessage.bind(chrome.i18n);
 
+// 页面文本本地化
+function localizePage() {
+  const elements = document.querySelectorAll('[id^="l10n-"]');
+  elements.forEach((el) => {
+    const key = el.id.replace('l10n-', '');
+    const text = i18n(key);
+    if (text) el.textContent = text;
+  });
+  document.title = i18n('optionTitle');
+  document.getElementById('apiKey').placeholder = i18n('apiKeyPlaceholder');
+}
+localizePage();
+
 const DEFAULT_ACTIONS = [
   { label: i18n('defaultSummarizeLabel'), prompt: i18n('defaultSummarizePrompt') },
   { label: i18n('defaultOutlineLabel'), prompt: i18n('defaultOutlinePrompt') },
