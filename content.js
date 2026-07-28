@@ -79,7 +79,8 @@ function injectStyles() {
     #__dp-lang-select option { color: #1f2937; }
     #__dp-dark-toggle,
     #__dp-history-btn,
-    #__dp-clear-ctx-btn {
+    #__dp-clear-ctx-btn,
+    #__dp-export-btn {
       background: none;
       border: none;
       color: rgba(255,255,255,0.8);
@@ -91,10 +92,12 @@ function injectStyles() {
     }
     #__dp-dark-toggle:hover,
     #__dp-history-btn:hover { color: white; }
+    #__dp-export-btn:hover { color: white; }
     #__dp-clear-ctx-btn:hover { color: #f87171; }
     #__dp-dark-toggle svg,
     #__dp-history-btn svg,
-    #__dp-clear-ctx-btn svg { display: block; }
+    #__dp-clear-ctx-btn svg,
+    #__dp-export-btn svg { display: block; }
 
 
     /* 内容区域 */
@@ -653,7 +656,46 @@ function injectStyles() {
   border: none;
   pointer-events: auto;   /* 确保可点击 */
 }
-/* 各方向定位与光标 */
+/* 导出下拉菜单 */
+    #__dp-export-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      z-index: 10002;
+      min-width: 160px;
+      overflow: hidden;
+    }
+    #__dp-export-menu.__dp-show { display: block; }
+    #__dp-export-menu div {
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #374151;
+      white-space: nowrap;
+    }
+    #__dp-export-menu div:hover { background: #f3f4f6; }
+    #__dp-export-menu div:not(:last-child) { border-bottom: 1px solid #f3f4f6; }
+    /* 暗色模式 */
+    #__dp-panel.__dp-dark #__dp-export-menu {
+      background: #25262b;
+      border-color: #373a40;
+    }
+    #__dp-panel.__dp-dark #__dp-export-menu div { color: #e4e5e7; }
+    #__dp-panel.__dp-dark #__dp-export-menu div:hover { background: #323338; }
+    #__dp-panel.__dp-dark #__dp-export-menu div:not(:last-child) { border-bottom-color: #373a40; }
+    @media (prefers-color-scheme: dark) {
+      #__dp-export-menu { background: #25262b; border-color: #373a40; }
+      #__dp-export-menu div { color: #e4e5e7; }
+      #__dp-export-menu div:hover { background: #323338; }
+      #__dp-export-menu div:not(:last-child) { border-bottom-color: #373a40; }
+    }
+
+    /* 各方向定位与光标 */
 .__dp-resize-handle.tl { top: 0; left: 0; cursor: nw-resize; }
 .__dp-resize-handle.tr { top: 0; right: 0; cursor: ne-resize; }
 .__dp-resize-handle.bl { bottom: 0; left: 0; cursor: sw-resize; }
@@ -1100,6 +1142,12 @@ function createChatPanel() {
       <select id="__dp-lang-select" class="__dp-lang-select"></select>
       <button id="__dp-dark-toggle" class="__dp-dark-toggle" title="Toggle dark mode"></button>
       <button id="__dp-history-btn" title="${t('historyButton') || 'History'}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></button>
+      <button id="__dp-export-btn" class="__dp-header-btn" title="${t('exportButton') || 'Export'}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+      <div id="__dp-export-menu" class="__dp-dropdown-menu">
+        <div data-action="markdown">${t('exportMarkdown') || 'Copy Markdown'}</div>
+        <div data-action="text">${t('exportText') || 'Copy Plain Text'}</div>
+        <div data-action="download">${t('exportDownload') || 'Download .md'}</div>
+      </div>
       <button id="__dp-clear-ctx-btn" title="${t('clearContextBtn') || 'Clear Context'}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>
       <button id="__dp-close">✕</button>
     </div>
@@ -1479,6 +1527,127 @@ async function sendMessage() {
 }
 
 // ==============================================
+// 对话导出
+// ==============================================
+
+function formatExportMarkdown() {
+  if (!currentMessages.length) return '';
+  const lines = [];
+  lines.push(`# DeepPage 对话导出`);
+  lines.push(`> 页面: ${pageContext ? pageContext.title : ''}`);
+  lines.push(`> URL: ${pageContext ? pageContext.url : ''}`);
+  lines.push(`> 导出时间: ${new Date().toLocaleString()}`);
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+  for (const msg of currentMessages) {
+    if (msg.role === 'user') {
+      lines.push(`## 🧑 ${msg.role}`);
+    } else {
+      lines.push(`## 🤖 ${msg.role}`);
+    }
+    lines.push('');
+    lines.push(msg.content);
+    lines.push('');
+    lines.push('---');
+    lines.push('');
+  }
+  return lines.join('\n');
+}
+
+function formatExportText() {
+  if (!currentMessages.length) return '';
+  const lines = [];
+  lines.push(`DeepPage Conversation Export`);
+  lines.push(`Page: ${pageContext ? pageContext.title : ''}`);
+  lines.push(`URL: ${pageContext ? pageContext.url : ''}`);
+  lines.push(`Exported: ${new Date().toLocaleString()}`);
+  lines.push('');
+  for (const msg of currentMessages) {
+    lines.push(`[${msg.role === 'user' ? 'User' : 'Assistant'}]`);
+    lines.push(msg.content);
+    lines.push('');
+  }
+  return lines.join('\n');
+}
+
+async function exportConversation(format) {
+  if (!currentMessages.length) return;
+
+  let content, mime, filename;
+  if (format === 'markdown') {
+    content = formatExportMarkdown();
+    mime = 'text/markdown';
+  } else if (format === 'text') {
+    content = formatExportText();
+    mime = 'text/plain';
+  }
+
+  if (format === 'download') {
+    content = formatExportMarkdown();
+    const blob = new Blob([content], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const title = (pageContext ? pageContext.title : 'deeppage').replace(/[^\w\u4e00-\u9fff-]/g, '_').slice(0, 50);
+    a.download = `${title}_deeppage.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } else {
+    try {
+      await navigator.clipboard.writeText(content);
+    } catch (_) {
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = content;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    // 显示反馈
+    const btn = document.getElementById('__dp-export-btn');
+    const orig = btn.innerHTML;
+    const feedback = document.createElement('span');
+    feedback.textContent = '✓';
+    feedback.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;color:#34d399';
+    btn.style.position = 'relative';
+    btn.appendChild(feedback);
+    setTimeout(() => { btn.innerHTML = orig; }, 1200);
+  }
+}
+
+// 点击导出按钮切换菜单
+let _exportMenuOpen = false;
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('__dp-export-menu');
+  const btn = document.getElementById('__dp-export-btn');
+  if (!menu || !btn) return;
+  if (btn.contains(e.target)) {
+    e.stopPropagation();
+    _exportMenuOpen = !_exportMenuOpen;
+    menu.classList.toggle('__dp-show', _exportMenuOpen);
+  } else if (!menu.contains(e.target)) {
+    _exportMenuOpen = false;
+    menu.classList.remove('__dp-show');
+  }
+  // Handle menu item clicks
+  if (menu.contains(e.target)) {
+    const item = e.target.closest('div[data-action]');
+    if (item) {
+      _exportMenuOpen = false;
+      menu.classList.remove('__dp-show');
+      exportConversation(item.dataset.action);
+    }
+  }
+});
+
+// 语言切换时更新 export btn title
+// (handled in loadLanguage callback below)
+
+// ==============================================
 // 选中文本浮动提问按钮
 // ==============================================
 
@@ -1670,6 +1839,17 @@ function createButton() {
       // 更新清除上下文按钮
       const clearCtxBtn = document.getElementById('__dp-clear-ctx-btn');
       if (clearCtxBtn) clearCtxBtn.title = t('clearContextBtn') || 'Clear Context';
+      // 更新导出按钮
+      const exportBtn = document.getElementById('__dp-export-btn');
+      if (exportBtn) exportBtn.title = t('exportButton') || 'Export';
+      // 更新下拉菜单文字
+      const menu = document.getElementById('__dp-export-menu');
+      if (menu) {
+        const items = menu.querySelectorAll('div[data-action]');
+        if (items[0]) items[0].textContent = t('exportMarkdown') || 'Copy Markdown';
+        if (items[1]) items[1].textContent = t('exportText') || 'Copy Plain Text';
+        if (items[2]) items[2].textContent = t('exportDownload') || 'Download .md';
+      }
       // 更新选中文本按钮
       if (_selBtn) _selBtn.textContent = t('selAskButton') || '💬 对此段提问';
       if (panelOpen) {
