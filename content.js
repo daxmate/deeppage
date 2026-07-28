@@ -435,7 +435,6 @@ function injectStyles() {
         color: #e4e5e7;
         border-bottom-color: #253a5a;
       }
-      }
       #__dp-quick-actions {
         background: #1a1b1e;
         border-bottom-color: #373a40;
@@ -557,6 +556,9 @@ function injectStyles() {
       background: #1a1b1e;
     }
     #__dp-panel.__dp-dark .__dp-assistant .__dp-bubble {
+      background: #2a2b30;
+      color: #e4e5e7;
+    }
     #__dp-panel.__dp-dark .__dp-copy-btn {
       background: rgba(255,255,255,0.1);
       color: #9ca3af;
