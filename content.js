@@ -249,6 +249,46 @@ function injectStyles() {
     .__dp-bubble input[type="checkbox"] { margin: 0 4px 0 0; pointer-events: none; }
     .__dp-bubble p { margin: 4px 0; }
 
+    /* 复制按钮 */
+    .__dp-msg.__dp-assistant {
+      position: relative;
+    }
+    .__dp-copy-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: rgba(0,0,0,0.06);
+      border: none;
+      border-radius: 6px;
+      padding: 4px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.15s;
+      color: #6b7280;
+      line-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .__dp-msg.__dp-assistant:hover .__dp-copy-btn {
+      opacity: 1;
+    }
+    .__dp-copy-btn:hover {
+      background: rgba(0,0,0,0.12);
+      color: #1f2937;
+    }
+    .__dp-copy-btn.__dp-copied {
+      opacity: 1;
+      color: #059669;
+    }
+    .__dp-copy-btn.__dp-copied svg {
+      display: none;
+    }
+    .__dp-copy-btn.__dp-copied::after {
+      content: '✓';
+      font-size: 12px;
+      font-weight: 600;
+    }
     @media (prefers-color-scheme: dark) {
       #__dp-panel {
         background: #1a1b1e;
@@ -322,6 +362,17 @@ function injectStyles() {
         background: #6B8AFF;
       }
     }
+      .__dp-copy-btn {
+        background: rgba(255,255,255,0.1);
+        color: #9ca3af;
+      }
+      .__dp-copy-btn:hover {
+        background: rgba(255,255,255,0.18);
+        color: #e4e5e7;
+      }
+      .__dp-copy-btn.__dp-copied {
+        color: #34d399;
+      }
     /* 手动 dark mode 切换 */
     #__dp-panel.__dp-dark {
       background: #1a1b1e;
@@ -352,6 +403,17 @@ function injectStyles() {
       background: #1a1b1e;
     }
     #__dp-panel.__dp-dark .__dp-assistant .__dp-bubble {
+    #__dp-panel.__dp-dark .__dp-copy-btn {
+      background: rgba(255,255,255,0.1);
+      color: #9ca3af;
+    }
+    #__dp-panel.__dp-dark .__dp-copy-btn:hover {
+      background: rgba(255,255,255,0.18);
+      color: #e4e5e7;
+    }
+    #__dp-panel.__dp-dark .__dp-copy-btn.__dp-copied {
+      color: #34d399;
+    }
       background: #25262b;
       color: #e4e5e7;
     }
@@ -722,6 +784,22 @@ function addMsg(role, text, extra) {
   bubble.className = "__dp-bubble";
   bubble.innerHTML = markdownToHtml(text);
   div.appendChild(bubble);
+
+  // AI 回复添加复制按钮
+  if (role === 'assistant') {
+    const copyBtn = document.createElement('button');
+    copyBtn.className = '__dp-copy-btn';
+    copyBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+    copyBtn.title = t('copyButton') || 'Copy';
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(text).then(() => {
+        copyBtn.classList.add('__dp-copied');
+        setTimeout(() => copyBtn.classList.remove('__dp-copied'), 1500);
+      });
+    });
+    div.appendChild(copyBtn);
+  }
+
   chat.appendChild(div);
   scrollChat();
 }
