@@ -17,6 +17,7 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 - **Selection Query** — Select text on any page to reveal a floating button; uses page context + AI knowledge to explain the selection
 - **Conversation Trimming** — Auto-trims oldest message rounds (default 20) to avoid token limits; configurable via options
 - **Clear Context** — One-click button in the panel header to reset conversation while keeping the latest message
+- **Export Conversation** — Export button: copy Markdown, copy plain text, or download .md with page title and URL
 - **Draggable / Resizable** — Panel position and size are freely adjustable; initial vertical centering
 - **Markdown Rendering** — Full GFM support via marked (headings, lists, tables, code blocks, blockquotes, task lists)
 - **Multi-language** — 10 languages with on-the-fly switching via panel or options
