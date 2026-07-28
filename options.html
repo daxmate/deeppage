@@ -34,6 +34,49 @@ button {
   padding-top: 20px; border-top: 1px solid #e5e7eb;
 }
 
+/* 外观设置卡片 */
+.appearance-card {
+  background: #f9fafb; border: 1px solid #e5e7eb;
+  border-radius: 10px; padding: 14px; margin-bottom: 12px;
+}
+.appearance-row {
+  display: flex; align-items: center;
+  justify-content: space-between;
+}
+.appearance-row span { font-size: 14px; font-weight: 500; }
+
+/* 开关组件 */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  cursor: pointer;
+}
+.toggle-switch input { display: none; }
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: #d1d5db;
+  border-radius: 24px;
+  transition: background 0.2s;
+}
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 20px; height: 20px;
+  left: 2px; top: 2px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+.toggle-switch input:checked + .toggle-slider {
+  background: #4A6CF7;
+}
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(20px);
+}
+
 /* 按钮卡片 */
 .action-card {
   background: #f9fafb; border: 1px solid #e5e7eb;
@@ -97,6 +140,15 @@ button {
     background: #253a5a;
   }
   .section-title { border-top-color: #373a40; }
+  .appearance-card {
+    background: #222328; border-color: #373a40;
+  }
+  .appearance-row span { color: #e4e5e7; }
+  .toggle-slider { background: #4b5563; }
+  .toggle-slider::before { background: #e4e5e7; }
+  .toggle-switch input:checked + .toggle-slider {
+    background: #4A6CF7;
+  }
   #status.ok { color: #34d399; }
   #status.err { color: #f87171; }
 }
@@ -135,6 +187,15 @@ button {
   background: #253a5a;
 }
 .__dp-dark-options .section-title { border-top-color: #373a40; }
+.__dp-dark-options .appearance-card {
+  background: #222328; border-color: #373a40;
+}
+.__dp-dark-options .appearance-row span { color: #e4e5e7; }
+.__dp-dark-options .toggle-slider { background: #4b5563; }
+.__dp-dark-options .toggle-slider::before { background: #e4e5e7; }
+.__dp-dark-options .toggle-switch input:checked + .toggle-slider {
+  background: #4A6CF7;
+}
 .__dp-dark-options #status.ok { color: #34d399; }
 .__dp-dark-options #status.err { color: #f87171; }
 </style>
@@ -148,12 +209,17 @@ button {
 <small><a href="https://platform.deepseek.com/api_keys" target="_blank"><span id="l10n-getApiKeyLink">Get API Key</span></a></small>
 
 <h2 class="section-title"><span id="l10n-languageLabel">Language</span></h2>
-<select id="language-select" style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;margin-bottom:16px"></select>
+<select id="language-select" style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;margin-bottom:20px"></select>
 
-<label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:16px">
-  <input type="checkbox" id="dark-mode-toggle" />
-  <span id="l10n-darkModeLabel">Dark Mode</span>
-</label>
+<div class="appearance-card">
+  <div class="appearance-row">
+    <span id="l10n-darkModeLabel">Dark Mode</span>
+    <label class="toggle-switch">
+      <input type="checkbox" id="dark-mode-toggle" />
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+</div>
 
 <h2 class="section-title"><span id="l10n-quickActionsSection">Quick Action Buttons</span></h2>
 
