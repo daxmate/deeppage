@@ -566,13 +566,16 @@ function markdownToHtml(text) {
   }
 }
 
-function addMsg(role, text) {
+function addMsg(role, text, extra) {
   const chat = document.getElementById("__dp-chat");
   const loading = chat.querySelector(".__dp-loading");
   if (loading) loading.remove();
 
   const div = document.createElement("div");
   div.className = `__dp-msg __dp-${role}`;
+  if (extra && extra.dataset) {
+    Object.keys(extra.dataset).forEach((k) => div.setAttribute('data-' + k, extra.dataset[k]));
+  }
   const bubble = document.createElement("div");
   bubble.className = "__dp-bubble";
   bubble.innerHTML = markdownToHtml(text);
@@ -638,7 +641,7 @@ function togglePanel() {
     updateContext(pageContext.title);
     if (!chatHistory.length) {
       document.getElementById("__dp-chat").innerHTML = "";
-      addMsg("assistant", `📄 ${t('contextLoaded', pageContext.title)}`);
+      addMsg("assistant", `📄 ${t('contextLoaded', pageContext.title)}`, { dataset: { msgType: 'context-loaded' } });
     }
     document.getElementById("__dp-input").focus();
 
@@ -752,6 +755,12 @@ function createButton() {
     setStoredLanguage(e.target.value, () => {
       // 重新初始化默认按钮并刷新
       initDefaultActions();
+      // 更新已发送的「已加载」消息
+      const ctxMsg = document.querySelector('[data-msg-type="context-loaded"]');
+      if (ctxMsg) {
+        const bubble = ctxMsg.querySelector('.__dp-bubble');
+        if (bubble && pageContext) bubble.textContent = `📄 ${t('contextLoaded', pageContext.title)}`;
+      }
       if (panelOpen) {
         loadQuickActionsFromStorage();
       }
