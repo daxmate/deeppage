@@ -111,6 +111,18 @@ function applyOptionsDarkMode(dark) {
   document.body.classList.toggle('__dp-dark-options', dark);
 }
 
+// ---- 最大对话轮数 ----
+const maxRoundsInput = document.getElementById('max-rounds');
+const maxRoundsValue = document.getElementById('max-rounds-value');
+chrome.storage.sync.get('maxRounds', (result) => {
+  const val = result.maxRounds || 20;
+  maxRoundsInput.value = val;
+  maxRoundsValue.textContent = val;
+});
+maxRoundsInput.addEventListener('input', () => {
+  maxRoundsValue.textContent = maxRoundsInput.value;
+});
+
 // ---- 添加按钮 ----
 btnAdd.addEventListener('click', () => {
   actions.push({ label: t('newButtonLabel'), prompt: '' });
@@ -136,6 +148,7 @@ saveBtn.addEventListener('click', async () => {
     deepseekApiKey: key,
     quickActions: cleaned,
     quickActionsLang: getCurrentLang(),
+    maxRounds: parseInt(maxRoundsInput.value, 10) || 20,
   });
   actions = cleaned;
   render();

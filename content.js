@@ -78,7 +78,8 @@ function injectStyles() {
     }
     #__dp-lang-select option { color: #1f2937; }
     #__dp-dark-toggle,
-    #__dp-history-btn {
+    #__dp-history-btn,
+    #__dp-clear-ctx-btn {
       background: none;
       border: none;
       color: rgba(255,255,255,0.8);
@@ -90,8 +91,10 @@ function injectStyles() {
     }
     #__dp-dark-toggle:hover,
     #__dp-history-btn:hover { color: white; }
+    #__dp-clear-ctx-btn:hover { color: #f87171; }
     #__dp-dark-toggle svg,
-    #__dp-history-btn svg { display: block; }
+    #__dp-history-btn svg,
+    #__dp-clear-ctx-btn svg { display: block; }
 
 
     /* 内容区域 */
@@ -761,6 +764,48 @@ async function getOrCreateConv() {
   return data;
 }
 
+// ==============================================
+// 对话轮数裁剪
+// ==============================================
+
+async function trimConversation() {
+  const { maxRounds = 20 } = await chrome.storage.sync.get('maxRounds');
+  if (chatHistory.length <= maxRounds * 2) return;
+
+  // 计算需要移除的消息数，保留最近 maxRounds*2 条（只移除完整的 user+assistant 对）
+  const excess = chatHistory.length - maxRounds * 2;
+  if (excess < 2) return;
+  // 确保移除的是完整的偶数条（user+assistant 对）
+  const removeCount = Math.floor(excess / 2) * 2;
+  chatHistory.splice(0, removeCount);
+  currentMessages.splice(0, removeCount);
+  // 同步更新聊天界面
+  const chat = document.getElementById('__dp-chat');
+  if (chat) {
+    const msgs = chat.querySelectorAll('.__dp-msg');
+    msgs.forEach((el, i) => {
+      if (i < removeCount) el.remove();
+    });
+  }
+}
+
+async function clearContext() {
+  if (chatHistory.length <= 2) return;
+  // 保留最后一条 user 消息（当前轮）
+  const keepUser = chatHistory[chatHistory.length - 1];
+  const keepContent = keepUser.content;
+  chatHistory = [keepUser];
+  currentMessages = [currentMessages[currentMessages.length - 1]];
+  // 清空界面，仅保留当前用户消息
+  const chat = document.getElementById('__dp-chat');
+  if (chat) {
+    chat.innerHTML = '';
+    addMsg('user', keepContent);
+  }
+  // 保存到 storage
+  await saveCurrentMessages();
+}
+
 async function saveCurrentMessages() {
   const data = await loadConversations();
   if (!currentConvId) return;
@@ -1055,6 +1100,7 @@ function createChatPanel() {
       <select id="__dp-lang-select" class="__dp-lang-select"></select>
       <button id="__dp-dark-toggle" class="__dp-dark-toggle" title="Toggle dark mode"></button>
       <button id="__dp-history-btn" title="${t('historyButton') || 'History'}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></button>
+      <button id="__dp-clear-ctx-btn" title="${t('clearContextBtn') || 'Clear Context'}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>
       <button id="__dp-close">✕</button>
     </div>
     <div id="__dp-context-bar" class="__dp-hidden">
@@ -1355,6 +1401,9 @@ async function sendMessage() {
   saveCurrentMessages();
 
   // 流式输出
+  // 流式输出前裁剪历史
+  await trimConversation();
+
   try {
     const port = chrome.runtime.connect({ name: 'chat-stream' });
     
@@ -1569,6 +1618,9 @@ function createButton() {
   document.getElementById("__dp-close").addEventListener("click", togglePanel);
   document.getElementById("__dp-send").addEventListener("click", sendMessage);
   document.getElementById("__dp-history-btn").addEventListener("click", showHistory);
+  document.getElementById("__dp-clear-ctx-btn").addEventListener("click", () => {
+    clearContext();
+  });
   document.getElementById("__dp-new-btn").addEventListener("click", () => {
     if (currentMessages.length === 0) return;
     newConversation();
@@ -1615,6 +1667,9 @@ function createButton() {
       if (histBtn) histBtn.title = t('historyButton') || 'History';
       const newBtn = document.getElementById('__dp-new-btn');
       if (newBtn) newBtn.title = t('newChatShort') || 'New';
+      // 更新清除上下文按钮
+      const clearCtxBtn = document.getElementById('__dp-clear-ctx-btn');
+      if (clearCtxBtn) clearCtxBtn.title = t('clearContextBtn') || 'Clear Context';
       // 更新选中文本按钮
       if (_selBtn) _selBtn.textContent = t('selAskButton') || '💬 对此段提问';
       if (panelOpen) {
