@@ -1386,7 +1386,11 @@ function showLoginNotice(show) {
   sendBtn.disabled = show;
 }
 
+// 下载时临时阻止面板关闭（a.click() 的点击事件会触发 handleClickOutside）
+let _suppressClose = false;
+
 function handleClickOutside(e) {
+  if (_suppressClose) return;
   const panel = document.getElementById("__dp-panel");
   const btn = document.getElementById("__dp-btn");
   if (!panel || !btn) return;
@@ -1598,7 +1602,9 @@ async function exportConversation(format) {
     const title = (pageContext ? pageContext.title : 'deeppage').replace(/[^\w\u4e00-\u9fff-]/g, '_').slice(0, 50);
     a.download = `${title}_deeppage.md`;
     document.body.appendChild(a);
+    _suppressClose = true;
     a.click();
+    _suppressClose = false;
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   } else {
