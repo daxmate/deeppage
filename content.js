@@ -161,9 +161,30 @@ function injectStyles() {
       padding: 8px 12px;
       background: white;
       border-top: 1px solid #e9ecf5;
-      gap: 8px;
+      gap: 6px;
       flex-shrink: 0;
       align-items: flex-end;
+    }
+    #__dp-new-btn {
+      background: none;
+      border: 1px solid #d0d9f0;
+      border-radius: 20px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      color: #6b7280;
+      font-size: 18px;
+      font-weight: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.12s;
+    }
+    #__dp-new-btn:hover {
+      background: #f3f4f6;
+      color: #4A6CF7;
+      border-color: #4A6CF7;
     }
     #__dp-input {
       flex: 1;
@@ -426,6 +447,15 @@ function injectStyles() {
         background: #1a1b1e;
         border-top-color: #373a40;
       }
+      #__dp-new-btn {
+        border-color: #373a40;
+        color: #9ca3af;
+      }
+      #__dp-new-btn:hover {
+        background: #25262b;
+        color: #6B8AFF;
+        border-color: #4A6CF7;
+      }
       #__dp-input {
         background: #25262b;
         border-color: #373a40;
@@ -526,6 +556,15 @@ function injectStyles() {
     #__dp-panel.__dp-dark #__dp-input-row {
       background: #1a1b1e;
       border-top-color: #373a40;
+    }
+    #__dp-panel.__dp-dark #__dp-new-btn {
+      border-color: #373a40;
+      color: #9ca3af;
+    }
+    #__dp-panel.__dp-dark #__dp-new-btn:hover {
+      background: #25262b;
+      color: #6B8AFF;
+      border-color: #4A6CF7;
     }
     #__dp-panel.__dp-dark #__dp-input {
       background: #25262b;
@@ -681,6 +720,10 @@ async function saveCurrentMessages() {
 }
 
 async function switchConversation(convId) {
+  // 先保存当前对话
+  if (currentConvId) {
+    await saveCurrentMessages();
+  }
   const data = await loadConversations();
   const conv = data.conversations.find(c => c.id === convId);
   if (!conv) return;
@@ -755,7 +798,7 @@ async function loadActiveConversation() {
   }
   // 无保存的对话 → 显示默认欢迎
   document.getElementById('__dp-chat').innerHTML = '';
-  addMsg('assistant', `📄 ${t('contextLoaded', pageContext ? pageContext.title : '')}`, { dataset: { msgType: 'context-loaded' } });
+  addMsg('assistant', `📄 ${t('contextLoaded', pageContext ? pageContext.title : '')}`, { skipTrack: true, dataset: { msgType: 'context-loaded' } });
 }
 
 function showHistory() {
@@ -785,7 +828,6 @@ async function renderHistoryList() {
   list.innerHTML = `
     <div class="__dp-history-header">
       <button class="__dp-history-back" title="${t('backToChat') || 'Back'}">← <span>${t('backToChat') || 'Back'}</span></button>
-      <button class="__dp-history-new">+</button>
     </div>
     <div class="__dp-history-scroll">
       ${data.conversations.length === 0 ? '<div class="__dp-history-empty">' + (t('historyEmpty') || 'No conversations') + '</div>' : ''}
@@ -802,7 +844,6 @@ async function renderHistoryList() {
     el.addEventListener('click', () => switchConversation(el.dataset.id));
   });
   list.querySelector('.__dp-history-back')?.addEventListener('click', showChat);
-  list.querySelector('.__dp-history-new')?.addEventListener('click', newConversation);
 }
 
 function escapeHtml(text) {
@@ -909,6 +950,7 @@ function createChatPanel() {
     </div>
     <div id="__dp-chat"></div>
     <div id="__dp-input-row">
+      <button id="__dp-new-btn" title="${t('newChatShort') || 'New'}">+</button>
       <textarea id="__dp-input" placeholder="${t('inputPlaceholder')}" rows="1"></textarea>
       <button id="__dp-send">➤</button>
     </div>
@@ -1248,6 +1290,10 @@ function createButton() {
   document.getElementById("__dp-close").addEventListener("click", togglePanel);
   document.getElementById("__dp-send").addEventListener("click", sendMessage);
   document.getElementById("__dp-history-btn").addEventListener("click", showHistory);
+  document.getElementById("__dp-new-btn").addEventListener("click", () => {
+    if (currentMessages.length === 0) return;
+    newConversation();
+  });
 
   // 语言选择器
   const langSelect = document.getElementById('__dp-lang-select');
@@ -1288,6 +1334,8 @@ function createButton() {
       // 更新历史按钮提示
       const histBtn = document.getElementById('__dp-history-btn');
       if (histBtn) histBtn.title = t('historyButton') || 'History';
+      const newBtn = document.getElementById('__dp-new-btn');
+      if (newBtn) newBtn.title = t('newChatShort') || 'New';
       if (panelOpen) {
         loadQuickActionsFromStorage();
       }
