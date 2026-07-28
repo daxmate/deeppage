@@ -692,6 +692,7 @@ async function getOrCreateConv() {
     createdAt: Date.now(),
     updatedAt: Date.now(),
     messages: [],
+    context: null,
   };
   data.conversations.unshift(conv);
   data.activeId = conv.id;
@@ -712,6 +713,12 @@ async function saveCurrentMessages() {
     timestamp: m.timestamp
   }));
   conv.updatedAt = Date.now();
+  // 保存页面上下文
+  conv.context = pageContext ? {
+    title: pageContext.title,
+    url: pageContext.url,
+    text: pageContext.text
+  } : null;
   // 从第一条用户消息自动生成标题
   const firstUser = currentMessages.find(m => m.role === 'user');
   if (firstUser) {
@@ -734,6 +741,15 @@ async function switchConversation(convId) {
   const chat = document.getElementById('__dp-chat');
   chat.innerHTML = '';
   currentConvId = conv.id;
+  // 恢复页面上下文
+  if (conv.context) {
+    if (conv.context.url === location.href) {
+      pageContext = extractPageContent();
+    } else {
+      pageContext = { ...conv.context };
+    }
+    updateContext(pageContext.title);
+  }
   currentMessages = conv.messages.map(m => ({
     role: m.role,
     content: m.content,
@@ -787,6 +803,18 @@ async function loadActiveConversation() {
     const conv = data.conversations.find(c => c.id === data.activeId);
     if (conv && conv.messages.length > 0) {
       currentConvId = conv.id;
+      // 恢复页面上下文
+      if (conv.context) {
+        if (conv.context.url === location.href) {
+          pageContext = extractPageContent();
+        } else {
+          pageContext = { ...conv.context };
+        }
+        updateContext(pageContext.title);
+      } else {
+        pageContext = extractPageContent();
+        updateContext(pageContext.title);
+      }
       currentMessages = conv.messages.map(m => ({
         role: m.role, content: m.content, timestamp: m.timestamp
       }));
@@ -801,6 +829,8 @@ async function loadActiveConversation() {
   }
   // 无保存的对话 → 创建新对话并显示默认欢迎
   await getOrCreateConv();
+  pageContext = extractPageContent();
+  updateContext(pageContext.title);
   document.getElementById('__dp-chat').innerHTML = '';
   addMsg('assistant', `📄 ${t('contextLoaded', pageContext ? pageContext.title : '')}`, { skipTrack: true, dataset: { msgType: 'context-loaded' } });
 }
@@ -1193,11 +1223,12 @@ function togglePanel() {
   btn.classList.toggle("__dp-hidden", panelOpen);
 
   if (panelOpen) {
-    pageContext = extractPageContent();
-    updateContext(pageContext.title);
     if (!chatHistory.length) {
-      // 加载当前对话（如果有保存的）
       loadActiveConversation();
+    } else {
+      // 面板已加载过对话，但需刷新页面上下文
+      pageContext = extractPageContent();
+      updateContext(pageContext.title);
     }
     document.getElementById("__dp-input").focus();
 
