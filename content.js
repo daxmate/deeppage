@@ -452,7 +452,7 @@ function injectStyles() {
       #__dp-chat {
         background: #1a1b1e;
       }
-      .__dp-assistant .__dp-bubble {
+      .__dp-msg.__dp-assistant .__dp-bubble {
         background: #25262b;
         color: #e4e5e7;
       }
