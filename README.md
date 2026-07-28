@@ -1,33 +1,33 @@
 # DeepPage
 
-在浏览网页时与 DeepSeek 对话——总结全文、提炼要点、自由问答。
+Chat with DeepSeek while browsing — summarize, outline, translate, and ask questions.
 
-## 功能
+## Features
 
-- **内嵌对话面板** — 点击右下角按钮，在当前页面直接展开聊天气泡
-- **一键快捷操作** — 总结全文、提炼要点、翻译，点一下就行
-- **全文理解** — 自动提取页面正文作为对话上下文
-- **对话记忆** — 同一页面保持完整聊天历史，关闭面板不丢失
-- **可拖拽 / 可调整大小** — 面板位置随意拖动，大小自由缩放
-- **Markdown 渲染** — 对话回复支持标题、列表、表格、代码块、引用、任务列表等完整 Markdown（基于 marked）
-- **多语言** — 支持中文和英文界面，自动适配浏览器语言
-- **Dark Mode** — 自动适配系统暗色主题
+- **Inline Chat Panel** — Click the floating button to open a chat bubble on any page
+- **Quick Actions** — Customizable buttons for summarize, outline, translate, or anything you define
+- **Full Page Context** — Automatically extracts page content as conversation context
+- **Conversation Memory** — Chat history persists per page, survives panel close
+- **Draggable / Resizable** — Panel position and size are freely adjustable
+- **Markdown Rendering** — Full GFM support via marked (headings, lists, tables, code blocks, blockquotes, task lists)
+- **Multi-language** — 10 languages with on-the-fly switching via panel or options
+- **Dark Mode** — Auto-adapts to system theme
 
-## 使用方式
+## Usage
 
-1. 安装扩展后访问任意网页
-2. 点击右下角 DeepSeek 图标打开对话面板
-3. 首次使用需配置 API Key：
-   - 右键扩展图标 → **选项**
-   - 输入你的 [DeepSeek API Key](https://platform.deepseek.com/api_keys)
-   - 点击保存
-4. 点击快捷按钮（总结 / 要点 / 翻译），或自由提问
+1. Install the extension and visit any web page
+2. Click the DeepSeek icon at the bottom-right to open the chat panel
+3. On first use, configure your API Key:
+   - Right-click the extension icon → **Options**
+   - Enter your [DeepSeek API Key](https://platform.deepseek.com/api_keys)
+   - Click **Save**
+4. Use the quick action buttons or type your own questions
 
-## 隐私说明
+## Privacy
 
-- 插件仅读取当前网页的文本内容（不包含图片、样式、脚本）
-- 网页内容仅用于向 DeepSeek API 发送请求，不会上传到其他第三方
-- 使用你自己的 API Key，数据不经过任何第三方中转
+- The extension only reads text content from the current page (no images, styles, or scripts)
+- Page content is sent only to the DeepSeek API, never to any third party
+- You use your own API Key — data never passes through any intermediary
 
 ## Architecture
 
@@ -48,31 +48,41 @@
                                                 └─────────────┘
 ```
 
-- 直接调用 DeepSeek 官方 API（标准 OpenAI 兼容接口）
-- 支持 `deepseek-v4-flash` / `deepseek-v4-pro` 模型
-- 无需隐藏标签页、无需处理 PoW 反爬
+- Direct DeepSeek API calls (OpenAI-compatible interface)
+- Supports `deepseek-v4-flash` / `deepseek-v4-pro` models
+- No hidden tabs, no PoW anti-scraping
 
 ## Development
 
-纯原生 Chrome Extension（Manifest V3），无构建步骤。
+Pure Chrome Extension (Manifest V3) — no build step required.
 
 ```bash
 git clone https://github.com/daxmate/deeppage.git
 ```
 
-在 `chrome://extensions` → 加载已解压的扩展程序 → 选择项目目录。
+Open `chrome://extensions` → **Load unpacked** → select the project directory.
 
-### 项目结构
+### Project Structure
 
 ```
-├── i18n.js                 # 多语言支持
-├── manifest.json          # 扩展配置
-├── background.js          # 后台服务 — API 调用
-├── content.js             # 内容脚本 — 按钮 + 对话面板
-├── options.html / .js     # 设置页面 — API Key 配置
-├── marked.umd.min.js      # Markdown 渲染引擎（marked）
-└── icons/                 # DeepSeek 官方图标
+├── i18n.js                 # Translation engine (10 languages)
+├── manifest.json           # Extension manifest
+├── background.js           # Service worker — API calls
+├── content.js              # Content script — panel UI + chat logic
+├── options.html / .js      # Options page — API Key + button config
+├── content.css             # Chat panel styles (dead file, kept for reference)
+├── marked.umd.min.js       # Markdown renderer (marked v15)
+├── icons/                  # DeepSeek icons
+├── test-resize.html        # Resize test page
+└── test-markdown.html      # Markdown rendering test page
 ```
+
+### Adding a Language
+
+Edit `i18n.js`:
+1. Add a new entry to the `TRANSLATIONS` object with all 32 keys
+2. Add the language to the `LANGUAGES` array
+3. Update `detectLanguage()` if needed
 
 ## License
 
