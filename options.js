@@ -8,6 +8,9 @@ function localizePage() {
   });
   document.title = t('optionTitle');
   document.getElementById('apiKey').placeholder = t('apiKeyPlaceholder') || 'sk-...';
+  // 语言切换时清除测试状态
+  const testStatus = document.getElementById('testApiStatus');
+  if (testStatus) testStatus.textContent = '';
 }
 
 // ---- 语言下拉框 ----
@@ -262,7 +265,7 @@ document.getElementById('testApiBtn').addEventListener('click', async () => {
   const model = document.getElementById('apiModel').value.trim();
 
   if (!baseUrl || !apiKey || !model) {
-    statusEl.textContent = '⚠️ Fill in Base URL, API Key, and Model first';
+    statusEl.textContent = (t('testApiRequired') || '⚠️ Fill in Base URL, API Key, and Model first');
     statusEl.style.color = '#f59e0b';
     btn.disabled = false;
     btn.textContent = t('testApiButton') || 'Test Connection';
