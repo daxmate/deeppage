@@ -21,6 +21,7 @@
             ],
             "js": [
                 "marked.umd.min.js",
+                "i18n.js",
                 "content.js"
             ],
             "matches": [
@@ -29,9 +30,8 @@
             "run_at": "document_end"
         }
     ],
-    "default_locale": "zh_CN",
-    "description": "__MSG_appDesc__",
-    "name": "__MSG_appName__",
+    "description": "Chat with DeepSeek while browsing — summarize, outline, translate, and ask questions",
+    "name": "DeepPage",
     "host_permissions": [
         "https://api.deepseek.com/*"
     ],

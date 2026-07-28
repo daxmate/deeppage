@@ -64,9 +64,7 @@ git clone https://github.com/daxmate/deeppage.git
 ### 项目结构
 
 ```
-├── _locales/              # 多语言文件
-│   ├── en/messages.json
-│   └── zh_CN/messages.json
+├── i18n.js                 # 多语言支持
 ├── manifest.json          # 扩展配置
 ├── background.js          # 后台服务 — API 调用
 ├── content.js             # 内容脚本 — 按钮 + 对话面板

@@ -1,22 +1,39 @@
-const i18n = chrome.i18n.getMessage.bind(chrome.i18n);
-
-// 页面文本本地化
+// ---- 页面文本本地化 ----
 function localizePage() {
   const elements = document.querySelectorAll('[id^="l10n-"]');
   elements.forEach((el) => {
     const key = el.id.replace('l10n-', '');
-    const text = i18n(key);
+    const text = t(key);
     if (text) el.textContent = text;
   });
-  document.title = i18n('optionTitle');
-  document.getElementById('apiKey').placeholder = i18n('apiKeyPlaceholder');
+  document.title = t('optionTitle');
+  document.getElementById('apiKey').placeholder = t('apiKeyPlaceholder');
 }
-localizePage();
 
+// ---- 语言下拉框 ----
+function populateLanguageSelect() {
+  const select = document.getElementById('language-select');
+  const current = getCurrentLang();
+  LANGUAGES.forEach((lang) => {
+    const opt = document.createElement('option');
+    opt.value = lang.code;
+    opt.textContent = lang.label;
+    if (lang.code === current) opt.selected = true;
+    select.appendChild(opt);
+  });
+}
+
+// ---- 初始化 ----
+loadLanguage(() => {
+  localizePage();
+  populateLanguageSelect();
+});
+
+// ---- 常量 ----
 const DEFAULT_ACTIONS = [
-  { label: i18n('defaultSummarizeLabel'), prompt: i18n('defaultSummarizePrompt') },
-  { label: i18n('defaultOutlineLabel'), prompt: i18n('defaultOutlinePrompt') },
-  { label: i18n('defaultTranslateLabel'), prompt: i18n('defaultTranslatePrompt') },
+  { label: t('defaultSummarizeLabel'), prompt: t('defaultSummarizePrompt') },
+  { label: t('defaultOutlineLabel'), prompt: t('defaultOutlinePrompt') },
+  { label: t('defaultTranslateLabel'), prompt: t('defaultTranslatePrompt') },
 ];
 
 let actions = [];
@@ -35,12 +52,12 @@ function render() {
     card.innerHTML = `
       <div class="card-header">
         <span class="card-index">${i + 1}</span>
-        <label>${i18n('buttonLabel')}</label>
-        <input class="fld-label" type="text" placeholder="${i18n('buttonLabelPlaceholder')}" />
-        <button class="btn-del" title="${i18n('deleteButton')}">✕</button>
+        <label>${t('buttonLabel')}</label>
+        <input class="fld-label" type="text" placeholder="${t('buttonLabelPlaceholder')}" />
+        <button class="btn-del" title="${t('deleteButton')}">✕</button>
       </div>
-      <label>${i18n('promptLabel')}</label>
-      <textarea class="fld-prompt" rows="2" placeholder="${i18n('promptPlaceholder')}"></textarea>
+      <label>${t('promptLabel')}</label>
+      <textarea class="fld-prompt" rows="2" placeholder="${t('promptPlaceholder')}"></textarea>
     `;
     card.querySelector('.fld-label').value = action.label || '';
     card.querySelector('.fld-prompt').value = action.prompt || '';
@@ -52,7 +69,7 @@ function render() {
   });
 }
 
-// ---- 加载 ----
+// ---- 加载已保存数据 ----
 chrome.storage.sync.get(
   ['deepseekApiKey', 'quickActions'],
   (result) => {
@@ -64,9 +81,17 @@ chrome.storage.sync.get(
   },
 );
 
-// ---- 添加 ----
+// ---- 语言切换 ----
+document.getElementById('language-select').addEventListener('change', (e) => {
+  setStoredLanguage(e.target.value, () => {
+    // 刷新页面以应用新语言
+    location.reload();
+  });
+});
+
+// ---- 添加按钮 ----
 btnAdd.addEventListener('click', () => {
-  actions.push({ label: i18n('newButtonLabel'), prompt: '' });
+  actions.push({ label: t('newButtonLabel'), prompt: '' });
   render();
   const cards = container.querySelectorAll('.action-card');
   if (cards.length) cards[cards.length - 1].scrollIntoView({ behavior: 'smooth' });
@@ -75,7 +100,7 @@ btnAdd.addEventListener('click', () => {
 // ---- 保存 ----
 saveBtn.addEventListener('click', async () => {
   const key = document.getElementById('apiKey').value.trim();
-  if (!key) { showStatus(i18n('apiKeyRequired'), 'err'); return; }
+  if (!key) { showStatus(t('apiKeyRequired'), 'err'); return; }
 
   const cards = container.querySelectorAll('.action-card');
   const cleaned = [];
@@ -91,7 +116,7 @@ saveBtn.addEventListener('click', async () => {
   });
   actions = cleaned;
   render();
-  showStatus(i18n('savedSuccess'), 'ok');
+  showStatus(t('savedSuccess'), 'ok');
 });
 
 function showStatus(msg, cls) {

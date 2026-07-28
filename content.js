@@ -4,8 +4,6 @@
 // ==============================================
 
 // ===== 动态注入样式（新增） =====
-const t = chrome.i18n.getMessage.bind(chrome.i18n);
-
 function injectStyles() {
   const style = document.createElement("style");
   style.textContent = `
@@ -318,13 +316,18 @@ let chatPanel = null;
 let panelOpen = false;
 let pageContext = null;
 
-const DEFAULT_QUICK_ACTIONS = [
-  { id: 'summarize', label: t('defaultSummarizeLabel'), prompt: t('defaultSummarizePrompt') },
-  { id: 'outline', label: t('defaultOutlineLabel'), prompt: t('defaultOutlinePrompt') },
-  { id: 'translate', label: t('defaultTranslateLabel'), prompt: t('defaultTranslatePrompt') },
-];
-
 let quickActions = [];
+
+// 默认按钮（语言加载后初始化）
+let DEFAULT_QUICK_ACTIONS = [];
+
+function initDefaultActions() {
+  DEFAULT_QUICK_ACTIONS = [
+    { id: 'summarize', label: t('defaultSummarizeLabel'), prompt: t('defaultSummarizePrompt') },
+    { id: 'outline', label: t('defaultOutlineLabel'), prompt: t('defaultOutlinePrompt') },
+    { id: 'translate', label: t('defaultTranslateLabel'), prompt: t('defaultTranslatePrompt') },
+  ];
+}
 
 function renderQuickActions() {
   const container = document.getElementById('__dp-quick-actions');
@@ -685,7 +688,8 @@ async function sendMessage() {
 function createButton() {
   if (document.getElementById("__dp-btn")) return;
 
-  // 注入样式（确保先于元素）
+  // 初始化语言
+  loadLanguage(() => { initDefaultActions(); });
   injectStyles();
 
   const btn = document.createElement("button");
