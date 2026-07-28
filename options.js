@@ -28,10 +28,24 @@ function populateLanguageSelect() {
 
 // ---- 初始化 ----
 loadLanguage(() => {
+  initTabs();
   localizePage();
   populateLanguageSelect();
   loadSavedData();
 });
+
+// ---- Tab 切换 ----
+function initTabs() {
+  document.querySelectorAll('.option-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.option-tab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
+      btn.classList.add('active');
+      const panel = document.getElementById('tab-' + btn.dataset.tab);
+      if (panel) panel.style.display = '';
+    });
+  });
+}
 
 // ---- 常量 ----
 let actions = [];
