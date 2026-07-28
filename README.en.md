@@ -15,6 +15,8 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 - **Copy Replies** — Hover AI messages → copy button, one-click clipboard copy
 - **Streaming Output** — Real-time token-by-token rendering, typewriter effect without waiting for full response
 - **Selection Query** — Select text on any page to reveal a floating button; uses page context + AI knowledge to explain the selection
+- **Conversation Trimming** — Auto-trims oldest message rounds (default 20) to avoid token limits; configurable via options
+- **Clear Context** — One-click button in the panel header to reset conversation while keeping the latest message
 - **Draggable / Resizable** — Panel position and size are freely adjustable; initial vertical centering
 - **Markdown Rendering** — Full GFM support via marked (headings, lists, tables, code blocks, blockquotes, task lists)
 - **Multi-language** — 10 languages with on-the-fly switching via panel or options
