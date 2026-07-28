@@ -682,6 +682,26 @@ function injectStyles() {
     }
     #__dp-btn:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(74, 108, 247, 0.5); }
     #__dp-btn.__dp-hidden { display: none; }
+
+    /* 选中文本浮动提问按钮 */
+    #__dp-sel-btn {
+      position: fixed;
+      z-index: 10001;
+      background: #4A6CF7;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      pointer-events: auto;
+      white-space: nowrap;
+      display: none;
+      transition: opacity 0.12s;
+    }
+    #__dp-sel-btn:hover { background: #3451b2; }
+    #__dp-sel-btn.__dp-show { display: block; }
   `;
   document.head.appendChild(style);
 }
@@ -1397,6 +1417,92 @@ async function sendMessage() {
 }
 
 // ==============================================
+// 选中文本浮动提问按钮
+// ==============================================
+
+let _selBtn = null;
+
+function createSelBtn() {
+  if (_selBtn) return;
+  _selBtn = document.createElement('button');
+  _selBtn.id = '__dp-sel-btn';
+  _selBtn.textContent = t('selAskButton') || '💬 对此段提问';
+  _selBtn.addEventListener('click', onSelAsk);
+  document.body.appendChild(_selBtn);
+}
+
+function onSelAsk() {
+  const sel = window.getSelection();
+  const text = sel ? sel.toString().trim() : '';
+  if (!text) return;
+  hideSelBtn();
+  sel.removeAllRanges();
+
+  // 打开面板
+  if (!panelOpen) {
+    togglePanel();
+  }
+
+  // 将选中内容作为用户消息发送
+  const msg = `📝 ${t('selContextLabel') || '选中内容'}：\n\n${text.slice(0, 8000)}`;
+  const input = document.getElementById('__dp-input');
+  if (input) {
+    input.value = msg;
+    input.dispatchEvent(new Event('input'));
+    sendMessage();
+  }
+}
+
+function showSelBtn(x, y) {
+  if (!_selBtn) createSelBtn();
+  // 更新文字（语言可能变了）
+  _selBtn.textContent = t('selAskButton') || '💬 对此段提问';
+  _selBtn.style.left = Math.min(x, window.innerWidth - _selBtn.offsetWidth - 10) + 'px';
+  _selBtn.style.top = Math.max(4, y - _selBtn.offsetHeight - 6) + 'px';
+  _selBtn.classList.add('__dp-show');
+}
+
+function hideSelBtn() {
+  if (_selBtn) _selBtn.classList.remove('__dp-show');
+}
+
+function isSelectionValid() {
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed) return false;
+  const text = sel.toString().trim();
+  if (!text) return false;
+  // 忽略选中扩展 UI 元素的内容
+  const node = sel.anchorNode;
+  if (node && node.closest && (node.closest('#__dp-panel') || node.closest('#__dp-btn'))) return false;
+  return text.length >= 5 && text.length <= 8000;
+}
+
+// 全局监听选中事件
+document.addEventListener('mouseup', (e) => {
+  // 点击在按钮本身或面板内不处理
+  if (e.target.closest && e.target.closest('#__dp-sel-btn, #__dp-panel, #__dp-btn')) return;
+
+  // 延迟一小段时间让 selection 稳定
+  setTimeout(() => {
+    if (isSelectionValid()) {
+      const sel = window.getSelection();
+      const range = sel.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+      showSelBtn(rect.left + rect.width / 2, rect.top);
+    } else {
+      hideSelBtn();
+    }
+  }, 10);
+});
+
+document.addEventListener('mousedown', (e) => {
+  // 点击非按钮区域时隐藏
+  if (_selBtn && !_selBtn.contains(e.target)) {
+    hideSelBtn();
+  }
+});
+
+// ==============================================
 // 入口：创建按钮、面板、绑定事件（整合新方案）
 // ==============================================
 function createButton() {
@@ -1475,6 +1581,8 @@ function createButton() {
       if (histBtn) histBtn.title = t('historyButton') || 'History';
       const newBtn = document.getElementById('__dp-new-btn');
       if (newBtn) newBtn.title = t('newChatShort') || 'New';
+      // 更新选中文本按钮
+      if (_selBtn) _selBtn.textContent = t('selAskButton') || '💬 对此段提问';
       if (panelOpen) {
         loadQuickActionsFromStorage();
       }
@@ -1514,6 +1622,9 @@ function createButton() {
     this.style.height = "auto";
     this.style.height = Math.min(this.scrollHeight, 120) + "px";
   });
+
+  // 选中文本浮动提问按钮
+  createSelBtn();
 }
 
 if (document.readyState === "loading") {
