@@ -20,6 +20,7 @@
                 "https://chat.deepseek.com/*"
             ],
             "js": [
+                "marked.umd.min.js",
                 "content.js"
             ],
             "matches": [

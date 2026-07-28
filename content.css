@@ -281,12 +281,13 @@
   border-radius: 8px !important;
   margin: 8px 0 !important;
   overflow-x: auto !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
 }
 .__dp-bubble pre code {
   background: none !important;
   padding: 0 !important;
-  font-size: 12px !important;
-  line-height: 1.5 !important;
+  font-size: inherit !important;
 }
 .__dp-bubble a {
   color: #4A6CF7 !important;
@@ -297,6 +298,65 @@
 }
 .__dp-bubble strong {
   font-weight: 700 !important;
+}
+.__dp-bubble h1,
+.__dp-bubble h2,
+.__dp-bubble h3,
+.__dp-bubble h4 {
+  margin: 12px 0 6px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+}
+.__dp-bubble h1 { font-size: 18px !important; }
+.__dp-bubble h2 { font-size: 16px !important; }
+.__dp-bubble h3 { font-size: 15px !important; }
+.__dp-bubble h4 { font-size: 14px !important; }
+.__dp-bubble ul,
+.__dp-bubble ol {
+  padding-left: 20px !important;
+  margin: 6px 0 !important;
+}
+.__dp-bubble li {
+  margin: 2px 0 !important;
+}
+.__dp-bubble blockquote {
+  border-left: 3px solid #4A6CF7 !important;
+  margin: 8px 0 !important;
+  padding: 4px 12px !important;
+  color: #555 !important;
+  background: #f8f9fc !important;
+  border-radius: 0 6px 6px 0 !important;
+}
+.__dp-bubble table {
+  border-collapse: collapse !important;
+  margin: 8px 0 !important;
+  width: 100% !important;
+  font-size: 13px !important;
+}
+.__dp-bubble th,
+.__dp-bubble td {
+  border: 1px solid #d0d9f0 !important;
+  padding: 6px 10px !important;
+  text-align: left !important;
+}
+.__dp-bubble th {
+  background: #eef2ff !important;
+  font-weight: 600 !important;
+}
+.__dp-bubble hr {
+  border: none !important;
+  border-top: 1px solid #d0d9f0 !important;
+  margin: 12px 0 !important;
+}
+.__dp-bubble del {
+  text-decoration: line-through !important;
+}
+.__dp-bubble input[type="checkbox"] {
+  margin: 0 4px 0 0 !important;
+  pointer-events: none !important;
+}
+.__dp-bubble p {
+  margin: 4px 0 !important;
 }
 
 .__dp-hidden {
@@ -331,6 +391,21 @@
   }
   .__dp-bubble pre {
     background: #2a2b2e !important;
+  }
+  .__dp-bubble blockquote {
+    border-left-color: #6B8AFF !important;
+    color: #a0a4b0 !important;
+    background: #222328 !important;
+  }
+  .__dp-bubble th {
+    background: #1a2740 !important;
+  }
+  .__dp-bubble th,
+  .__dp-bubble td {
+    border-color: #373a40 !important;
+  }
+  .__dp-bubble hr {
+    border-top-color: #373a40 !important;
   }
   .__dp-loading {
     background: #25262b !important;

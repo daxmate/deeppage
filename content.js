@@ -196,10 +196,51 @@ function injectStyles() {
       border-bottom-left-radius: 4px;
     }
     .__dp-bubble code { background: #e9ecf5; padding: 1px 6px; border-radius: 4px; font-size: 13px; }
-    .__dp-bubble pre { background: #1e293b; color: #f8fafc; padding: 12px; border-radius: 8px; overflow-x: auto; }
+    .__dp-bubble pre { background: #1e293b; color: #f8fafc; padding: 12px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.5; }
+    .__dp-bubble pre code { background: none; padding: 0; font-size: inherit; }
     .__dp-bubble strong { font-weight: 600; }
     .__dp-bubble em { font-style: italic; }
     .__dp-bubble a { color: #4a6cf7; text-decoration: underline; }
+    .__dp-bubble h1, .__dp-bubble h2, .__dp-bubble h3, .__dp-bubble h4 { margin: 12px 0 6px; font-weight: 600; line-height: 1.3; }
+    .__dp-bubble h1 { font-size: 18px; }
+    .__dp-bubble h2 { font-size: 16px; }
+    .__dp-bubble h3 { font-size: 15px; }
+    .__dp-bubble h4 { font-size: 14px; }
+    .__dp-bubble ul, .__dp-bubble ol { padding-left: 20px; margin: 6px 0; }
+    .__dp-bubble li { margin: 2px 0; }
+    .__dp-bubble blockquote {
+      border-left: 3px solid #4a6cf7;
+      margin: 8px 0;
+      padding: 4px 12px;
+      color: #555;
+      background: #f8f9fc;
+      border-radius: 0 6px 6px 0;
+    }
+    .__dp-bubble table { border-collapse: collapse; margin: 8px 0; width: 100%; font-size: 13px; }
+    .__dp-bubble th, .__dp-bubble td { border: 1px solid #d0d9f0; padding: 6px 10px; text-align: left; }
+    .__dp-bubble th { background: #eef2ff; font-weight: 600; }
+    .__dp-bubble hr { border: none; border-top: 1px solid #d0d9f0; margin: 12px 0; }
+    .__dp-bubble del { text-decoration: line-through; }
+    .__dp-bubble input[type="checkbox"] { margin: 0 4px 0 0; pointer-events: none; }
+    .__dp-bubble p { margin: 4px 0; }
+
+    @media (prefers-color-scheme: dark) {
+      .__dp-bubble blockquote {
+        border-left-color: #6B8AFF;
+        color: #a0a4b0;
+        background: #222328;
+      }
+      .__dp-bubble th {
+        background: #1a2740;
+      }
+      .__dp-bubble th,
+      .__dp-bubble td {
+        border-color: #373a40;
+      }
+      .__dp-bubble hr {
+        border-top-color: #373a40;
+      }
+    }
 
     .__dp-loading {
       display: flex;
@@ -447,20 +488,15 @@ function enableResize(panelEl) {
 let chatHistory = [];
 
 function markdownToHtml(text) {
-  let html = text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-  html = html.replace(/```([\s\S]*?)```/g, "<pre><code>$1</code></pre>");
-  html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
-  html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-  html = html.replace(/\*([^*]+)\*/g, "<em>$1</em>");
-  html = html.replace(
-    /\[([^\]]+)\]\(([^)]+)\)/g,
-    '<a href="$2" target="_blank">$1</a>',
-  );
-  html = html.replace(/\n/g, "<br>");
-  return html;
+  try {
+    return marked.parse(text, { breaks: true, gfm: true });
+  } catch (e) {
+    return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\n/g, "<br>");
+  }
 }
 
 function addMsg(role, text) {

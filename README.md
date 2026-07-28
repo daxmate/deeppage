@@ -9,6 +9,7 @@
 - **全文理解** — 自动提取页面正文作为对话上下文
 - **对话记忆** — 同一页面保持完整聊天历史，关闭面板不丢失
 - **可拖拽 / 可调整大小** — 面板位置随意拖动，大小自由缩放
+- **Markdown 渲染** — 对话回复支持标题、列表、表格、代码块、引用、任务列表等完整 Markdown（基于 marked）
 - **Dark Mode** — 自动适配系统暗色主题
 
 ## 使用方式
@@ -66,6 +67,7 @@ git clone https://github.com/daxmate/deeppage.git
 ├── background.js          # 后台服务 — API 调用
 ├── content.js             # 内容脚本 — 按钮 + 对话面板
 ├── options.html / .js     # 设置页面 — API Key 配置
+├── marked.umd.min.js      # Markdown 渲染引擎（marked）
 └── icons/                 # DeepSeek 官方图标
 ```
 
