@@ -10,10 +10,13 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 - **Quick Actions** — Customizable buttons for summarize, outline, translate, or anything you define
 - **Full Page Context** — Automatically extracts page content as conversation context
 - **Conversation Memory** — Chat history persists per page, survives panel close
-- **Draggable / Resizable** — Panel position and size are freely adjustable
+- **Chat History** — Auto-saved conversations, browse/switch/delete from history list
+- **Page Context Persistence** — Saved with conversations, survives panel reloads
+- **Copy Replies** — Hover AI messages → copy button, one-click clipboard copy
+- **Draggable / Resizable** — Panel position and size are freely adjustable; initial vertical centering
 - **Markdown Rendering** — Full GFM support via marked (headings, lists, tables, code blocks, blockquotes, task lists)
 - **Multi-language** — 10 languages with on-the-fly switching via panel or options
-- **Dark Mode** — Auto-adapts to system theme
+- **Dark Mode** — Auto-adapts to system theme; manual toggle from panel or options
 
 ## Usage
 
