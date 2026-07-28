@@ -67,17 +67,22 @@ function render() {
 // ---- 加载已保存数据 ----
 function loadSavedData() {
   chrome.storage.sync.get(
-    ['deepseekApiKey', 'quickActions'],
+    ['deepseekApiKey', 'quickActions', 'quickActionsLang'],
     (result) => {
       document.getElementById('apiKey').value = result.deepseekApiKey || '';
+      const currentLang = getCurrentLang();
+      const savedLang = result.quickActionsLang;
       const defaults = [
         { label: t('defaultSummarizeLabel'), prompt: t('defaultSummarizePrompt') },
         { label: t('defaultOutlineLabel'), prompt: t('defaultOutlinePrompt') },
         { label: t('defaultTranslateLabel'), prompt: t('defaultTranslatePrompt') },
       ];
-      actions = (result.quickActions && result.quickActions.length)
-        ? result.quickActions.map(a => ({ label: a.label, prompt: a.prompt }))
-        : defaults.map(a => ({ ...a }));
+      // 语言变了 → 用新语言的默认值
+      if (result.quickActions && result.quickActions.length && savedLang === currentLang) {
+        actions = result.quickActions.map(a => ({ label: a.label, prompt: a.prompt }));
+      } else {
+        actions = defaults.map(a => ({ ...a }));
+      }
       render();
     },
   );
@@ -115,6 +120,7 @@ saveBtn.addEventListener('click', async () => {
   await chrome.storage.sync.set({
     deepseekApiKey: key,
     quickActions: cleaned,
+    quickActionsLang: getCurrentLang(),
   });
   actions = cleaned;
   render();
