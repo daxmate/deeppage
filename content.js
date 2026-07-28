@@ -736,8 +736,16 @@ function createButton() {
     const opt = document.createElement('option');
     opt.value = lang.code;
     opt.textContent = lang.label;
-    if (lang.code === getCurrentLang()) opt.selected = true;
     langSelect.appendChild(opt);
+  });
+  // 语言加载完后选中正确的选项
+  function updateLangSelection() {
+    langSelect.value = getCurrentLang();
+  }
+  updateLangSelection();
+  loadLanguage(() => {
+    initDefaultActions();
+    updateLangSelection();
   });
   langSelect.addEventListener('change', (e) => {
     window.__dp_lang = e.target.value;
