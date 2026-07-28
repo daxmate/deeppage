@@ -982,6 +982,10 @@ function createButton() {
         const bubble = ctxMsg.querySelector('.__dp-bubble');
         if (bubble && pageContext) bubble.textContent = `📄 ${t('contextLoaded', pageContext.title)}`;
       }
+      // 更新所有复制按钮的提示文字
+      document.querySelectorAll('.__dp-copy-btn').forEach((btn) => {
+        btn.title = t('copyButton');
+      });
       if (panelOpen) {
         loadQuickActionsFromStorage();
       }
