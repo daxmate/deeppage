@@ -29,6 +29,8 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 - **Markdown Rendering** — Full GFM support via marked (headings, lists, tables, code blocks, blockquotes, task lists)
 - **Multi-language** — 10 languages with on-the-fly switching via panel or options
 - **Dark Mode** — Auto-adapts to system theme; manual toggle from panel or options
+- **Multi-API** — OpenAI-compatible (DeepSeek, Ollama, Groq, etc.) and Anthropic native format
+- **Custom Base URL** — Point to any server for self-hosted or third-party backends
 
 ## Usage
 

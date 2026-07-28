@@ -7,7 +7,7 @@ function localizePage() {
     if (text) el.textContent = text;
   });
   document.title = t('optionTitle');
-  document.getElementById('apiKey').placeholder = t('apiKeyPlaceholder');
+  document.getElementById('apiKey').placeholder = t('apiKeyPlaceholder') || 'sk-...';
 }
 
 // ---- 语言下拉框 ----
@@ -38,6 +38,53 @@ const btnAdd = document.getElementById('btn-add');
 const saveBtn = document.getElementById('saveBtn');
 const status = document.getElementById('status');
 
+// ---- API 类型配置 ----
+const API_TYPES = {
+  openai: {
+    label: 'OpenAI-compatible',
+    defaultBaseUrl: 'https://api.deepseek.com/v1',
+    keyPlaceholder: 'sk-...',
+    keyLink: 'https://platform.deepseek.com/api_keys',
+    keyLinkLabel: 'Get API Key',
+    defaultModel: 'deepseek-v4-flash',
+  },
+  anthropic: {
+    label: 'Anthropic',
+    defaultBaseUrl: 'https://api.anthropic.com',
+    keyPlaceholder: 'sk-ant-...',
+    keyLink: 'https://console.anthropic.com/settings/keys',
+    keyLinkLabel: 'Get API Key',
+    defaultModel: 'claude-sonnet-4-20250514',
+  },
+};
+
+function updateApiUI(apiType) {
+  const cfg = API_TYPES[apiType];
+  if (!cfg) return;
+
+  // Key placeholder
+  document.getElementById('apiKey').placeholder = cfg.keyPlaceholder;
+
+  // Link
+  const link = document.querySelector('#apiKeyLink a');
+  if (link) {
+    link.href = cfg.keyLink;
+    const span = link.querySelector('span');
+    if (span) span.textContent = cfg.keyLinkLabel;
+  }
+
+  // Base URL placeholder
+  const baseUrlInput = document.getElementById('apiBaseUrl');
+  baseUrlInput.placeholder = cfg.defaultBaseUrl;
+  if (!baseUrlInput.value || baseUrlInput.dataset.autoFilled !== 'false') {
+    baseUrlInput.value = cfg.defaultBaseUrl;
+    baseUrlInput.dataset.autoFilled = 'true';
+  }
+
+  // Model placeholder
+  document.getElementById('apiModel').placeholder = cfg.defaultModel;
+}
+
 // ---- 渲染卡片列表 ----
 function render() {
   container.innerHTML = '';
@@ -64,12 +111,29 @@ function render() {
   });
 }
 
-// ---- 加载已保存数据 ----
+// ---- 加载 ----
 function loadSavedData() {
   chrome.storage.sync.get(
-    ['deepseekApiKey', 'quickActions', 'quickActionsLang'],
+    ['apiType', 'apiBaseUrl', 'apiKey', 'apiModel',
+     'deepseekApiKey', // fallback
+     'quickActions', 'quickActionsLang'],
     (result) => {
-      document.getElementById('apiKey').value = result.deepseekApiKey || '';
+      const apiType = result.apiType || 'openai';
+      document.getElementById('apiType').value = apiType;
+      updateApiUI(apiType);
+
+      // Base URL
+      document.getElementById('apiBaseUrl').value =
+        result.apiBaseUrl || API_TYPES[apiType].defaultBaseUrl;
+
+      // API Key — use new apiKey first, fall back to deepseekApiKey
+      document.getElementById('apiKey').value = result.apiKey || result.deepseekApiKey || '';
+
+      // Model
+      document.getElementById('apiModel').value =
+        result.apiModel || API_TYPES[apiType].defaultModel;
+
+      // Quick actions
       const currentLang = getCurrentLang();
       const savedLang = result.quickActionsLang;
       const defaults = [
@@ -77,7 +141,6 @@ function loadSavedData() {
         { label: t('defaultOutlineLabel'), prompt: t('defaultOutlinePrompt') },
         { label: t('defaultTranslateLabel'), prompt: t('defaultTranslatePrompt') },
       ];
-      // 语言变了 → 用新语言的默认值
       if (result.quickActions && result.quickActions.length && savedLang === currentLang) {
         actions = result.quickActions.map(a => ({ label: a.label, prompt: a.prompt }));
       } else {
@@ -87,6 +150,18 @@ function loadSavedData() {
     },
   );
 }
+
+// ---- API 类型切换 ----
+document.getElementById('apiType').addEventListener('change', (e) => {
+  const apiType = e.target.value;
+  updateApiUI(apiType);
+  document.getElementById('apiKey').value = '';
+});
+
+// ---- Base URL 手动编辑后不再自动填充 ----
+document.getElementById('apiBaseUrl').addEventListener('input', () => {
+  document.getElementById('apiBaseUrl').dataset.autoFilled = 'false';
+});
 
 // ---- 语言切换 ----
 document.getElementById('language-select').addEventListener('change', (e) => {
@@ -123,6 +198,42 @@ maxRoundsInput.addEventListener('input', () => {
   maxRoundsValue.textContent = maxRoundsInput.value;
 });
 
+// ---- 测试连接 ----
+document.getElementById('testApiBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('testApiBtn');
+  const statusEl = document.getElementById('testApiStatus');
+  btn.disabled = true;
+  btn.textContent = (t('testApiButton') || 'Test Connection') + '...';
+  statusEl.textContent = '';
+
+  // Save current settings first
+  const apiType = document.getElementById('apiType').value;
+  const baseUrl = document.getElementById('apiBaseUrl').value.trim();
+  const apiKey = document.getElementById('apiKey').value.trim();
+  const model = document.getElementById('apiModel').value.trim();
+
+  await chrome.storage.sync.set({
+    apiType, apiBaseUrl: baseUrl, apiKey, apiModel: model,
+  });
+
+  try {
+    const result = await chrome.runtime.sendMessage({ action: 'testApi' });
+    if (result.ok) {
+      statusEl.textContent = t('testApiSuccess') || '✅ Connection OK';
+      statusEl.style.color = '#34d399';
+    } else {
+      statusEl.textContent = (t('testApiFailed') || '❌ Connection failed:') + (result.error || '');
+      statusEl.style.color = '#f87171';
+    }
+  } catch (err) {
+    statusEl.textContent = (t('testApiFailed') || '❌ Connection failed:') + err.message;
+    statusEl.style.color = '#f87171';
+  }
+
+  btn.disabled = false;
+  btn.textContent = t('testApiButton') || 'Test Connection';
+});
+
 // ---- 添加按钮 ----
 btnAdd.addEventListener('click', () => {
   actions.push({ label: t('newButtonLabel'), prompt: '' });
@@ -133,8 +244,12 @@ btnAdd.addEventListener('click', () => {
 
 // ---- 保存 ----
 saveBtn.addEventListener('click', async () => {
-  const key = document.getElementById('apiKey').value.trim();
-  if (!key) { showStatus(t('apiKeyRequired'), 'err'); return; }
+  const apiType = document.getElementById('apiType').value;
+  const baseUrl = document.getElementById('apiBaseUrl').value.trim();
+  const apiKey = document.getElementById('apiKey').value.trim();
+  const model = document.getElementById('apiModel').value.trim();
+
+  if (!apiKey) { showStatus(t('apiKeyRequired'), 'err'); return; }
 
   const cards = container.querySelectorAll('.action-card');
   const cleaned = [];
@@ -145,7 +260,10 @@ saveBtn.addEventListener('click', async () => {
   });
 
   await chrome.storage.sync.set({
-    deepseekApiKey: key,
+    apiType,
+    apiBaseUrl: baseUrl,
+    apiKey,
+    apiModel: model,
     quickActions: cleaned,
     quickActionsLang: getCurrentLang(),
     maxRounds: parseInt(maxRoundsInput.value, 10) || 20,

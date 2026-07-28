@@ -27,6 +27,8 @@
 - **Markdown 渲染** — 对话回复支持标题、列表、表格、代码块、引用、任务列表等完整 GFM（基于 marked）
 - **多语言** — 内置 10 种语言（中文/English/日本語/한국어/Español/Français/Deutsch/Русский/Tiếng Việt），面板和选项页均可切换
 - **Dark Mode** — 自动适配系统暗色主题，面板和选项页均可手动切换
+- **多 API 格式** — 支持 OpenAI 兼容接口（DeepSeek、Ollama、Groq 等）和 Anthropic 原生接口
+- **自定义接口地址** — 可设置任意 Base URL，自由对接自部署或第三方服务
 
 ## 使用方式
 
