@@ -39,7 +39,7 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 │  (Inline Chat UI)    │                    │  (API Calls)         │
 │  Extract Content     │ ←──────────────────│  Fetch Response      │
 │  User Interaction    │                    │  api.deepseek.com    │
-└──────────────────────┘                    └───────────┬──────────┘
+└──────────────────────┘                    └──────────┬───────────┘
                                                        │
                                                 POST /v1/chat/completions
                                                        │
