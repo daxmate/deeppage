@@ -29,21 +29,22 @@
 - 网页内容仅用于向 DeepSeek API 发送请求，不会上传到其他第三方
 - 使用你自己的 API Key，数据不经过任何第三方中转
 
-## 技术原理
+## Architecture
 
 ```
 ┌──────────────────────┐   chrome.runtime   ┌──────────────────────┐
 │  Content Script      │ ──────────────────→│  Service Worker      │
-│  (内嵌对话面板)      │                    │  (调用 API)          │
-│  提取页面内容        │ ←──────────────────│  fetch ...           │
-│  用户界面交互        │                    │  api.deepseek.com    │
+│  (Inline Chat UI)    │                    │  (API Calls)         │
+│  Extract Content     │ ←──────────────────│  Fetch Response      │
+│  User Interaction    │                    │  api.deepseek.com    │
 └──────────────────────┘                    └───────────┬──────────┘
                                                        │
                                                 POST /v1/chat/completions
                                                        │
                                                 ┌──────▼──────┐
                                                 │  DeepSeek   │
-                                                │  官方 API   │
+                                                │  Official   │
+                                                │  API        │
                                                 └─────────────┘
 ```
 
@@ -51,7 +52,7 @@
 - 支持 `deepseek-v4-flash` / `deepseek-v4-pro` 模型
 - 无需隐藏标签页、无需处理 PoW 反爬
 
-## 开发
+## Development
 
 纯原生 Chrome Extension（Manifest V3），无构建步骤。
 
