@@ -41,6 +41,7 @@ function render() {
 chrome.storage.sync.get(
   ['deepseekApiKey', 'quickActions'],
   (result) => {
+    console.log('[DeepPage 选项] 加载 quickActions:', JSON.stringify(result.quickActions));
     document.getElementById('apiKey').value = result.deepseekApiKey || '';
     actions = (result.quickActions && result.quickActions.length)
       ? result.quickActions.map(a => ({ label: a.label, prompt: a.prompt }))
@@ -72,9 +73,14 @@ saveBtn.addEventListener('click', async () => {
     if (label) cleaned.push({ label, prompt });
   });
 
+  console.log('[DeepPage 选项] 准备保存 quickActions:', JSON.stringify(cleaned));
   await chrome.storage.sync.set({
     deepseekApiKey: key,
     quickActions: cleaned,
+  });
+  // 立即读回来验证
+  chrome.storage.sync.get('quickActions', (verify) => {
+    console.log('[DeepPage 选项] 保存后验证:', JSON.stringify(verify.quickActions));
   });
   actions = cleaned;
   render();

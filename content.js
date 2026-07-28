@@ -341,6 +341,8 @@ function renderQuickActions() {
 
 function loadQuickActionsFromStorage() {
   chrome.storage.sync.get('quickActions', (result) => {
+    console.log('[DeepPage 面板] 读取 quickActions:', JSON.stringify(result.quickActions));
+    console.log('[DeepPage 面板] 是否使用默认值:', !(result.quickActions && result.quickActions.length));
     quickActions = result.quickActions && result.quickActions.length
       ? result.quickActions
       : DEFAULT_QUICK_ACTIONS;
