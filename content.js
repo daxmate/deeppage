@@ -357,10 +357,15 @@ function renderQuickActions() {
 }
 
 function loadQuickActionsFromStorage() {
-  chrome.storage.sync.get('quickActions', (result) => {
-    quickActions = result.quickActions && result.quickActions.length
-      ? result.quickActions
-      : DEFAULT_QUICK_ACTIONS;
+  chrome.storage.sync.get(['quickActions', 'quickActionsLang'], (result) => {
+    const currentLang = getCurrentLang();
+    const savedLang = result.quickActionsLang;
+    // 语言变了 → 用默认值
+    if (result.quickActions && result.quickActions.length && savedLang === currentLang) {
+      quickActions = result.quickActions;
+    } else {
+      quickActions = DEFAULT_QUICK_ACTIONS;
+    }
     renderQuickActions();
   });
 }
@@ -735,8 +740,13 @@ function createButton() {
     langSelect.appendChild(opt);
   });
   langSelect.addEventListener('change', (e) => {
+    window.__dp_lang = e.target.value;
     setStoredLanguage(e.target.value, () => {
-      location.reload();
+      // 重新初始化默认按钮并刷新
+      initDefaultActions();
+      if (panelOpen) {
+        loadQuickActionsFromStorage();
+      }
     });
   });
   document.getElementById("__dp-input").addEventListener("keydown", (e) => {

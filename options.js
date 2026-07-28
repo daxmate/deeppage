@@ -90,9 +90,11 @@ function loadSavedData() {
 
 // ---- 语言切换 ----
 document.getElementById('language-select').addEventListener('change', (e) => {
+  window.__dp_lang = e.target.value;
   setStoredLanguage(e.target.value, () => {
-    // 刷新页面以应用新语言
-    location.reload();
+    localizePage();
+    // 重新加载按钮（用新语言的默认值）
+    loadSavedData();
   });
 });
 
