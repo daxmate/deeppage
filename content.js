@@ -4,6 +4,8 @@
 // ==============================================
 
 // ===== 动态注入样式（新增） =====
+const t = chrome.i18n.getMessage.bind(chrome.i18n);
+
 function injectStyles() {
   const style = document.createElement("style");
   style.textContent = `
