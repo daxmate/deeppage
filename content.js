@@ -1453,6 +1453,8 @@ async function sendMessage() {
   // 流式输出前裁剪历史
   await trimConversation();
 
+  let lastFullText = '';
+
   try {
     const port = chrome.runtime.connect({ name: 'chat-stream' });
     
@@ -1511,6 +1513,8 @@ async function sendMessage() {
 
     const fullText = await fullTextPromise;
     chatHistory.push({ role: "assistant", content: fullText });
+    // 同时加入 currentMessages 以支持导出和持久化
+    currentMessages.push({ role: "assistant", content: fullText, timestamp: Date.now() });
     saveCurrentMessages();
     _sending = false;
 
@@ -1532,7 +1536,8 @@ async function sendMessage() {
 // ==============================================
 
 function formatExportMarkdown() {
-  if (!currentMessages.length) return '';
+  const msgs = chatHistory.length ? chatHistory : currentMessages;
+  if (!msgs.length) return '';
   const lines = [];
   lines.push(`# DeepPage 对话导出`);
   lines.push(`> 页面: ${pageContext ? pageContext.title : ''}`);
@@ -1541,7 +1546,7 @@ function formatExportMarkdown() {
   lines.push('');
   lines.push('---');
   lines.push('');
-  for (const msg of currentMessages) {
+    for (const msg of msgs) {
     if (msg.role === 'user') {
       lines.push(`## 🧑 ${msg.role}`);
     } else {
@@ -1557,14 +1562,15 @@ function formatExportMarkdown() {
 }
 
 function formatExportText() {
-  if (!currentMessages.length) return '';
+  const msgs = chatHistory.length ? chatHistory : currentMessages;
+  if (!msgs.length) return '';
   const lines = [];
   lines.push(`DeepPage Conversation Export`);
   lines.push(`Page: ${pageContext ? pageContext.title : ''}`);
   lines.push(`URL: ${pageContext ? pageContext.url : ''}`);
   lines.push(`Exported: ${new Date().toLocaleString()}`);
   lines.push('');
-  for (const msg of currentMessages) {
+  for (const msg of msgs) {
     lines.push(`[${msg.role === 'user' ? 'User' : 'Assistant'}]`);
     lines.push(msg.content);
     lines.push('');
@@ -1573,7 +1579,8 @@ function formatExportText() {
 }
 
 async function exportConversation(format) {
-  if (!currentMessages.length) return;
+  const msgs = chatHistory.length ? chatHistory : currentMessages;
+  if (!msgs.length) return;
 
   let content;
   if (format === 'markdown') {
