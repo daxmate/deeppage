@@ -189,6 +189,7 @@ button {
 .__dp-dark-options .section-title { border-top-color: #373a40; }
 .__dp-dark-options #max-rounds-value { color: #9ca3af; }
 .__dp-dark-options input[type="range"] { accent-color: #6B8AFF; }
+.__dp-dark-options input[type="text"] { background: #25262b; border-color: #373a40; color: #e4e5e7; }
 .__dp-dark-options select { background: #25262b; border-color: #373a40; color: #e4e5e7; }
 .__dp-dark-options select { background: #25262b; border-color: #373a40; color: #e4e5e7; }
 .__dp-dark-options .appearance-card {
@@ -209,20 +210,29 @@ button {
 <p id="l10n-optionDesc">Chat with DeepSeek while browsing</p>
 
 <label for="apiProvider"><span id="l10n-apiProviderLabel">API Provider</span></label>
-<select id="apiProvider" style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;margin-bottom:12px">
-  <option value="deepseek">DeepSeek</option>
-  <option value="openai">OpenAI</option>
-  <option value="anthropic">Anthropic</option>
-</select>
+<select id="apiProvider" style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;margin-bottom:12px"></select>
+
+<div id="api-custom-type-section" class="__dp-hidden">
+  <label for="apiType"><span id="l10n-apiTypeLabel">API Format</span></label>
+  <select id="apiType" style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;margin-bottom:12px">
+    <option value="openai">OpenAI-compatible</option>
+    <option value="anthropic">Anthropic</option>
+  </select>
+</div>
+
+<label for="apiBaseUrl"><span id="l10n-apiBaseUrlLabel">Base URL</span></label>
+<input type="text" id="apiBaseUrl" placeholder="https://api.deepseek.com/v1" autocomplete="off" style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;margin-bottom:12px" />
+<small><span id="l10n-apiBaseUrlHint">Auto-filled for known providers; editable if you need a custom endpoint</span></small>
 
 <label for="apiKey"><span id="l10n-apiKeyLabel">API Key</span></label>
 <input type="password" id="apiKey" placeholder="sk-..." autocomplete="off" />
-<small id="apiKeyLink"><a href="https://platform.deepseek.com/api_keys" target="_blank"><span id="l10n-getApiKeyLink">Get API Key</span></a></small>
+<small id="apiKeyLink"><a href="" target="_blank"><span id="l10n-getApiKeyLink">Get API Key</span></a></small>
 
 <label for="apiModel" style="margin-top:12px;display:block"><span id="l10n-apiModelLabel">Model</span></label>
-<select id="apiModel" style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;margin-bottom:12px"></select>
+<input type="text" id="apiModel" placeholder="model-name" autocomplete="off" style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px" />
+<small><span id="l10n-apiModelHint">Auto-filled for known providers; editable if you use a different model</span></small>
 
-<button id="testApiBtn" class="btn-primary" style="background:#6b7280"><span id="l10n-testApiButton">Test Connection</span></button>
+<button id="testApiBtn" class="btn-primary" style="background:#6b7280;margin-top:10px"><span id="l10n-testApiButton">Test Connection</span></button>
 <span id="testApiStatus" style="margin-left:10px;font-size:13px"></span>
 
 <h2 class="section-title"><span id="l10n-languageLabel">Language</span></h2>
