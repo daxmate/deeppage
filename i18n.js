@@ -9,7 +9,7 @@ const TRANSLATIONS = {
     appDesc: '在浏览网页时与 DeepSeek 对话——总结全文、提炼要点、自由问答',
     panelTitle: 'DeepPage',
     inputPlaceholder: '输入问题...',
-    contextLoaded: '已加载「$title$」作为对话背景',
+    contextLoaded: '已加载「$1」作为对话背景',
     loginNoticeTitle: '需要配置 DeepSeek API Key',
     loginNoticeStep1: '· 点击扩展图标 → 选项 → 输入 API Key',
     loginNoticeStep2: '· 或去 platform.deepseek.com 获取',
@@ -43,7 +43,7 @@ const TRANSLATIONS = {
     appDesc: 'Chat with DeepSeek while browsing — summarize, outline, translate, and ask questions',
     panelTitle: 'DeepPage',
     inputPlaceholder: 'Ask anything...',
-    contextLoaded: 'Loaded "$title$" as conversation context',
+    contextLoaded: 'Loaded "$1" as conversation context',
     loginNoticeTitle: 'DeepSeek API Key Required',
     loginNoticeStep1: '· Click extension icon → Options → Enter API Key',
     loginNoticeStep2: '· Or get one at platform.deepseek.com',
@@ -100,11 +100,16 @@ function setStoredLanguage(code, callback) {
 
 // ---- 核心 t() 函数 ----
 // 同步模式（用于 options.js 中 JS 模板）
-function t(key) {
+function t(key, ...args) {
   // 尝试从全局语言变量获取
   const lang = window.__dp_lang || detectLanguage();
   const dict = TRANSLATIONS[lang] || TRANSLATIONS.en;
-  return dict[key] || key;
+  let text = dict[key] || key;
+  // 替换 $1, $2 等占位符
+  args.forEach((arg, i) => {
+    text = text.replace(new RegExp('\\$' + (i + 1), 'g'), arg);
+  });
+  return text;
 }
 
 // 异步模式（用于 content.js，需要先加载语言）

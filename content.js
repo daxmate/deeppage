@@ -620,7 +620,7 @@ function togglePanel() {
     updateContext(pageContext.title);
     if (!chatHistory.length) {
       document.getElementById("__dp-chat").innerHTML = "";
-      addMsg("assistant", `📄 ${t('contextLoaded', [pageContext.title])}`);
+      addMsg("assistant", `📄 ${t('contextLoaded', pageContext.title)}`);
     }
     document.getElementById("__dp-input").focus();
 
