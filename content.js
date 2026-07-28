@@ -586,7 +586,7 @@ function enableDrag(headerEl, panelEl) {
     startLeft,
     startTop;
   headerEl.addEventListener("mousedown", (e) => {
-    if (e.target.tagName === "BUTTON" || e.target.tagName === "SELECT") return;
+    if (e.target.closest('button') || e.target.closest('select')) return;
     isDragging = true;
     const rect = panelEl.getBoundingClientRect();
     startX = e.clientX;
