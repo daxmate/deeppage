@@ -110,7 +110,7 @@ function updateApiUI(providerId) {
     modelSelect.innerHTML = `<option value="${p.model}">${p.model}</option>`;
     modelSelect.value = p.model;
   } else {
-    modelSelect.innerHTML = '<option value="">-- enter manually --</option>';
+    modelSelect.innerHTML = `<option value="">${t('selectModelPlaceholder') || '-- select or enter model name --'}</option>`;
   }
 
   // API Type selector (for Custom)
@@ -306,7 +306,7 @@ document.getElementById('testApiBtn').addEventListener('click', async () => {
         if (modelsResult.models && modelsResult.models.length > 0) {
           const modelSelect = document.getElementById('apiModel');
           const currentVal = modelSelect.value;
-          modelSelect.innerHTML = '<option value="">-- select model --</option>';
+          modelSelect.innerHTML = `<option value="">${t('selectModelPlaceholder') || '-- select or enter model name --'}</option>`;
           modelsResult.models.forEach(m => {
             const opt = document.createElement('option');
             opt.value = m.id;
@@ -341,7 +341,7 @@ document.getElementById('refreshModelsBtn').addEventListener('click', async () =
     if (result.models && result.models.length > 0) {
       const modelSelect = document.getElementById('apiModel');
       const currentVal = modelSelect.value;
-      modelSelect.innerHTML = '<option value="">-- select model --</option>';
+      modelSelect.innerHTML = `<option value="">${t('selectModelPlaceholder') || '-- select or enter model name --'}</option>`;
       result.models.forEach(m => {
         const opt = document.createElement('option');
         opt.value = m.id;

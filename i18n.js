@@ -69,7 +69,8 @@ const TRANSLATIONS = {
     tabApi: 'API',
     tabQuick: '快捷按钮',
     tabAppearance: '外观',
-    testApiRequired: 'Fill in Base URL, API Key, and Model first',
+
+    selectModelPlaceholder: '-- 选择或输入模型名称 --',    testApiRequired: 'Fill in Base URL, API Key, and Model first',
     defaultSummarizeLabel: '📝 总结全文',
     defaultSummarizePrompt: '请用中文总结这篇网页正文部分的核心内容',
     defaultOutlineLabel: '🎯 提炼要点',
@@ -145,7 +146,8 @@ const TRANSLATIONS = {
     tabApi: 'API',
     tabQuick: 'Quick Actions',
     tabAppearance: 'Appearance',
-    testApiRequired: '請先填寫接口地址、API Key 和模型名稱',
+
+    selectModelPlaceholder: '-- select or enter model name --',    testApiRequired: '請先填寫接口地址、API Key 和模型名稱',
     defaultSummarizeLabel: '📝 Summarize',
     defaultSummarizePrompt: 'Please summarize the core content of this web page in English',
     defaultOutlineLabel: '🎯 Key Points',
@@ -221,7 +223,8 @@ const TRANSLATIONS = {
     tabApi: 'API',
     tabQuick: 'クイック操作',
     tabAppearance: '外観',
-    testApiRequired: 'Primero complete URL base, API Key y modelo',
+
+    selectModelPlaceholder: '-- モデルを選択または入力 --',    testApiRequired: 'Primero complete URL base, API Key y modelo',
     defaultSummarizeLabel: '📝 要約',
     defaultSummarizePrompt: 'このウェブページの本文の核心内容を日本語で要約してください',
     defaultOutlineLabel: '🎯 ポイント抽出',
@@ -297,7 +300,8 @@ const TRANSLATIONS = {
     tabApi: 'API',
     tabQuick: '快捷按鈕',
     tabAppearance: '外觀',
-    testApiRequired: 'Bitte geben Sie zuerst Basis-URL, API-Schlüssel und Modell ein',
+
+    selectModelPlaceholder: '-- 選擇或輸入模型名稱 --',    testApiRequired: 'Bitte geben Sie zuerst Basis-URL, API-Schlüssel und Modell ein',
     defaultSummarizeLabel: '📝 總結全文',
     defaultSummarizePrompt: '請用繁體中文總結這篇網頁正文部分的核心內容',
     defaultOutlineLabel: '🎯 提煉要點',
@@ -373,7 +377,8 @@ const TRANSLATIONS = {
     tabApi: 'API',
     tabQuick: '빠른 작업',
     tabAppearance: '외관',
-    testApiRequired: 'Vui lòng điền URL cơ sở, API Key và tên mô hình trước',
+
+    selectModelPlaceholder: '-- 모델 선택 또는 입력 --',    testApiRequired: 'Vui lòng điền URL cơ sở, API Key và tên mô hình trước',
     defaultSummarizeLabel: '📝 요약',
     defaultSummarizePrompt: '이 웹페이지 본문의 핵심 내용을 한국어로 요약해주세요',
     defaultOutlineLabel: '🎯 핵심 정리',
@@ -448,7 +453,8 @@ const TRANSLATIONS = {
     tabApi: 'API',
     tabQuick: 'Acciones rápidas',
     tabAppearance: 'Apariencia',
-    defaultSummarizeLabel: '📝 Resumir',
+
+    selectModelPlaceholder: '-- seleccionar o introducir modelo --',    defaultSummarizeLabel: '📝 Resumir',
     defaultSummarizePrompt: 'Por favor, resume el contenido principal de esta página web en español',
     defaultOutlineLabel: '🎯 Puntos clave',
     defaultOutlinePrompt: 'Por favor, extrae los puntos clave de esta página web y enuméralos',
@@ -522,7 +528,8 @@ const TRANSLATIONS = {
     tabApi: 'API',
     tabQuick: 'Actions rapides',
     tabAppearance: 'Apparence',
-    defaultSummarizeLabel: '📝 Résumer',
+
+    selectModelPlaceholder: '-- sélectionnez ou saisissez le modèle --',    defaultSummarizeLabel: '📝 Résumer',
     defaultSummarizePrompt: 'Veuillez résumer le contenu principal de cette page web en français',
     defaultOutlineLabel: '🎯 Points clés',
     defaultOutlinePrompt: 'Veuillez extraire les points clés de cette page web et les lister',
@@ -596,7 +603,8 @@ const TRANSLATIONS = {
     tabApi: 'API',
     tabQuick: 'Schnellaktionen',
     tabAppearance: 'Darstellung',
-    defaultSummarizeLabel: '📝 Zusammenfassen',
+
+    selectModelPlaceholder: '-- Modell auswählen oder eingeben --',    defaultSummarizeLabel: '📝 Zusammenfassen',
     defaultSummarizePrompt: 'Bitte fasse den Kerninhalt dieser Webseite auf Deutsch zusammen',
     defaultOutlineLabel: '🎯 Schlüsselpunkte',
     defaultOutlinePrompt: 'Bitte extrahiere die wichtigsten Punkte dieser Webseite und liste sie auf',
@@ -670,7 +678,8 @@ const TRANSLATIONS = {
     tabApi: 'API',
     tabQuick: 'Быстрые действия',
     tabAppearance: 'Внешний вид',
-    defaultSummarizeLabel: '📝 Резюме',
+
+    selectModelPlaceholder: '-- выберите или введите модель --',    defaultSummarizeLabel: '📝 Резюме',
     defaultSummarizePrompt: 'Пожалуйста, резюмируйте основное содержание этой веб-страницы на русском языке',
     defaultOutlineLabel: '🎯 Ключевые моменты',
     defaultOutlinePrompt: 'Пожалуйста, выделите ключевые моменты этой веб-страницы и перечислите их',
@@ -744,7 +753,8 @@ const TRANSLATIONS = {
     tabApi: 'API',
     tabQuick: 'Thao tác nhanh',
     tabAppearance: 'Giao diện',
-    defaultSummarizeLabel: '📝 Tóm tắt',
+
+    selectModelPlaceholder: '-- chọn hoặc nhập tên mô hình --',    defaultSummarizeLabel: '📝 Tóm tắt',
     defaultSummarizePrompt: 'Vui lòng tóm tắt nội dung chính của trang web này bằng tiếng Việt',
     defaultOutlineLabel: '🎯 Ý chính',
     defaultOutlinePrompt: 'Vui lòng rút trích các ý chính của trang web này và liệt kê chúng',
