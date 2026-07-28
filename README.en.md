@@ -14,6 +14,7 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 - **Page Context Persistence** — Saved with conversations, survives panel reloads
 - **Copy Replies** — Hover AI messages → copy button, one-click clipboard copy
 - **Streaming Output** — Real-time token-by-token rendering, typewriter effect without waiting for full response
+- **Selection Query** — Select text on any page to reveal a floating button; uses page context + AI knowledge to explain the selection
 - **Draggable / Resizable** — Panel position and size are freely adjustable; initial vertical centering
 - **Markdown Rendering** — Full GFM support via marked (headings, lists, tables, code blocks, blockquotes, task lists)
 - **Multi-language** — 10 languages with on-the-fly switching via panel or options

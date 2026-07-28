@@ -861,6 +861,19 @@ async function loadActiveConversation() {
   if (data.activeId && data.conversations.length > 0) {
     const conv = data.conversations.find(c => c.id === data.activeId);
     if (conv && conv.messages.length > 0) {
+      // 检查页面是否匹配；不匹配则新建对话
+      if (conv.context && conv.context.url !== location.href) {
+        // 不同页面 → 新建对话，保留旧对话在历史中
+        currentConvId = null;
+        currentMessages = [];
+        chatHistory = [];
+        await getOrCreateConv();
+        pageContext = extractPageContent();
+        updateContext(pageContext.title);
+        document.getElementById('__dp-chat').innerHTML = '';
+        addMsg('assistant', `📄 ${t('contextLoaded', pageContext ? pageContext.title : '')}`, { skipTrack: true, dataset: { msgType: 'context-loaded' } });
+        return;
+      }
       currentConvId = conv.id;
       // 恢复页面上下文
       if (conv.context) {
@@ -1431,7 +1444,7 @@ function createSelBtn() {
   document.body.appendChild(_selBtn);
 }
 
-function onSelAsk() {
+async function onSelAsk() {
   const sel = window.getSelection();
   const text = sel ? sel.toString().trim() : '';
   if (!text) return;
@@ -1441,6 +1454,27 @@ function onSelAsk() {
   // 打开面板
   if (!panelOpen) {
     togglePanel();
+    // 等待 loadActiveConversation（异步）完成
+    await new Promise(r => setTimeout(r, 50));
+  }
+  // 刷新页面上下文（面板已开也可能换了页面）
+  pageContext = extractPageContent();
+  updateContext(pageContext.title);
+
+  // 检查当前对话上下文是否匹配当前页面
+  const data = await loadConversations();
+  let currentConv = data.conversations.find(c => c.id === currentConvId);
+  if (currentConv && currentConv.context && currentConv.context.url !== location.href) {
+    // 不同页面 → 新建对话
+    await newConversation();
+    pageContext = extractPageContent();
+    updateContext(pageContext.title);
+  } else if (!currentConv || !currentConv.context) {
+    // 无上下文记录 → 确保 pageContext 已设置
+    if (!pageContext) {
+      pageContext = extractPageContent();
+      updateContext(pageContext.title);
+    }
   }
 
   // 将选中内容作为用户消息发送
