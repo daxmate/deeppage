@@ -38,6 +38,7 @@ const TRANSLATIONS = {
     defaultTranslatePrompt: '请将这篇网页的正文部分翻译成中文',
     newButtonLabel: '新按钮',
     languageLabel: '语言',
+    darkModeLabel: '深色模式',
   },
 
   en: {
@@ -73,6 +74,7 @@ const TRANSLATIONS = {
     defaultTranslatePrompt: 'Please translate the main content of this web page to English',
     newButtonLabel: 'New Button',
     languageLabel: 'Language',
+    darkModeLabel: 'Dark Mode',
   },
 
   ja: {
@@ -108,6 +110,7 @@ const TRANSLATIONS = {
     defaultTranslatePrompt: 'このウェブページの本文を日本語に翻訳してください',
     newButtonLabel: '新規ボタン',
     languageLabel: '言語',
+    darkModeLabel: 'ダークモード',
   },
 
   zh_TW: {
@@ -143,6 +146,7 @@ const TRANSLATIONS = {
     defaultTranslatePrompt: '請將這篇網頁的正文部分翻譯成繁體中文',
     newButtonLabel: '新按鈕',
     languageLabel: '語言',
+    darkModeLabel: '深色模式',
   },
 
   ko: {
@@ -178,6 +182,7 @@ const TRANSLATIONS = {
     defaultTranslatePrompt: '이 웹페이지의 본문을 한국어로 번역해주세요',
     newButtonLabel: '새 버튼',
     languageLabel: '언어',
+    darkModeLabel: '다크 모드',
   },
 
   es: {
@@ -213,6 +218,7 @@ const TRANSLATIONS = {
     defaultTranslatePrompt: 'Por favor, traduce el contenido principal de esta página web al español',
     newButtonLabel: 'Nuevo botón',
     languageLabel: 'Idioma',
+    darkModeLabel: 'Modo oscuro',
   },
 
   fr: {
@@ -248,6 +254,7 @@ const TRANSLATIONS = {
     defaultTranslatePrompt: 'Veuillez traduire le contenu principal de cette page web en français',
     newButtonLabel: 'Nouveau bouton',
     languageLabel: 'Langue',
+    darkModeLabel: 'Mode sombre',
   },
 
   de: {
@@ -283,6 +290,7 @@ const TRANSLATIONS = {
     defaultTranslatePrompt: 'Bitte übersetze den Hauptinhalt dieser Webseite ins Deutsche',
     newButtonLabel: 'Neuer Button',
     languageLabel: 'Sprache',
+    darkModeLabel: 'Dunkelmodus',
   },
 
   ru: {
@@ -318,6 +326,7 @@ const TRANSLATIONS = {
     defaultTranslatePrompt: 'Пожалуйста, переведите основное содержание этой веб-страницы на русский язык',
     newButtonLabel: 'Новая кнопка',
     languageLabel: 'Язык',
+    darkModeLabel: 'Тёмная тема',
   },
 
   vi: {
@@ -353,6 +362,7 @@ const TRANSLATIONS = {
     defaultTranslatePrompt: 'Vui lòng dịch nội dung chính của trang web này sang tiếng Việt',
     newButtonLabel: 'Nút mới',
     languageLabel: 'Ngôn ngữ',
+    darkModeLabel: 'Chế độ tối',
   },
 
 };

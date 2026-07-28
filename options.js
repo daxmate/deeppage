@@ -93,10 +93,23 @@ document.getElementById('language-select').addEventListener('change', (e) => {
   window.__dp_lang = e.target.value;
   setStoredLanguage(e.target.value, () => {
     localizePage();
-    // 重新加载按钮（用新语言的默认值）
     loadSavedData();
   });
 });
+
+// ---- Dark mode 切换 ----
+const darkToggle = document.getElementById('dark-mode-toggle');
+chrome.storage.sync.get('darkMode', (result) => {
+  darkToggle.checked = !!result.darkMode;
+  applyOptionsDarkMode(!!result.darkMode);
+});
+darkToggle.addEventListener('change', () => {
+  applyOptionsDarkMode(darkToggle.checked);
+  chrome.storage.sync.set({ darkMode: darkToggle.checked });
+});
+function applyOptionsDarkMode(dark) {
+  document.body.classList.toggle('__dp-dark-options', dark);
+}
 
 // ---- 添加按钮 ----
 btnAdd.addEventListener('click', () => {
