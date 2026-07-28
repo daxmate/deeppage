@@ -329,6 +329,8 @@ function injectStyles() {
       padding: 24px 0;
     }
     .__dp-history-item {
+      display: flex;
+      align-items: center;
       padding: 10px 12px;
       border-radius: 8px;
       cursor: pointer;
@@ -337,6 +339,10 @@ function injectStyles() {
     }
     .__dp-history-item:hover { background: #f3f4f6; }
     .__dp-history-item.active { background: #eff6ff; }
+    .__dp-history-item-main {
+      flex: 1;
+      min-width: 0;
+    }
     .__dp-history-title {
       font-size: 13px;
       font-weight: 500;
@@ -348,6 +354,25 @@ function injectStyles() {
       font-size: 11px;
       color: #9ca3af;
       margin-top: 2px;
+    }
+    .__dp-history-del {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      color: #9ca3af;
+      border-radius: 6px;
+      line-height: 0;
+      flex-shrink: 0;
+      transition: all 0.12s;
+      opacity: 0;
+    }
+    .__dp-history-item:hover .__dp-history-del {
+      opacity: 1;
+    }
+    .__dp-history-del:hover {
+      background: rgba(239,68,68,0.1);
+      color: #ef4444;
     }
     /* 复制按钮 */
     .__dp-msg.__dp-assistant {
@@ -468,7 +493,14 @@ function injectStyles() {
         border-color: #4a6cf7;
       }
       .__dp-loading span {
-        background: #6B8AFF;
+        
+      .__dp-history-item:hover { background: #2a2b30; }
+      .__dp-history-item.active { background: #1a2740; }
+      .__dp-history-title { color: #e4e5e7; }
+      .__dp-history-del { color: #6b7280; }
+      .__dp-history-del:hover {
+        background: rgba(239,68,68,0.15);
+        color: #f87171;
       }
     }
       .__dp-copy-btn {
@@ -529,6 +561,11 @@ function injectStyles() {
     #__dp-panel.__dp-dark .__dp-history-item:hover { background: #2a2b30; }
     #__dp-panel.__dp-dark .__dp-history-item.active { background: #1a2740; }
     #__dp-panel.__dp-dark .__dp-history-title { color: #e4e5e7; }
+    #__dp-panel.__dp-dark .__dp-history-del { color: #6b7280; }
+    #__dp-panel.__dp-dark .__dp-history-del:hover {
+      background: rgba(239,68,68,0.15);
+      color: #f87171;
+    }
       background: #25262b;
       color: #e4e5e7;
     }
@@ -867,15 +904,29 @@ async function renderHistoryList() {
       ${data.conversations.length === 0 ? '<div class="__dp-history-empty">' + (t('historyEmpty') || 'No conversations') + '</div>' : ''}
       ${data.conversations.map(c => `
         <div class="__dp-history-item${c.id === currentConvId ? ' active' : ''}" data-id="${c.id}">
-          <div class="__dp-history-title">${escapeHtml(c.title)}</div>
-          <div class="__dp-history-meta">${c.messages.length} msg · ${formatRelativeTime(c.updatedAt)}</div>
+          <div class="__dp-history-item-main">
+            <div class="__dp-history-title">${escapeHtml(c.title)}</div>
+            <div class="__dp-history-meta">${c.messages.length} msg · ${formatRelativeTime(c.updatedAt)}</div>
+          </div>
+          <button class="__dp-history-del" data-id="${c.id}" title="${t('deleteButton') || 'Delete'}">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
         </div>
       `).join('')}
     </div>
   `;
   // Bind events
   list.querySelectorAll('.__dp-history-item').forEach(el => {
-    el.addEventListener('click', () => switchConversation(el.dataset.id));
+    el.addEventListener('click', (e) => {
+      if (e.target.closest('.__dp-history-del')) return;
+      switchConversation(el.dataset.id);
+    });
+  });
+  list.querySelectorAll('.__dp-history-del').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      deleteConversation(el.dataset.id);
+    });
   });
   list.querySelector('.__dp-history-back')?.addEventListener('click', showChat);
 }
