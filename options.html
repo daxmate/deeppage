@@ -14,11 +14,12 @@ body {
 h1 { font-size: 20px; margin-bottom: 8px; }
 p { color: #6b7280; margin-bottom: 24px; }
 label { display: block; font-weight: 600; margin-bottom: 6px; }
-input {
+input, textarea {
   width: 100%; padding: 10px 14px; border: 1px solid #d1d5db;
   border-radius: 8px; font-size: 14px; font-family: monospace;
 }
-input:focus { border-color: #4A6CF7; outline: none; }
+input:focus, textarea:focus { border-color: #4A6CF7; outline: none; }
+textarea { resize: vertical; font-family: inherit; }
 small { display: block; color: #9ca3af; margin: 4px 0 16px; }
 button {
   padding: 10px 24px; border: none; border-radius: 8px;
@@ -38,6 +39,20 @@ button:hover { background: #6B8AFF; }
 <label for="apiKey">DeepSeek API Key</label>
 <input type="password" id="apiKey" placeholder="sk-..." autocomplete="off" />
 <small>从 <a href="https://platform.deepseek.com/api_keys" target="_blank">platform.deepseek.com</a> 获取</small>
+
+<h2 style="font-size:16px;margin:24px 0 12px;padding-top:20px;border-top:1px solid #e5e7eb">快捷按钮提示词</h2>
+
+<label for="promptSummarize">📝 总结全文</label>
+<textarea id="promptSummarize" rows="2" placeholder="请用中文总结这篇网页正文部分的核心内容"></textarea>
+<small>点击「总结全文」按钮时自动输入的提示词</small>
+
+<label for="promptOutline">🎯 提炼要点</label>
+<textarea id="promptOutline" rows="2" placeholder="请提炼这篇网页正文部分的要点，以列表形式列出"></textarea>
+<small>点击「提炼要点」按钮时自动输入的提示词</small>
+
+<label for="promptTranslate">🌐 翻译</label>
+<textarea id="promptTranslate" rows="2" placeholder="请将这篇网页的正文部分翻译成中文"></textarea>
+<small>点击「翻译」按钮时自动输入的提示词</small>
 
 <button id="saveBtn">保存</button>
 <div id="status"></div>

@@ -315,6 +315,26 @@ function injectStyles() {
 let chatPanel = null;
 let panelOpen = false;
 let pageContext = null;
+let prompts = {};
+
+const DEFAULT_PROMPTS = {
+  summarize: '请用中文总结这篇网页正文部分的核心内容',
+  outline: '请提炼这篇网页正文部分的要点，以列表形式列出',
+  translate: '请将这篇网页的正文部分翻译成中文',
+};
+
+function loadPromptsFromStorage() {
+  chrome.storage.sync.get(
+    ['promptSummarize', 'promptOutline', 'promptTranslate'],
+    (result) => {
+      prompts = {
+        summarize: result.promptSummarize || DEFAULT_PROMPTS.summarize,
+        outline: result.promptOutline || DEFAULT_PROMPTS.outline,
+        translate: result.promptTranslate || DEFAULT_PROMPTS.translate,
+      };
+    },
+  );
+}
 
 function extractPageContent() {
   const article =
@@ -591,6 +611,7 @@ function togglePanel() {
     }
     document.getElementById("__dp-input").focus();
 
+    loadPromptsFromStorage();
     chrome.runtime.sendMessage({ action: "checkLogin" }, (resp) => {
       showLoginNotice(!resp?.loggedIn);
       if (resp?.loggedIn) {
@@ -675,19 +696,17 @@ function createButton() {
   document
     .getElementById("__dp-btn-summarize")
     .addEventListener("click", () => {
-      document.getElementById("__dp-input").value =
-        "请用中文总结这篇网页正文部分的核心内容";
+      document.getElementById("__dp-input").value = prompts.summarize;
       sendMessage();
     });
   document.getElementById("__dp-btn-outline").addEventListener("click", () => {
-    document.getElementById("__dp-input").value =
-      "请提炼这篇网页正文部分的要点，以列表形式列出";
+    document.getElementById("__dp-input").value = prompts.outline;
     sendMessage();
   });
   document
     .getElementById("__dp-btn-translate")
     .addEventListener("click", () => {
-      document.getElementById("__dp-input").value = "请将这篇网页的正文部分翻译成中文";
+      document.getElementById("__dp-input").value = prompts.translate;
       sendMessage();
     });
   document.getElementById("__dp-input").addEventListener("keydown", (e) => {
