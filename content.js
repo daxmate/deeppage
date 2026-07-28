@@ -12,7 +12,8 @@ function injectStyles() {
       position: fixed !important;
       left: auto;
       right: 24px;
-      top: 80px;
+      top: 50%;
+      transform: translateY(-50%);
       width: 420px;
       height: calc(100vh * 2 / 3);
       max-height: calc(100vh - 100px);
@@ -657,6 +658,7 @@ function enableDrag(headerEl, panelEl) {
     startTop = rect.top;
     panelEl.style.left = startLeft + "px";
     panelEl.style.top = startTop + "px";
+    panelEl.style.transform = "none";
     panelEl.style.bottom = "auto";
     panelEl.style.right = "auto";
     e.preventDefault();
