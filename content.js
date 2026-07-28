@@ -315,25 +315,37 @@ function injectStyles() {
 let chatPanel = null;
 let panelOpen = false;
 let pageContext = null;
-let prompts = {};
 
-const DEFAULT_PROMPTS = {
-  summarize: '请用中文总结这篇网页正文部分的核心内容',
-  outline: '请提炼这篇网页正文部分的要点，以列表形式列出',
-  translate: '请将这篇网页的正文部分翻译成中文',
-};
+const DEFAULT_QUICK_ACTIONS = [
+  { id: 'summarize', label: '📝 总结全文', prompt: '请用中文总结这篇网页正文部分的核心内容' },
+  { id: 'outline', label: '🎯 提炼要点', prompt: '请提炼这篇网页正文部分的要点，以列表形式列出' },
+  { id: 'translate', label: '🌐 翻译', prompt: '请将这篇网页的正文部分翻译成中文' },
+];
 
-function loadPromptsFromStorage() {
-  chrome.storage.sync.get(
-    ['promptSummarize', 'promptOutline', 'promptTranslate'],
-    (result) => {
-      prompts = {
-        summarize: result.promptSummarize || DEFAULT_PROMPTS.summarize,
-        outline: result.promptOutline || DEFAULT_PROMPTS.outline,
-        translate: result.promptTranslate || DEFAULT_PROMPTS.translate,
-      };
-    },
-  );
+let quickActions = [];
+
+function renderQuickActions() {
+  const container = document.getElementById('__dp-quick-actions');
+  if (!container) return;
+  container.innerHTML = '';
+  for (const action of quickActions) {
+    const btn = document.createElement('button');
+    btn.textContent = action.label;
+    btn.addEventListener('click', () => {
+      document.getElementById('__dp-input').value = action.prompt;
+      sendMessage();
+    });
+    container.appendChild(btn);
+  }
+}
+
+function loadQuickActionsFromStorage() {
+  chrome.storage.sync.get('quickActions', (result) => {
+    quickActions = result.quickActions && result.quickActions.length
+      ? result.quickActions
+      : DEFAULT_QUICK_ACTIONS;
+    renderQuickActions();
+  });
 }
 
 function extractPageContent() {
@@ -376,11 +388,7 @@ function createChatPanel() {
     <div id="__dp-context-bar" class="__dp-hidden">
       📄 <span id="__dp-context-title"></span>
     </div>
-    <div id="__dp-quick-actions" class="__dp-hidden">
-      <button id="__dp-btn-summarize">📝 总结全文</button>
-      <button id="__dp-btn-outline">🎯 提炼要点</button>
-      <button id="__dp-btn-translate">🌐 翻译</button>
-    </div>
+    <div id="__dp-quick-actions" class="__dp-hidden"></div>
     <div id="__dp-login-notice" class="__dp-hidden">
       <div>需要配置 DeepSeek API Key</div>
       <div class="__dp-small">
@@ -611,7 +619,7 @@ function togglePanel() {
     }
     document.getElementById("__dp-input").focus();
 
-    loadPromptsFromStorage();
+    loadQuickActionsFromStorage();
     chrome.runtime.sendMessage({ action: "checkLogin" }, (resp) => {
       showLoginNotice(!resp?.loggedIn);
       if (resp?.loggedIn) {
@@ -690,25 +698,9 @@ function createButton() {
   enableDrag(document.getElementById("__dp-panel-header"), chatPanel);
   enableResize(chatPanel);
 
-  // 绑定原有事件
+  // 绑定事件
   document.getElementById("__dp-close").addEventListener("click", togglePanel);
   document.getElementById("__dp-send").addEventListener("click", sendMessage);
-  document
-    .getElementById("__dp-btn-summarize")
-    .addEventListener("click", () => {
-      document.getElementById("__dp-input").value = prompts.summarize;
-      sendMessage();
-    });
-  document.getElementById("__dp-btn-outline").addEventListener("click", () => {
-    document.getElementById("__dp-input").value = prompts.outline;
-    sendMessage();
-  });
-  document
-    .getElementById("__dp-btn-translate")
-    .addEventListener("click", () => {
-      document.getElementById("__dp-input").value = prompts.translate;
-      sendMessage();
-    });
   document.getElementById("__dp-input").addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();

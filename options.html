@@ -9,7 +9,7 @@
 body {
   font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
   font-size: 14px; color: #1f2937;
-  padding: 40px; max-width: 500px; margin: 0 auto;
+  padding: 40px; max-width: 540px; margin: 0 auto;
 }
 h1 { font-size: 20px; margin-bottom: 8px; }
 p { color: #6b7280; margin-bottom: 24px; }
@@ -22,14 +22,53 @@ input:focus, textarea:focus { border-color: #4A6CF7; outline: none; }
 textarea { resize: vertical; font-family: inherit; }
 small { display: block; color: #9ca3af; margin: 4px 0 16px; }
 button {
-  padding: 10px 24px; border: none; border-radius: 8px;
-  background: #4A6CF7; color: white; font-size: 14px;
+  border: none; border-radius: 8px;
   cursor: pointer; font-weight: 600;
 }
-button:hover { background: #6B8AFF; }
 #status { margin-top: 12px; font-size: 13px; }
 #status.ok { color: #059669; }
 #status.err { color: #dc2626; }
+
+.section-title {
+  font-size: 16px; margin: 24px 0 12px;
+  padding-top: 20px; border-top: 1px solid #e5e7eb;
+}
+
+/* 按钮卡片 */
+.action-card {
+  background: #f9fafb; border: 1px solid #e5e7eb;
+  border-radius: 10px; padding: 14px; margin-bottom: 12px;
+}
+.action-card .card-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+}
+.action-card .card-index {
+  font-size: 12px; color: #9ca3af; font-weight: 600;
+  background: #e5e7eb; border-radius: 50%;
+  width: 22px; height: 22px; display: flex;
+  align-items: center; justify-content: center;
+}
+.action-card label { font-size: 13px; margin-bottom: 4px; }
+.action-card input { font-size: 13px; padding: 8px 10px; }
+.action-card textarea { font-size: 13px; padding: 8px 10px; min-height: 48px; }
+.action-card .btn-del {
+  margin-left: auto; background: #fee2e2; color: #dc2626;
+  width: 28px; height: 28px; border-radius: 6px;
+  font-size: 16px; line-height: 1; display: flex;
+  align-items: center; justify-content: center;
+}
+.action-card .btn-del:hover { background: #fecaca; }
+
+.btn-primary {
+  padding: 10px 24px; background: #4A6CF7; color: white; font-size: 14px;
+}
+.btn-primary:hover { background: #6B8AFF; }
+
+.btn-add {
+  padding: 8px 16px; background: #eef2ff; color: #4A6CF7;
+  font-size: 13px; border: 1px dashed #4A6CF7;
+}
+.btn-add:hover { background: #dbe8ff; }
 </style>
 </head>
 <body>
@@ -40,21 +79,15 @@ button:hover { background: #6B8AFF; }
 <input type="password" id="apiKey" placeholder="sk-..." autocomplete="off" />
 <small>从 <a href="https://platform.deepseek.com/api_keys" target="_blank">platform.deepseek.com</a> 获取</small>
 
-<h2 style="font-size:16px;margin:24px 0 12px;padding-top:20px;border-top:1px solid #e5e7eb">快捷按钮提示词</h2>
+<h2 class="section-title">快捷操作按钮</h2>
 
-<label for="promptSummarize">📝 总结全文</label>
-<textarea id="promptSummarize" rows="2" placeholder="请用中文总结这篇网页正文部分的核心内容"></textarea>
-<small>点击「总结全文」按钮时自动输入的提示词</small>
+<div id="actions-container"></div>
 
-<label for="promptOutline">🎯 提炼要点</label>
-<textarea id="promptOutline" rows="2" placeholder="请提炼这篇网页正文部分的要点，以列表形式列出"></textarea>
-<small>点击「提炼要点」按钮时自动输入的提示词</small>
+<button id="btn-add" class="btn-add">＋ 添加按钮</button>
 
-<label for="promptTranslate">🌐 翻译</label>
-<textarea id="promptTranslate" rows="2" placeholder="请将这篇网页的正文部分翻译成中文"></textarea>
-<small>点击「翻译」按钮时自动输入的提示词</small>
-
-<button id="saveBtn">保存</button>
+<p style="margin-top:24px">
+  <button id="saveBtn" class="btn-primary">保存</button>
+</p>
 <div id="status"></div>
 
 <script src="options.js"></script>
