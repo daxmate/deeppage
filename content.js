@@ -988,6 +988,9 @@ function createButton() {
       document.querySelectorAll('.__dp-copy-btn').forEach((btn) => {
         btn.title = t('copyButton');
       });
+      // 更新输入框占位符
+      const input = document.getElementById('__dp-input');
+      if (input) input.placeholder = t('inputPlaceholder');
       if (panelOpen) {
         loadQuickActionsFromStorage();
       }
