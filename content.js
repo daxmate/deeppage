@@ -432,6 +432,9 @@ function injectStyles() {
       }
       #__dp-context-bar {
         background: #1a2740;
+        color: #e4e5e7;
+        border-bottom-color: #253a5a;
+      }
       }
       #__dp-quick-actions {
         background: #1a1b1e;
@@ -533,6 +536,8 @@ function injectStyles() {
     }
     #__dp-panel.__dp-dark #__dp-context-bar {
       background: #1a2740;
+      color: #e4e5e7;
+      border-bottom-color: #253a5a;
     }
     #__dp-panel.__dp-dark #__dp-quick-actions {
       background: #1a1b1e;
