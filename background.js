@@ -3,27 +3,37 @@
 // Routes API calls — OpenAI or Anthropic format
 // ==============================================
 
-const DEFAULT_BASE_URLS = {
-  openai: 'https://api.deepseek.com/v1',
-  anthropic: 'https://api.anthropic.com',
-};
-
-// OpenAI-compatible endpoint is /chat/completions
 const API_PATHS = {
   openai: '/chat/completions',
   anthropic: '/messages',
 };
 
+const API_PROVIDERS = {
+  deepseek:  { type: 'openai',    baseUrl: 'https://api.deepseek.com/v1',            model: 'deepseek-v4-flash' },
+  openai:    { type: 'openai',    baseUrl: 'https://api.openai.com/v1',              model: 'gpt-4o-mini' },
+  groq:      { type: 'openai',    baseUrl: 'https://api.groq.com/openai/v1',         model: 'llama3-70b-8192' },
+  ollama:    { type: 'openai',    baseUrl: 'http://localhost:11434/v1',              model: 'llama3.2' },
+  together:  { type: 'openai',    baseUrl: 'https://api.together.xyz/v1',            model: 'mistralai/Mixtral-8x22B-Instruct-v0.1' },
+  anthropic: { type: 'anthropic', baseUrl: 'https://api.anthropic.com',              model: 'claude-sonnet-4-20250514' },
+  custom:    { type: 'openai',    baseUrl: '',                                       model: '' },
+};
+
 async function getSettings() {
   const result = await chrome.storage.sync.get([
-    'apiType', 'apiBaseUrl', 'apiKey', 'apiModel',
+    'apiProvider', 'apiBaseUrl', 'apiKey', 'apiModel', 'apiType',
     'deepseekApiKey', // fallback
   ]);
-  const apiType = result.apiType || 'openai';
-  const baseUrl = result.apiBaseUrl || DEFAULT_BASE_URLS[apiType];
+  const apiProvider = result.apiProvider || 'deepseek';
+  const defaults = API_PROVIDERS[apiProvider] || API_PROVIDERS.deepseek;
+
+  // For custom, apiType comes from storage; for known providers, from config
+  const apiType = apiProvider === 'custom'
+    ? (result.apiType || 'openai')
+    : defaults.type;
+  const baseUrl = result.apiBaseUrl || defaults.baseUrl;
   const apiKey = result.apiKey || result.deepseekApiKey || null;
-  const model = result.apiModel ||
-    (apiType === 'openai' ? 'deepseek-v4-flash' : 'claude-sonnet-4-20250514');
+  const model = result.apiModel || defaults.model;
+
   return { apiType, baseUrl, apiKey, model };
 }
 

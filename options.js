@@ -38,51 +38,79 @@ const btnAdd = document.getElementById('btn-add');
 const saveBtn = document.getElementById('saveBtn');
 const status = document.getElementById('status');
 
-// ---- API 类型配置 ----
-const API_TYPES = {
-  openai: {
-    label: 'OpenAI-compatible',
-    defaultBaseUrl: 'https://api.deepseek.com/v1',
-    keyPlaceholder: 'sk-...',
-    keyLink: 'https://platform.deepseek.com/api_keys',
-    keyLinkLabel: 'Get API Key',
-    defaultModel: 'deepseek-v4-flash',
-  },
-  anthropic: {
-    label: 'Anthropic',
-    defaultBaseUrl: 'https://api.anthropic.com',
-    keyPlaceholder: 'sk-ant-...',
-    keyLink: 'https://console.anthropic.com/settings/keys',
-    keyLinkLabel: 'Get API Key',
-    defaultModel: 'claude-sonnet-4-20250514',
-  },
-};
+// ---- API 提供商列表 ----
+const API_PROVIDERS = [
+  { id: 'deepseek',  label: 'DeepSeek',                type: 'openai',    baseUrl: 'https://api.deepseek.com/v1',            model: 'deepseek-v4-flash',      keyLink: 'https://platform.deepseek.com/api_keys' },
+  { id: 'openai',    label: 'OpenAI',                   type: 'openai',    baseUrl: 'https://api.openai.com/v1',              model: 'gpt-4o-mini',            keyLink: 'https://platform.openai.com/api-keys' },
+  { id: 'groq',      label: 'Groq',                     type: 'openai',    baseUrl: 'https://api.groq.com/openai/v1',         model: 'llama3-70b-8192',        keyLink: 'https://console.groq.com/keys' },
+  { id: 'ollama',    label: 'Ollama (Local)',           type: 'openai',    baseUrl: 'http://localhost:11434/v1',              model: 'llama3.2',               keyLink: '' },
+  { id: 'together',  label: 'Together AI',              type: 'openai',    baseUrl: 'https://api.together.xyz/v1',            model: 'mistralai/Mixtral-8x22B-Instruct-v0.1', keyLink: 'https://api.together.ai/settings/api-keys' },
+  { id: 'anthropic', label: 'Anthropic',                type: 'anthropic', baseUrl: 'https://api.anthropic.com',              model: 'claude-sonnet-4-20250514', keyLink: 'https://console.anthropic.com/settings/keys' },
+  { id: 'custom',    label: '🔧 Custom',                 type: 'openai',    baseUrl: '',                                      model: '',                       keyLink: '' },
+];
 
-function updateApiUI(apiType) {
-  const cfg = API_TYPES[apiType];
-  if (!cfg) return;
+function getProvider(id) {
+  return API_PROVIDERS.find(p => p.id === id);
+}
 
-  // Key placeholder
-  document.getElementById('apiKey').placeholder = cfg.keyPlaceholder;
+function populateProviderSelect() {
+  const select = document.getElementById('apiProvider');
+  select.innerHTML = '';
+  API_PROVIDERS.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.id;
+    opt.textContent = p.label;
+    select.appendChild(opt);
+  });
+}
 
-  // Link
+function updateApiUI(providerId) {
+  const p = getProvider(providerId);
+  if (!p) return;
+
+  // Base URL
+  const baseUrlInput = document.getElementById('apiBaseUrl');
+  if (p.id !== 'custom' && p.baseUrl) {
+    baseUrlInput.value = p.baseUrl;
+    baseUrlInput.disabled = false;
+  } else {
+    baseUrlInput.value = '';
+    baseUrlInput.disabled = false;
+  }
+  baseUrlInput.placeholder = p.id === 'custom'
+    ? (p.type === 'anthropic' ? 'https://api.anthropic.com' : 'https://api.deepseek.com/v1')
+    : p.baseUrl;
+
+  // Model
+  const modelInput = document.getElementById('apiModel');
+  if (p.id !== 'custom' && p.model) {
+    modelInput.value = p.model;
+  } else {
+    modelInput.value = '';
+  }
+  modelInput.placeholder = p.model || 'model-name';
+
+  // API Type selector (for Custom)
+  const customTypeSection = document.getElementById('api-custom-type-section');
+  if (p.id === 'custom') {
+    customTypeSection.classList.remove('__dp-hidden');
+    const apiTypeSelect = document.getElementById('apiType');
+    // Preserve user's last choice if switching between custom types
+    const stored = localStorage.getItem('deeppage_custom_api_type');
+    if (stored) apiTypeSelect.value = stored;
+  } else {
+    customTypeSection.classList.add('__dp-hidden');
+    const apiTypeSelect = document.getElementById('apiType');
+    apiTypeSelect.value = p.type;
+  }
+
+  // Key placeholder & link
+  const keyInput = document.getElementById('apiKey');
+  keyInput.placeholder = p.id === 'anthropic' ? 'sk-ant-...' : 'sk-...';
   const link = document.querySelector('#apiKeyLink a');
   if (link) {
-    link.href = cfg.keyLink;
-    const span = link.querySelector('span');
-    if (span) span.textContent = cfg.keyLinkLabel;
+    link.href = p.keyLink || 'https://platform.deepseek.com/api_keys';
   }
-
-  // Base URL placeholder
-  const baseUrlInput = document.getElementById('apiBaseUrl');
-  baseUrlInput.placeholder = cfg.defaultBaseUrl;
-  if (!baseUrlInput.value || baseUrlInput.dataset.autoFilled !== 'false') {
-    baseUrlInput.value = cfg.defaultBaseUrl;
-    baseUrlInput.dataset.autoFilled = 'true';
-  }
-
-  // Model placeholder
-  document.getElementById('apiModel').placeholder = cfg.defaultModel;
 }
 
 // ---- 渲染卡片列表 ----
@@ -114,24 +142,36 @@ function render() {
 // ---- 加载 ----
 function loadSavedData() {
   chrome.storage.sync.get(
-    ['apiType', 'apiBaseUrl', 'apiKey', 'apiModel',
+    ['apiProvider', 'apiBaseUrl', 'apiKey', 'apiModel',
      'deepseekApiKey', // fallback
      'quickActions', 'quickActionsLang'],
     (result) => {
-      const apiType = result.apiType || 'openai';
-      document.getElementById('apiType').value = apiType;
-      updateApiUI(apiType);
+      // Init provider select
+      populateProviderSelect();
 
-      // Base URL
-      document.getElementById('apiBaseUrl').value =
-        result.apiBaseUrl || API_TYPES[apiType].defaultBaseUrl;
+      const providerId = result.apiProvider || 'deepseek';
+      document.getElementById('apiProvider').value = providerId;
+      updateApiUI(providerId);
 
-      // API Key — use new apiKey first, fall back to deepseekApiKey
+      // Base URL (only use stored value if Custom or user edited it)
+      const baseUrlInput = document.getElementById('apiBaseUrl');
+      const storedUrl = result.apiBaseUrl;
+      if (storedUrl && providerId === 'custom') {
+        baseUrlInput.value = storedUrl;
+      } else if (storedUrl && API_PROVIDERS.find(p => p.id === providerId && p.baseUrl !== storedUrl)) {
+        // User may have customized URL
+        baseUrlInput.value = storedUrl;
+      }
+
+      // API Key — new apiKey first, fallback deepseekApiKey
       document.getElementById('apiKey').value = result.apiKey || result.deepseekApiKey || '';
 
       // Model
-      document.getElementById('apiModel').value =
-        result.apiModel || API_TYPES[apiType].defaultModel;
+      const modelInput = document.getElementById('apiModel');
+      const storedModel = result.apiModel;
+      if (storedModel && (providerId === 'custom' || storedModel !== getProvider(providerId)?.model)) {
+        modelInput.value = storedModel;
+      }
 
       // Quick actions
       const currentLang = getCurrentLang();
@@ -151,16 +191,16 @@ function loadSavedData() {
   );
 }
 
-// ---- API 类型切换 ----
-document.getElementById('apiType').addEventListener('change', (e) => {
-  const apiType = e.target.value;
-  updateApiUI(apiType);
+// ---- Provider 切换 ----
+document.getElementById('apiProvider').addEventListener('change', (e) => {
+  updateApiUI(e.target.value);
+  // Clear key (switching provider should prompt re-entry)
   document.getElementById('apiKey').value = '';
 });
 
-// ---- Base URL 手动编辑后不再自动填充 ----
-document.getElementById('apiBaseUrl').addEventListener('input', () => {
-  document.getElementById('apiBaseUrl').dataset.autoFilled = 'false';
+// ---- API Type 切换 (Custom) ----
+document.getElementById('apiType').addEventListener('change', (e) => {
+  localStorage.setItem('deeppage_custom_api_type', e.target.value);
 });
 
 // ---- 语言切换 ----
@@ -172,7 +212,7 @@ document.getElementById('language-select').addEventListener('change', (e) => {
   });
 });
 
-// ---- Dark mode 切换 ----
+// ---- Dark mode ----
 const darkToggle = document.getElementById('dark-mode-toggle');
 chrome.storage.sync.get('darkMode', (result) => {
   darkToggle.checked = !!result.darkMode;
@@ -206,14 +246,27 @@ document.getElementById('testApiBtn').addEventListener('click', async () => {
   btn.textContent = (t('testApiButton') || 'Test Connection') + '...';
   statusEl.textContent = '';
 
-  // Save current settings first
-  const apiType = document.getElementById('apiType').value;
+  const providerId = document.getElementById('apiProvider').value;
+  const provider = getProvider(providerId);
+  const apiType = providerId === 'custom'
+    ? document.getElementById('apiType').value
+    : provider.type;
   const baseUrl = document.getElementById('apiBaseUrl').value.trim();
   const apiKey = document.getElementById('apiKey').value.trim();
   const model = document.getElementById('apiModel').value.trim();
 
+  if (!baseUrl || !apiKey || !model) {
+    statusEl.textContent = '⚠️ Fill in Base URL, API Key, and Model first';
+    statusEl.style.color = '#f59e0b';
+    btn.disabled = false;
+    btn.textContent = t('testApiButton') || 'Test Connection';
+    return;
+  }
+
+  // Save first
   await chrome.storage.sync.set({
-    apiType, apiBaseUrl: baseUrl, apiKey, apiModel: model,
+    apiProvider: providerId, apiBaseUrl: baseUrl, apiKey, apiModel: model,
+    apiType: providerId === 'custom' ? apiType : undefined,
   });
 
   try {
@@ -244,7 +297,11 @@ btnAdd.addEventListener('click', () => {
 
 // ---- 保存 ----
 saveBtn.addEventListener('click', async () => {
-  const apiType = document.getElementById('apiType').value;
+  const providerId = document.getElementById('apiProvider').value;
+  const provider = getProvider(providerId);
+  const apiType = providerId === 'custom'
+    ? document.getElementById('apiType').value
+    : provider.type;
   const baseUrl = document.getElementById('apiBaseUrl').value.trim();
   const apiKey = document.getElementById('apiKey').value.trim();
   const model = document.getElementById('apiModel').value.trim();
@@ -260,10 +317,11 @@ saveBtn.addEventListener('click', async () => {
   });
 
   await chrome.storage.sync.set({
-    apiType,
+    apiProvider: providerId,
     apiBaseUrl: baseUrl,
     apiKey,
     apiModel: model,
+    apiType: providerId === 'custom' ? apiType : undefined,
     quickActions: cleaned,
     quickActionsLang: getCurrentLang(),
     maxRounds: parseInt(maxRoundsInput.value, 10) || 20,
