@@ -41,7 +41,6 @@ function render() {
 chrome.storage.sync.get(
   ['deepseekApiKey', 'quickActions'],
   (result) => {
-    console.log('[DeepPage 选项] 加载 quickActions:', JSON.stringify(result.quickActions));
     document.getElementById('apiKey').value = result.deepseekApiKey || '';
     actions = (result.quickActions && result.quickActions.length)
       ? result.quickActions.map(a => ({ label: a.label, prompt: a.prompt }))
@@ -54,7 +53,6 @@ chrome.storage.sync.get(
 btnAdd.addEventListener('click', () => {
   actions.push({ label: '新按钮', prompt: '' });
   render();
-  // 滚动到最后一张卡片
   const cards = container.querySelectorAll('.action-card');
   if (cards.length) cards[cards.length - 1].scrollIntoView({ behavior: 'smooth' });
 });
@@ -64,7 +62,6 @@ saveBtn.addEventListener('click', async () => {
   const key = document.getElementById('apiKey').value.trim();
   if (!key) { showStatus('请输入 API Key', 'err'); return; }
 
-  // 从 DOM 读取最新值
   const cards = container.querySelectorAll('.action-card');
   const cleaned = [];
   cards.forEach((card) => {
@@ -73,14 +70,9 @@ saveBtn.addEventListener('click', async () => {
     if (label) cleaned.push({ label, prompt });
   });
 
-  console.log('[DeepPage 选项] 准备保存 quickActions:', JSON.stringify(cleaned));
   await chrome.storage.sync.set({
     deepseekApiKey: key,
     quickActions: cleaned,
-  });
-  // 立即读回来验证
-  chrome.storage.sync.get('quickActions', (verify) => {
-    console.log('[DeepPage 选项] 保存后验证:', JSON.stringify(verify.quickActions));
   });
   actions = cleaned;
   render();
