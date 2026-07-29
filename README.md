@@ -30,15 +30,34 @@
 - **多 API 格式** — 支持 OpenAI 兼容接口（DeepSeek、Ollama、Groq 等）和 Anthropic 原生接口
 - **自定义接口地址** — 可设置任意 Base URL，自由对接自部署或第三方服务
 
-## 使用方式
+## 快速开始
 
-1. 安装扩展后访问任意网页
-2. 点击右下角 DeepSeek 图标打开对话面板
-3. 首次使用需配置 API Key：
-   - 右键扩展图标 → **选项**
-   - 输入你的 [DeepSeek API Key](https://platform.deepseek.com/api_keys)
-   - 点击保存
-4. 点击快捷按钮（总结 / 要点 / 翻译），或自由提问
+### 1. 安装
+
+目前 DeepPage 以**开发者模式**加载（尚未上架 Chrome Web Store）：
+
+1. 打开 `chrome://extensions`
+2. 开启右上角 **开发者模式**
+3. 点击 **加载已解压的扩展程序**
+4. 选择项目目录
+
+### 2. 配置 API Key
+
+安装后首次使用需配置 API Key：
+
+1. 点击扩展栏的 DeepPage 图标 → 右键 → **选项**
+2. 选择你的 AI 提供商（DeepSeek / OpenAI / Anthropic 等）
+3. 输入 **API Key**（例如从 [platform.deepseek.com](https://platform.deepseek.com/api_keys) 获取）
+4. 设置即自动保存
+
+### 3. 开始使用
+
+- 打开任意网页，点击右下角 **DeepSeek 图标** 展开对话面板
+- 点击快捷按钮：**总结全文** / **提炼要点** / **翻译**
+- 或在输入框中自由提问
+- 选中网页段落，自动弹出 **💬 对此段提问** 按钮，快速追问
+
+---
 
 ## 隐私说明
 
