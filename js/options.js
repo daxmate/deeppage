@@ -52,8 +52,6 @@ let actions = [];
 
 const container = document.getElementById('actions-container');
 const btnAdd = document.getElementById('btn-add');
-const saveBtn = document.getElementById('saveBtn');
-const status = document.getElementById('status');
 
 // ---- API 提供商列表 ----
 const API_PROVIDERS = [
@@ -366,28 +364,26 @@ btnAdd.addEventListener('click', () => {
   if (cards.length) cards[cards.length - 1].scrollIntoView({ behavior: 'smooth' });
 });
 
-// ---- 保存 ----
-saveBtn.addEventListener('click', async () => {
+// ---- 自动保存 ----
+function autoSave() {
   const providerId = document.getElementById('apiProvider').value;
   const provider = getProvider(providerId);
   const apiType = providerId === 'custom'
     ? document.getElementById('apiType').value
-    : provider.type;
+    : (provider ? provider.type : 'openai');
   const baseUrl = document.getElementById('apiBaseUrl').value.trim();
   const apiKey = document.getElementById('apiKey').value.trim();
   const model = document.getElementById('apiModel').value.trim();
 
-  if (!apiKey) { showStatus(t('apiKeyRequired'), 'err'); return; }
-
   const cards = container.querySelectorAll('.action-card');
   const cleaned = [];
   cards.forEach((card) => {
-    const label = card.querySelector('.fld-label').value.trim();
+    const label = card.querySelector('.action-card-label-input').value.trim();
     const prompt = card.querySelector('.fld-prompt').value.trim();
     if (label) cleaned.push({ label, prompt });
   });
 
-  await chrome.storage.sync.set({
+  chrome.storage.sync.set({
     apiProvider: providerId,
     apiBaseUrl: baseUrl,
     apiKey,
@@ -398,11 +394,17 @@ saveBtn.addEventListener('click', async () => {
     maxRounds: parseInt(maxRoundsInput.value, 10) || 20,
   });
   actions = cleaned;
-  render();
-  showStatus(t('savedSuccess'), 'ok');
-});
-
-function showStatus(msg, cls) {
-  status.textContent = msg;
-  status.className = cls;
 }
+
+// Bind auto-save to settings changes
+document.getElementById('apiProvider').addEventListener('change', autoSave);
+document.getElementById('apiBaseUrl').addEventListener('change', autoSave);
+document.getElementById('apiKey').addEventListener('change', autoSave);
+document.getElementById('apiModel').addEventListener('change', autoSave);
+document.getElementById('apiType').addEventListener('change', autoSave);
+maxRoundsInput.addEventListener('change', autoSave);
+
+// Quick action card changes (delegated — read DOM, no re-render to keep focus)
+container.addEventListener('input', autoSave);
+
+// Language change already handles saving via setStoredLanguage

@@ -12,7 +12,7 @@ body {
   color: #1f2937;
   background: #f5f5f7;
   padding: 32px;
-  max-width: 740px;
+  max-width: 920px;
   margin: 0 auto;
 }
 
@@ -29,11 +29,11 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  min-width: 170px;
+  min-width: 200px;
   padding: 20px 12px;
   background: #f0f0f2;
 }
-#tab-contents { flex: 1; min-width: 0; padding: 24px 28px; }
+#tab-contents { flex: 1; min-width: 0; padding: 28px 32px; }
 
 /* ===== Sidebar ===== */
 .tab-section-header {
@@ -270,10 +270,7 @@ body {
 }
 .btn-add:hover { background: #eef2ff; }
 
-/* ===== Status ===== */
-#status { font-size: 13px; }
-#status.ok { color: #059669; }
-#status.err { color: #dc2626; }
+/* ===== Status (unused — kept for i18n) ===== */
 #testApiStatus { font-size: 12px; }
 
 /* ===== Range ===== */
@@ -332,8 +329,7 @@ small a:hover { text-decoration: underline; }
   .action-card-body textarea:focus { border-color: #4A6CF7; }
   .btn-add { color: #6B8AFF; border-color: #4A6CF7; }
   .btn-add:hover { background: #1a2740; }
-  #status.ok { color: #34d399; }
-  #status.err { color: #f87171; }
+
   small { color: #6b7280; }
   small a { color: #6B8AFF; }
 }
@@ -371,8 +367,7 @@ small a:hover { text-decoration: underline; }
 .__dp-dark-options .action-card-body textarea { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
 .__dp-dark-options .btn-add { color: #6B8AFF; border-color: #4A6CF7; }
 .__dp-dark-options .btn-add:hover { background: #1a2740; }
-.__dp-dark-options #status.ok { color: #34d399; }
-.__dp-dark-options #status.err { color: #f87171; }
+
 .__dp-dark-options small a { color: #6B8AFF; }
 </style>
 </head>
@@ -543,13 +538,8 @@ small a:hover { text-decoration: underline; }
 
 </div><!-- end tab-contents -->
 </div><!-- end options-layout -->
-</div><!-- end options-panel -->
 
-<!-- Save -->
-<div style="margin-top:24px;display:flex;align-items:center;gap:16px">
-  <button id="saveBtn" class="btn-primary"><span id="l10n-saveButton">Save</span></button>
-  <div id="status"></div>
-</div>
+</div><!-- end options-panel -->
 
 <script src="js/i18n.js"></script>
 <script src="js/options.js"></script>
