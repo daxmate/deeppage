@@ -22,6 +22,9 @@
             "js": [
                 "marked.umd.min.js",
                 "i18n.js",
+                "utils.js",
+                "chat.js",
+                "sidebar.js",
                 "content.js"
             ],
             "matches": [
