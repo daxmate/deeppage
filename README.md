@@ -82,13 +82,17 @@ git clone https://github.com/daxmate/deeppage.git
 ### 项目结构
 
 ```
-├── i18n.js                 # 多语言引擎（10 种语言）
+├── js/                     # JavaScript 脚本
+│   ├── i18n.js             # 多语言引擎（10 种语言）
+│   ├── utils.js            # 工具函数
+│   ├── chat.js             # 对话管理 + API 调用 + 导出
+│   ├── sidebar.js          # 面板 UI + 拖拽 + 选中按钮
+│   ├── content.js          # 内容脚本 — 入口（注入样式 + 启动）
+│   ├── background.js       # 后台服务 — API 调用
+│   ├── options.js          # 设置页面逻辑
+│   └── marked.umd.min.js   # Markdown 渲染引擎（marked v15）
+├── options.html            # 设置页面
 ├── manifest.json           # 扩展配置
-├── background.js           # 后台服务 — API 调用
-├── content.js              # 内容脚本 — 面板 UI + 聊天逻辑
-├── options.html / .js      # 设置页面 — API Key + 按钮配置
-├── content.css             # 面板样式（未使用，保留参考）
-├── marked.umd.min.js       # Markdown 渲染引擎（marked v15）
 ├── icons/                  # DeepSeek 图标
 ├── test-resize.html        # 拖拽缩放测试页
 └── test-markdown.html      # Markdown 渲染测试页

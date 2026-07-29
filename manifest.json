@@ -11,7 +11,7 @@
     },
     "author": "daxmate",
     "background": {
-        "service_worker": "background.js",
+        "service_worker": "js/background.js",
         "type": "module"
     },
     "content_scripts": [
@@ -20,12 +20,12 @@
                 "https://chat.deepseek.com/*"
             ],
             "js": [
-                "marked.umd.min.js",
-                "i18n.js",
-                "utils.js",
-                "chat.js",
-                "sidebar.js",
-                "content.js"
+                "js/marked.umd.min.js",
+                "js/i18n.js",
+                "js/utils.js",
+                "js/chat.js",
+                "js/sidebar.js",
+                "js/content.js"
             ],
             "matches": [
                 "<all_urls>"
