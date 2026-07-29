@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build extension zip
+        run: |
+          mkdir -p dist
+          zip -r dist/deeppage-${{ github.ref_name }}.zip \
+            manifest.json \
+            content.css \
+            js/ \
+            icons/ \
+            options.html \
+            LICENSE \
+            README.md
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/deeppage-*.zip
+          generate_release_notes: true
