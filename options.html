@@ -23,8 +23,14 @@ body {
   border-radius: 12px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   overflow: hidden;
+  max-height: 67vh;
 }
-#options-layout { display: flex; min-height: 400px; }
+#options-layout {
+  display: flex;
+  min-height: 400px;
+  max-height: 67vh;
+  overflow: hidden;
+}
 #option-tabs {
   display: flex;
   flex-direction: column;
@@ -33,7 +39,12 @@ body {
   padding: 20px 12px;
   background: #f0f0f2;
 }
-#tab-contents { flex: 1; min-width: 0; padding: 28px 32px; }
+#tab-contents {
+  flex: 1;
+  min-width: 0;
+  padding: 28px 32px;
+  overflow-y: auto;
+}
 
 /* ===== Sidebar ===== */
 .tab-section-header {
