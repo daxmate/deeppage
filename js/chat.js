@@ -113,7 +113,8 @@ async function saveCurrentMessages() {
   conv.messages = currentMessages.map(m => ({
     role: m.role,
     content: m.content,
-    timestamp: m.timestamp
+    timestamp: m.timestamp,
+    thinking: m.thinking
   }));
   conv.updatedAt = Date.now();
   // 保存页面上下文
@@ -156,13 +157,14 @@ async function switchConversation(convId) {
   currentMessages = conv.messages.map(m => ({
     role: m.role,
     content: m.content,
-    timestamp: m.timestamp
+    timestamp: m.timestamp,
+    thinking: m.thinking
   }));
   // 重建 chatHistory 用于 API 上下文
   chatHistory = currentMessages.map(m => ({ role: m.role, content: m.content }));
   // Re-render messages
   for (const msg of currentMessages) {
-    addMsg(msg.role, msg.content, { skipTrack: true });
+    addMsg(msg.role, msg.content, { skipTrack: true, thinking: msg.thinking });
   }
   data.activeId = conv.id;
   await saveConversations(data);
@@ -236,13 +238,13 @@ async function loadActiveConversation() {
         updateContext(pageContext.title);
       }
       currentMessages = conv.messages.map(m => ({
-        role: m.role, content: m.content, timestamp: m.timestamp
+        role: m.role, content: m.content, timestamp: m.timestamp, thinking: m.thinking
       }));
       chatHistory = currentMessages.map(m => ({ role: m.role, content: m.content }));
       const chat = document.getElementById('__dp-chat');
       chat.innerHTML = '';
       for (const msg of currentMessages) {
-        addMsg(msg.role, msg.content, { skipTrack: true });
+        addMsg(msg.role, msg.content, { skipTrack: true, thinking: msg.thinking });
       }
       return;
     }
@@ -326,12 +328,38 @@ function addMsg(role, text, extra) {
   }
   const bubble = document.createElement("div");
   bubble.className = "__dp-bubble";
-  bubble.innerHTML = markdownToHtml(text);
+
+  // 如果消息有思考内容，在气泡内添加 toggle + think box
+  const thinkText = extra && extra.thinking;
+  if (role === 'assistant' && thinkText) {
+    const toggle = document.createElement('span');
+    toggle.className = '__dp-think-toggle';
+    toggle.innerHTML = (t('thinkingLabel') || '思考过程') + ' ▸';
+    const thinkBox = document.createElement('div');
+    thinkBox.className = '__dp-think-box';
+    thinkBox.style.display = 'none';
+    thinkBox.textContent = thinkText;
+    bubble.appendChild(toggle);
+    bubble.appendChild(thinkBox);
+    // Toggle click
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isCollapsed = thinkBox.style.display === 'none';
+      thinkBox.style.display = isCollapsed ? '' : 'none';
+      toggle.innerHTML = (t('thinkingLabel') || '思考过程') + (isCollapsed ? ' ▾' : ' ▸');
+    });
+  }
+
+  // 正文内容
+  const contentEl = document.createElement('div');
+  contentEl.className = '__dp-bubble-content';
+  contentEl.innerHTML = markdownToHtml(text);
+  bubble.appendChild(contentEl);
   div.appendChild(bubble);
 
   // 追踪消息（跳过历史加载时的重渲染）
   if (!extra || !extra.skipTrack) {
-    currentMessages.push({ role, content: text, timestamp: Date.now() });
+    currentMessages.push({ role, content: text, timestamp: Date.now(), thinking: thinkText });
   }
 
   // AI 回复添加复制按钮
@@ -408,14 +436,102 @@ async function sendMessage() {
     
     const fullTextPromise = new Promise((resolve, reject) => {
       let fullText = '';
+      let reasoningText = '';
       let assistantDiv = null;
       let assistantBubble = null;
-      let firstChunk = true;
+      let thinkToggle = null;
+      let thinkBox = null;
+      let hasThinking = false;
+
+      function createAssistantWithThinking() {
+        if (assistantDiv) return;
+        const loading = document.querySelector('.__dp-loading');
+        if (loading) loading.remove();
+        const chat = document.getElementById('__dp-chat');
+        
+        assistantDiv = document.createElement('div');
+        assistantDiv.className = '__dp-msg __dp-assistant';
+        
+        // Bubble wraps everything: toggle + thinkBox + content
+        assistantBubble = document.createElement('div');
+        assistantBubble.className = '__dp-bubble';
+        
+        // Toggle: 思考 ▾ (expanded) / 思考 ▸ (collapsed)
+        const label = t('thinkingLabel') || '思考过程';
+        thinkToggle = document.createElement('span');
+        thinkToggle.className = '__dp-think-toggle';
+        thinkToggle.innerHTML = label + ' ▾';
+        thinkToggle.style.display = 'none';
+        
+        // Thinking content box
+        thinkBox = document.createElement('div');
+        thinkBox.className = '__dp-think-box';
+        thinkBox.style.display = 'none';
+        thinkBox.textContent = '';
+        
+        // Content container (markdown renders here)
+        const contentContainer = document.createElement('div');
+        contentContainer.className = '__dp-bubble-content';
+        
+        assistantBubble.appendChild(thinkToggle);
+        assistantBubble.appendChild(thinkBox);
+        assistantBubble.appendChild(contentContainer);
+        assistantDiv.appendChild(assistantBubble);
+        chat.appendChild(assistantDiv);
+        scrollChat();
+        
+        // Override assistantBubble.innerHTML setter to write into contentContainer
+        // But actually we'll just reference contentContainer directly in the chunk handler
+        assistantBubble.__content = contentContainer;
+      }
+
+      function attachToggleHandler() {
+        if (!thinkToggle || thinkToggle._attached) return;
+        thinkToggle._attached = true;
+        const label = t('thinkingLabel') || '思考过程';
+        thinkToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isCollapsed = thinkToggle.textContent.indexOf('▸') !== -1;
+          if (isCollapsed) {
+            thinkBox.style.display = '';
+            thinkToggle.innerHTML = label + ' ▾';
+          } else {
+            thinkBox.style.display = 'none';
+            thinkToggle.innerHTML = label + ' ▸';
+          }
+        });
+      }
 
       port.onMessage.addListener((resp) => {
-        if (resp.type === 'chunk') {
-          // 第一次收到 chunk：移除 loading 并创建 assistant 气泡
-          if (firstChunk) {
+        if (resp.type === 'reasoning_chunk') {
+          reasoningText += resp.text;
+          if (!hasThinking) {
+            hasThinking = true;
+            createAssistantWithThinking();
+          }
+          // Fill thinking text while streaming
+          thinkBox.textContent = reasoningText;
+          thinkBox.style.display = '';
+          thinkToggle.style.display = '';
+          thinkToggle.textContent = '▼';
+          scrollChat();
+        } else if (resp.type === 'chunk') {
+          if (assistantDiv && !assistantBubble._hasContent) {
+            assistantBubble._hasContent = true;
+            // Loading was already removed by createAssistantWithThinking or we need to remove it
+            const loading = document.querySelector('.__dp-loading');
+            if (loading) loading.remove();
+            
+            // Thinking done: collapse to ▸ text
+            if (hasThinking) {
+              const label = t('thinkingLabel') || '思考过程';
+              thinkBox.style.display = 'none';
+              thinkToggle.innerHTML = label + ' ▸';
+              thinkToggle.style.display = '';
+              attachToggleHandler();
+            }
+          } else if (!assistantDiv) {
+            // No thinking, first chunk creates the assistant directly
             const loading = document.querySelector('.__dp-loading');
             if (loading) loading.remove();
             const chat = document.getElementById('__dp-chat');
@@ -426,13 +542,31 @@ async function sendMessage() {
             assistantDiv.appendChild(assistantBubble);
             chat.appendChild(assistantDiv);
             scrollChat();
-            firstChunk = false;
           }
           fullText += resp.text;
-          // 保留滚动位置
+          // 获取或创建 contentContainer
+          let contentEl = null;
+          if (assistantBubble && assistantBubble.__content) {
+            contentEl = assistantBubble.__content;
+          } else {
+            // 无思考，首次 chunk 创建普通气泡
+            const loading = document.querySelector('.__dp-loading');
+            if (loading) loading.remove();
+            const chat = document.getElementById('__dp-chat');
+            assistantDiv = document.createElement('div');
+            assistantDiv.className = '__dp-msg __dp-assistant';
+            assistantBubble = document.createElement('div');
+            assistantBubble.className = '__dp-bubble';
+            contentEl = document.createElement('div');
+            contentEl.className = '__dp-bubble-content';
+            assistantBubble.appendChild(contentEl);
+            assistantDiv.appendChild(assistantBubble);
+            chat.appendChild(assistantDiv);
+            scrollChat();
+          }
           const chat = document.getElementById('__dp-chat');
           const wasAtBottom = chat.scrollTop + chat.clientHeight >= chat.scrollHeight - 2;
-          assistantBubble.innerHTML = markdownToHtml(fullText);
+          contentEl.innerHTML = markdownToHtml(fullText);
           if (wasAtBottom) scrollChat();
         } else if (resp.type === 'done') {
           // 添加复制按钮
@@ -449,7 +583,25 @@ async function sendMessage() {
             });
             assistantDiv.appendChild(copyBtn);
           }
-          resolve(fullText);
+          // 处理仅思考无正文等边缘情况
+          if (hasThinking && !fullText && reasoningText) {
+            // 只有思考没有正文 → 把思考当正文
+            if (!assistantBubble) {
+              const chat = document.getElementById('__dp-chat');
+              assistantDiv = document.createElement('div');
+              assistantDiv.className = '__dp-msg __dp-assistant';
+              assistantBubble = document.createElement('div');
+              assistantBubble.className = '__dp-bubble';
+              assistantDiv.appendChild(assistantBubble);
+              chat.appendChild(assistantDiv);
+            }
+            assistantBubble.innerHTML = markdownToHtml(reasoningText);
+            fullText = reasoningText;
+            // 移除思考 toggle 和 box
+            if (thinkToggle) thinkToggle.remove();
+            if (thinkBox) thinkBox.remove();
+          }
+          resolve({ fullText, reasoningText });
         } else if (resp.type === 'error') {
           reject(new Error(resp.text));
         }
@@ -459,10 +611,12 @@ async function sendMessage() {
       port.postMessage({ action: 'chat', pageContext, chatHistory });
     });
 
-    const fullText = await fullTextPromise;
+    const respData = await fullTextPromise;
+    const fullText = respData.fullText || '';
+    const thinkingText = respData.reasoningText || '';
     chatHistory.push({ role: "assistant", content: fullText });
     // 同时加入 currentMessages 以支持导出和持久化
-    currentMessages.push({ role: "assistant", content: fullText, timestamp: Date.now() });
+    currentMessages.push({ role: "assistant", content: fullText, timestamp: Date.now(), thinking: thinkingText });
     saveCurrentMessages();
     _sending = false;
 

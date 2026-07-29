@@ -161,12 +161,31 @@ function render() {
   });
 }
 
+// ---- Range slider helpers ----
+function initRange(id, key, defaultVal) {
+  const input = document.getElementById(id);
+  const display = document.getElementById(id + '-value');
+  chrome.storage.sync.get(key, (result) => {
+    const val = result[key] !== undefined ? result[key] : defaultVal;
+    input.value = val;
+    if (display) display.textContent = val;
+  });
+  input.addEventListener('input', () => {
+    if (display) display.textContent = input.value;
+  });
+  input.addEventListener('change', autoSave);
+}
+
 // ---- 加载 ----
 function loadSavedData() {
   chrome.storage.sync.get(
     ['apiProvider', 'apiBaseUrl', 'apiKey', 'apiModel',
      'deepseekApiKey', // fallback
-     'quickActions', 'quickActionsLang'],
+     'quickActions', 'quickActionsLang',
+     // new params
+     'temperature', 'maxTokens', 'topP',
+     'frequencyPenalty', 'presencePenalty',
+     'stopSequences', 'reasoningLevel', 'customSystemPrompt'],
     (result) => {
       // Init provider select
       populateProviderSelect();
@@ -198,6 +217,16 @@ function loadSavedData() {
         modelSelect.innerHTML = `<option value="${result.apiModel}">${result.apiModel}</option>`;
         modelSelect.value = result.apiModel;
       }
+
+      // New params
+      if (result.temperature !== undefined) document.getElementById('temperature').value = result.temperature;
+      if (result.maxTokens !== undefined) document.getElementById('max-tokens').value = result.maxTokens;
+      if (result.topP !== undefined) document.getElementById('top-p').value = result.topP;
+      if (result.frequencyPenalty !== undefined) document.getElementById('frequency-penalty').value = result.frequencyPenalty;
+      if (result.presencePenalty !== undefined) document.getElementById('presence-penalty').value = result.presencePenalty;
+      if (result.reasoningLevel) document.getElementById('reasoning-level').value = result.reasoningLevel;
+      if (result.stopSequences) document.getElementById('stop-sequences').value = result.stopSequences;
+      if (result.customSystemPrompt) document.getElementById('custom-system-prompt').value = result.customSystemPrompt;
 
       // Quick actions
       const currentLang = getCurrentLang();
@@ -252,17 +281,48 @@ function applyOptionsDarkMode(dark) {
   document.body.classList.toggle('__dp-dark-options', dark);
 }
 
-// ---- 最大对话轮数 ----
+// ---- 新增参数选项卡 ----
+function initAdvancedToggle() {
+  const toggle = document.getElementById('advanced-toggle');
+  const container = document.getElementById('advanced-params');
+  const arrow = document.getElementById('advanced-arrow');
+  if (!toggle || !container) return;
+  // Check if previously expanded
+  chrome.storage.local.get('advancedParamsOpen', (result) => {
+    if (result.advancedParamsOpen) {
+      container.style.display = '';
+      if (arrow) arrow.textContent = '▼';
+    }
+  });
+  toggle.addEventListener('click', () => {
+    const isOpen = container.style.display !== 'none';
+    container.style.display = isOpen ? 'none' : '';
+    if (arrow) arrow.textContent = isOpen ? '▶' : '▼';
+    chrome.storage.local.set({ advancedParamsOpen: !isOpen });
+  });
+}
+
+// ---- Range sliders — display values ----
+initRange('temperature', 'temperature', 1.0);
+initRange('max-tokens', 'maxTokens', 4096);
+initRange('top-p', 'topP', 1.0);
+initRange('frequency-penalty', 'frequencyPenalty', 0);
+initRange('presence-penalty', 'presencePenalty', 0);
+initAdvancedToggle();
+
+// ---- 最大对话轮数（已搬至 API Tab） ----
 const maxRoundsInput = document.getElementById('max-rounds');
 const maxRoundsValue = document.getElementById('max-rounds-value');
-chrome.storage.sync.get('maxRounds', (result) => {
-  const val = result.maxRounds || 20;
-  maxRoundsInput.value = val;
-  maxRoundsValue.textContent = val;
-});
-maxRoundsInput.addEventListener('input', () => {
-  maxRoundsValue.textContent = maxRoundsInput.value;
-});
+if (maxRoundsInput) {
+  chrome.storage.sync.get('maxRounds', (result) => {
+    const val = result.maxRounds || 20;
+    maxRoundsInput.value = val;
+    maxRoundsValue.textContent = val;
+  });
+  maxRoundsInput.addEventListener('input', () => {
+    maxRoundsValue.textContent = maxRoundsInput.value;
+  });
+}
 
 // ---- 测试连接 ----
 document.getElementById('testApiBtn').addEventListener('click', async () => {
@@ -391,7 +451,16 @@ function autoSave() {
     apiType: providerId === 'custom' ? apiType : undefined,
     quickActions: cleaned,
     quickActionsLang: getCurrentLang(),
-    maxRounds: parseInt(maxRoundsInput.value, 10) || 20,
+    maxRounds: maxRoundsInput ? parseInt(maxRoundsInput.value, 10) || 20 : 20,
+    // new params
+    temperature: parseFloat(document.getElementById('temperature').value) || 1.0,
+    maxTokens: parseInt(document.getElementById('max-tokens').value, 10) || 4096,
+    topP: parseFloat(document.getElementById('top-p').value) || 1.0,
+    frequencyPenalty: parseFloat(document.getElementById('frequency-penalty').value) || 0,
+    presencePenalty: parseFloat(document.getElementById('presence-penalty').value) || 0,
+    stopSequences: document.getElementById('stop-sequences').value.trim(),
+    reasoningLevel: document.getElementById('reasoning-level').value,
+    customSystemPrompt: document.getElementById('custom-system-prompt').value.trim(),
   });
   actions = cleaned;
 }
@@ -402,7 +471,15 @@ document.getElementById('apiBaseUrl').addEventListener('change', autoSave);
 document.getElementById('apiKey').addEventListener('change', autoSave);
 document.getElementById('apiModel').addEventListener('change', autoSave);
 document.getElementById('apiType').addEventListener('change', autoSave);
-maxRoundsInput.addEventListener('change', autoSave);
+if (maxRoundsInput) maxRoundsInput.addEventListener('change', autoSave);
+document.getElementById('temperature').addEventListener('change', autoSave);
+document.getElementById('max-tokens').addEventListener('change', autoSave);
+document.getElementById('top-p').addEventListener('change', autoSave);
+document.getElementById('frequency-penalty').addEventListener('change', autoSave);
+document.getElementById('presence-penalty').addEventListener('change', autoSave);
+document.getElementById('stop-sequences').addEventListener('change', autoSave);
+document.getElementById('reasoning-level').addEventListener('change', autoSave);
+document.getElementById('custom-system-prompt').addEventListener('change', autoSave);
 
 // Quick action card changes (delegated — read DOM, no re-render to keep focus)
 container.addEventListener('input', autoSave);

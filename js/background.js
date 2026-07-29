@@ -28,6 +28,10 @@ async function getSettings() {
   const result = await chrome.storage.sync.get([
     'apiProvider', 'apiBaseUrl', 'apiKey', 'apiModel', 'apiType',
     'deepseekApiKey', // fallback
+    // model params
+    'temperature', 'maxTokens', 'topP',
+    'frequencyPenalty', 'presencePenalty',
+    'stopSequences', 'reasoningLevel', 'customSystemPrompt',
   ]);
   const apiProvider = result.apiProvider || 'deepseek';
   const defaults = API_PROVIDERS[apiProvider] || API_PROVIDERS.deepseek;
@@ -40,7 +44,17 @@ async function getSettings() {
   const apiKey = result.apiKey || result.deepseekApiKey || null;
   const model = result.apiModel || defaults.model;
 
-  return { apiType, baseUrl, apiKey, model };
+  return {
+    apiType, baseUrl, apiKey, model, apiProvider,
+    temperature: result.temperature,
+    maxTokens: result.maxTokens,
+    topP: result.topP,
+    frequencyPenalty: result.frequencyPenalty,
+    presencePenalty: result.presencePenalty,
+    stopSequences: result.stopSequences,
+    reasoningLevel: result.reasoningLevel,
+    customSystemPrompt: result.customSystemPrompt,
+  };
 }
 
 // ===== 流式输出（port 通信） =====
@@ -51,15 +65,29 @@ chrome.runtime.onConnect.addListener((port) => {
     if (msg.action !== 'chat') return;
 
     try {
-      const { apiType, baseUrl, apiKey, model } = await getSettings();
+      const settings = await getSettings();
+      const { apiType, baseUrl, apiKey, model, apiProvider, temperature, maxTokens, topP, frequencyPenalty, presencePenalty, stopSequences, reasoningLevel, customSystemPrompt } = settings;
       if (!apiKey) {
         port.postMessage({ type: 'error', text: 'NO_API_KEY' });
         return;
       }
 
-      const systemPrompt = msg.pageContext
+      let systemPrompt = msg.pageContext
         ? `你是一个网页助手。用户正在浏览以下网页，请根据网页内容回答问题。\n\n标题: ${msg.pageContext.title}\nURL: ${msg.pageContext.url}\n\n网页全文：\n${msg.pageContext.text}`
         : '你是一个网页助手。';
+      // Reasoning-level based instruction (for non-o-series models)
+      if (reasoningLevel && reasoningLevel !== 'off' && !(model && (model.startsWith('o1') || model.startsWith('o3')))) {
+        const reasoningPrompts = {
+          low: '\n\n请先简单思考再回答。',
+          medium: '\n\n请一步步思考，展示推理过程再回答。',
+          high: '\n\n请深入思考，详细展示每一步推理过程，再给出最终答案。',
+        };
+        systemPrompt += reasoningPrompts[reasoningLevel] || '';
+      }
+      // Custom system prompt
+      if (customSystemPrompt) {
+        systemPrompt += '\n\n' + customSystemPrompt;
+      }
       const messages = [
         { role: 'system', content: systemPrompt },
         ...(msg.chatHistory || [])
@@ -69,7 +97,7 @@ chrome.runtime.onConnect.addListener((port) => {
       const headers = apiType === 'anthropic'
         ? { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' }
         : { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` };
-      const body = buildBody(apiType, model, messages, true);
+      const body = buildBody(apiType, model, messages, true, { temperature, maxTokens, topP, frequencyPenalty, presencePenalty, stopSequences, reasoningLevel, apiProvider, baseUrl });
 
       const resp = await fetch(url, { method: 'POST', headers, body });
 
@@ -99,8 +127,16 @@ chrome.runtime.onConnect.addListener((port) => {
 
         for (const line of lines) {
           if (line.trim() === '' || line.startsWith('event: ')) continue;
-          const content = parseStreamChunk(apiType, line);
-          if (content) port.postMessage({ type: 'chunk', text: content });
+          const { content, reasoningContent } = parseStreamChunk(apiType, line);
+          if (reasoningContent || content) {
+            console.log('[DeepPage] Stream delta:', JSON.stringify({ content: content?.slice(0,80), reasoningContent: reasoningContent?.slice(0,80) }));
+          }
+          if (reasoningContent) {
+            port.postMessage({ type: 'reasoning_chunk', text: reasoningContent });
+          }
+          if (content) {
+            port.postMessage({ type: 'chunk', text: content });
+          }
         }
       }
 
@@ -146,34 +182,68 @@ chrome.action.onClicked.addListener(() => {
 
 // ===== 辅助函数 =====
 
-function buildBody(apiType, model, messages, stream) {
+function buildBody(apiType, model, messages, stream, params = {}) {
+  const { temperature, maxTokens, topP, frequencyPenalty, presencePenalty, stopSequences, reasoningLevel, apiProvider, baseUrl } = params;
   if (apiType === 'anthropic') {
     let system = '';
     const msgs = messages.filter(m => {
       if (m.role === 'system') { system = m.content; return false; }
       return true;
     });
-    const body = { model, messages: msgs, max_tokens: 4096, stream };
+    const body = { model, messages: msgs, max_tokens: maxTokens || 4096, stream };
     if (system) body.system = system;
+    if (temperature !== undefined && temperature !== null) body.temperature = parseFloat(temperature);
+    if (topP !== undefined && topP !== null) body.top_p = parseFloat(topP);
+    if (stopSequences) body.stop_sequences = stopSequences.split(',').map(s => s.trim()).filter(Boolean);
     return JSON.stringify(body);
   }
-  return JSON.stringify({ model, messages, stream });
+  // OpenAI-compatible
+  const body = { model, messages, stream };
+  if (maxTokens) body.max_tokens = parseInt(maxTokens, 10);
+  if (temperature !== undefined && temperature !== null) body.temperature = parseFloat(temperature);
+  if (topP !== undefined && topP !== null) body.top_p = parseFloat(topP);
+  if (frequencyPenalty !== undefined && frequencyPenalty !== null) body.frequency_penalty = parseFloat(frequencyPenalty);
+  if (presencePenalty !== undefined && presencePenalty !== null) body.presence_penalty = parseFloat(presencePenalty);
+  if (stopSequences) body.stop = stopSequences.split(',').map(s => s.trim()).filter(Boolean);
+  // DeepSeek native thinking mode
+  if (reasoningLevel && reasoningLevel !== 'off' && (apiProvider === 'deepseek' || (baseUrl && baseUrl.includes('api.deepseek.com')))) {
+    const effortMap = { low: 'low', medium: 'medium', high: 'high' };
+    body.thinking = { type: 'enabled' };
+    body.reasoning_effort = effortMap[reasoningLevel] || 'medium';
+    console.log('[DeepPage] Enabled DeepSeek thinking mode, effort:', body.reasoning_effort);
+  }
+  // Reasoning effort for o1/o3 series
+  if (reasoningLevel && reasoningLevel !== 'off' && !body.thinking && model && (model.startsWith('o1') || model.startsWith('o3'))) {
+    const effortMap = { low: 'low', medium: 'medium', high: 'high' };
+    body.reasoning_effort = effortMap[reasoningLevel] || 'medium';
+  }
+  console.log('[DeepPage] Request body:', JSON.stringify(body, null, 2));
+  return JSON.stringify(body);
 }
 
 function parseStreamChunk(apiType, line) {
-  if (!line.startsWith('data: ')) return '';
+  if (!line.startsWith('data: ')) return { content: '', reasoningContent: '' };
   const data = line.slice(6);
-  if (data === '[DONE]') return '';
+  if (data === '[DONE]') return { content: '', reasoningContent: '' };
   try {
     const json = JSON.parse(data);
     if (apiType === 'anthropic') {
       if (json.type === 'content_block_delta' && json.delta?.type === 'text_delta') {
-        return json.delta.text || '';
+        return { content: json.delta.text || '', reasoningContent: '' };
       }
-      return '';
+      return { content: '', reasoningContent: '' };
     }
-    return json.choices?.[0]?.delta?.content || '';
-  } catch { return ''; }
+    const delta = json.choices?.[0]?.delta || {};
+    // Log all keys present in first few chunks
+    const keyStr = Object.keys(delta).join(', ');
+    if (delta.content || delta.reasoning_content || delta.reasoning) {
+      console.log('[DeepPage] delta keys:', keyStr, '| content:', (delta.content||'').slice(0,60), '| reasoning:', (delta.reasoning||'').slice(0,60), '| reasoning_content:', (delta.reasoning_content||'').slice(0,60));
+    }
+    return {
+      content: delta.content || '',
+      reasoningContent: delta.reasoning_content || delta.reasoning || ''
+    };
+  } catch { return { content: '', reasoningContent: '' }; }
 }
 
 function parseNonStream(apiType, data) {
@@ -192,12 +262,24 @@ function formatError(apiType, data) {
 
 // ===== 非流式聊天 =====
 async function handleChat(msg) {
-  const { apiType, baseUrl, apiKey, model } = await getSettings();
+  const settings = await getSettings();
+  const { apiType, baseUrl, apiKey, model, apiProvider, temperature, maxTokens, topP, frequencyPenalty, presencePenalty, stopSequences, reasoningLevel, customSystemPrompt } = settings;
   if (!apiKey) throw new Error('NO_API_KEY');
 
-  const systemPrompt = msg.pageContext
+  let systemPrompt = msg.pageContext
     ? `你是一个网页助手。用户正在浏览以下网页，请根据网页内容回答问题。\n\n标题: ${msg.pageContext.title}\nURL: ${msg.pageContext.url}\n\n网页全文：\n${msg.pageContext.text}`
     : '你是一个网页助手。';
+  if (reasoningLevel && reasoningLevel !== 'off' && !(model && (model.startsWith('o1') || model.startsWith('o3')))) {
+    const reasoningPrompts = {
+      low: '\n\n请先简单思考再回答。',
+      medium: '\n\n请一步步思考，展示推理过程再回答。',
+      high: '\n\n请深入思考，详细展示每一步推理过程，再给出最终答案。',
+    };
+    systemPrompt += reasoningPrompts[reasoningLevel] || '';
+  }
+  if (customSystemPrompt) {
+    systemPrompt += '\n\n' + customSystemPrompt;
+  }
   const messages = [
     { role: 'system', content: systemPrompt },
     ...(msg.chatHistory || [])
@@ -208,7 +290,7 @@ async function handleChat(msg) {
     ? { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' }
     : { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` };
 
-  const resp = await fetch(url, { method: 'POST', headers, body: buildBody(apiType, model, messages, false) });
+  const resp = await fetch(url, { method: 'POST', headers, body: buildBody(apiType, model, messages, false, { temperature, maxTokens, topP, frequencyPenalty, presencePenalty, stopSequences, reasoningLevel, apiProvider, baseUrl }) });
   const data = await resp.json();
   if (!resp.ok) throw new Error(formatError(apiType, data));
   return { text: parseNonStream(apiType, data) };

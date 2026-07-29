@@ -381,10 +381,23 @@ small a:hover { text-decoration: underline; }
 .__dp-dark-options .action-card-label-input { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
 .__dp-dark-options .action-card-del:hover { color: #f87171; background: #4a1a1a; }
 .__dp-dark-options .action-card-body textarea { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
+.__dp-dark-options #custom-system-prompt { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
+.__dp-dark-options #advanced-toggle { color: #6b7280; }
+.__dp-dark-options #advanced-toggle:hover { color: #e4e5e7; }
 .__dp-dark-options .btn-add { color: #6B8AFF; border-color: #4A6CF7; }
 .__dp-dark-options .btn-add:hover { background: #1a2740; }
 
 .__dp-dark-options small a { color: #6B8AFF; }
+
+/* Custom system prompt textarea */
+#custom-system-prompt {
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  color: #1f2937;
+}
+#custom-system-prompt:focus { border-color: #4A6CF7; box-shadow: 0 0 0 2px rgba(74,108,247,0.15); }
+.__dp-dark-options #custom-system-prompt { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
+.__dp-dark-options #custom-system-prompt:focus { border-color: #4A6CF7; box-shadow: 0 0 0 2px rgba(74,108,247,0.2); }
 </style>
 </head>
 <body>
@@ -489,6 +502,114 @@ small a:hover { text-decoration: underline; }
       </div>
     </div>
   </div>
+
+  <!-- ===== Request Parameters ===== -->
+  <div class="settings-group">
+    <div class="settings-group-title"><span id="l10n-groupParameters">REQUEST PARAMETERS</span></div>
+    <div class="settings-card">
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label"><span id="l10n-temperatureLabel">Temperature</span></div>
+          <div class="settings-row-desc"><span id="l10n-temperatureDesc">Controls randomness of output</span></div>
+        </div>
+        <div class="settings-row-control" style="min-width:180px">
+          <input type="range" id="temperature" min="0" max="2" step="0.1" value="1" />
+          <div class="range-labels"><span id="temperature-value">1.0</span><span>2</span></div>
+        </div>
+      </div>
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label"><span id="l10n-maxTokensLabel">Max Tokens</span></div>
+          <div class="settings-row-desc"><span id="l10n-maxTokensDesc">Maximum tokens per response</span></div>
+        </div>
+        <div class="settings-row-control" style="min-width:180px">
+          <input type="range" id="max-tokens" min="256" max="65536" step="256" value="4096" />
+          <div class="range-labels"><span id="max-tokens-value">4096</span><span>65536</span></div>
+        </div>
+      </div>
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label"><span id="l10n-maxRoundsLabel">Max Conversation Rounds</span></div>
+          <div class="settings-row-desc"><span id="l10n-maxRoundsDesc2">Older messages beyond this limit will be trimmed</span></div>
+        </div>
+        <div class="settings-row-control" style="min-width:180px">
+          <input type="range" id="max-rounds" min="2" max="100" value="20" />
+          <div class="range-labels"><span id="max-rounds-value">20</span><span>100</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Advanced Parameters ===== -->
+  <div class="settings-group">
+    <button id="advanced-toggle" type="button" class="settings-group-title" style="cursor:pointer;border:none;background:none;width:100%;text-align:left;display:flex;align-items:center;gap:6px;padding:0;font-size:12px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">
+      <span id="advanced-arrow">▶</span> <span id="l10n-groupAdvanced">ADVANCED PARAMETERS</span>
+    </button>
+    <div id="advanced-params" style="display:none">
+      <div class="settings-card">
+        <div class="settings-row">
+          <div>
+            <div class="settings-row-label"><span id="l10n-reasoningLabel">Reasoning Depth</span></div>
+            <div class="settings-row-desc"><span id="l10n-reasoningDesc">Control model's thinking depth</span></div>
+          </div>
+          <div class="settings-row-control">
+            <select id="reasoning-level">
+              <option value="off">Off</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row-label">Top P</div>
+            <div class="settings-row-desc"><span id="l10n-topPDesc">Nucleus sampling threshold</span></div>
+          </div>
+          <div class="settings-row-control" style="min-width:180px">
+            <input type="range" id="top-p" min="0" max="1" step="0.05" value="1" />
+            <div class="range-labels"><span id="top-p-value">1.0</span><span>1</span></div>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row-label"><span id="l10n-freqPenaltyLabel">Frequency Penalty</span></div>
+            <div class="settings-row-desc"><span id="l10n-freqPenaltyDesc">Penalizes repeated tokens</span></div>
+          </div>
+          <div class="settings-row-control" style="min-width:180px">
+            <input type="range" id="frequency-penalty" min="-2" max="2" step="0.1" value="0" />
+            <div class="range-labels"><span id="frequency-penalty-value">0</span><span>2</span></div>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row-label"><span id="l10n-presPenaltyLabel">Presence Penalty</span></div>
+            <div class="settings-row-desc"><span id="l10n-presPenaltyDesc">Encourages topic diversity</span></div>
+          </div>
+          <div class="settings-row-control" style="min-width:180px">
+            <input type="range" id="presence-penalty" min="-2" max="2" step="0.1" value="0" />
+            <div class="range-labels"><span id="presence-penalty-value">0</span><span>2</span></div>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row-label"><span id="l10n-stopSeqLabel">Stop Sequences</span></div>
+            <div class="settings-row-desc"><span id="l10n-stopSeqDesc">Comma-separated stop sequences</span></div>
+          </div>
+          <div class="settings-row-control">
+            <input type="text" id="stop-sequences" placeholder="e.g. \n\n, ---" style="width:220px" />
+          </div>
+        </div>
+        <div class="settings-row" style="flex-direction:column;align-items:stretch">
+          <div style="margin-bottom:8px">
+            <div class="settings-row-label"><span id="l10n-systemPromptLabel">Custom System Prompt</span></div>
+            <div class="settings-row-desc"><span id="l10n-systemPromptDesc">Appended after the auto-generated context prompt</span></div>
+          </div>
+          <textarea id="custom-system-prompt" rows="3" style="width:100%;padding:8px 10px;border-radius:6px;font-size:13px;outline:none;font-family:inherit;resize:vertical" placeholder="e.g. Think step by step, respond in Chinese"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ===== Appearance Tab ===== -->
@@ -526,21 +647,6 @@ small a:hover { text-decoration: underline; }
     </div>
   </div>
 
-  <div class="settings-group">
-    <div class="settings-group-title"><span id="l10n-groupConversation">CONVERSATION</span></div>
-    <div class="settings-card">
-      <div class="settings-row">
-        <div>
-          <div class="settings-row-label"><span id="l10n-maxRoundsLabel">Max Conversation Rounds</span></div>
-          <div class="settings-row-desc"><span id="l10n-maxRoundsDesc2">Older messages beyond this limit will be trimmed</span></div>
-        </div>
-        <div class="settings-row-control" style="min-width:180px">
-          <input type="range" id="max-rounds" min="2" max="100" value="20" />
-          <div class="range-labels"><span id="max-rounds-value">20</span><span>100</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- ===== Quick Actions Tab ===== -->

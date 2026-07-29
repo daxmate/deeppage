@@ -133,6 +133,8 @@ function injectStyles() {
       --dp-history-item-active: #1a2740;
       --dp-history-title-color: #e4e5e7;
       --dp-history-meta-color: #6b7280;
+      --dp-hover-bg: #2a2c32;
+      --dp-think-box-bg: #222438;
       --dp-history-del-color: #6b7280;
       --dp-history-del-hover-bg: rgba(239,68,68,0.15);
       --dp-history-del-hover-text: #f87171;
@@ -189,6 +191,8 @@ function injectStyles() {
       --dp-history-item-active: #1a2740;
       --dp-history-title-color: #e4e5e7;
       --dp-history-meta-color: #6b7280;
+      --dp-hover-bg: #2a2c32;
+      --dp-think-box-bg: #222438;
       --dp-history-del-color: #6b7280;
       --dp-history-del-hover-bg: rgba(239,68,68,0.15);
       --dp-history-del-hover-text: #f87171;
@@ -672,6 +676,34 @@ function injectStyles() {
     }
     #__dp-sel-btn:hover { background: #3451b2; }
     #__dp-sel-btn.__dp-show { display: block; }
+
+    /* 思考 toggle（气泡内文字链接） */
+    .__dp-think-toggle {
+      display: inline;
+      cursor: pointer;
+      user-select: none;
+      font-size: 12px;
+      color: var(--dp-text-secondary);
+      transition: color 0.12s;
+      line-height: 1.6;
+    }
+    .__dp-think-toggle:hover {
+      color: var(--dp-text);
+    }
+    /* 思考内容框（在气泡内部） */
+    .__dp-think-box {
+      margin: 6px 0 8px 0;
+      padding: 8px 10px;
+      border-radius: 6px;
+      background: var(--dp-hover-bg);
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: var(--dp-text-secondary);
+      line-height: 1.5;
+      max-height: 240px;
+      overflow-y: auto;
+      font-size: 12px;
+    }
   `;
   document.head.appendChild(style);
 }
