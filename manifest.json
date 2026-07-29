@@ -33,7 +33,7 @@
             "run_at": "document_end"
         }
     ],
-    "description": "Chat with DeepSeek while browsing — summarize, outline, translate, and ask questions",
+    "description": "Chat with DeepSeek while browsing \u2014 summarize, outline, translate, and ask questions",
     "name": "DeepPage",
     "host_permissions": [
         "https://api.deepseek.com/*"
@@ -46,12 +46,11 @@
         "64": "icons/icon64.png"
     },
     "manifest_version": 3,
-
     "options_page": "options.html",
     "permissions": [
         "storage",
         "tabs",
         "windows"
     ],
-    "version": "1.6.1"
+    "version": "1.7.5"
 }
