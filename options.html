@@ -381,6 +381,8 @@ small a:hover { text-decoration: underline; }
 .__dp-dark-options .action-card-label-input { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
 .__dp-dark-options .action-card-del:hover { color: #f87171; background: #4a1a1a; }
 .__dp-dark-options .action-card-body textarea { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
+.__dp-dark-options #reset-all-btn { border-color: #f87171; color: #f87171; }
+.__dp-dark-options #reset-all-btn:hover { background: rgba(248,113,113,0.1); }
 .__dp-dark-options #custom-system-prompt { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
 .__dp-dark-options #advanced-toggle { color: #6b7280; }
 .__dp-dark-options #advanced-toggle:hover { color: #e4e5e7; }
@@ -608,6 +610,18 @@ small a:hover { text-decoration: underline; }
           <textarea id="custom-system-prompt" rows="3" style="width:100%;padding:8px 10px;border-radius:6px;font-size:13px;outline:none;font-family:inherit;resize:vertical" placeholder="e.g. Think step by step, respond in Chinese"></textarea>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ===== Reset ===== -->
+  <div class="settings-group" style="margin-top:32px;padding-top:16px;border-top:1px solid #e5e7eb">
+    <div style="display:flex;justify-content:center">
+      <button id="reset-all-btn" type="button" style="padding:6px 16px;border:1px solid #f87171;border-radius:6px;background:none;color:#f87171;font-size:12px;cursor:pointer;transition:all 0.12s">
+        <span id="l10n-resetButton">重置所有设置</span>
+      </button>
+    </div>
+    <div style="text-align:center;margin-top:4px">
+      <small style="color:#9ca3af;font-size:11px"><span id="l10n-resetHint">所有配置将恢复为默认值，不可撤销</span></small>
     </div>
   </div>
 </div>

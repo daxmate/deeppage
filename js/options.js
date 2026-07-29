@@ -485,3 +485,14 @@ document.getElementById('custom-system-prompt').addEventListener('change', autoS
 container.addEventListener('input', autoSave);
 
 // Language change already handles saving via setStoredLanguage
+
+// ---- 重置所有设置 ----
+document.getElementById('reset-all-btn').addEventListener('click', () => {
+  const msg = t('resetConfirm') || '确定要重置所有设置吗？此操作不可撤销。';
+  if (!confirm(msg)) return;
+  chrome.storage.sync.clear(() => {
+    chrome.storage.local.remove('advancedParamsOpen', () => {
+      location.reload();
+    });
+  });
+});
