@@ -101,9 +101,10 @@ git clone https://github.com/daxmate/deeppage.git
 ### 添加新语言
 
 编辑 `i18n.js`：
-1. 在 `TRANSLATIONS` 对象中新增语言条目（32 个 key）
-2. 在 `LANGUAGES` 数组中添加语言
-3. 更新 `detectLanguage()`（如需自动检测）
+1. 在 `LANG_CODES` 数组末尾添加语言代码
+2. 在每个 `TRANSLATIONS` key 的数组末尾添加对应翻译（每个 key 一行，追加一个值即可）
+3. 在 `LANGUAGES` 数组中添加语言显示名
+4. 更新 `detectLanguage()`（如需自动检测）
 
 ## License
 
