@@ -678,4 +678,6 @@ function injectStyles() {
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", createButton);
+} else {
+  createButton();
 }
