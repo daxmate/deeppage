@@ -330,7 +330,8 @@ function isSelectionValid() {
 }
 
 function createButton() {
-  if (document.getElementById("__dp-btn")) return;
+  try {
+    if (document.getElementById("__dp-btn")) return;
 
   // 先用检测的语言初始化，再异步加载存储的偏好
   window.__dp_lang = detectLanguage();
@@ -466,6 +467,9 @@ function createButton() {
 
   // 选中文本浮动提问按钮
   createSelBtn();
+  } catch (e) {
+    console.warn('[DeepPage] 初始化失败:', e);
+  }
 }
 
 document.addEventListener('click', (e) => {
