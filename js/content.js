@@ -655,6 +655,7 @@ function injectStyles() {
       justify-content: center;
     }
     #__dp-btn:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(74, 108, 247, 0.5); }
+    #__dp-btn.__dp-dragging { transform: none; cursor: grabbing; transition: none !important; }
     #__dp-btn.__dp-hidden { display: none; }
 
     /* 选中文本浮动按钮 */
