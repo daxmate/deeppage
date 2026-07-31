@@ -543,8 +543,8 @@ function injectStyles() {
       color: var(--dp-history-del-hover-text);
     }
 
-    /* 复制按钮 */
-    .__dp-msg.__dp-assistant { position: relative; }
+    /* 消息操作按钮（复制/删除） */
+    .__dp-msg { position: relative; }
     .__dp-copy-btn {
       position: absolute;
       top: 4px;
@@ -562,7 +562,30 @@ function injectStyles() {
       align-items: center;
       justify-content: center;
     }
-    .__dp-msg.__dp-assistant:hover .__dp-copy-btn { opacity: 1; }
+    .__dp-del-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: var(--dp-copy-btn-bg);
+      border: none;
+      border-radius: 6px;
+      padding: 4px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.15s;
+      color: var(--dp-history-del-color);
+      line-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .__dp-msg.__dp-assistant .__dp-del-btn { right: 32px; } /* 给复制按钮让位 */
+    .__dp-msg:hover .__dp-copy-btn,
+    .__dp-msg:hover .__dp-del-btn { opacity: 1; }
+    .__dp-del-btn:hover {
+      background: var(--dp-history-del-hover-bg);
+      color: var(--dp-history-del-hover-text);
+    }
     .__dp-copy-btn:hover {
       background: var(--dp-copy-btn-hover-bg);
       color: var(--dp-copy-btn-hover-text);
