@@ -24,7 +24,7 @@
 - **多语言** — 内置 10 种语言（中文/English/日本語/한국어/Español/Français/Deutsch/Русский/Tiếng Việt），面板和选项页均可切换
 - **Dark Mode** — 自动适配系统暗色主题，面板和选项页均可手动切换
 - **多 API 格式** — 支持 OpenAI 兼容接口（DeepSeek、Ollama、Groq 等）和 Anthropic 原生接口
-- **自定义接口地址** — 可设置任意 Base URL，自由对接自部署或第三方服务
+- **自定义接口地址** — 可设置任意 Base URL，自由对接自部署或第三方服务（内置提供商域名均已授权，自部署服务需允许浏览器跨域请求）
 
 ## 快速开始
 
@@ -58,7 +58,7 @@
 ## 隐私说明
 
 - 插件仅读取当前网页的文本内容（不包含图片、样式、脚本）
-- 网页内容仅用于向 DeepSeek API 发送请求，不会上传到其他第三方
+- 网页内容仅用于向你所选的 AI 提供商 API 发送请求，不会上传到其他第三方
 - 使用你自己的 API Key，数据不经过任何第三方中转
 
 ## Architecture
@@ -81,7 +81,7 @@
 ```
 
 - 直接调用 DeepSeek 官方 API（标准 OpenAI 兼容接口）
-- 支持 `deepseek-v4-flash` / `deepseek-v4-pro` 模型
+- 支持 `deepseek-v4-flash` 等 DeepSeek 模型（模型名可在选项页自定义）
 - 无需隐藏标签页、无需处理 PoW 反爬
 
 ## 开发
@@ -100,7 +100,7 @@ git clone https://github.com/daxmate/deeppage.git
 
 ```bash
 npm install
-npm test        # 自动运行 i18n 校验 + 23 个 E2E 用例
+npm test        # 自动运行 i18n 校验 + 38 个 E2E 用例
 ```
 
 > 完整开发指南（添加 API 提供商 / 写测试 / i18n / 发版）见 [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md)
@@ -112,14 +112,16 @@ npm test        # 自动运行 i18n 校验 + 23 个 E2E 用例
 │   ├── i18n.js             # 多语言引擎（10 种语言）
 │   ├── utils.js            # 工具函数
 │   ├── providers.js        # API 提供商配置（单一数据源，background/options 共享）
+│   ├── provider-icons.js   # 提供商图标映射（悬浮按钮状态指示）
 │   ├── chat.js             # 对话管理 + API 调用 + 导出
 │   ├── sidebar.js          # 面板 UI + 拖拽 + 选中按钮
 │   ├── content.js          # 内容脚本 — 入口（启动面板）
 │   ├── background.js       # 后台服务 — API 调用
 │   ├── options.js          # 设置页面逻辑
 │   ├── spa-patch.js        # SPA 导航补丁（主世界，清理选中按钮）
-│   └── marked.umd.min.js   # Markdown 渲染引擎（marked v15）
-├── tests/                  # Playwright E2E 测试（23 个用例）
+│   ├── marked.umd.min.js   # Markdown 渲染引擎（marked v15）
+│   └── vendor/             # 第三方依赖（html2pdf.js，PDF 导出用）
+├── tests/                  # Playwright E2E 测试（38 个用例）
 │   ├── mock-server.js      # OpenAI 兼容 mock API
 │   └── fixtures.mjs        # 扩展 context / storage / mock 控制 fixture
 ├── scripts/

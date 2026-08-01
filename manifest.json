@@ -41,7 +41,18 @@
     "description": "Chat with DeepSeek while browsing — summarize, outline, translate, and ask questions",
     "name": "DeepPage",
     "host_permissions": [
-        "https://api.deepseek.com/*"
+        "https://api.deepseek.com/*",
+        "https://api.moonshot.cn/*",
+        "https://open.bigmodel.cn/*",
+        "https://dashscope.aliyuncs.com/*",
+        "https://ark.cn-beijing.volces.com/*",
+        "https://api.lingyiwanwu.com/*",
+        "https://api.siliconflow.cn/*",
+        "https://api.openai.com/*",
+        "https://api.groq.com/*",
+        "http://localhost:11434/*",
+        "https://api.together.xyz/*",
+        "https://api.anthropic.com/*"
     ],
     "web_accessible_resources": [
         {
@@ -67,5 +78,5 @@
         "tabs",
         "windows"
     ],
-    "version": "1.14.0"
+    "version": "1.14.1"
 }

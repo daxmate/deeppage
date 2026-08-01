@@ -49,7 +49,7 @@ DeepPage 的提供商配置是**单一数据源**：`js/providers.js`。添加�
 
 ```bash
 npm run check:i18n   # 确认没破坏 i18n
-npm test             # 跑全部 23 个 E2E 用例（含 options 页提供商列表渲染）
+npm test             # 跑全部 38 个 E2E 用例（含 options 页提供商列表渲染）
 ```
 
 E2E 测试会断言提供商下拉框至少 12 项（`tests/options.spec.mjs`），新增后请同步更新断言数量。
@@ -62,7 +62,7 @@ E2E 测试会断言提供商下拉框至少 12 项（`tests/options.spec.mjs`）
 
 ```bash
 npm install          # 首次
-npm test             # i18n 校验（pretest 自动跑）+ 23 个 E2E 用例
+npm test             # i18n 校验（pretest 自动跑）+ 38 个 E2E 用例
 npm run test:ui      # Playwright UI 模式（可视化调试）
 ```
 
@@ -73,12 +73,17 @@ tests/
 ├── mock-server.js       # OpenAI 兼容 mock API（流式 SSE / 非流式 JSON / 401 错误 / 静态页面）
 ├── fixtures.mjs         # 扩展 context、extensionId、sw、setupMockApi、mock 控制
 ├── chat-flow.spec.mjs   # 聊天核心流程（5 用例）
-├── panel-ui.spec.mjs    # 面板 UI（历史/导出/清除/暗色/语言，5 用例）
-├── options.spec.mjs     # 选项页（提供商/保存/测试连接/快捷操作，4 用例）
+├── panel-ui.spec.mjs    # 面板 UI（历史/导出/清除/暗色/语言/复制/流式开关，8 用例）
+├── options.spec.mjs     # 选项页（提供商/保存/测试连接/快捷操作/系统提示词，5 用例）
 ├── xml-guard.spec.mjs   # XML/SVG 页面守卫（3 用例）
+├── provider-badge.spec.mjs # 注入状态指示：图标切换/实时刷新/未知回退（3 用例）
+├── rename.spec.mjs      # 对话重命名：内联编辑/空标题回退/Esc 取消/AI 不覆盖（4 用例）
+├── title-gen.spec.mjs   # AI 标题：替换/仅首轮/失败降级（3 用例）
 ├── btn-drag.spec.mjs    # 悬浮按钮拖拽（1 用例）
 ├── sel-btn-spa.spec.mjs # 选中文本按钮 + SPA 清理（1 用例）
 ├── del-btn.spec.mjs     # 消息删除按钮（1 用例）
+├── context-limit.spec.mjs  # 页面内容截断长度配置（1 用例）
+├── history-search-keys.spec.mjs # 历史搜索：按键不冒泡/输入完整（1 用例）
 ├── panel-lifecycle.spec.mjs  # 面板开关不重复创建 DOM（1 用例）
 └── streaming-perf.spec.mjs   # 长文本流式渲染节流（1 用例）
 ```

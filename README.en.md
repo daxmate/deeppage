@@ -26,7 +26,7 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 - **Multi-language** — 10 languages with on-the-fly switching via panel or options
 - **Dark Mode** — Auto-adapts to system theme; manual toggle from panel or options
 - **Multi-API** — OpenAI-compatible (DeepSeek, Ollama, Groq, etc.) and Anthropic native format
-- **Custom Base URL** — Point to any server for self-hosted or third-party backends
+- **Custom Base URL** — Point to any server for self-hosted or third-party backends (all built-in provider domains are pre-authorized; self-hosted servers must allow cross-origin requests)
 
 ## Usage
 
@@ -41,7 +41,7 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 ## Privacy
 
 - The extension only reads text content from the current page (no images, styles, or scripts)
-- Page content is sent only to the DeepSeek API, never to any third party
+- Page content is sent only to your chosen AI provider's API, never to any third party
 - You use your own API Key — data never passes through any intermediary
 
 ## Architecture
@@ -64,7 +64,7 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 ```
 
 - Direct DeepSeek API calls (OpenAI-compatible interface)
-- Supports `deepseek-v4-flash` / `deepseek-v4-pro` models
+- Supports `deepseek-v4-flash` and other DeepSeek models (model name customizable in options)
 - No hidden tabs, no PoW anti-scraping
 
 ## Development
@@ -83,7 +83,7 @@ The project ships a Playwright E2E test framework (mock server simulating an Ope
 
 ```bash
 npm install
-npm test        # runs i18n validation + 23 E2E cases
+npm test        # runs i18n validation + 38 E2E cases
 ```
 
 > Full development guide (adding API providers / writing tests / i18n / releasing) → [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md)
@@ -95,14 +95,16 @@ npm test        # runs i18n validation + 23 E2E cases
 │   ├── i18n.js             # Translation engine (10 languages)
 │   ├── utils.js            # Utility functions
 │   ├── providers.js        # API provider config (single source of truth, shared by background/options)
+│   ├── provider-icons.js   # Provider icon map (floating button status indicator)
 │   ├── chat.js             # Chat management + API calls + export
 │   ├── sidebar.js          # Panel UI + drag + selection button
 │   ├── content.js          # Content script — entry (boots the panel)
 │   ├── background.js       # Service worker — API calls
 │   ├── options.js          # Options page logic
 │   ├── spa-patch.js        # SPA navigation patch (main world, cleans up selection button)
-│   └── marked.umd.min.js   # Markdown renderer (marked v15)
-├── tests/                  # Playwright E2E tests (23 cases)
+│   ├── marked.umd.min.js   # Markdown renderer (marked v15)
+│   └── vendor/             # Third-party deps (html2pdf.js, used for PDF export)
+├── tests/                  # Playwright E2E tests (38 cases)
 │   ├── mock-server.js      # OpenAI-compatible mock API
 │   └── fixtures.mjs        # Extension context / storage / mock control fixtures
 ├── scripts/

@@ -5,6 +5,16 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.14.1] - 2026-08-01
+
+### 修复
+
+- 多提供商 API 请求被 CORS 拦截：`manifest.json` 的 `host_permissions` 仅声明了 `api.deepseek.com`，其余 11 个内置提供商域名（OpenAI / Anthropic / Moonshot / 智谱 / Qwen / 豆包 / 零一 / 硅基流动 / Groq / Together / Ollama localhost）依赖服务端 CORS 放行，部分服务（如 Anthropic 预检无 allow-origin）会请求失败；现已补齐全部提供商域名，内置提供商请求不再受浏览器跨域限制
+
+### 文档
+
+- README 中英文 + 开发者指南同步：测试用例数 23 → 38（补齐 provider-badge / rename / title-gen / context-limit / history-search-keys 等新 spec，修正 panel-ui 5→8、options 4→5）；项目结构补 `provider-icons.js` 与 `vendor/`（html2pdf.js）；隐私说明改为「你所选的 AI 提供商」；移除代码中不存在的 `deepseek-v4-pro` 模型措辞
+
 ## [1.14.0] - 2026-08-01
 
 ### 新增
