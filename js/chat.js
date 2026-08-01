@@ -285,13 +285,23 @@ async function renderHistoryList() {
   const list = document.getElementById('__dp-history-list');
   if (!list) return;
   const data = await loadConversations();
+  const kw = (list.dataset.search || '').trim().toLowerCase();
+  // 关键词过滤：匹配标题或任一消息内容
+  const filtered = kw
+    ? data.conversations.filter(c =>
+        (c.title || '').toLowerCase().includes(kw) ||
+        (c.messages || []).some(m => (m.content || '').toLowerCase().includes(kw))
+      )
+    : data.conversations;
   list.innerHTML = `
     <div class="__dp-history-header">
       <button class="__dp-history-back" title="${t('backToChat') || 'Back'}">← <span>${t('backToChat') || 'Back'}</span></button>
+      <input class="__dp-history-search" type="text" placeholder="${t('historySearchPlaceholder') || 'Search conversations'}" value="${escapeHtml(kw)}" />
     </div>
     <div class="__dp-history-scroll">
       ${data.conversations.length === 0 ? '<div class="__dp-history-empty">' + (t('historyEmpty') || 'No conversations') + '</div>' : ''}
-      ${data.conversations.map(c => `
+      ${filtered.length === 0 && data.conversations.length > 0 ? '<div class="__dp-history-empty">' + (t('historyNoMatch') || 'No matching conversations') + '</div>' : ''}
+      ${filtered.map(c => `
         <div class="__dp-history-item${c.id === currentConvId ? ' active' : ''}" data-id="${c.id}">
           <div class="__dp-history-item-main">
             <div class="__dp-history-title">${escapeHtml(c.title)}</div>
@@ -304,6 +314,15 @@ async function renderHistoryList() {
       `).join('')}
     </div>
   `;
+  // 搜索框：输入时记录关键词并重渲染列表
+  const searchInput = list.querySelector('.__dp-history-search');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      e.stopPropagation();
+      list.dataset.search = e.target.value;
+      renderHistoryList();
+    });
+  }
   // Bind events
   list.querySelectorAll('.__dp-history-item').forEach(el => {
     el.addEventListener('click', (e) => {

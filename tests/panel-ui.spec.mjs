@@ -29,6 +29,42 @@ test.describe('面板 UI 功能', () => {
     await expect(items.first()).toHaveClass(/active/);
   });
 
+  test('历史搜索：按标题/内容关键词过滤对话', async ({ page }) => {
+    // 建 2 个不同标题的对话
+    for (const q of ['第一轮问题', '第二轮问题']) {
+      await page.fill('#__dp-input', q);
+      await page.click('#__dp-send');
+      await expect(page.locator('#__dp-chat .__dp-msg.__dp-assistant:not([data-msg-type])').last()).toContainText('这是来自 mock 服务器的回复。', { timeout: 15000 });
+      await page.click('#__dp-new-btn'); // 新对话
+      // 新对话清空聊天区（无欢迎消息）
+      await expect(page.locator('#__dp-chat .__dp-msg')).toHaveCount(0, { timeout: 5000 });
+    }
+
+    // 打开历史：应有 2 个对话
+    await page.click('#__dp-history-btn');
+    await page.waitForSelector('#__dp-history-list:not(.__dp-hide)', { timeout: 5000 });
+    const items = page.locator('#__dp-history-list .__dp-history-item');
+    await expect(items).toHaveCount(2);
+
+    // 按标题关键词搜索
+    await page.fill('#__dp-history-list .__dp-history-search', '第二轮');
+    await expect(items).toHaveCount(1);
+    await expect(items.first().locator('.__dp-history-title')).toContainText('第二轮问题');
+
+    // 按消息内容搜索（mock 回复内容）
+    await page.fill('#__dp-history-list .__dp-history-search', 'mock 服务器');
+    await expect(items).toHaveCount(2);
+
+    // 无匹配
+    await page.fill('#__dp-history-list .__dp-history-search', '不存在的关键词xyz');
+    await expect(items).toHaveCount(0);
+    await expect(page.locator('#__dp-history-list .__dp-history-empty')).toBeVisible();
+
+    // 清空搜索恢复全部
+    await page.fill('#__dp-history-list .__dp-history-search', '');
+    await expect(items).toHaveCount(2);
+  });
+
   test('导出下载 .md 文件包含对话内容', async ({ page }) => {
     await page.fill('#__dp-input', '导出的内容');
     await page.click('#__dp-send');

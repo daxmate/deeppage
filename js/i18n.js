@@ -45,6 +45,8 @@ const TRANSLATIONS = {
   historyButton: ["历史", "History", "履歴", "歷史", "기록", "Historial", "Historique", "Verlauf", "История", "Lịch sử"],
   backToChat: ["返回", "Back", "戻る", "返回", "돌아가기", "Volver", "Retour", "Zurück", "Назад", "Quay lại"],
   historyEmpty: ["暂无对话", "No conversations", "会話がありません", "暫無對話", "대화가 없습니다", "Sin conversaciones", "Aucune conversation", "Keine Unterhaltungen", "Нет диалогов", "Chưa có cuộc trò chuyện"],
+  historySearchPlaceholder: ["搜索对话…", "Search conversations…", "会話を検索…", "搜尋對話…", "대화 검색…", "Buscar conversaciones…", "Rechercher des conversations…", "Unterhaltungen suchen…", "Поиск диалогов…", "Tìm kiếm cuộc trò chuyện…"],
+  historyNoMatch: ["无匹配对话", "No matching conversations", "一致する会話がありません", "無符合的對話", "일치하는 대화가 없습니다", "Sin conversaciones coincidentes", "Aucune conversation correspondante", "Keine passenden Unterhaltungen", "Нет подходящих диалогов", "Không có cuộc trò chuyện phù hợp"],
   justNow: ["刚刚", "just now", "たった今", "剛剛", "방금", "ahora mismo", "à l\\'instant", "gerade eben", "только что", "vừa xong"],
   newChat: ["新对话", "New Chat", "新規会話", "新對話", "새 대화", "Nueva conversación", "Nouvelle conversation", "Neue Unterhaltung", "Новый диалог", "Cuộc trò chuyện mới"],
   newChatShort: ["新对话", "New", "新規", "新對話", "새로 만들기", "Nuevo", "Nouveau", "Neu", "Новый", "Mới"],

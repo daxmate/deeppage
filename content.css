@@ -402,19 +402,23 @@
       border-bottom: 1px solid var(--dp-history-header-border);
       background: var(--dp-history-header-bg);
     }
-    .__dp-history-back {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--dp-history-back-color);
-      font-size: 13px;
-      padding: 4px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
+    .__dp-history-back { background: none; border: none; cursor: pointer; color: var(--dp-history-back-color); font-size: 13px; padding: 4px; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
     .__dp-history-back:hover { color: var(--dp-history-back-hover); }
     .__dp-history-back span { text-decoration: underline; }
+    .__dp-history-search {
+      flex: 1;
+      margin-left: 8px;
+      min-width: 0;
+      padding: 5px 10px;
+      border: 1px solid var(--dp-history-header-border);
+      border-radius: 6px;
+      background: var(--dp-input-bg);
+      color: var(--dp-text);
+      font-size: 13px;
+      outline: none;
+    }
+    .__dp-history-search::placeholder { color: var(--dp-history-meta-color); }
+    .__dp-history-search:focus { border-color: var(--dp-primary, #4A6CF7); }
     .__dp-history-new {
       background: #4A6CF7;
       border: none;
