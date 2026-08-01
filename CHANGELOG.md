@@ -5,6 +5,12 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.14.2] - 2026-08-01
+
+### 文档
+
+- README 章节重排：快速开始（安装 / 配置 API Key / 开始使用）移到简介之后、功能列表之前，新用户无需翻过长列表即可上手；英文版同步
+
 ## [1.14.1] - 2026-08-01
 
 ### 修复

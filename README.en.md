@@ -4,6 +4,16 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 
 > [中文版](./README.md)
 
+## Usage
+
+1. Install the extension and visit any web page
+2. Click the DeepSeek icon at the bottom-right to open the chat panel
+3. On first use, configure your API Key:
+   - Right-click the extension icon → **Options**
+   - Enter your [DeepSeek API Key](https://platform.deepseek.com/api_keys)
+   - Click **Save**
+4. Use the quick action buttons or type your own questions
+
 ## Features
 
 - **Inline Chat Panel** — Click the floating button to open a chat bubble on any page
@@ -27,16 +37,6 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 - **Dark Mode** — Auto-adapts to system theme; manual toggle from panel or options
 - **Multi-API** — OpenAI-compatible (DeepSeek, Ollama, Groq, etc.) and Anthropic native format
 - **Custom Base URL** — Point to any server for self-hosted or third-party backends (all built-in provider domains are pre-authorized; self-hosted servers must allow cross-origin requests)
-
-## Usage
-
-1. Install the extension and visit any web page
-2. Click the DeepSeek icon at the bottom-right to open the chat panel
-3. On first use, configure your API Key:
-   - Right-click the extension icon → **Options**
-   - Enter your [DeepSeek API Key](https://platform.deepseek.com/api_keys)
-   - Click **Save**
-4. Use the quick action buttons or type your own questions
 
 ## Privacy
 
