@@ -10,6 +10,10 @@ function localizePage() {
   });
   document.title = t("optionTitle");
   document.getElementById("apiKey").placeholder = t("apiKeyPlaceholder") || "sk-...";
+  const sysPrompt = document.getElementById("custom-system-prompt");
+  if (sysPrompt)
+    sysPrompt.placeholder =
+      t("systemPromptPlaceholder") || "e.g. Think step by step, respond in Chinese";
   // 语言切换时清除测试状态
   const testStatus = document.getElementById("testApiStatus");
   if (testStatus) testStatus.textContent = "";

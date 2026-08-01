@@ -116,4 +116,27 @@ test.describe("Options 页", () => {
     await page.locator(".action-card").last().locator(".action-card-del").click();
     await expect(page.locator(".action-card")).toHaveCount(before);
   });
+
+  test("Custom System Prompt placeholder 跟随语言", async ({ extensionId, page }) => {
+    await page.goto(`chrome-extension://${extensionId}/options.html`, {
+      waitUntil: "domcontentloaded",
+    });
+    await page
+      .locator("#apiProvider option")
+      .first()
+      .waitFor({ state: "attached", timeout: 15000 });
+
+    // 默认英文环境 → 英文 placeholder
+    const placeholderEn = await page.locator("#custom-system-prompt").getAttribute("placeholder");
+    expect(placeholderEn).toContain("Think step by step");
+
+    // 切到外观 tab（语言选择器在此）再切中文
+    await page.click('.option-tab[data-tab="appearance"]');
+    await page.waitForSelector('#tab-appearance:not([style*="display: none"])', { timeout: 5000 });
+    await page.selectOption("#language-select", "zh_CN");
+    await expect(async () => {
+      const p = await page.locator("#custom-system-prompt").getAttribute("placeholder");
+      expect(p).toContain("请一步步思考");
+    }).toPass({ timeout: 10000 });
+  });
 });

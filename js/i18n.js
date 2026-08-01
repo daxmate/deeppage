@@ -1306,6 +1306,18 @@ const TRANSLATIONS = {
     "Добавляется после автоматически сгенерированного промпта контекста",
     "Được thêm vào sau prompt ngữ cảnh tự động tạo",
   ],
+  systemPromptPlaceholder: [
+    "例如：请一步步思考，用中文回答",
+    "e.g. Think step by step, respond in Chinese",
+    "例：ステップバイステップで考え、日本語で回答してください",
+    "例如：請一步步思考，用中文回答",
+    "예: 단계별로 생각하고 한국어로 응답하세요",
+    "p. ej. Piensa paso a paso, responde en español",
+    "p. ex. Réfléchissez étape par étape, répondez en français",
+    "z. B. Schritt für Schritt denken, auf Deutsch antworten",
+    "например: думайте шаг за шагом, отвечайте на русском",
+    "vd: Suy nghĩ từng bước, trả lời bằng tiếng Việt",
+  ],
   thinkingLabel: [
     "思考过程",
     "Thinking",
