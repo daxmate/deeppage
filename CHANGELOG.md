@@ -5,6 +5,13 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.9.4] - 2026-08-01
+
+### 文档
+
+- TODO.md 精简：完成项归档为版本摘要（历史细节见 CHANGELOG），文件回到待办清单定位
+- README 中英文同步：功能列表补充历史对话搜索
+
 ## [1.9.3] - 2026-08-01
 
 ### 修复
