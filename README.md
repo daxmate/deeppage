@@ -97,9 +97,10 @@ git clone https://github.com/daxmate/deeppage.git
 ├── js/                     # JavaScript 脚本
 │   ├── i18n.js             # 多语言引擎（10 种语言）
 │   ├── utils.js            # 工具函数
+│   ├── providers.js        # API 提供商配置（单一数据源，background/options 共享）
 │   ├── chat.js             # 对话管理 + API 调用 + 导出
 │   ├── sidebar.js          # 面板 UI + 拖拽 + 选中按钮
-│   ├── content.js          # 内容脚本 — 入口（注入样式 + 启动）
+│   ├── content.js          # 内容脚本 — 入口（启动面板）
 │   ├── background.js       # 后台服务 — API 调用
 │   ├── options.js          # 设置页面逻辑
 │   └── marked.umd.min.js   # Markdown 渲染引擎（marked v15）

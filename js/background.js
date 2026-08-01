@@ -3,25 +3,11 @@
 // Routes API calls — OpenAI or Anthropic format
 // ==============================================
 
+import { API_PROVIDER_MAP as API_PROVIDERS } from './providers.js';
+
 const API_PATHS = {
   openai: '/chat/completions',
   anthropic: '/messages',
-};
-
-const API_PROVIDERS = {
-  deepseek:   { type: 'openai',    baseUrl: 'https://api.deepseek.com/v1',                       model: 'deepseek-v4-flash' },
-  moonshot:   { type: 'openai',    baseUrl: 'https://api.moonshot.cn/v1',                        model: 'kimi-latest' },
-  zhipu:      { type: 'openai',    baseUrl: 'https://open.bigmodel.cn/api/paas/v4',              model: 'glm-4-plus' },
-  qwen:       { type: 'openai',    baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',  model: 'qwen-turbo' },
-  doubao:     { type: 'openai',    baseUrl: 'https://ark.cn-beijing.volces.com/api/v3',           model: 'ep-20250601000000-sample' },
-  yi:         { type: 'openai',    baseUrl: 'https://api.lingyiwanwu.com/v1',                     model: 'yi-lightning' },
-  siliconflow:{ type: 'openai',    baseUrl: 'https://api.siliconflow.cn/v1',                      model: 'deepseek-v4-flash' },
-  openai:     { type: 'openai',    baseUrl: 'https://api.openai.com/v1',                          model: 'gpt-4o-mini' },
-  groq:       { type: 'openai',    baseUrl: 'https://api.groq.com/openai/v1',                     model: 'llama3-70b-8192' },
-  ollama:     { type: 'openai',    baseUrl: 'http://localhost:11434/v1',                          model: 'llama3.2' },
-  together:   { type: 'openai',    baseUrl: 'https://api.together.xyz/v1',                        model: 'mistralai/Mixtral-8x22B-Instruct-v0.1' },
-  anthropic:  { type: 'anthropic', baseUrl: 'https://api.anthropic.com',                          model: 'claude-sonnet-4-20250514' },
-  custom:     { type: 'openai',    baseUrl: '',                                                   model: '' },
 };
 
 async function getSettings() {

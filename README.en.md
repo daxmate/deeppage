@@ -77,17 +77,22 @@ Open `chrome://extensions` → **Load unpacked** → select the project director
 ### Project Structure
 
 ```
-├── i18n.js                 # Translation engine (10 languages)
-├── manifest.json           # Extension manifest
-├── background.js           # Service worker — API calls
-├── content.js              # Content script — panel UI + chat logic
-├── options.html / .js      # Options page — API Key + button config
+├── js/                     # JavaScript
+│   ├── i18n.js             # Translation engine (10 languages)
+│   ├── utils.js            # Utility functions
+│   ├── providers.js        # API provider config (single source of truth, shared by background/options)
+│   ├── chat.js             # Chat management + API calls + export
+│   ├── sidebar.js          # Panel UI + drag + selection button
+│   ├── content.js          # Content script — entry (boots the panel)
+│   ├── background.js       # Service worker — API calls
+│   ├── options.js          # Options page logic
+│   └── marked.umd.min.js   # Markdown renderer (marked v15)
+├── options.html            # Options page
 ├── options.css             # Options page styles
-├── content.css             # Chat panel styles (dead file, kept for reference)
-├── marked.umd.min.js       # Markdown renderer (marked v15)
+├── content.css             # Chat panel styles (injected via manifest)
+├── manifest.json           # Extension manifest
 ├── icons/                  # DeepSeek icons
-├── test-resize.html        # Resize test page
-└── test-markdown.html      # Markdown rendering test page
+└── .github/workflows/      # CI release config
 ```
 
 ### Adding a Language
