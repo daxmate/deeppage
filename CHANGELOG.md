@@ -5,6 +5,12 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.10.2] - 2026-08-01
+
+### 改进
+
+- Custom System Prompt 输入框 placeholder 多语言化：此前硬编码英文提示，现按界面语言显示对应提示（10 种语言）
+
 ## [1.10.1] - 2026-08-01
 
 ### 改进
