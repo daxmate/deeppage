@@ -18,7 +18,7 @@
 - [x] **options.js 重复 i18n key** ✅ 已核实无重复 — 110 个 key 全部唯一（此前记录的 `apiProviderLabel` 等重复已随重构消失），TODO 过时
 - [x] **面板 DOM 销毁重建** ✅ 已核实无需改动 — 当前实现即「创建一次、开关只切 display」（`createChatPanel` 仅调用一次，`togglePanel` 只切 `__dp-open` class，默认 `display:none`），无重复创建；已加回归测试 `tests/panel-lifecycle.spec.mjs` 防止回归
 - [x] **Markdown 渲染性能** ✅ 已完成 — 流式渲染改为 rAF 节流合并（每帧最多渲染一次）+ 长文本降频（>3000 字符每 100ms 渲染一次，done/error 时强制 flush）。实测 10180 字符长回复从逐 chunk 全量渲染（~1 万次）降到 25 次 DOM 写入。新增回归测试 `tests/streaming-perf.spec.mjs`
-- [ ] **多语言 key 校验脚本** — 10 种语言文件 key 一致性自动化检查（防止翻译缺失导致页面空白），低成本高收益
+- [x] **多语言 key 校验脚本** ✅ 已完成 — `scripts/check-i18n.mjs`（npm run check:i18n，`pretest` 自动执行）：检查 110 个 key 的 10 语言数组长度/顺序/空值 + 代码引用完整性。首次运行即抓到真实问题：`testApiRequired` 5 种语言空值且顺序错乱，已修复
 
 ## 🟢 P2 — 可长期拖着（无害）
 

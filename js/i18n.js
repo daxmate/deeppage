@@ -70,7 +70,7 @@ const TRANSLATIONS = {
   testApiButton: ["测试连接", "Test Connection", "接続テスト", "測試連接", "연결 테스트", "Probar conexión", "Tester la connexion", "Verbindung testen", "Проверить соединение", "Kiểm tra kết nối"],
   testApiSuccess: ["✅ 连接成功", "✅ Connection OK", "✅ 接続成功", "✅ 連接成功", "✅ 연결 성공", "✅ Conexión exitosa", "✅ Connexion réussie", "✅ Verbindung OK", "✅ Соединение OK", "✅ Kết nối thành công"],
   testApiFailed: ["❌ 连接失败：", "❌ Connection failed: ", "❌ 接続失敗：", "❌ 連接失敗：", "❌ 연결 실패：", "❌ Conexión fallida：", "❌ Échec de connexion：", "❌ Verbindung fehlgeschlagen：", "❌ Ошибка соединения：", "❌ Kết nối thất bại："],
-  testApiRequired: ["Fill in Base URL, API Key, and Model first", "請先填寫接口地址、API Key 和模型名稱", "Primero complete URL base, API Key y modelo", "Bitte geben Sie zuerst Basis-URL, API-Schlüssel und Modell ein", "Vui lòng điền URL cơ sở, API Key và tên mô hình trước", "", "", "", "", ""],
+  testApiRequired: ["请先填写接口地址、API Key 和模型名称", "Fill in Base URL, API Key, and Model first", "先にベースURL、APIキー、モデル名を入力してください", "請先填寫接口地址、API Key 和模型名稱", "먼저 기본 URL, API 키 및 모델 이름을 입력하세요", "Primero complete la URL base, la clave API y el nombre del modelo", "Veuillez d'abord saisir l'URL de base, la clé API et le nom du modèle", "Bitte geben Sie zuerst Basis-URL, API-Schlüssel und Modellname ein", "Сначала укажите базовый URL, API-ключ и название модели", "Vui lòng điền URL cơ sở, API Key và tên mô hình trước"],
   tabApi: ["API", "API", "API", "API", "API", "API", "API", "API", "API", "API"],
   tabQuick: ["快捷按钮", "Quick Actions", "クイック操作", "快捷按鈕", "빠른 작업", "Acciones rápidas", "Actions rapides", "Schnellaktionen", "Быстрые действия", "Thao tác nhanh"],
   tabAppearance: ["外观", "Appearance", "外観", "外觀", "외관", "Apariencia", "Apparence", "Darstellung", "Внешний вид", "Giao diện"],

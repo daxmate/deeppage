@@ -5,7 +5,9 @@
   "description": "DeepPage — Chat with DeepSeek while browsing",
   "scripts": {
     "test": "playwright test tests/",
-    "test:ui": "playwright test --ui tests/"
+    "test:ui": "playwright test --ui tests/",
+    "check:i18n": "node scripts/check-i18n.mjs",
+    "pretest": "npm run check:i18n"
   },
   "devDependencies": {
     "playwright": "^1.62.1"
