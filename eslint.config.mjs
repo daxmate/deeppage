@@ -13,6 +13,7 @@ const contentScriptGlobals = {
   chrome: 'readonly',
   // 第三方
   marked: 'readonly',
+  html2pdf: 'readonly',
   // ---- js/utils.js ----
   generateId: 'readonly',
   formatRelativeTime: 'readonly',
@@ -80,7 +81,7 @@ const contentScriptGlobals = {
 };
 
 export default [
-  { ignores: ['js/marked.umd.min.js', 'test-results/**', 'dist/**', 'node_modules/**'] },
+  { ignores: ['js/marked.umd.min.js', 'js/vendor/**', 'test-results/**', 'dist/**', 'node_modules/**'] },
   eslintJs.configs.recommended,
   eslintConfigPrettier,
   {

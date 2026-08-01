@@ -99,6 +99,34 @@ test.describe("面板 UI 功能", () => {
     expect(content).toContain("这是来自 mock 服务器的回复。");
   });
 
+  test("导出 PDF：菜单项存在，点击触发 .pdf 下载", async ({ page }) => {
+    await page.fill("#__dp-input", "导出 PDF 的内容");
+    await page.click("#__dp-send");
+    await expect(
+      page.locator("#__dp-chat .__dp-msg.__dp-assistant:not([data-msg-type]) .__dp-bubble-content")
+    ).toContainText("这是来自 mock 服务器的回复。", { timeout: 15000 });
+
+    // 打开导出菜单 → PDF 菜单项存在
+    await page.click("#__dp-export-btn");
+    const pdfItem = page.locator('#__dp-export-menu div[data-action="pdf"]');
+    await expect(pdfItem).toBeVisible();
+    await expect(pdfItem).toContainText("PDF");
+
+    // 点击触发下载
+    const [download] = await Promise.all([
+      page.waitForEvent("download", { timeout: 30000 }),
+      pdfItem.click(),
+    ]);
+    expect(download.suggestedFilename()).toMatch(/\.pdf$/);
+    const file = await download.path();
+    const fs = await import("node:fs");
+    const buf = fs.readFileSync(file);
+    const head = buf.subarray(0, 5).toString("ascii");
+    expect(head).toBe("%PDF-"); // PDF 文件头
+    // 有实际内容（含对话渲染的 PDF 明显大于空白页 ~1KB）
+    expect(buf.length).toBeGreaterThan(1024);
+  });
+
   test("复制 Markdown 保留语法，复制纯文本剥离语法", async ({ page, mock }) => {
     // 授权 clipboard 读写（真实系统剪贴板）
     await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);

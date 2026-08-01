@@ -5,6 +5,12 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.14.0] - 2026-08-01
+
+### 新增
+
+- 导出 PDF：导出菜单新增「下载 PDF」，对话以气泡截图式渲染成 A4 PDF（基于 html2pdf.js = html2canvas + jsPDF，中文渲染零成本），文件名含页面标题；适合打印、存档、正式分享
+
 ## [1.13.0] - 2026-08-01
 
 ### 新增

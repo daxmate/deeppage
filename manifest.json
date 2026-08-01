@@ -23,6 +23,7 @@
                 "js/marked.umd.min.js",
                 "js/i18n.js",
                 "js/utils.js",
+                "js/vendor/html2pdf.bundle.min.js",
                 "js/chat.js",
                 "js/provider-icons.js",
                 "js/sidebar.js",
@@ -66,5 +67,5 @@
         "tabs",
         "windows"
     ],
-    "version": "1.13.0"
+    "version": "1.14.0"
 }

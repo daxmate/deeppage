@@ -558,6 +558,18 @@ const TRANSLATIONS = {
     "Скачать .md",
     "Tải xuống .md",
   ],
+  exportPdf: [
+    "下载 PDF",
+    "Download PDF",
+    "PDF をダウンロード",
+    "下載 PDF",
+    "PDF 다운로드",
+    "Descargar PDF",
+    "Télécharger PDF",
+    "PDF herunterladen",
+    "Скачать PDF",
+    "Tải xuống PDF",
+  ],
   exportExported: [
     "已复制到剪贴板",
     "Copied to clipboard",

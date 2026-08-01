@@ -981,6 +981,79 @@ function formatExportText() {
   return lines.join("\n");
 }
 
+// ===== 导出 PDF：对话渲染成 PDF 下载（html2pdf.js 截图式） =====
+async function exportPdf() {
+  const msgs = chatHistory.length ? chatHistory : currentMessages;
+  if (!msgs.length || typeof html2pdf === "undefined") return;
+
+  // 构造独立的导出容器：普通文档流追加到 body（html2canvas 克隆时通过 onclone 固定到视口内）
+  const wrap = document.createElement("div");
+  wrap.id = "dp-export-wrap";
+  wrap.style.cssText = "width:640px;background:#fff;";
+  const isDark = document.getElementById("__dp-panel")?.classList.contains("__dp-dark");
+  wrap.innerHTML = `
+    <div style="padding:32px 36px;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;color:#1f2937;">
+      <h1 style="font-size:18px;margin:0 0 4px;">${escapeHtml(
+        pageContext ? pageContext.title : "DeepPage"
+      )}</h1>
+      <div style="font-size:12px;color:#9ca3af;margin-bottom:24px;">${escapeHtml(
+        pageContext ? pageContext.url : ""
+      )} · ${new Date().toLocaleString()}</div>
+      ${msgs
+        .map((m) => {
+          const isUser = m.role === "user";
+          const align = isUser ? "right" : "left";
+          const bg = isUser ? "#4a6cf7" : (isDark ? "#2a2b30" : "#f3f4f6");
+          const color = isUser ? "#fff" : (isDark ? "#e4e5e7" : "#1f2937");
+          const maxW = isUser ? "80%" : "100%";
+          const content = markdownToHtml(m.content || "");
+          // 气泡用 block + margin auto 对齐（inline-block 内嵌块级元素 html2canvas 渲染丢文字）
+          const marginAuto = isUser ? "margin-left:auto;" : "margin-right:auto;";
+          return `
+          <div style="margin-bottom:16px;">
+            <div style="${marginAuto}max-width:${maxW};background:${bg};color:${color};border-radius:12px;padding:10px 14px;font-size:13px;line-height:1.6;word-break:break-word;text-align:left;white-space:normal;">
+              ${content}
+            </div>
+          </div>`;
+        })
+        .join("")}
+    </div>`;
+  document.body.appendChild(wrap);
+  try {
+    const worker = html2pdf()
+      .set({
+        margin: [12, 12, 16, 12],
+        filename: `${
+          (pageContext ? pageContext.title : "deeppage")
+            .replace(/[^\w\u4e00-\u9fff-]/g, "_")
+            .slice(0, 50)
+        }_deeppage.pdf`,
+        image: { type: "jpeg", quality: 0.95 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: "#ffffff",
+          // 克隆文档中把导出容器固定到视口顶部（长页面下元素在视口外会导致截图内容错误）
+          onclone: (clonedDoc) => {
+            const el = clonedDoc.getElementById("dp-export-wrap");
+            if (el) {
+              el.style.position = "fixed";
+              el.style.left = "0";
+              el.style.top = "0";
+              el.style.zIndex = "999999";
+              el.style.margin = "0";
+            }
+          },
+        },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      })
+      .from(wrap);
+    await worker.save();
+  } finally {
+    document.body.removeChild(wrap);
+  }
+}
+
 async function exportConversation(format) {
   const msgs = chatHistory.length ? chatHistory : currentMessages;
   if (!msgs.length) return;
@@ -990,6 +1063,11 @@ async function exportConversation(format) {
     content = formatExportMarkdown();
   } else if (format === "text") {
     content = formatExportText();
+  }
+
+  if (format === "pdf") {
+    await exportPdf();
+    return;
   }
 
   if (format === "download") {
