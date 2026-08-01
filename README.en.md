@@ -127,6 +127,18 @@ Edit `i18n.js`:
 
 After changes, run `npm run check:i18n` to validate 10-language array consistency (also runs automatically with `npm test`).
 
+## Contributing
+
+Issues and Pull Requests are welcome! Please keep these conventions in mind:
+
+- **Align before coding**: for larger changes, explain your approach before writing code
+- **Don't reinvent the wheel**: prefer proven solutions for common needs (e.g. marked for markdown)
+- **Test coverage**: add E2E tests for new features/fixes; cover every branch of menu-style multi-option features
+- **Changelog on every release**: CHANGELOG.md + bilingual GitHub Release notes
+- **i18n**: new UI strings must cover all 10 languages; run `npm run check:i18n`
+
+> Full development guide (adding API providers / writing tests / i18n) → [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md)
+
 ## License
 
 MIT

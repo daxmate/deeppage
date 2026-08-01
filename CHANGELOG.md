@@ -5,6 +5,13 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.14.3] - 2026-08-02
+
+### 文档
+
+- README 中英文新增「贡献」章节（对齐思路 / 不造轮子 / 测试覆盖 / 发版必更日志 / i18n），指向完整开发指南
+- 发版流程从开发指南拆出：新增 `docs/RELEASING.md`（仅维护者），记录版本号规则、发布步骤、双语 Release notes 规范及三处版本号同步注意事项；DEVELOPMENT.md 只保留面向贡献者的内容
+
 ## [1.14.2] - 2026-08-01
 
 ### 文档

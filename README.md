@@ -105,7 +105,7 @@ npm install
 npm test        # 自动运行 i18n 校验 + 38 个 E2E 用例
 ```
 
-> 完整开发指南（添加 API 提供商 / 写测试 / i18n / 发版）见 [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md)
+> 完整开发指南（添加 API 提供商 / 写测试 / i18n）见 [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md)
 
 ### 项目结构
 
@@ -145,6 +145,18 @@ npm test        # 自动运行 i18n 校验 + 38 个 E2E 用例
 4. 更新 `detectLanguage()`（如需自动检测）
 
 修改后运行 `npm run check:i18n` 校验 10 语言数组一致性（`npm test` 也会自动执行）。
+
+## 贡献
+
+欢迎提交 Issue 或 Pull Request！参与前请先了解以下约定：
+
+- **先对齐思路再动手**：较大的改动先说明方案再写代码
+- **不造轮子**：通用需求优先用成熟方案（如 marked 做 markdown）
+- **测试覆盖**：新功能/修复尽量补 E2E 用例，改菜单类多分支功能时每个分支都要覆盖
+- **发版必更日志**：CHANGELOG.md + GitHub Release notes 双语
+- **i18n**：新增 UI 文案必须补全 10 种语言，跑 `npm run check:i18n`
+
+> 完整开发指南（添加 API 提供商 / 写测试 / i18n）见 [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md)
 
 ## License
 

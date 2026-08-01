@@ -1,6 +1,8 @@
 # DeepPage 开发者指南
 
-本文面向想为 DeepPage 贡献代码的开发者：如何添加新的 API 提供商、如何运行测试、如何发版。
+本文面向想为 DeepPage 贡献代码的开发者：如何添加新的 API 提供商、如何运行测试、如何维护 i18n。
+
+> 发版流程见 [RELEASING.md](./RELEASING.md)（仅维护者）
 
 ## 目录
 
@@ -8,7 +10,6 @@
 - [运行测试](#运行测试)
 - [i18n 多语言维护](#i18n-多语言维护)
 - [代码结构速览](#代码结构速览)
-- [发布新版本](#发布新版本)
 - [贡献规范](#贡献规范)
 
 ---
@@ -145,28 +146,6 @@ npm run check:i18n
 | `content.css` | 聊天面板样式（manifest 自动注入） |
 | `tests/` | Playwright E2E 测试 |
 | `scripts/check-i18n.mjs` | i18n 校验脚本 |
-
----
-
-## 发布新版本
-
-```bash
-# 1. 统一更新版本号（manifest.json + package.json 同步）
-npm run bump:version -- 1.9.2
-# 2. 更新 CHANGELOG.md（Keep a Changelog 风格，中文章节）
-git add -A && git commit -m "chore: bump version to 1.9.2"
-git tag v1.9.2
-git push origin main --tags
-# 3. 等 GitHub Actions 自动跑测试 + 建 Release（测试不过不会发版）
-# 4. 手动补写双语 Release notes
-gh release edit v1.9.2 --notes-file /tmp/notes.md
-```
-
-**版本号规则**：加新功能 → 第二位 +1（`1.8.x` → `1.9.0`）；仅重构/修复 → 第三位 +1（`1.8.13` → `1.8.14`）。
-
-**Release notes 规范**：中英双语（中文在前），emoji 分节（✨ 新功能 / 🐛 修复 / 🔧 重构 / ⚙️ 工程），每条加粗标题 + 说明，结尾附 `**Full Changelog**: .../compare/vX.X.X...vX.X.X`。
-
-> ⚠️ 发布前先跑 `npm test` 确认全绿；CI 会自动校验 manifest 版本与 tag 一致、package.json 与 manifest 一致，并跑全部 E2E 用例，全部通过才创建 Release。
 
 ---
 
