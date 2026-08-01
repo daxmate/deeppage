@@ -5,6 +5,12 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.10.1] - 2026-08-01
+
+### 改进
+
+- 语言选择器紧凑化：工具栏从完整语言名下拉框改为简码按钮（简/繁/EN/JP/KR 等），点击展开下拉菜单选择，节省工具栏空间
+
 ## [1.10.0] - 2026-08-01
 
 ### 新增
