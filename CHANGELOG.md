@@ -5,6 +5,12 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.8.12] - 2026-08-01
+
+### 文档
+
+- README 中英文同步更新：补充流式输出开关、流式渲染优化、纯文本导出剥离语法说明；新增测试框架章节（`npm test`）；项目结构补齐 `tests/`、`scripts/`、`spa-patch.js`、`content.css`；添加语言指南补充 i18n 校验步骤
+
 ## [1.8.11] - 2026-08-01
 
 ### 修复
