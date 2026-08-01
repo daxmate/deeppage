@@ -15,6 +15,7 @@ async function getSettings() {
     'apiProvider', 'apiBaseUrl', 'apiKey', 'apiModel', 'apiType',
     'deepseekApiKey', // fallback
     // model params
+    'streamOutput',
     'temperature', 'maxTokens', 'topP',
     'frequencyPenalty', 'presencePenalty',
     'stopSequences', 'reasoningLevel', 'customSystemPrompt',
@@ -32,6 +33,7 @@ async function getSettings() {
 
   return {
     apiType, baseUrl, apiKey, model, apiProvider,
+    streamOutput: result.streamOutput !== false,
     temperature: result.temperature,
     maxTokens: result.maxTokens,
     topP: result.topP,
@@ -52,7 +54,7 @@ chrome.runtime.onConnect.addListener((port) => {
 
     try {
       const settings = await getSettings();
-      const { apiType, baseUrl, apiKey, model, apiProvider, temperature, maxTokens, topP, frequencyPenalty, presencePenalty, stopSequences, reasoningLevel, customSystemPrompt } = settings;
+      const { apiType, baseUrl, apiKey, model, apiProvider, streamOutput, temperature, maxTokens, topP, frequencyPenalty, presencePenalty, stopSequences, reasoningLevel, customSystemPrompt } = settings;
       if (!apiKey) {
         port.postMessage({ type: 'error', text: 'NO_API_KEY' });
         return;
@@ -83,7 +85,7 @@ chrome.runtime.onConnect.addListener((port) => {
       const headers = apiType === 'anthropic'
         ? { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' }
         : { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` };
-      const body = buildBody(apiType, model, messages, true, { temperature, maxTokens, topP, frequencyPenalty, presencePenalty, stopSequences, reasoningLevel, apiProvider, baseUrl });
+      const body = buildBody(apiType, model, messages, streamOutput, { temperature, maxTokens, topP, frequencyPenalty, presencePenalty, stopSequences, reasoningLevel, apiProvider, baseUrl });
 
       const resp = await fetch(url, { method: 'POST', headers, body });
 
@@ -102,17 +104,22 @@ chrome.runtime.onConnect.addListener((port) => {
       const reader = resp.body.getReader();
       const decoder = new TextDecoder();
       let buffer = '';
+      let totalText = '';
+      let sawDataLine = false;
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
-        buffer += decoder.decode(value, { stream: true });
+        const text = decoder.decode(value, { stream: true });
+        buffer += text;
+        totalText += text;
         const lines = buffer.split('\n');
         buffer = lines.pop() || '';
 
         for (const line of lines) {
           if (line.trim() === '' || line.startsWith('event: ')) continue;
+          if (line.startsWith('data: ')) sawDataLine = true;
           const { content, reasoningContent } = parseStreamChunk(apiType, line);
           if (reasoningContent || content) {
             console.log('[DeepPage] Stream delta:', JSON.stringify({ content: content?.slice(0,80), reasoningContent: reasoningContent?.slice(0,80) }));
@@ -123,6 +130,22 @@ chrome.runtime.onConnect.addListener((port) => {
           if (content) {
             port.postMessage({ type: 'chunk', text: content });
           }
+        }
+      }
+
+      // 兜底：API 忽略 stream 参数直接返回普通 JSON（非 SSE）时，整个响应没有 data: 行，
+      // 用 parseNonStream 解析完整 JSON 并补发一次回复（服务端通常一次返回全部内容）
+      if (!sawDataLine && totalText.trim()) {
+        try {
+          const data = JSON.parse(totalText);
+          const text = parseNonStream(apiType, data);
+          if (text) {
+            port.postMessage({ type: 'chunk', text });
+          } else if (data?.error?.message) {
+            port.postMessage({ type: 'error', text: data.error.message });
+          }
+        } catch (_) {
+          // 无法解析，交给前端保持现状
         }
       }
 

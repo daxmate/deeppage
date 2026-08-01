@@ -64,11 +64,15 @@ async function trimConversation() {
 
 async function clearContext() {
   if (chatHistory.length <= 2) return;
-  // 保留最后一条 user 消息（当前轮）
-  const keepUser = chatHistory[chatHistory.length - 1];
+  // 保留最后一条 user 消息（当前轮）——从末尾向前找，跳过 assistant 回复
+  let keepIdx = chatHistory.length - 1;
+  while (keepIdx >= 0 && chatHistory[keepIdx].role !== 'user') keepIdx--;
+  if (keepIdx < 0) return;
+  const keepUser = chatHistory[keepIdx];
   const keepContent = keepUser.content;
   chatHistory = [keepUser];
-  currentMessages = [currentMessages[currentMessages.length - 1]];
+  const lastUserMsg = [...currentMessages].reverse().find(m => m.role === 'user');
+  currentMessages = lastUserMsg ? [lastUserMsg] : [];
   // 清空界面，仅保留当前用户消息
   const chat = document.getElementById('__dp-chat');
   if (chat) {
@@ -482,13 +486,14 @@ async function sendMessage() {
   let lastFullText = '';
 
   try {
+    // 声明在 executor 外，供 executor 闭包和后续 _dpMsgRef 引用（否则跨作用域 ReferenceError）
+    let assistantDiv = null;
+    let assistantBubble = null;
     const port = chrome.runtime.connect({ name: 'chat-stream' });
     
     const fullTextPromise = new Promise((resolve, reject) => {
       let fullText = '';
       let reasoningText = '';
-      let assistantDiv = null;
-      let assistantBubble = null;
       let thinkToggle = null;
       let thinkBox = null;
       let hasThinking = false;
@@ -580,18 +585,6 @@ async function sendMessage() {
               thinkToggle.style.display = '';
               attachToggleHandler();
             }
-          } else if (!assistantDiv) {
-            // No thinking, first chunk creates the assistant directly
-            const loading = document.querySelector('.__dp-loading');
-            if (loading) loading.remove();
-            const chat = document.getElementById('__dp-chat');
-            assistantDiv = document.createElement('div');
-            assistantDiv.className = '__dp-msg __dp-assistant';
-            assistantBubble = document.createElement('div');
-            assistantBubble.className = '__dp-bubble';
-            assistantDiv.appendChild(assistantBubble);
-            chat.appendChild(assistantDiv);
-            scrollChat();
           }
           fullText += resp.text;
           // 获取或创建 contentContainer
@@ -613,6 +606,8 @@ async function sendMessage() {
             assistantDiv.appendChild(assistantBubble);
             chat.appendChild(assistantDiv);
             scrollChat();
+            // 复用当前气泡：后续 chunk 直接更新 contentEl（否则每个 chunk 都会新建气泡）
+            assistantBubble.__content = contentEl;
           }
           const chat = document.getElementById('__dp-chat');
           const wasAtBottom = chat.scrollTop + chat.clientHeight >= chat.scrollHeight - 2;

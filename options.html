@@ -115,6 +115,18 @@
     <div class="settings-card">
       <div class="settings-row">
         <div>
+          <div class="settings-row-label"><span id="l10n-streamOutputLabel">Streaming Output</span></div>
+          <div class="settings-row-desc"><span id="l10n-streamOutputDesc">Stream tokens as they are generated. Turn off for APIs that only support non-streaming responses</span></div>
+        </div>
+        <div class="settings-row-control">
+          <label class="toggle-switch">
+            <input type="checkbox" id="stream-output-toggle" checked />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+      <div class="settings-row">
+        <div>
           <div class="settings-row-label"><span id="l10n-temperatureLabel">Temperature</span></div>
           <div class="settings-row-desc"><span id="l10n-temperatureDesc">Controls randomness of output</span></div>
         </div>

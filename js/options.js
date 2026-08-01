@@ -168,6 +168,7 @@ function loadSavedData() {
      'deepseekApiKey', // fallback
      'quickActions', 'quickActionsLang',
      // new params
+     'streamOutput',
      'temperature', 'maxTokens', 'topP',
      'frequencyPenalty', 'presencePenalty',
      'stopSequences', 'reasoningLevel', 'customSystemPrompt'],
@@ -204,6 +205,7 @@ function loadSavedData() {
       }
 
       // New params
+      if (result.streamOutput !== undefined) document.getElementById('stream-output-toggle').checked = result.streamOutput;
       if (result.temperature !== undefined) document.getElementById('temperature').value = result.temperature;
       if (result.maxTokens !== undefined) document.getElementById('max-tokens').value = result.maxTokens;
       if (result.topP !== undefined) document.getElementById('top-p').value = result.topP;
@@ -437,6 +439,7 @@ function autoSave() {
     quickActions: cleaned,
     quickActionsLang: getCurrentLang(),
     maxRounds: maxRoundsInput ? parseInt(maxRoundsInput.value, 10) || 20 : 20,
+    streamOutput: document.getElementById('stream-output-toggle').checked,
     // new params
     temperature: parseFloat(document.getElementById('temperature').value) || 1.0,
     maxTokens: parseInt(document.getElementById('max-tokens').value, 10) || 4096,
@@ -457,6 +460,7 @@ document.getElementById('apiKey').addEventListener('change', autoSave);
 document.getElementById('apiModel').addEventListener('change', autoSave);
 document.getElementById('apiType').addEventListener('change', autoSave);
 if (maxRoundsInput) maxRoundsInput.addEventListener('change', autoSave);
+document.getElementById('stream-output-toggle').addEventListener('change', autoSave);
 document.getElementById('temperature').addEventListener('change', autoSave);
 document.getElementById('max-tokens').addEventListener('change', autoSave);
 document.getElementById('top-p').addEventListener('change', autoSave);

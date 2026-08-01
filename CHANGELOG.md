@@ -5,6 +5,22 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.8.8] - 2026-08-01
+
+### 修复
+
+- 流式聊天气泡错乱：此前每个流式 chunk 都会新建气泡（最长对话可出现 19 个重复气泡），现在复用同一气泡实时更新；同时删除冗余分支，每轮回复只生成 1 个气泡
+- 对话结束后必现报错「❌ assistantDiv is not defined」：`assistantDiv`/`assistantBubble` 声明作用域与引用位置不一致，导致每次流式完成后抛 `ReferenceError`，已提升声明到正确作用域
+- 「清除上下文」保留错误消息：此前保留的是最后一条消息（可能是 AI 回复），现在从末尾向前查找真正的用户问题
+
+### 新增
+
+- 流式输出开关：默认开启（逐字显示回复），可在设置 → 请求参数中关闭，兼容只支持非流式响应的 API；同时增加非流式 JSON 响应兜底解析，API 忽略 `stream` 参数时也能正常显示回复
+
+### 工程
+
+- 搭建 Playwright 端到端测试框架：`npm test` 一键运行 20 个用例（聊天流程 / 面板 UI / 设置页 / 悬浮按钮 / 删除按钮 / 选中文本按钮 / XML 守卫），mock server 模拟 OpenAI 兼容 API；旧 `test/` 目录专项测试全部迁移进框架
+
 ## [1.8.7] - 2026-08-01
 
 ### 修复

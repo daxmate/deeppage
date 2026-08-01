@@ -4,7 +4,8 @@
   "private": true,
   "description": "DeepPage — Chat with DeepSeek while browsing",
   "scripts": {
-    "test": "node test/btn-drag-test.mjs"
+    "test": "playwright test tests/",
+    "test:ui": "playwright test --ui tests/"
   },
   "devDependencies": {
     "playwright": "^1.62.1"
