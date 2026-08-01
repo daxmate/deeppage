@@ -409,7 +409,6 @@ function createButton() {
     const inp = document.getElementById('__dp-input');
     if (inp) inp.placeholder = t('inputPlaceholder');
   });
-  injectStyles();
 
   const btn = document.createElement("button");
   btn.id = "__dp-btn";

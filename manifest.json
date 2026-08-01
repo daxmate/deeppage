@@ -30,10 +30,13 @@
             "matches": [
                 "<all_urls>"
             ],
-            "run_at": "document_end"
+            "run_at": "document_end",
+            "css": [
+                "content.css"
+            ]
         }
     ],
-    "description": "Chat with DeepSeek while browsing \u2014 summarize, outline, translate, and ask questions",
+    "description": "Chat with DeepSeek while browsing — summarize, outline, translate, and ask questions",
     "name": "DeepPage",
     "host_permissions": [
         "https://api.deepseek.com/*"
