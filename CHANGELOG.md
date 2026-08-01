@@ -5,6 +5,17 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.8.7] - 2026-08-01
+
+### 修复
+
+- 选中文本提问功能重新接线：`showSelBtn` 触发逻辑丢失（选中网页文本不弹浮动按钮），已通过 `mouseup` 监听重新接上线（面板内/按钮自身点击不触发）
+- SPA 页面切换时选中按钮残留：新增 `js/spa-patch.js` 主世界注入脚本，patch `pushState`/`replaceState` 并在导航后清除按钮；同时监听 `popstate`/`hashchange`；按钮被意外移除时自愈重建
+
+### 工程
+
+- test 脚本从硬编码全局路径改为项目内 `import 'playwright'`，新增 `test/sel-btn-spa-test.mjs`（4/4）
+
 ## [1.8.6] - 2026-08-01
 
 ### 重构
@@ -66,6 +77,7 @@
 - 推理过程展示（reasoning display）
 - API 参数配置（支持自定义 API 参数）
 
+[1.8.7]: https://github.com/daxmate/deeppage/compare/v1.8.6...v1.8.7
 [1.8.6]: https://github.com/daxmate/deeppage/compare/v1.8.5...v1.8.6
 [1.8.5]: https://github.com/daxmate/deeppage/compare/v1.8.4...v1.8.5
 [1.8.4]: https://github.com/daxmate/deeppage/compare/v1.8.3...v1.8.4
