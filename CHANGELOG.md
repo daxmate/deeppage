@@ -5,6 +5,12 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.9.0] - 2026-08-01
+
+### 新增
+
+- 历史对话搜索：历史面板头部新增搜索框，按关键词实时过滤对话（匹配对话标题或任一消息内容，大小写不敏感），清空即恢复完整列表，无匹配时显示提示
+
 ## [1.8.13] - 2026-08-01
 
 ### 重构
