@@ -9,7 +9,7 @@
 
 - [x] **CSS 提取到单独文件** ✅ 已完成（v1.8.2→） — 728 行内联 CSS 已提取到 `content.css`，manifest `content_scripts[].css` 自动注入，`injectStyles()` 已删除（content.js 从 744 行降到 17 行）
 - [x] **CSS 注入语法错误（孤立属性）** ✅ 已确认修复 — 代码中已不存在 `background: #25262b; color: #e4e5e7;` 游离声明（此前 `e471a15` 重构暗色模式时已处理），TODO 记录过时
-- [ ] **暗色主题大量重复** — `@media (prefers-color-scheme: dark)` 块和 `#__dp-panel.__dp-dark` 块定义了两套完全相同的 `--dp-*` 变量（约 50 个）。虽然已用 CSS 变量（比硬编码好），但两处赋值仍重复。方案：把暗色变量只定义一份（如 `.dp-dark-vars` 或 `:root` 下的 dark 变量组），`@media` 和 `.__dp-dark` 都引用同一组
+- [x] **暗色主题大量重复** ✅ 已完成 — `@media (prefers-color-scheme: dark)` 块与 `#__dp-panel.__dp-dark` 的两套 56 个 `--dp-*` 变量已合并为一份（选择器列表 `#__dp-panel.__dp-dark, #__dp-panel.dp-sys-dark`），系统暗色由 sidebar.js `matchMedia` 检测加 `dp-sys-dark` 类驱动，行为不变
 - [ ] **公共常量去重** — `API_PROVIDERS` 在 `background.js` 和 `options.js` 各有一份完全相同的定义，抽到独立文件（如 `providers.js`）共享。**加新提供商前必须做**（否则改两处易漏）
 
 ## 🟡 P1 — 重要，择机清理

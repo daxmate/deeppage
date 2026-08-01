@@ -522,6 +522,11 @@ function createButton() {
       darkBtn.innerHTML = moonSVG;
     }
   }
+  // System dark mode — follows prefers-color-scheme, shares the same --dp-* vars as manual toggle
+  const sysDarkMq = window.matchMedia('(prefers-color-scheme: dark)');
+  const applySysDark = (e) => chatPanel.classList.toggle('dp-sys-dark', e.matches);
+  sysDarkMq.addEventListener('change', applySysDark);
+  applySysDark(sysDarkMq);
   chrome.storage.sync.get('darkMode', (result) => {
     applyDarkMode(!!result.darkMode);
   });
