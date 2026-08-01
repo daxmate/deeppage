@@ -5,6 +5,12 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.9.1] - 2026-08-01
+
+### 工程
+
+- CI 发布流程改进：release 前新增 test job（安装依赖 + Playwright 浏览器 + i18n 校验 + 24 个 E2E 用例 + manifest 版本与 tag 一致性校验），测试全部通过才允许创建 Release
+
 ## [1.9.0] - 2026-08-01
 
 ### 新增
