@@ -177,18 +177,47 @@
       transition: background 0.2s;
     }
     #__dp-close:hover { background: rgba(255, 70, 70, 0.8); }
-    #__dp-lang-select {
+    .__dp-lang-wrap { position: relative; margin-right: 8px; }
+    #__dp-lang-btn {
       background: rgba(255,255,255,0.2);
       color: white;
       border: 1px solid rgba(255,255,255,0.3);
       border-radius: 6px;
-      padding: 2px 6px;
+      padding: 2px 8px;
       font-size: 11px;
       cursor: pointer;
-      margin-right: 8px;
+      min-width: 24px;
+      line-height: 1.4;
       outline: none;
     }
-    #__dp-lang-select option { color: #1f2937; }
+    #__dp-lang-btn:hover { background: rgba(255,255,255,0.3); }
+    #__dp-lang-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 4px);
+      right: 0;
+      background: #fff;
+      color: #1f2937;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      padding: 4px;
+      z-index: 1000;
+      min-width: 130px;
+    }
+    #__dp-lang-menu.__dp-show { display: block; }
+    #__dp-lang-menu .__dp-lang-item {
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    #__dp-lang-menu .__dp-lang-item:hover { background: #f3f4f6; }
+    #__dp-lang-menu .__dp-lang-item.active { background: #eef2ff; color: #4A6CF7; font-weight: 600; }
+    /* 暗色适配 */
+    .__dp-dark #__dp-lang-menu { background: #25262b; color: #e4e5e7; border: 1px solid #3a3b40; }
+    .__dp-dark #__dp-lang-menu .__dp-lang-item:hover { background: #33343a; }
+    .__dp-dark #__dp-lang-menu .__dp-lang-item.active { background: #2b2f45; color: #8aa0ff; }
     #__dp-dark-toggle, #__dp-history-btn, #__dp-clear-ctx-btn, #__dp-export-btn {
       background: none;
       border: none;

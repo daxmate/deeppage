@@ -1357,16 +1357,16 @@ const TRANSLATIONS = {
 };
 
 const LANGUAGES = [
-  { code: "zh_CN", label: "中文" },
-  { code: "zh_TW", label: "繁體中文" },
-  { code: "en", label: "English" },
-  { code: "ja", label: "日本語" },
-  { code: "ko", label: "한국어" },
-  { code: "es", label: "Español" },
-  { code: "fr", label: "Français" },
-  { code: "de", label: "Deutsch" },
-  { code: "ru", label: "Русский" },
-  { code: "vi", label: "Tiếng Việt" },
+  { code: "zh_CN", label: "中文", short: "简" },
+  { code: "zh_TW", label: "繁體中文", short: "繁" },
+  { code: "en", label: "English", short: "EN" },
+  { code: "ja", label: "日本語", short: "JP" },
+  { code: "ko", label: "한국어", short: "KR" },
+  { code: "es", label: "Español", short: "ES" },
+  { code: "fr", label: "Français", short: "FR" },
+  { code: "de", label: "Deutsch", short: "DE" },
+  { code: "ru", label: "Русский", short: "RU" },
+  { code: "vi", label: "Tiếng Việt", short: "VI" },
 ];
 
 // 获取当前语言代码

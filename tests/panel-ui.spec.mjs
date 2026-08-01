@@ -169,13 +169,20 @@ test.describe("面板 UI 功能", () => {
     const labelsEn = await page.locator("#__dp-quick-actions button").allTextContents();
     expect(labelsEn.length).toBe(3);
 
-    // 切换到中文
-    await page.selectOption("#__dp-lang-select", "zh_CN");
+    // 语言按钮显示当前语言简码（英文环境 → EN）
+    await expect(page.locator("#__dp-lang-btn")).toHaveText("EN");
+
+    // 点击按钮展开菜单 → 选中文
+    await page.click("#__dp-lang-btn");
+    await page.waitForSelector("#__dp-lang-menu.__dp-show");
+    await page.click('#__dp-lang-menu .__dp-lang-item[data-code="zh_CN"]');
     // 语言切换异步生效，轮询等待按钮文案变为中文
     await expect(async () => {
       const labels = await page.locator("#__dp-quick-actions button").allTextContents();
       expect(labels.join(" ")).toContain("总结");
     }).toPass({ timeout: 10000 });
+    // 按钮简码更新为「简」
+    await expect(page.locator("#__dp-lang-btn")).toHaveText("简");
 
     // storage 里语言已持久化（通过 service worker 读扩展 storage）
     const stored = await sw.evaluate(

@@ -23,7 +23,9 @@ test("页面内容截断长度配置生效", async ({ page, setupMockApi, mock, 
 
   await page.fill("#__dp-input", "测试截断");
   await page.click("#__dp-send");
-  await expect(page.locator("#__dp-chat .__dp-msg.__dp-assistant:not([data-msg-type]) .__dp-bubble-content")).toContainText("回复。", { timeout: 15000 });
+  await expect(
+    page.locator("#__dp-chat .__dp-msg.__dp-assistant:not([data-msg-type]) .__dp-bubble-content")
+  ).toContainText("回复。", { timeout: 15000 });
 
   const { requests } = await mock.requests();
   const chatReq = requests.find((r) => r.url.includes("/chat/completions"));
