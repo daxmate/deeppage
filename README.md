@@ -11,11 +11,12 @@
 - **聊天历史** — 自动保存所有对话记录，历史列表随时回顾/切换/删除
 - **页面上下文保存** — 对话附带页面内容，重启面板上下文不丢
 - **复制回复** — AI 回复气泡 hover 显示复制按钮，一键复制到剪贴板
-- **流式输出** — AI 回复逐 token 实时显示，打字机效果无需等待完整响应
+- **流式输出** — AI 回复逐 token 实时显示，打字机效果无需等待完整响应；可在选项页关闭流式（兼容仅支持非流式响应的 API）
+- **流式渲染优化** — rAF 帧合并 + 长文本降频，超长回复依然流畅不卡顿
 - **选中文本提问** — 选中页面段落自动弹出浮动按钮，以网页内容为背景结合 AI 知识解释选中内容
 - **对话上下文裁剪** — 自动裁剪最早的消息轮次（默认 20 轮），避免超出模型 token 限制，选项页可自定义
 - **一键清除上下文** — 面板标题栏清除按钮，保留最新消息，清空历史轻松重置对话
-- **对话导出** — 导出按钮支持复制 Markdown / 复制纯文本 / 下载 .md 文件，含页面标题和 URL
+- **对话导出** — 导出按钮支持复制 Markdown / 复制纯文本 / 下载 .md 文件，含页面标题和 URL；纯文本导出自动剥离 Markdown 语法
 - **可拖拽 / 可调整大小** — 面板位置随意拖动，大小自由缩放，初始垂直居中
 - **Markdown 渲染** — 对话回复支持标题、列表、表格、代码块、引用、任务列表等完整 GFM（基于 marked）
 - **多语言** — 内置 10 种语言（中文/English/日本語/한국어/Español/Français/Deutsch/Русский/Tiếng Việt），面板和选项页均可切换
@@ -91,6 +92,15 @@ git clone https://github.com/daxmate/deeppage.git
 
 在 `chrome://extensions` → 加载已解压的扩展程序 → 选择项目目录。
 
+### 运行测试
+
+项目内置 Playwright 端到端测试框架（mock 服务器模拟 OpenAI 兼容 API，无需真实 Key）：
+
+```bash
+npm install
+npm test        # 自动运行 i18n 校验 + 23 个 E2E 用例
+```
+
 ### 项目结构
 
 ```
@@ -103,12 +113,19 @@ git clone https://github.com/daxmate/deeppage.git
 │   ├── content.js          # 内容脚本 — 入口（启动面板）
 │   ├── background.js       # 后台服务 — API 调用
 │   ├── options.js          # 设置页面逻辑
+│   ├── spa-patch.js        # SPA 导航补丁（主世界，清理选中按钮）
 │   └── marked.umd.min.js   # Markdown 渲染引擎（marked v15）
+├── tests/                  # Playwright E2E 测试（23 个用例）
+│   ├── mock-server.js      # OpenAI 兼容 mock API
+│   └── fixtures.mjs        # 扩展 context / storage / mock 控制 fixture
+├── scripts/
+│   └── check-i18n.mjs      # i18n 校验脚本（语言数组长度/顺序/空值/引用）
 ├── options.html            # 设置页面
 ├── options.css             # 设置页面样式
+├── content.css             # 聊天面板样式（manifest 自动注入）
 ├── manifest.json           # 扩展配置
 ├── icons/                  # DeepSeek 图标
-└── .github/workflows/      # CI 发布配置
+└── .github/workflows/      # CI 发布配置（push tag 自动打包发版）
 ```
 
 ### 添加新语言
@@ -118,6 +135,8 @@ git clone https://github.com/daxmate/deeppage.git
 2. 在每个 `TRANSLATIONS` key 的数组末尾添加对应翻译（每个 key 一行，追加一个值即可）
 3. 在 `LANGUAGES` 数组中添加语言显示名
 4. 更新 `detectLanguage()`（如需自动检测）
+
+修改后运行 `npm run check:i18n` 校验 10 语言数组一致性（`npm test` 也会自动执行）。
 
 ## License
 

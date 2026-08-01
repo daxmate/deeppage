@@ -13,11 +13,12 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 - **Chat History** — Auto-saved conversations, browse/switch/delete from history list
 - **Page Context Persistence** — Saved with conversations, survives panel reloads
 - **Copy Replies** — Hover AI messages → copy button, one-click clipboard copy
-- **Streaming Output** — Real-time token-by-token rendering, typewriter effect without waiting for full response
+- **Streaming Output** — Real-time token-by-token rendering, typewriter effect without waiting for full response; can be disabled in options for APIs that only support non-streaming responses
+- **Optimized Streaming Rendering** — rAF frame batching + long-text decimation keeps very long replies smooth
 - **Selection Query** — Select text on any page to reveal a floating button; uses page context + AI knowledge to explain the selection
 - **Conversation Trimming** — Auto-trims oldest message rounds (default 20) to avoid token limits; configurable via options
 - **Clear Context** — One-click button in the panel header to reset conversation while keeping the latest message
-- **Export Conversation** — Export button: copy Markdown, copy plain text, or download .md with page title and URL
+- **Export Conversation** — Export button: copy Markdown, copy plain text (markdown syntax auto-stripped), or download .md with page title and URL
 - **Draggable / Resizable** — Panel position and size are freely adjustable; initial vertical centering
 - **Markdown Rendering** — Full GFM support via marked (headings, lists, tables, code blocks, blockquotes, task lists)
 - **Multi-language** — 10 languages with on-the-fly switching via panel or options
@@ -74,6 +75,15 @@ git clone https://github.com/daxmate/deeppage.git
 
 Open `chrome://extensions` → **Load unpacked** → select the project directory.
 
+### Running Tests
+
+The project ships a Playwright E2E test framework (mock server simulating an OpenAI-compatible API — no real key needed):
+
+```bash
+npm install
+npm test        # runs i18n validation + 23 E2E cases
+```
+
 ### Project Structure
 
 ```
@@ -86,21 +96,30 @@ Open `chrome://extensions` → **Load unpacked** → select the project director
 │   ├── content.js          # Content script — entry (boots the panel)
 │   ├── background.js       # Service worker — API calls
 │   ├── options.js          # Options page logic
+│   ├── spa-patch.js        # SPA navigation patch (main world, cleans up selection button)
 │   └── marked.umd.min.js   # Markdown renderer (marked v15)
+├── tests/                  # Playwright E2E tests (23 cases)
+│   ├── mock-server.js      # OpenAI-compatible mock API
+│   └── fixtures.mjs        # Extension context / storage / mock control fixtures
+├── scripts/
+│   └── check-i18n.mjs      # i18n validation (array length/order/emptiness/references)
 ├── options.html            # Options page
 ├── options.css             # Options page styles
 ├── content.css             # Chat panel styles (injected via manifest)
 ├── manifest.json           # Extension manifest
 ├── icons/                  # DeepSeek icons
-└── .github/workflows/      # CI release config
+└── .github/workflows/      # CI release config (auto-release on tag push)
 ```
 
 ### Adding a Language
 
 Edit `i18n.js`:
-1. Add a new entry to the `TRANSLATIONS` object with all 32 keys
-2. Add the language to the `LANGUAGES` array
-3. Update `detectLanguage()` if needed
+1. Add the language code to the `LANG_CODES` array
+2. Append the translation to the end of every `TRANSLATIONS` key array
+3. Add the language display name to the `LANGUAGES` array
+4. Update `detectLanguage()` if needed
+
+After changes, run `npm run check:i18n` to validate 10-language array consistency (also runs automatically with `npm test`).
 
 ## License
 
