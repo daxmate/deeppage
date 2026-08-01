@@ -5,6 +5,13 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.9.2] - 2026-08-01
+
+### 工程
+
+- 接入 ESLint + Prettier：新增 flat config（content script / ES module / Node 三分区）与格式规范，全量格式化统一代码风格；`npm run lint` / `npm run format` 一键执行，CI 发布门槛加入 lint（lint + 测试全过才发版）
+- 版本号统一：新增 `scripts/bump-version.mjs`，一条命令同步更新 manifest.json 与 package.json 的版本号；CI 版本校验升级为 tag / manifest / package.json 三方一致
+
 ## [1.9.1] - 2026-08-01
 
 ### 工程
