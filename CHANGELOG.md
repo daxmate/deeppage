@@ -5,6 +5,14 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.8.5] - 2026-08-01
+
+### 重构
+
+- 暗色主题变量去重：`@media (prefers-color-scheme: dark)` 与 `#__dp-panel.__dp-dark` 的两套 56 个 `--dp-*` 变量合并为一份（选择器列表 `#__dp-panel.__dp-dark, #__dp-panel.dp-sys-dark`）
+  - 系统暗色改由 sidebar.js `matchMedia` 检测并给面板加 `dp-sys-dark` 类驱动，行为与之前完全一致
+  - 之前改一个深色色值要同步两处，漏改会导致手动/系统暗色颜色漂移，现在单一来源
+
 ## [1.8.4] - 2026-08-01
 
 ### 重构
@@ -50,6 +58,7 @@
 - 推理过程展示（reasoning display）
 - API 参数配置（支持自定义 API 参数）
 
+[1.8.5]: https://github.com/daxmate/deeppage/compare/v1.8.4...v1.8.5
 [1.8.4]: https://github.com/daxmate/deeppage/compare/v1.8.3...v1.8.4
 [1.8.3]: https://github.com/daxmate/deeppage/compare/v1.8.2...v1.8.3
 [1.8.2]: https://github.com/daxmate/deeppage/compare/v1.8.1...v1.8.2
