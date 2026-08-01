@@ -103,7 +103,8 @@ git clone https://github.com/daxmate/deeppage.git
 │   ├── background.js       # 后台服务 — API 调用
 │   ├── options.js          # 设置页面逻辑
 │   └── marked.umd.min.js   # Markdown 渲染引擎（marked v15）
-├── options.html            # 设置页面（样式内联）
+├── options.html            # 设置页面
+├── options.css             # 设置页面样式
 ├── manifest.json           # 扩展配置
 ├── icons/                  # DeepSeek 图标
 └── .github/workflows/      # CI 发布配置

@@ -82,6 +82,7 @@ Open `chrome://extensions` → **Load unpacked** → select the project director
 ├── background.js           # Service worker — API calls
 ├── content.js              # Content script — panel UI + chat logic
 ├── options.html / .js      # Options page — API Key + button config
+├── options.css             # Options page styles
 ├── content.css             # Chat panel styles (dead file, kept for reference)
 ├── marked.umd.min.js       # Markdown renderer (marked v15)
 ├── icons/                  # DeepSeek icons
