@@ -5,6 +5,18 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.8.4] - 2026-08-01
+
+### 重构
+
+- 将 options 页面内联的 CSS 提取到独立的 `options.css`
+  - `options.html` 从 683 行精简到 288 行，结构与样式分离
+  - 通过 `<link rel="stylesheet">` 加载，后续调整样式无需再改 HTML
+
+### 文档
+
+- README 移除历史 bug 修复记录（这些记录归 CHANGELOG / Release notes 管），误混入修复列表的功能条目归位到 Features 列表
+
 ## [1.8.3] - 2026-08-01
 
 ### 重构
@@ -38,6 +50,7 @@
 - 推理过程展示（reasoning display）
 - API 参数配置（支持自定义 API 参数）
 
+[1.8.4]: https://github.com/daxmate/deeppage/compare/v1.8.3...v1.8.4
 [1.8.3]: https://github.com/daxmate/deeppage/compare/v1.8.2...v1.8.3
 [1.8.2]: https://github.com/daxmate/deeppage/compare/v1.8.1...v1.8.2
 [1.8.1]: https://github.com/daxmate/deeppage/compare/v1.8.0...v1.8.1
