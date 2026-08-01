@@ -5,6 +5,16 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.10.0] - 2026-08-01
+
+### 新增
+
+- 页面内容截断长度可配置：选项页请求参数区新增「页面内容截断」滑杆（2000-50000 字符，默认 15000），控制发送给 AI 的页面正文最大长度；对话轮数限制（maxRounds）此前已可配置，现在页面正文长度也不再一刀切
+
+### 工程
+
+- 新增回归测试：`maxContextLen` 配置影响 system prompt 截断长度（context-limit）
+
 ## [1.9.4] - 2026-08-01
 
 ### 文档
