@@ -5,6 +5,16 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.8.13] - 2026-08-01
+
+### 重构
+
+- 导出菜单全局点击监听从模块顶层移入面板创建流程：面板元素被移除时监听器不再空转，菜单逻辑分支简化
+
+### 文档
+
+- 新增开发者指南 `docs/DEVELOPMENT.md`：如何添加 API 提供商、运行/编写 E2E 测试、i18n 维护、发版流程与贡献规范；README 已链接
+
 ## [1.8.12] - 2026-08-01
 
 ### 文档
