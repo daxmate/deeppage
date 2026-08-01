@@ -22,7 +22,7 @@
 
 ## 🟢 P2 — 可长期拖着（无害）
 
-- [ ] **导出菜单的全局事件** — `content.js` 里的 `document.addEventListener('click', ...)` 导出菜单处理在模块顶层而非 `setupEventListeners` 内，面板关闭后还在监听，虽然无害但可以优化
+- [x] **导出菜单的全局事件** ✅ 已完成 — `document.addEventListener('click')` 从模块顶层移入面板创建流程（`createButton` 内绑定），监听器内部先判空（元素被移除时不再空转），菜单逻辑分支合并；导出用例（下载/复制 md/复制纯文本）全绿验证无回归
 - [x] **接入 E2E 测试** ✅ 已完成（v1.8.8） — Playwright 框架 `tests/` + mock server，`npm test` 跑 21 个用例（chat-flow / panel-ui / options / xml-guard / btn-drag / sel-btn-spa / del-btn），旧 `test/` 临时脚本已迁移删除
 - [x] **CHANGELOG.md** ✅ 已完成 — 每次发版都更新（Keep a Changelog 风格，中文章节），v1.8.5 起每版都有记录，且 Release notes 同步双语
 - [ ] **开发者指南** — 如何添加新 API 提供商、如何贡献的说明

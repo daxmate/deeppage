@@ -464,6 +464,31 @@ function createButton() {
   document.getElementById("__dp-close").addEventListener("click", togglePanel);
   document.getElementById("__dp-send").addEventListener("click", sendMessage);
   document.getElementById("__dp-history-btn").addEventListener("click", showHistory);
+
+  // 导出菜单全局点击（面板创建后绑定；元素被移除时不再空转）
+  document.addEventListener('click', (e) => {
+    const menu = document.getElementById('__dp-export-menu');
+    const btn = document.getElementById('__dp-export-btn');
+    if (!menu || !btn) return;
+    if (btn.contains(e.target)) {
+      e.stopPropagation();
+      _exportMenuOpen = !_exportMenuOpen;
+      menu.classList.toggle('__dp-show', _exportMenuOpen);
+      return;
+    }
+    if (!menu.contains(e.target)) {
+      _exportMenuOpen = false;
+      menu.classList.remove('__dp-show');
+      return;
+    }
+    // 菜单项点击
+    const item = e.target.closest('div[data-action]');
+    if (item) {
+      _exportMenuOpen = false;
+      menu.classList.remove('__dp-show');
+      exportConversation(item.dataset.action);
+    }
+  });
   document.getElementById("__dp-clear-ctx-btn").addEventListener("click", () => {
     clearContext();
   });
@@ -597,26 +622,3 @@ function createButton() {
     console.warn('[DeepPage] 初始化失败:', e);
   }
 }
-
-document.addEventListener('click', (e) => {
-  const menu = document.getElementById('__dp-export-menu');
-  const btn = document.getElementById('__dp-export-btn');
-  if (!menu || !btn) return;
-  if (btn.contains(e.target)) {
-    e.stopPropagation();
-    _exportMenuOpen = !_exportMenuOpen;
-    menu.classList.toggle('__dp-show', _exportMenuOpen);
-  } else if (!menu.contains(e.target)) {
-    _exportMenuOpen = false;
-    menu.classList.remove('__dp-show');
-  }
-  // Handle menu item clicks
-  if (menu.contains(e.target)) {
-    const item = e.target.closest('div[data-action]');
-    if (item) {
-      _exportMenuOpen = false;
-      menu.classList.remove('__dp-show');
-      exportConversation(item.dataset.action);
-    }
-  }
-});
