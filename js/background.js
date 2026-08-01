@@ -241,6 +241,11 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
           sendResponse({ models: [], error: err.message });
         });
       return true;
+    case "generateTitle":
+      generateTitle(msg)
+        .then(sendResponse)
+        .catch((err) => sendResponse({ error: err.message }));
+      return true;
   }
 });
 
@@ -441,6 +446,39 @@ async function handleChat(msg) {
   const data = await resp.json();
   if (!resp.ok) throw new Error(formatError(apiType, data));
   return { text: parseNonStream(apiType, data) };
+}
+
+// ===== 生成对话标题（第一轮对话后调用，非流式、低温度） =====
+async function generateTitle(msg) {
+  const settings = await getSettings();
+  const { apiType, baseUrl, apiKey, model, apiProvider } = settings;
+  if (!apiKey) throw new Error("NO_API_KEY");
+
+  const url = `${baseUrl.replace(/\/+$/, "")}${API_PATHS[apiType]}`;
+  const headers =
+    apiType === "anthropic"
+      ? {
+          "Content-Type": "application/json",
+          "x-api-key": apiKey,
+          "anthropic-version": "2023-06-01",
+        }
+      : { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` };
+
+  const resp = await fetch(url, {
+    method: "POST",
+    headers,
+    body: buildBody(apiType, model, msg.messages || [], false, {
+      temperature: 0.3,
+      maxTokens: 50,
+      apiProvider,
+      baseUrl,
+    }),
+  });
+  const data = await resp.json();
+  if (!resp.ok) throw new Error(formatError(apiType, data));
+  const text = parseNonStream(apiType, data).trim();
+  // 清理可能的首尾引号，截断到 50 字符
+  return { text: text.replace(/^[""“”「」『』]+|[""“”「」『』]+$/g, "").slice(0, 50) };
 }
 
 // ===== 测试 API 连接 =====

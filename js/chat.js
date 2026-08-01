@@ -793,6 +793,10 @@ async function sendMessage() {
     currentMessages.push(msgRef);
     if (assistantDiv) assistantDiv._dpMsgRef = msgRef;
     saveCurrentMessages();
+    // 第一轮对话（第一条 assistant 回复）完成后，用 AI 生成对话标题
+    if (chatHistory.filter((m) => m.role === "assistant").length === 1) {
+      generateTitleAsync();
+    }
     _sending = false;
   } catch (err) {
     _sending = false;
@@ -804,6 +808,40 @@ async function sendMessage() {
     addMsg("assistant", `❌ ${errMsg}`);
     if (err.message === "NO_API_KEY") showLoginNotice(true);
     chatHistory.pop();
+  }
+}
+
+// ===== AI 生成对话标题（第一轮对话后异步调用，失败静默降级） =====
+async function generateTitleAsync() {
+  try {
+    const firstUser = chatHistory.find((m) => m.role === "user");
+    const firstAssistant = chatHistory.find((m) => m.role === "assistant");
+    if (!firstUser || !firstAssistant) return;
+    // 用当前界面语言的 prompt 生成对应语言的标题
+    const prompt = t("titleGenPrompt");
+    const resp = await chrome.runtime.sendMessage({
+      action: "generateTitle",
+      messages: [
+        { role: "system", content: prompt },
+        { role: "user", content: firstUser.content },
+        { role: "assistant", content: firstAssistant.content },
+      ],
+    });
+    if (!resp || resp.error || !resp.text) return;
+    const data = await loadConversations();
+    const conv = data.conversations.find((c) => c.id === currentConvId);
+    if (!conv) return;
+    conv.title = resp.text;
+    conv.updatedAt = Date.now();
+    await saveConversations(data);
+    // 历史列表可见时刷新标题显示
+    const list = document.getElementById("__dp-history-list");
+    if (list && !list.classList.contains("__dp-hide")) {
+      renderHistoryResults();
+    }
+  } catch (e) {
+    // 静默降级：保留 saveCurrentMessages 里的 50 字截断标题
+    console.warn("[DeepPage] title generation failed:", e);
   }
 }
 

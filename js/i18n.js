@@ -402,6 +402,18 @@ const TRANSLATIONS = {
     "Новый",
     "Mới",
   ],
+  titleGenPrompt: [
+    "为这段对话生成一个简洁的中文标题，不超过15个字，不要引号、不要句号，直接输出标题：",
+    "Generate a concise English title for this conversation, max 10 words, no quotes or periods, output only the title:",
+    "この会話に簡潔な日本語のタイトルを付けてください。15文字以内、引用符や句読点なし、タイトルのみを出力：",
+    "為這段對話生成一個簡潔的繁體中文標題，不超過15個字，不要引號、不要句號，直接輸出標題：",
+    "이 대화에 대한 간결한 한국어 제목을 생성하세요. 15자 이내, 따옴표나 마침표 없이, 제목만 출력하세요:",
+    "Genera un título conciso en español para esta conversación, máximo 10 palabras, sin comillas ni puntos, genera solo el título:",
+    "Générez un titre concis en français pour cette conversation, 10 mots maximum, sans guillemets ni points, générez uniquement le titre :",
+    "Erstelle einen prägnanten deutschen Titel für dieses Gespräch, höchstens 10 Wörter, keine Anführungszeichen oder Punkte, gib nur den Titel aus:",
+    "Создайте краткий заголовок на русском для этого диалога, не более 10 слов, без кавычек и точек, выведите только заголовок:",
+    "Tạo tiêu đề ngắn gọn bằng tiếng Việt cho cuộc trò chuyện này, tối đa 10 từ, không dấu ngoặc kép hay dấu chấm, chỉ xuất ra tiêu đề:",
+  ],
   selAskButton: [
     "💬 对此段提问",
     "💬 Ask about selection",
