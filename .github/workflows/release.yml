@@ -9,7 +9,40 @@ permissions:
   contents: write
 
 jobs:
+  test:
+    name: Test (i18n + E2E)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify manifest version matches tag
+        run: |
+          TAG_VERSION="${{ github.ref_name }}"
+          TAG_VERSION="${TAG_VERSION#v}"
+          MANIFEST_VERSION=$(node -p "require('./manifest.json').version")
+          if [ "$TAG_VERSION" != "$MANIFEST_VERSION" ]; then
+            echo "❌ Tag $TAG_VERSION does not match manifest version $MANIFEST_VERSION"
+            exit 1
+          fi
+          echo "✅ Version match: $MANIFEST_VERSION"
+
+      - name: Run tests
+        run: npm test
+
   release:
+    name: Build & Release
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
