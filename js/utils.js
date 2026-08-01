@@ -35,6 +35,19 @@ function markdownToHtml(text) {
   }
 }
 
+// 剥离 markdown 语法，输出纯文本（用于「复制纯文本」导出）
+// 方案：marked 渲染为 HTML 再取 textContent，由 DOM 完成语法剥离，不手写正则
+function markdownToPlainText(text) {
+  try {
+    const html = marked.parse(text, { breaks: true, gfm: true });
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || '';
+  } catch (e) {
+    return text;
+  }
+}
+
 function extractPageContent() {
   const article =
     document.querySelector("article") ||

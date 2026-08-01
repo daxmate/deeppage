@@ -48,6 +48,38 @@ test.describe('面板 UI 功能', () => {
     expect(content).toContain('这是来自 mock 服务器的回复。');
   });
 
+  test('复制 Markdown 保留语法，复制纯文本剥离语法', async ({ page, mock }) => {
+    // 授权 clipboard 读写（真实系统剪贴板）
+    await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+
+    // mock 回复含 markdown 语法
+    await mock.config({ stream: true, responseContent: '**加粗** 和 `代码` 以及\n\n# 标题\n\n- 列表项1\n- 列表项2', failNext: false });
+    await page.fill('#__dp-input', '给我 markdown');
+    await page.click('#__dp-send');
+    await expect(page.locator('#__dp-chat .__dp-msg.__dp-assistant:not([data-msg-type]) .__dp-bubble-content')).toContainText('加粗', { timeout: 15000 });
+
+    const copyViaMenu = async (action) => {
+      await page.click('#__dp-export-btn'); // 开菜单
+      await page.click(`#__dp-export-menu div[data-action="${action}"]`);
+      await page.waitForTimeout(300);
+      return page.evaluate(() => navigator.clipboard.readText());
+    };
+
+    const md = await copyViaMenu('markdown');
+    const txt = await copyViaMenu('text');
+
+    // Markdown 导出保留语法标记
+    expect(md).toContain('**加粗**');
+    expect(md).toContain('# 标题');
+    // 纯文本导出剥离语法：正文不含 markdown 符号，保留文字
+    expect(txt).not.toContain('**');
+    expect(txt).not.toContain('# 标题');
+    expect(txt).toContain('加粗');
+    expect(txt).toContain('标题');
+    // 两种格式内容不同（不能是同一种导出）
+    expect(md).not.toEqual(txt);
+  });
+
   test('清除上下文：多轮后只保留当前问题', async ({ page }) => {
     // 两轮对话（4 条消息）
     for (const q of ['第一轮问题', '第二轮问题']) {

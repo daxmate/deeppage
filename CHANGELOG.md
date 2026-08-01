@@ -5,6 +5,16 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.8.9] - 2026-08-01
+
+### 修复
+
+- 「复制纯文本」导出未剥离 markdown 语法：此前纯文本导出与 Markdown 导出的正文完全一致（`**加粗**`、`# 标题`、列表符号等原样保留），现通过 `markdownToPlainText` 剥离语法标记，输出干净纯文本
+
+### 工程
+
+- 补导出测试覆盖缺口：新增「复制 Markdown 保留语法，复制纯文本剥离语法」用例（此前仅覆盖 Download .md，未测两个复制菜单项）
+
 ## [1.8.8] - 2026-08-01
 
 ### 修复

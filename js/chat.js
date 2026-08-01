@@ -719,7 +719,7 @@ function formatExportText() {
   lines.push('');
   for (const msg of msgs) {
     lines.push(`[${msg.role === 'user' ? 'User' : 'Assistant'}]`);
-    lines.push(msg.content);
+    lines.push(markdownToPlainText(msg.content));
     lines.push('');
   }
   return lines.join('\n');
