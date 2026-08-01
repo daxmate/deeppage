@@ -5,6 +5,16 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.8.10] - 2026-08-01
+
+### 性能
+
+- 流式 Markdown 渲染节流：此前每个 chunk 都全量重新渲染整条消息（长文本回复可触发上万次 DOM 写入导致卡顿），现改为 rAF 帧合并（每帧最多渲染一次）+ 长文本降频（>3000 字符时放宽渲染间隔），流式结束后强制刷新保证内容完整。实测 1 万字长回复 DOM 写入从 ~1 万次降到 25 次
+
+### 工程
+
+- 新增回归测试：面板开关不重复创建 DOM（`panel-lifecycle`）、长文本流式渲染节流且内容完整（`streaming-perf`），`npm test` 现共 23 个用例
+
 ## [1.8.9] - 2026-08-01
 
 ### 修复
