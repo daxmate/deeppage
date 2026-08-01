@@ -11,6 +11,8 @@ test.describe("消息删除按钮", () => {
     await page.waitForSelector("#__dp-btn", { timeout: 15000 });
     await page.click("#__dp-btn");
     await page.waitForSelector("#__dp-panel.__dp-open");
+    // 等待输入框可用（checkLogin 异步返回前 input 会被禁用）
+    await expect(page.locator("#__dp-input")).toBeEnabled({ timeout: 15000 });
   });
 
   test("每条消息有删除按钮，hover 显示，删除同步 storage", async ({ page, sw }) => {

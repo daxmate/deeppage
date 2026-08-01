@@ -15,6 +15,8 @@ test("长文本流式渲染节流且内容完整", async ({ page, setupMockApi, 
   await page.waitForSelector("#__dp-btn", { timeout: 15000 });
   await page.click("#__dp-btn");
   await page.waitForSelector("#__dp-panel.__dp-open");
+  // 等待输入框可用（checkLogin 异步返回前 input 会被禁用）
+  await expect(page.locator("#__dp-input")).toBeEnabled({ timeout: 15000 });
 
   // 监听 chat 区域 DOM 变化次数（rAF 节流下应远小于 chunk 数）
   await page.evaluate(() => {

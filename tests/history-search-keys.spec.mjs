@@ -10,6 +10,8 @@ test("历史搜索框按键不传导到主页面", async ({ page, setupMockApi, 
   await page.waitForSelector("#__dp-btn", { timeout: 15000 });
   await page.click("#__dp-btn");
   await page.waitForSelector("#__dp-panel.__dp-open");
+  // 等待输入框可用（checkLogin 异步返回前 input 会被禁用）
+  await expect(page.locator("#__dp-input")).toBeEnabled({ timeout: 15000 });
 
   // 建 1 个对话（历史列表有内容，搜索框才存在）
   await page.fill("#__dp-input", "第一轮问题");

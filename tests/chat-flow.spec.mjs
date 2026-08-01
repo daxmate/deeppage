@@ -15,6 +15,8 @@ test.describe("聊天核心流程", () => {
     await page.waitForSelector("#__dp-btn", { timeout: 15000 });
     await page.click("#__dp-btn"); // 打开面板
     await page.waitForSelector("#__dp-panel.__dp-open");
+    // 等待输入框可用（checkLogin 异步返回前 input 会被禁用，CI 慢环境可能未就绪）
+    await expect(page.locator("#__dp-input")).toBeEnabled({ timeout: 15000 });
   });
 
   test("发送消息 → 用户气泡 + AI 流式回复渲染", async ({ page, mock }) => {
