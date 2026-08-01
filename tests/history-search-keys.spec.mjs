@@ -14,7 +14,9 @@ test("历史搜索框按键不传导到主页面", async ({ page, setupMockApi, 
   // 建 1 个对话（历史列表有内容，搜索框才存在）
   await page.fill("#__dp-input", "第一轮问题");
   await page.click("#__dp-send");
-  await expect(page.locator("#__dp-chat .__dp-msg.__dp-assistant:not([data-msg-type]) .__dp-bubble-content")).toContainText("回复内容。", { timeout: 15000 });
+  await expect(
+    page.locator("#__dp-chat .__dp-msg.__dp-assistant:not([data-msg-type]) .__dp-bubble-content")
+  ).toContainText("回复内容。", { timeout: 15000 });
 
   // 打开历史
   await page.click("#__dp-history-btn");

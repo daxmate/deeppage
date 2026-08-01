@@ -336,6 +336,20 @@ if (maxRoundsInput) {
   });
 }
 
+// ---- 页面正文截断长度 ----
+const maxContextInput = document.getElementById("max-context-len");
+const maxContextValue = document.getElementById("max-context-len-value");
+if (maxContextInput) {
+  chrome.storage.sync.get("maxContextLen", (result) => {
+    const val = result.maxContextLen || 15000;
+    maxContextInput.value = val;
+    maxContextValue.textContent = val;
+  });
+  maxContextInput.addEventListener("input", () => {
+    maxContextValue.textContent = maxContextInput.value;
+  });
+}
+
 // ---- 测试连接 ----
 document.getElementById("testApiBtn").addEventListener("click", async () => {
   const btn = document.getElementById("testApiBtn");
@@ -469,6 +483,7 @@ function autoSave() {
     quickActions: cleaned,
     quickActionsLang: getCurrentLang(),
     maxRounds: maxRoundsInput ? parseInt(maxRoundsInput.value, 10) || 20 : 20,
+    maxContextLen: maxContextInput ? parseInt(maxContextInput.value, 10) || 15000 : 15000,
     streamOutput: document.getElementById("stream-output-toggle").checked,
     // new params
     temperature: parseFloat(document.getElementById("temperature").value) || 1.0,
@@ -490,6 +505,7 @@ document.getElementById("apiKey").addEventListener("change", autoSave);
 document.getElementById("apiModel").addEventListener("change", autoSave);
 document.getElementById("apiType").addEventListener("change", autoSave);
 if (maxRoundsInput) maxRoundsInput.addEventListener("change", autoSave);
+if (maxContextInput) maxContextInput.addEventListener("change", autoSave);
 document.getElementById("stream-output-toggle").addEventListener("change", autoSave);
 document.getElementById("temperature").addEventListener("change", autoSave);
 document.getElementById("max-tokens").addEventListener("change", autoSave);

@@ -48,6 +48,13 @@ function markdownToPlainText(text) {
   }
 }
 
+// 页面正文截断长度（字符），默认 15000；由选项页配置，content script 初始化时从 storage 加载
+let _dpMaxContextLen = 15000;
+
+function setMaxContextLen(n) {
+  _dpMaxContextLen = typeof n === "number" && n > 0 ? n : 15000;
+}
+
 function extractPageContent() {
   const article =
     document.querySelector("article") ||
@@ -69,8 +76,9 @@ function extractPageContent() {
     .replace(/\s+/g, " ")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
-  const MAX = 15000;
-  if (text.length > MAX) text = text.slice(0, MAX) + "\n\n...（已截取）";
+  if (text.length > _dpMaxContextLen) {
+    text = text.slice(0, _dpMaxContextLen) + "\n\n...（已截取）";
+  }
   return { title: document.title, url: location.href, text };
 }
 

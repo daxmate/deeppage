@@ -44,17 +44,23 @@ test.describe("Options 页", () => {
       el.checked = false;
       el.dispatchEvent(new Event("change", { bubbles: true }));
     });
+    // 改页面内容截断长度
+    await page.locator("#max-context-len").evaluate((el) => {
+      el.value = "30000";
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+    });
 
     // 自动保存是异步的，轮询等 storage 生效
     await expect(async () => {
       const stored = await sw.evaluate(
         () =>
           new Promise((resolve) =>
-            chrome.storage.sync.get(["temperature", "streamOutput"], resolve)
+            chrome.storage.sync.get(["temperature", "streamOutput", "maxContextLen"], resolve)
           )
       );
       expect(stored.temperature).toBe(0.3);
       expect(stored.streamOutput).toBe(false);
+      expect(stored.maxContextLen).toBe(30000);
     }).toPass({ timeout: 5000 });
   });
 

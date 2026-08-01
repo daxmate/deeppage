@@ -20,6 +20,7 @@ const contentScriptGlobals = {
   markdownToHtml: 'readonly',
   markdownToPlainText: 'readonly',
   extractPageContent: 'readonly',
+  setMaxContextLen: 'readonly',
   scrollChat: 'readonly',
   // ---- js/i18n.js ----
   LANG_CODES: 'readonly',

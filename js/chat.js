@@ -343,7 +343,9 @@ async function renderHistoryResults() {
       ? '<div class="__dp-history-empty">' + (t("historyEmpty") || "No conversations") + "</div>"
       : "") +
     (filtered.length === 0 && data.conversations.length > 0
-      ? '<div class="__dp-history-empty">' + (t("historyNoMatch") || "No matching conversations") + "</div>"
+      ? '<div class="__dp-history-empty">' +
+        (t("historyNoMatch") || "No matching conversations") +
+        "</div>"
       : "") +
     filtered
       .map(

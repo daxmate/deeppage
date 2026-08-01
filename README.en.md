@@ -17,6 +17,7 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 - **Optimized Streaming Rendering** — rAF frame batching + long-text decimation keeps very long replies smooth
 - **Selection Query** — Select text on any page to reveal a floating button; uses page context + AI knowledge to explain the selection
 - **Conversation Trimming** — Auto-trims oldest message rounds (default 20) to avoid token limits; configurable via options
+- **Configurable Page Context Limit** — Max characters of page text sent to the AI is adjustable (default 15000, range 2000-50000); long pages no longer get a one-size-fits-all cut
 - **Clear Context** — One-click button in the panel header to reset conversation while keeping the latest message
 - **Export Conversation** — Export button: copy Markdown, copy plain text (markdown syntax auto-stripped), or download .md with page title and URL
 - **Draggable / Resizable** — Panel position and size are freely adjustable; initial vertical centering

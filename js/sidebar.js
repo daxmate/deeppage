@@ -438,6 +438,10 @@ function createButton() {
     // 先用检测的语言初始化，再异步加载存储的偏好
     window.__dp_lang = detectLanguage();
     initDefaultActions();
+    // 加载页面正文截断长度配置（供 extractPageContent 同步读取）
+    chrome.storage.sync.get("maxContextLen", (result) => {
+      setMaxContextLen(result.maxContextLen);
+    });
     loadLanguage(() => {
       initDefaultActions();
       // 面板已创建则更新占位符
