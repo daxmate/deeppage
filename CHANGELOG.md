@@ -5,6 +5,16 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.9.3] - 2026-08-01
+
+### 修复
+
+- 历史搜索框两个问题：1) 输入时键盘事件冒泡到主页面（页面全局快捷键会收到按键），已阻断 keydown/keypress/keyup 冒泡；2) 每次输入全量重渲染导致搜索框重建、焦点丢失、后续按键丢失（只输入进第一个字符），改为只重渲染结果区，保持搜索框与焦点
+
+### 工程
+
+- 新增回归测试：搜索框按键不传导到主页面 + 键入内容完整（`history-search-keys`）
+
 ## [1.9.2] - 2026-08-01
 
 ### 工程
