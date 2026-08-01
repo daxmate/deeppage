@@ -41,6 +41,16 @@
     "host_permissions": [
         "https://api.deepseek.com/*"
     ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "js/spa-patch.js"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ],
     "icons": {
         "128": "icons/icon128.png",
         "16": "icons/icon16.png",

@@ -14,7 +14,7 @@
 
 ## 🟡 P1 — 重要，择机清理
 
-- [ ] **选中文本按钮未清理** — 页面间切换时残留旧页面的 `#__dp-sel-btn` DOM 元素（SPA 场景），面板重建时应 `remove()` 旧元素（真实 bug，不是纯债）
+- [x] **选中文本按钮未清理** ✅ 已完成 — 修复时发现功能更严重：`showSelBtn` 从未被调用（触发逻辑丢失，选中文本不弹按钮），已重新接线（mouseup 检测选中文本显示按钮，面板内不触发）；SPA 导航清理：`js/spa-patch.js` 注入主世界 patch `pushState/replaceState` + 监听 `popstate`/`hashchange`，导航后 `removeSelBtn()`；按钮自愈重建。新增 `test/sel-btn-spa-test.mjs`（4/4）
 - [ ] **options.js 重复 i18n key** — `apiProviderLabel`、`apiModelLabel`、`testApiButton` 等 key 在 `i18n.js` 里声明了两次（一次老 key 一次新 key），清理冗余
 - [ ] **面板 DOM 销毁重建** — 每次打开面板其实是创建新元素（`createChatPanel`），关闭只是隐藏。组件化思路：打开 / 关闭只切换 display，不要重复创建
 - [ ] **Markdown 渲染性能** — 流式输出每收到一个 chunk 就全量 re-render，消息长文本时卡顿。考虑缓存 innerHTML、只追加新 chunk 差量渲染

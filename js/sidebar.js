@@ -254,7 +254,9 @@ function togglePanel() {
 }
 
 function createSelBtn() {
-  if (_selBtn) return;
+  // 自愈：按钮被外部（SPA 框架等）移除时重建，避免残留旧元素或重复元素
+  if (_selBtn && document.body.contains(_selBtn)) return;
+  if (_selBtn) _selBtn.remove();
   _selBtn = document.createElement('button');
   _selBtn.id = '__dp-sel-btn';
   _selBtn.textContent = t('selAskButton') || '💬 对此段提问';
@@ -316,6 +318,30 @@ function showSelBtn(x, y) {
 
 function hideSelBtn() {
   if (_selBtn) _selBtn.classList.remove('__dp-show');
+}
+
+// 彻底移除选中按钮（SPA 导航时清理，避免旧页面的按钮残留）
+function removeSelBtn() {
+  if (_selBtn) {
+    _selBtn.remove();
+    _selBtn = null;
+  }
+}
+
+// 监听 SPA 页面切换（pushState/replaceState + 浏览器前进后退 + hash 路由），导航后清理残留按钮
+function watchSpaNavigation() {
+  // 主世界 patch：content script 在 isolated world，直接改 history 方法对页面无效
+  try {
+    const s = document.createElement('script');
+    s.src = chrome.runtime.getURL('js/spa-patch.js');
+    s.onload = () => s.remove();
+    (document.head || document.documentElement).appendChild(s);
+  } catch (e) {
+    console.warn('[DeepPage] spa-patch 注入失败:', e);
+  }
+  window.addEventListener('dp:spa-navigate', removeSelBtn);
+  window.addEventListener('popstate', removeSelBtn);
+  window.addEventListener('hashchange', removeSelBtn);
 }
 
 function isSelectionValid() {
@@ -550,6 +576,23 @@ function createButton() {
 
   // 选中文本浮动提问按钮
   createSelBtn();
+  // 触发：鼠标松开时若选中有效文本则显示按钮（面板/按钮自身不触发）
+  document.addEventListener('mouseup', (e) => {
+    const t = e.target;
+    if (t && t.closest && (t.closest('#__dp-panel') || t.closest('#__dp-sel-btn') || t.closest('#__dp-btn'))) {
+      hideSelBtn();
+      return;
+    }
+    const sel = window.getSelection();
+    const text = sel ? sel.toString().trim() : '';
+    if (sel && !sel.isCollapsed && text.length > 0) {
+      showSelBtn(e.clientX, e.clientY);
+    } else {
+      hideSelBtn();
+    }
+  });
+  // SPA 导航时清理选中按钮（避免旧页面残留）
+  watchSpaNavigation();
   } catch (e) {
     console.warn('[DeepPage] 初始化失败:', e);
   }
