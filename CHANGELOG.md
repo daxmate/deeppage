@@ -5,6 +5,14 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.8.6] - 2026-08-01
+
+### 重构
+
+- 公共常量去重：`API_PROVIDERS` 从 `background.js` / `options.js` 两处重复定义抽到 `js/providers.js` 单一数据源
+  - `background.js` 通过 `API_PROVIDER_MAP` 索引，`options.js` 直接 import，options.html 的 options.js 改为 `type="module"` 加载
+  - 之前加新提供商要改两处（易漏），现在只改 `providers.js` 一处
+
 ## [1.8.5] - 2026-08-01
 
 ### 重构
@@ -58,6 +66,7 @@
 - 推理过程展示（reasoning display）
 - API 参数配置（支持自定义 API 参数）
 
+[1.8.6]: https://github.com/daxmate/deeppage/compare/v1.8.5...v1.8.6
 [1.8.5]: https://github.com/daxmate/deeppage/compare/v1.8.4...v1.8.5
 [1.8.4]: https://github.com/daxmate/deeppage/compare/v1.8.3...v1.8.4
 [1.8.3]: https://github.com/daxmate/deeppage/compare/v1.8.2...v1.8.3
