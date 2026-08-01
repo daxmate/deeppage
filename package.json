@@ -1,13 +1,14 @@
 {
   "name": "deeppage",
-  "version": "0.0.0",
+  "version": "1.9.1",
   "private": true,
   "description": "DeepPage — Chat with DeepSeek while browsing",
   "scripts": {
     "test": "playwright test tests/",
     "test:ui": "playwright test --ui tests/",
     "check:i18n": "node scripts/check-i18n.mjs",
-    "pretest": "npm run check:i18n"
+    "pretest": "npm run check:i18n",
+    "bump:version": "node scripts/bump-version.mjs"
   },
   "devDependencies": {
     "playwright": "^1.62.1"

@@ -1,11 +1,11 @@
 {
     "action": {
         "default_icon": {
-            "128": "icons/icon128.png",
             "16": "icons/icon16.png",
             "32": "icons/icon32.png",
             "48": "icons/icon48.png",
-            "64": "icons/icon64.png"
+            "64": "icons/icon64.png",
+            "128": "icons/icon128.png"
         },
         "default_title": "DeepPage"
     },
@@ -52,11 +52,11 @@
         }
     ],
     "icons": {
-        "128": "icons/icon128.png",
         "16": "icons/icon16.png",
         "32": "icons/icon32.png",
         "48": "icons/icon48.png",
-        "64": "icons/icon64.png"
+        "64": "icons/icon64.png",
+        "128": "icons/icon128.png"
     },
     "manifest_version": 3,
     "options_page": "options.html",
