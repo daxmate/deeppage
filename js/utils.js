@@ -3,22 +3,22 @@
 // ==============================================
 
 function generateId() {
-  return 'conv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  return "conv_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);
 }
 
 function formatRelativeTime(ts) {
   const diff = Date.now() - ts;
   const min = Math.floor(diff / 60000);
-  if (min < 1) return t('justNow') || 'just now';
-  if (min < 60) return min + 'm';
+  if (min < 1) return t("justNow") || "just now";
+  if (min < 60) return min + "m";
   const hr = Math.floor(min / 60);
-  if (hr < 24) return hr + 'h';
+  if (hr < 24) return hr + "h";
   const day = Math.floor(hr / 24);
-  return day + 'd';
+  return day + "d";
 }
 
 function escapeHtml(text) {
-  const div = document.createElement('div');
+  const div = document.createElement("div");
   div.textContent = text;
   return div.innerHTML;
 }
@@ -40,9 +40,9 @@ function markdownToHtml(text) {
 function markdownToPlainText(text) {
   try {
     const html = marked.parse(text, { breaks: true, gfm: true });
-    const div = document.createElement('div');
+    const div = document.createElement("div");
     div.innerHTML = html;
-    return div.textContent || '';
+    return div.textContent || "";
   } catch (e) {
     return text;
   }
@@ -60,7 +60,7 @@ function extractPageContent() {
     const clone = document.body.cloneNode(true);
     clone
       .querySelectorAll(
-        'script,style,nav,header,footer,aside,iframe,.sidebar,.nav,[role="navigation"],[role="banner"]',
+        'script,style,nav,header,footer,aside,iframe,.sidebar,.nav,[role="navigation"],[role="banner"]'
       )
       .forEach((el) => el.remove());
     text = clone.innerText;
@@ -80,4 +80,3 @@ function scrollChat() {
     chat.scrollTop = chat.scrollHeight;
   });
 }
-

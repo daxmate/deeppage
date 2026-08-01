@@ -1,25 +1,25 @@
 // Playwright Test Runner 配置
 // 运行：npx playwright test（或 npm test）
-const { defineConfig } = require('playwright/test');
-const path = require('path');
+const { defineConfig } = require("playwright/test");
+const path = require("path");
 
 const MOCK_PORT = 18950;
-const EXT_PATH = path.resolve(__dirname, '.');
+const EXT_PATH = path.resolve(__dirname, ".");
 
 module.exports = defineConfig({
-  testDir: './tests',
+  testDir: "./tests",
   testMatch: /\.spec\.(mjs|js)$/,
   timeout: 60000,
   expect: { timeout: 10000 },
-  fullyParallel: false,           // 扩展测试共享浏览器，串行更稳
+  fullyParallel: false, // 扩展测试共享浏览器，串行更稳
   workers: 1,
   retries: 0,
-  reporter: [['list']],
+  reporter: [["list"]],
   use: {
     headless: true,
     viewport: { width: 1600, height: 1000 },
     actionTimeout: 15000,
-    trace: 'off',
+    trace: "off",
   },
   webServer: {
     command: `node tests/mock-server.js`,

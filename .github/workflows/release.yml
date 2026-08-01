@@ -42,8 +42,10 @@ jobs:
           fi
           echo "✅ Version match: $MANIFEST_VERSION (manifest + package.json + tag)"
 
-      - name: Run tests
-        run: npm test
+      - name: Run lint & tests
+        run: |
+          npm run lint
+          npm test
 
   release:
     name: Build & Release

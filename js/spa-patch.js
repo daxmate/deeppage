@@ -8,7 +8,7 @@
   if (window.__dpSpaPatched) return;
   window.__dpSpaPatched = true;
 
-  const dispatch = () => window.dispatchEvent(new CustomEvent('dp:spa-navigate'));
+  const dispatch = () => window.dispatchEvent(new CustomEvent("dp:spa-navigate"));
   const origPush = history.pushState;
   const origReplace = history.replaceState;
   history.pushState = function (...args) {

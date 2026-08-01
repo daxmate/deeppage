@@ -8,9 +8,16 @@
     "test:ui": "playwright test --ui tests/",
     "check:i18n": "node scripts/check-i18n.mjs",
     "pretest": "npm run check:i18n",
-    "bump:version": "node scripts/bump-version.mjs"
+    "bump:version": "node scripts/bump-version.mjs",
+    "lint": "eslint js/ tests/ scripts/",
+    "lint:fix": "eslint js/ tests/ scripts/ --fix",
+    "format": "prettier --write \"js/*.js\" \"tests/*.mjs\" \"tests/*.js\" \"scripts/*.mjs\" \"playwright.config.js\"",
+    "format:check": "prettier --check \"js/*.js\" \"tests/*.mjs\" \"tests/*.js\" \"scripts/*.mjs\" \"playwright.config.js\""
   },
   "devDependencies": {
-    "playwright": "^1.62.1"
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "playwright": "^1.62.1",
+    "prettier": "^3.9.6"
   }
 }
