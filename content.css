@@ -64,6 +64,8 @@
       --dp-history-del-color: #9ca3af;
       --dp-history-del-hover-bg: rgba(239,68,68,0.1);
       --dp-history-del-hover-text: #ef4444;
+      --dp-history-rename-hover-bg: rgba(74,108,247,0.1);
+      --dp-history-rename-hover-text: #4a6cf7;
       --dp-copy-btn-bg: rgba(0,0,0,0.06);
       --dp-copy-btn-text: #6b7280;
       --dp-copy-btn-hover-bg: rgba(0,0,0,0.12);
@@ -131,6 +133,8 @@
       --dp-history-del-color: #6b7280;
       --dp-history-del-hover-bg: rgba(239,68,68,0.15);
       --dp-history-del-hover-text: #f87171;
+      --dp-history-rename-hover-bg: rgba(96,165,250,0.15);
+      --dp-history-rename-hover-text: #60a5fa;
       --dp-copy-btn-bg: rgba(255,255,255,0.1);
       --dp-copy-btn-text: #9ca3af;
       --dp-copy-btn-hover-bg: rgba(255,255,255,0.18);
@@ -505,10 +509,46 @@
       transition: all 0.12s;
       opacity: 0;
     }
+    .__dp-history-actions {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+    .__dp-history-rename {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      color: var(--dp-history-del-color);
+      border-radius: 6px;
+      line-height: 0;
+      flex-shrink: 0;
+      transition: all 0.12s;
+      opacity: 0;
+    }
+    .__dp-history-item:hover .__dp-history-rename { opacity: 1; }
+    .__dp-history-rename:hover {
+      background: var(--dp-history-rename-hover-bg);
+      color: var(--dp-history-rename-hover-text);
+    }
     .__dp-history-item:hover .__dp-history-del { opacity: 1; }
     .__dp-history-del:hover {
       background: var(--dp-history-del-hover-bg);
       color: var(--dp-history-del-hover-text);
+    }
+    .__dp-history-rename-input {
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--dp-history-title-color);
+      background: var(--dp-input-bg, #fff);
+      border: 1px solid var(--dp-accent, #4a6cf7);
+      border-radius: 6px;
+      padding: 3px 6px;
+      line-height: 1.4;
+      outline: none;
     }
 
     /* 消息操作按钮（复制/删除） */

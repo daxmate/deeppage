@@ -129,9 +129,9 @@ async function saveCurrentMessages() {
         text: pageContext.text,
       }
     : null;
-  // 从第一条用户消息自动生成标题（仅当尚未用 AI 生成标题时，避免覆盖 AI 标题）
+  // 从第一条用户消息自动生成标题（标题被用户手动锁定或 AI 生成后不再覆盖）
   const firstUser = currentMessages.find((m) => m.role === "user");
-  if (firstUser && !conv.titleGenerated) {
+  if (firstUser && !conv.titleLocked && !conv.titleGenerated) {
     const t = firstUser.content.replace(/^.{0,50}[\s\S]*/, (s) => s.slice(0, 50));
     conv.title = t.length < firstUser.content.length ? t + "…" : t;
   }
@@ -175,6 +175,62 @@ async function switchConversation(convId) {
   data.activeId = conv.id;
   await saveConversations(data);
   showChat();
+}
+
+// ===== 对话重命名（历史列表内联编辑） =====
+function startRename(convId) {
+  const list = document.getElementById("__dp-history-list");
+  if (!list) return;
+  // 同一时间只允许一个编辑框（关闭其他项）
+  list.querySelectorAll(".__dp-history-item").forEach((item) => {
+    const title = item.querySelector(".__dp-history-title");
+    const input = item.querySelector(".__dp-history-rename-input");
+    if (item.dataset.id !== convId && input && input.style.display !== "none") {
+      commitRename(item.dataset.id);
+    }
+  });
+  const item = list.querySelector(`.__dp-history-item[data-id="${convId}"]`);
+  if (!item) return;
+  const title = item.querySelector(".__dp-history-title");
+  const input = item.querySelector(".__dp-history-rename-input");
+  if (!title || !input) return;
+  title.style.display = "none";
+  input.style.display = "";
+  input.value = title.textContent;
+  input.focus();
+  input.select();
+}
+
+// 保存重命名：空标题回退原标题；成功清除 titleGenerated（用户手动命名后 AI 不再覆盖）
+async function commitRename(convId) {
+  const list = document.getElementById("__dp-history-list");
+  const item = list && list.querySelector(`.__dp-history-item[data-id="${convId}"]`);
+  if (!item) return;
+  const title = item.querySelector(".__dp-history-title");
+  const input = item.querySelector(".__dp-history-rename-input");
+  if (!title || !input) return;
+  const newTitle = input.value.trim();
+  // 空标题 → 回退原标题，不保存
+  if (!newTitle) {
+    input.style.display = "none";
+    title.style.display = "";
+    return;
+  }
+  const data = await loadConversations();
+  const conv = data.conversations.find((c) => c.id === convId);
+  if (conv) {
+    conv.title = newTitle;
+    conv.titleLocked = true; // 手动重命名后标题锁定：AI 生成与自动截断都不再覆盖
+    conv.updatedAt = Date.now();
+    await saveConversations(data);
+  }
+  input.style.display = "none";
+  title.style.display = "";
+  title.textContent = newTitle;
+  // 历史列表可见时刷新（保持搜索过滤状态）
+  if (list && !list.classList.contains("__dp-hide")) {
+    renderHistoryResults();
+  }
 }
 
 async function deleteConversation(convId) {
@@ -353,11 +409,17 @@ async function renderHistoryResults() {
         <div class="__dp-history-item${c.id === currentConvId ? " active" : ""}" data-id="${c.id}">
           <div class="__dp-history-item-main">
             <div class="__dp-history-title">${escapeHtml(c.title)}</div>
+            <input class="__dp-history-rename-input" type="text" value="${escapeHtml(c.title)}" placeholder="${t("renamePlaceholder") || "Enter new title"}" style="display:none" />
             <div class="__dp-history-meta">${c.messages.length} msg · ${formatRelativeTime(c.updatedAt)}</div>
           </div>
-          <button class="__dp-history-del" data-id="${c.id}" title="${t("deleteButton") || "Delete"}">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-          </button>
+          <div class="__dp-history-actions">
+            <button class="__dp-history-rename" data-id="${c.id}" title="${t("renameButton") || "Rename"}">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+            </button>
+            <button class="__dp-history-del" data-id="${c.id}" title="${t("deleteButton") || "Delete"}">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </button>
+          </div>
         </div>
       `
       )
@@ -369,7 +431,7 @@ async function renderHistoryResults() {
 function bindHistoryListEvents(list) {
   list.querySelectorAll(".__dp-history-item").forEach((el) => {
     el.addEventListener("click", (e) => {
-      if (e.target.closest(".__dp-history-del")) return;
+      if (e.target.closest(".__dp-history-actions")) return;
       switchConversation(el.dataset.id);
     });
   });
@@ -379,7 +441,33 @@ function bindHistoryListEvents(list) {
       deleteConversation(el.dataset.id);
     });
   });
+  list.querySelectorAll(".__dp-history-rename").forEach((el) => {
+    el.addEventListener("click", (e) => {
+      e.stopPropagation();
+      startRename(el.dataset.id);
+    });
+  });
   list.querySelector(".__dp-history-back")?.addEventListener("click", showChat);
+  // 重命名输入框：回车保存 / Esc 取消 / 失焦保存
+  list.querySelectorAll(".__dp-history-rename-input").forEach((input) => {
+    input.addEventListener("keydown", (e) => {
+      e.stopPropagation();
+      if (e.key === "Enter") {
+        e.preventDefault();
+        input.blur();
+      } else if (e.key === "Escape") {
+        // Esc：清空输入框再 blur → 走空标题回退（不保存），天然免疫 blur 时序问题
+        e.preventDefault();
+        input.value = "";
+        input.blur();
+      }
+    });
+    input.addEventListener("blur", () => {
+      const item = input.closest(".__dp-history-item");
+      if (!item) return;
+      commitRename(item.dataset.id);
+    });
+  });
 }
 
 function addMsg(role, text, extra) {
@@ -817,6 +905,10 @@ async function generateTitleAsync() {
     const firstUser = chatHistory.find((m) => m.role === "user");
     const firstAssistant = chatHistory.find((m) => m.role === "assistant");
     if (!firstUser || !firstAssistant) return;
+    // 标题已被用户手动锁定：不再生成 AI 标题
+    const lockedData = await loadConversations();
+    const lockedConv = (lockedData.conversations || []).find((c) => c.id === currentConvId);
+    if (lockedConv && lockedConv.titleLocked) return;
     // 用当前界面语言的 prompt 生成对应语言的标题
     const prompt = t("titleGenPrompt");
     const resp = await chrome.runtime.sendMessage({
