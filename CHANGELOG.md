@@ -5,10 +5,11 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
-## [1.11.0] - 未发布
+## [1.11.0] - 2026-08-01
 
 ### 新增
 
+- AI 生成对话标题：首轮 AI 回复后自动为对话生成标题（10 种语言提示词，跟随界面语言；生成失败静默降级为 50 字截断标题）
 - 注入状态指示：网页右下角悬浮按钮的图标随当前配置的 AI 提供商切换（DeepSeek / Moonshot / 智谱 / Qwen / 豆包 / 零一 / 硅基流动 / OpenAI / Groq / Ollama / Together / Anthropic），悬停显示完整「提供商 · 模型」；在选项页切换提供商后图标实时刷新
 
 ## [1.10.2] - 2026-08-01

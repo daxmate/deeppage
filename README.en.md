@@ -11,7 +11,7 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 - **Quick Actions** — Customizable buttons for summarize, outline, translate, or anything you define
 - **Full Page Context** — Automatically extracts page content as conversation context
 - **Conversation Memory** — Chat history persists per page, survives panel close
-- **Chat History** — Auto-saved conversations, browse/switch/delete from history list, with keyword search (matches titles or message content)
+- **Chat History** — Auto-saved conversations, browse/switch/delete from history list, with keyword search (matches titles or message content); auto-generates an AI title after the first reply
 - **Page Context Persistence** — Saved with conversations, survives panel reloads
 - **Copy Replies** — Hover AI messages → copy button, one-click clipboard copy
 - **Streaming Output** — Real-time token-by-token rendering, typewriter effect without waiting for full response; can be disabled in options for APIs that only support non-streaming responses
