@@ -25,7 +25,7 @@
 - [x] **导出菜单的全局事件** ✅ 已完成 — `document.addEventListener('click')` 从模块顶层移入面板创建流程（`createButton` 内绑定），监听器内部先判空（元素被移除时不再空转），菜单逻辑分支合并；导出用例（下载/复制 md/复制纯文本）全绿验证无回归
 - [x] **接入 E2E 测试** ✅ 已完成（v1.8.8） — Playwright 框架 `tests/` + mock server，`npm test` 跑 21 个用例（chat-flow / panel-ui / options / xml-guard / btn-drag / sel-btn-spa / del-btn），旧 `test/` 临时脚本已迁移删除
 - [x] **CHANGELOG.md** ✅ 已完成 — 每次发版都更新（Keep a Changelog 风格，中文章节），v1.8.5 起每版都有记录，且 Release notes 同步双语
-- [ ] **开发者指南** — 如何添加新 API 提供商、如何贡献的说明
+- [x] **开发者指南** ✅ 已完成 — `docs/DEVELOPMENT.md`：如何添加新 API 提供商（providers.js 单条配置 + 字段说明 + 验证）、运行/编写 E2E 测试、i18n 维护、代码结构速览、发版流程、贡献规范；README 已链接
 
 ## ✨ Feature Ideas
 

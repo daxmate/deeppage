@@ -84,6 +84,8 @@ npm install
 npm test        # runs i18n validation + 23 E2E cases
 ```
 
+> Full development guide (adding API providers / writing tests / i18n / releasing) → [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md)
+
 ### Project Structure
 
 ```

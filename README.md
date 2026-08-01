@@ -101,6 +101,8 @@ npm install
 npm test        # 自动运行 i18n 校验 + 23 个 E2E 用例
 ```
 
+> 完整开发指南（添加 API 提供商 / 写测试 / i18n / 发版）见 [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md)
+
 ### 项目结构
 
 ```
