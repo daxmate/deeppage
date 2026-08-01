@@ -73,6 +73,10 @@ const contentScriptGlobals = {
   watchSpaNavigation: 'readonly',
   createButton: 'readonly',
   onSelAsk: 'readonly',
+  // ---- js/provider-icons.js ----
+  PROVIDER_ICONS: 'readonly',
+  PROVIDER_LABELS: 'readonly',
+  PROVIDER_ICON_FALLBACK: 'readonly',
 };
 
 export default [

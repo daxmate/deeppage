@@ -7,6 +7,7 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 ## Features
 
 - **Inline Chat Panel** — Click the floating button to open a chat bubble on any page
+- **Provider Status Indicator** — The floating button icon switches to the current AI provider's logo; hover to see the full "provider · model", refreshed live when settings change
 - **Quick Actions** — Customizable buttons for summarize, outline, translate, or anything you define
 - **Full Page Context** — Automatically extracts page content as conversation context
 - **Conversation Memory** — Chat history persists per page, survives panel close

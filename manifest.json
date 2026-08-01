@@ -24,6 +24,7 @@
                 "js/i18n.js",
                 "js/utils.js",
                 "js/chat.js",
+                "js/provider-icons.js",
                 "js/sidebar.js",
                 "js/content.js"
             ],
