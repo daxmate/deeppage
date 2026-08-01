@@ -5,6 +5,16 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.8.11] - 2026-08-01
+
+### 修复
+
+- `testApiRequired` 翻译错误：es/fr/de/ru/vi 5 种语言为空值且数组顺序错乱（语言错位），已按语言顺序补齐全部 10 种翻译
+
+### 工程
+
+- 新增 i18n 校验脚本 `scripts/check-i18n.mjs`：检查全部翻译 key 的 10 语言数组长度 / 顺序 / 空值 / 代码引用完整性，`npm test` 前自动执行，防止翻译缺失导致页面空白
+
 ## [1.8.10] - 2026-08-01
 
 ### 性能
