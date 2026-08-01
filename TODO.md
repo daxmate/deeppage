@@ -15,16 +15,16 @@
 ## 🟡 P1 — 重要，择机清理
 
 - [x] **选中文本按钮未清理** ✅ 已完成 — 修复时发现功能更严重：`showSelBtn` 从未被调用（触发逻辑丢失，选中文本不弹按钮），已重新接线（mouseup 检测选中文本显示按钮，面板内不触发）；SPA 导航清理：`js/spa-patch.js` 注入主世界 patch `pushState/replaceState` + 监听 `popstate`/`hashchange`，导航后 `removeSelBtn()`；按钮自愈重建。新增 `test/sel-btn-spa-test.mjs`（4/4）
-- [ ] **options.js 重复 i18n key** — `apiProviderLabel`、`apiModelLabel`、`testApiButton` 等 key 在 `i18n.js` 里声明了两次（一次老 key 一次新 key），清理冗余
-- [ ] **面板 DOM 销毁重建** — 每次打开面板其实是创建新元素（`createChatPanel`），关闭只是隐藏。组件化思路：打开 / 关闭只切换 display，不要重复创建
-- [ ] **Markdown 渲染性能** — 流式输出每收到一个 chunk 就全量 re-render，消息长文本时卡顿。考虑缓存 innerHTML、只追加新 chunk 差量渲染
+- [x] **options.js 重复 i18n key** ✅ 已核实无重复 — 110 个 key 全部唯一（此前记录的 `apiProviderLabel` 等重复已随重构消失），TODO 过时
+- [x] **面板 DOM 销毁重建** ✅ 已核实无需改动 — 当前实现即「创建一次、开关只切 display」（`createChatPanel` 仅调用一次，`togglePanel` 只切 `__dp-open` class，默认 `display:none`），无重复创建；已加回归测试 `tests/panel-lifecycle.spec.mjs` 防止回归
+- [x] **Markdown 渲染性能** ✅ 已完成 — 流式渲染改为 rAF 节流合并（每帧最多渲染一次）+ 长文本降频（>3000 字符每 100ms 渲染一次，done/error 时强制 flush）。实测 10180 字符长回复从逐 chunk 全量渲染（~1 万次）降到 25 次 DOM 写入。新增回归测试 `tests/streaming-perf.spec.mjs`
 - [ ] **多语言 key 校验脚本** — 10 种语言文件 key 一致性自动化检查（防止翻译缺失导致页面空白），低成本高收益
 
 ## 🟢 P2 — 可长期拖着（无害）
 
 - [ ] **导出菜单的全局事件** — `content.js` 里的 `document.addEventListener('click', ...)` 导出菜单处理在模块顶层而非 `setupEventListeners` 内，面板关闭后还在监听，虽然无害但可以优化
-- [ ] **接入 E2E 测试** — 目前是纯手动测试，`test/` 已有 3 个临时脚本（btn-drag / del-btn / xml-guard）。至少给 chat flow（流式 / 非流式）写 playwright 测试
-- [ ] **CHANGELOG.md** — 目前只有 README 列出功能，没有清晰的版本变更日志
+- [x] **接入 E2E 测试** ✅ 已完成（v1.8.8） — Playwright 框架 `tests/` + mock server，`npm test` 跑 21 个用例（chat-flow / panel-ui / options / xml-guard / btn-drag / sel-btn-spa / del-btn），旧 `test/` 临时脚本已迁移删除
+- [x] **CHANGELOG.md** ✅ 已完成 — 每次发版都更新（Keep a Changelog 风格，中文章节），v1.8.5 起每版都有记录，且 Release notes 同步双语
 - [ ] **开发者指南** — 如何添加新 API 提供商、如何贡献的说明
 
 ## ✨ Feature Ideas

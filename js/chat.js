@@ -497,6 +497,51 @@ async function sendMessage() {
       let thinkToggle = null;
       let thinkBox = null;
       let hasThinking = false;
+      // ---- 流式渲染节流状态 ----
+      let renderDirty = false;
+      let renderRafId = null;
+      let lastRenderAt = 0;
+      const RENDER_FRAME_MS = 16;      // 正常节流：每帧最多渲染一次
+      const RENDER_LONG_MS = 100;      // 长文本降频间隔
+      const RENDER_LONG_THRESHOLD = 3000; // 超过该字符数进入降频模式
+
+      // rAF 节流渲染：chunk 到达只标记 dirty，统一在帧回调里渲染最新全文
+      function scheduleRender(contentEl) {
+        renderDirty = true;
+        if (renderRafId !== null) return;
+        const renderNow = () => {
+          renderRafId = null;
+          if (!renderDirty) return;
+          renderDirty = false;
+          const now = performance.now();
+          // 长文本降频：未结束时限制渲染频率，避免超长回复卡顿
+          const minInterval = fullText.length > RENDER_LONG_THRESHOLD ? RENDER_LONG_MS : RENDER_FRAME_MS;
+          if (now - lastRenderAt < minInterval) {
+            renderDirty = true;
+            renderRafId = requestAnimationFrame(renderNow);
+            return;
+          }
+          lastRenderAt = now;
+          const chat = document.getElementById('__dp-chat');
+          const wasAtBottom = chat.scrollTop + chat.clientHeight >= chat.scrollHeight - 2;
+          contentEl.innerHTML = markdownToHtml(fullText);
+          if (wasAtBottom) scrollChat();
+        };
+        renderRafId = requestAnimationFrame(renderNow);
+      }
+
+      // 强制立即渲染（done / error 时兜底，保证最终内容完整显示）
+      function flushRender(contentEl) {
+        if (renderRafId !== null) {
+          cancelAnimationFrame(renderRafId);
+          renderRafId = null;
+        }
+        renderDirty = false;
+        const chat = document.getElementById('__dp-chat');
+        const wasAtBottom = chat.scrollTop + chat.clientHeight >= chat.scrollHeight - 2;
+        contentEl.innerHTML = markdownToHtml(fullText);
+        if (wasAtBottom) scrollChat();
+      }
 
       function createAssistantWithThinking() {
         if (assistantDiv) return;
@@ -611,7 +656,7 @@ async function sendMessage() {
           }
           const chat = document.getElementById('__dp-chat');
           const wasAtBottom = chat.scrollTop + chat.clientHeight >= chat.scrollHeight - 2;
-          contentEl.innerHTML = markdownToHtml(fullText);
+          scheduleRender(contentEl);
           if (wasAtBottom) scrollChat();
         } else if (resp.type === 'done') {
           // 添加复制按钮
@@ -648,8 +693,16 @@ async function sendMessage() {
             if (thinkToggle) thinkToggle.remove();
             if (thinkBox) thinkBox.remove();
           }
+          // 流式结束：强制 flush 未渲染的剩余 chunk，确保最终内容完整
+          if (fullText && assistantBubble && assistantBubble.__content) {
+            flushRender(assistantBubble.__content);
+          }
           resolve({ fullText, reasoningText });
         } else if (resp.type === 'error') {
+          // 出错时也 flush 已收到的内容（保留部分回复），再 reject
+          if (assistantBubble && assistantBubble.__content) {
+            flushRender(assistantBubble.__content);
+          }
           reject(new Error(resp.text));
         }
       });
