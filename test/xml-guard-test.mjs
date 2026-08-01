@@ -2,7 +2,7 @@
 // 1. HTML 页面 → 扩展正常注入 #__dp-btn，无报错
 // 2. SVG (image/svg+xml) 页面 → 不注入，无 SyntaxError
 // 3. XML (application/xml) 页面 → 不注入，无 SyntaxError
-import { chromium } from '/Users/dax/Library/pnpm/global/5/.pnpm/playwright-core@1.61.1/node_modules/playwright-core/index.mjs';
+import { chromium } from 'playwright';
 import http from 'node:http';
 
 const EXT_PATH = '/Users/dax/codes/deeppage';
@@ -25,14 +25,12 @@ const server = http.createServer((req, res) => {
 
 await new Promise(r => server.listen(PORT, r));
 
-const CHROME = '/Users/dax/Library/Caches/ms-playwright/chromium-1217/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing';
 
 const results = [];
 async function check(url, expectInjected, label) {
   const errors = [];
   const context = await chromium.launchPersistentContext('', {
     headless: false,
-    executablePath: CHROME,
     args: [
       '--headless=new',
       `--disable-extensions-except=${EXT_PATH}`,

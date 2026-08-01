@@ -3,11 +3,10 @@
 // 2. 拖拽后位置变化
 // 3. 位置写入 chrome.storage.sync (btnPos)
 // 4. 刷新页面后位置恢复
-import { chromium } from '/Users/dax/Library/pnpm/global/5/.pnpm/playwright-core@1.61.1/node_modules/playwright-core/index.mjs';
+import { chromium } from 'playwright';
 import http from 'node:http';
 
 const EXT_PATH = '/Users/dax/codes/deeppage';
-const CHROME = '/Users/dax/Library/Caches/ms-playwright/chromium-1217/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing';
 const PORT = 18924;
 
 const server = http.createServer((req, res) => {
@@ -19,7 +18,6 @@ await new Promise(r => server.listen(PORT, r));
 const errors = [];
 const context = await chromium.launchPersistentContext('', {
   headless: false,
-  executablePath: CHROME,
   viewport: { width: 1600, height: 1000 },
   args: [
     '--headless=new',

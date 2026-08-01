@@ -5,11 +5,10 @@
 // 3. 删除欢迎消息 → 只删 DOM，数组/存储不动（skipTrack 不追踪）
 // 4. 删除 user 消息 → DOM 和 storage 同步
 // 5. 删空（仅剩 assistant）→ 对话从 storage 移除
-import { chromium } from '/Users/dax/Library/pnpm/global/5/.pnpm/playwright-core@1.61.1/node_modules/playwright-core/index.mjs';
+import { chromium } from 'playwright';
 import http from 'node:http';
 
 const EXT_PATH = '/Users/dax/codes/deeppage';
-const CHROME = '/Users/dax/Library/Caches/ms-playwright/chromium-1217/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing';
 const PORT = 18925;
 
 const server = http.createServer((req, res) => {
@@ -21,7 +20,6 @@ await new Promise(r => server.listen(PORT, r));
 const errors = [];
 const context = await chromium.launchPersistentContext('', {
   headless: false,
-  executablePath: CHROME,
   viewport: { width: 1600, height: 1000 },
   args: [
     '--headless=new',
