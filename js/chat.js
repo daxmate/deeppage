@@ -297,6 +297,37 @@ async function renderHistoryList() {
   if (!list) return;
   const data = await loadConversations();
   const kw = (list.dataset.search || "").trim().toLowerCase();
+  list.innerHTML = `
+    <div class="__dp-history-header">
+      <button class="__dp-history-back" title="${t("backToChat") || "Back"}">← <span>${t("backToChat") || "Back"}</span></button>
+      <input class="__dp-history-search" type="text" placeholder="${t("historySearchPlaceholder") || "Search conversations"}" value="${escapeHtml(kw)}" />
+    </div>
+    <div class="__dp-history-scroll"></div>
+  `;
+  // 搜索框：阻止键盘事件冒泡到主页面（页面全局快捷键会收到按键）
+  const searchInput = list.querySelector(".__dp-history-search");
+  if (searchInput) {
+    for (const evt of ["keydown", "keypress", "keyup"]) {
+      searchInput.addEventListener(evt, (e) => e.stopPropagation());
+    }
+    searchInput.addEventListener("input", (e) => {
+      e.stopPropagation();
+      list.dataset.search = e.target.value;
+      // 只重渲染结果区，不重建搜索框（否则输入框被替换、焦点丢失，后续按键进不去）
+      renderHistoryResults();
+    });
+  }
+  await renderHistoryResults();
+  // Bind events
+  bindHistoryListEvents(list);
+}
+
+// 只渲染历史列表的结果区（保留搜索框，避免输入时重建丢失焦点）
+async function renderHistoryResults() {
+  const list = document.getElementById("__dp-history-list");
+  if (!list) return;
+  const data = await loadConversations();
+  const kw = (list.dataset.search || "").trim().toLowerCase();
   // 关键词过滤：匹配标题或任一消息内容
   const filtered = kw
     ? data.conversations.filter(
@@ -305,17 +336,18 @@ async function renderHistoryList() {
           (c.messages || []).some((m) => (m.content || "").toLowerCase().includes(kw))
       )
     : data.conversations;
-  list.innerHTML = `
-    <div class="__dp-history-header">
-      <button class="__dp-history-back" title="${t("backToChat") || "Back"}">← <span>${t("backToChat") || "Back"}</span></button>
-      <input class="__dp-history-search" type="text" placeholder="${t("historySearchPlaceholder") || "Search conversations"}" value="${escapeHtml(kw)}" />
-    </div>
-    <div class="__dp-history-scroll">
-      ${data.conversations.length === 0 ? '<div class="__dp-history-empty">' + (t("historyEmpty") || "No conversations") + "</div>" : ""}
-      ${filtered.length === 0 && data.conversations.length > 0 ? '<div class="__dp-history-empty">' + (t("historyNoMatch") || "No matching conversations") + "</div>" : ""}
-      ${filtered
-        .map(
-          (c) => `
+  const scroll = list.querySelector(".__dp-history-scroll");
+  if (!scroll) return;
+  scroll.innerHTML =
+    (data.conversations.length === 0
+      ? '<div class="__dp-history-empty">' + (t("historyEmpty") || "No conversations") + "</div>"
+      : "") +
+    (filtered.length === 0 && data.conversations.length > 0
+      ? '<div class="__dp-history-empty">' + (t("historyNoMatch") || "No matching conversations") + "</div>"
+      : "") +
+    filtered
+      .map(
+        (c) => `
         <div class="__dp-history-item${c.id === currentConvId ? " active" : ""}" data-id="${c.id}">
           <div class="__dp-history-item-main">
             <div class="__dp-history-title">${escapeHtml(c.title)}</div>
@@ -326,20 +358,13 @@ async function renderHistoryList() {
           </button>
         </div>
       `
-        )
-        .join("")}
-    </div>
-  `;
-  // 搜索框：输入时记录关键词并重渲染列表
-  const searchInput = list.querySelector(".__dp-history-search");
-  if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      e.stopPropagation();
-      list.dataset.search = e.target.value;
-      renderHistoryList();
-    });
-  }
-  // Bind events
+      )
+      .join("");
+  bindHistoryListEvents(list);
+}
+
+// 绑定历史列表项事件（点击切换 / 删除 / 返回）
+function bindHistoryListEvents(list) {
   list.querySelectorAll(".__dp-history-item").forEach((el) => {
     el.addEventListener("click", (e) => {
       if (e.target.closest(".__dp-history-del")) return;
