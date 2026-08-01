@@ -7,6 +7,7 @@ const state = {
   stream: true,
   responseContent: "这是来自 mock 服务器的回复。",
   failNext: false,
+  failNonStream: false, // 仅非流式请求失败（用于测标题生成降级，流式对话不受影响）
   delayMs: 0,
   requests: [],
 };
@@ -31,6 +32,7 @@ const server = http.createServer((req, res) => {
       } else if (req.url === "/__mock/reset" && req.method === "POST") {
         state.requests = [];
         state.failNext = false;
+        state.failNonStream = false;
         sendJson(res, 200, { ok: true });
       } else {
         sendJson(res, 404, { error: "unknown mock endpoint" });
@@ -85,8 +87,15 @@ const server = http.createServer((req, res) => {
       return;
     }
 
-    // state.stream 配置优先：mock 可强制以非流式/流式格式响应，不依赖请求体（模拟不同后端的真实行为）
-    const isStream = state.stream === true;
+    // 响应格式以请求体 stream 字段为准（模拟真实后端行为）；请求体未声明时退回 state.stream 配置
+    const isStream =
+      typeof parsed.stream === "boolean" ? parsed.stream : state.stream === true;
+
+    // 非流式请求失败开关：标题生成等非流式请求单独失败，不影响流式对话
+    if (state.failNonStream && !isStream) {
+      sendJson(res, 401, { error: { message: "Invalid API key", type: "authentication_error" } });
+      return;
+    }
     const content = state.responseContent;
 
     if (isStream) {

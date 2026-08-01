@@ -129,9 +129,9 @@ async function saveCurrentMessages() {
         text: pageContext.text,
       }
     : null;
-  // 从第一条用户消息自动生成标题
+  // 从第一条用户消息自动生成标题（仅当尚未用 AI 生成标题时，避免覆盖 AI 标题）
   const firstUser = currentMessages.find((m) => m.role === "user");
-  if (firstUser) {
+  if (firstUser && !conv.titleGenerated) {
     const t = firstUser.content.replace(/^.{0,50}[\s\S]*/, (s) => s.slice(0, 50));
     conv.title = t.length < firstUser.content.length ? t + "…" : t;
   }
@@ -832,6 +832,7 @@ async function generateTitleAsync() {
     const conv = data.conversations.find((c) => c.id === currentConvId);
     if (!conv) return;
     conv.title = resp.text;
+    conv.titleGenerated = true;
     conv.updatedAt = Date.now();
     await saveConversations(data);
     // 历史列表可见时刷新标题显示

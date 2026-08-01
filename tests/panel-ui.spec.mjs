@@ -19,7 +19,9 @@ test.describe("面板 UI 功能", () => {
     await expect(page.locator("#__dp-input")).toBeEnabled({ timeout: 15000 });
   });
 
-  test("发送消息后历史面板列出对话", async ({ page }) => {
+  test("发送消息后历史面板列出对话", async ({ page, mock }) => {
+    // 关闭 AI 标题生成（失败降级），历史标题保持为消息截断（标题生成有独立测试 title-gen）
+    await mock.config({ failNonStream: true });
     // 发一条消息（触发对话保存）
     await page.fill("#__dp-input", "第一轮问题");
     await page.click("#__dp-send");
@@ -37,7 +39,8 @@ test.describe("面板 UI 功能", () => {
     await expect(items.first()).toHaveClass(/active/);
   });
 
-  test("历史搜索：按标题/内容关键词过滤对话", async ({ page }) => {
+  test("历史搜索：按标题/内容关键词过滤对话", async ({ page, mock }) => {
+    await mock.config({ failNonStream: true }); // 同上：禁用 AI 标题生成，标题=消息截断
     // 建 2 个不同标题的对话
     for (const q of ["第一轮问题", "第二轮问题"]) {
       await page.fill("#__dp-input", q);
