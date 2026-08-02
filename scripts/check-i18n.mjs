@@ -100,6 +100,34 @@ for (const v of Object.values(manifest)) {
   if (m && !(m[1] in base)) fail(`manifest 引用了不存在的 key: __MSG_${m[1]}__`);
 }
 
+// ---- 7) _locales/zh_CN/messages.json（default_locale 兜底）完整性检查 ----
+// 运行时 t() 在 i18n-data 加载失败时会兜底 chrome.i18n（读取 _locales/），
+// 若 _locales 缺 key 会显示原始 key 文本（如 "exportWord"）。
+// 因此 _locales/zh_CN/messages.json 必须包含 i18n-data/zh_CN.json 的全部 key。
+const FALLBACK_LOCALES = path.join(ROOT, "_locales", "zh_CN", "messages.json");
+if (fs.existsSync(FALLBACK_LOCALES)) {
+  let fallback;
+  try {
+    fallback = JSON.parse(fs.readFileSync(FALLBACK_LOCALES, "utf8"));
+  } catch (e) {
+    fail(`_locales/zh_CN/messages.json 不是合法 JSON: ${e.message}`);
+    fallback = {};
+  }
+  const fbKeys = Object.keys(fallback);
+  const missingInFallback = baseKeys.filter((k) => !fbKeys.includes(k));
+  if (missingInFallback.length) {
+    fail(
+      `_locales/zh_CN/messages.json 缺少 ${missingInFallback.length} 个 key: ${missingInFallback.join(", ")}`
+    );
+  }
+  const extraInFallback = fbKeys.filter((k) => !baseKeys.includes(k));
+  if (extraInFallback.length) {
+    fail(`_locales/zh_CN/messages.json 多出 key: ${extraInFallback.join(", ")}`);
+  }
+} else {
+  fail("_locales/zh_CN/messages.json 不存在（default_locale 兜底缺失）");
+}
+
 // ---- 汇总 ----
 if (errors > 0) {
   console.error(`\n✗ i18n 校验失败：${errors} 处错误`);

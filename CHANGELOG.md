@@ -5,6 +5,17 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.18.2] - 2026-08-02
+
+### 🐛 修复
+
+- **导出菜单 Word 项在部分环境显示原始 key「exportWord」**：v1.14.4 重构后，`_locales/zh_CN/messages.json`（default_locale 兜底）未再同步，此后新增的 15 个 key（`exportWord`、`exportWordSuccess`、`fullscreenButton`、`copySuccess` 等）只存在于 `i18n-data/`。当运行时 i18n 数据加载失败时，`t()` 兜底 `chrome.i18n` 也找不到 key，菜单直接显示原始文本（如“exportWord”）。现已补齐 `_locales/zh_CN/messages.json` 缺失的 15 个 key（121 → 136，与 `i18n-data/zh_CN.json` 完全一致），并给 `check-i18n.mjs` 新增第 7 项校验：`_locales` 必须包含 `i18n-data` 全部 key，防止后续新增 key 再次漏同步
+- **Word 导出角色名固定英文**：导出的 .docx 中角色名此前写死为“🧑 User / 🤖 Assistant”，不跟随界面语言；现已改用 `exportRoleUser` / `exportRoleAssistant` i18n key（与 Markdown/纯文本导出一致，10 语言翻译已在 v1.17.1 就位），中文界面导出显示“🧑 用户 / 🤖 助手”
+
+### 🔧 样式
+
+- **PDF 导出气泡内边距加大**：气泡文本与边缘间距由 `10px 14px` 加大至 `12px 16px`，导出 PDF 观感更宽松
+
 ## [1.18.1] - 2026-08-02
 
 ### 🐛 修复

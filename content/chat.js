@@ -1022,7 +1022,7 @@ async function exportPdf() {
           const marginAuto = isUser ? "margin-left:auto;" : "margin-right:auto;";
           return `
           <div style="margin-bottom:16px;">
-            <div style="${marginAuto}max-width:${maxW};background:${bg};color:${color};border-radius:12px;padding:10px 14px;font-size:13px;line-height:1.6;word-break:break-word;text-align:left;white-space:normal;">
+            <div style="${marginAuto}max-width:${maxW};background:${bg};color:${color};border-radius:12px;padding:12px 16px;font-size:13px;line-height:1.6;word-break:break-word;text-align:left;white-space:normal;">
               ${content}
             </div>
           </div>`;
@@ -1118,7 +1118,9 @@ async function exportWord() {
         spacing: { before: 240, after: 80 },
         children: [
           new TextRun({
-            text: isUser ? "🧑 User" : "🤖 Assistant",
+            text: isUser
+              ? `🧑 ${t("exportRoleUser") || "User"}`
+              : `🤖 ${t("exportRoleAssistant") || "Assistant"}`,
             bold: true,
             color: isUser ? "4a6cf7" : "111827",
           }),
