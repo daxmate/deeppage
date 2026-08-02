@@ -15,6 +15,7 @@ const contentScriptGlobals = {
   // 第三方
   marked: 'readonly',
   html2pdf: 'readonly',
+  docx: 'readonly',
   // ---- js/utils.js ----
   generateId: 'readonly',
   formatRelativeTime: 'readonly',

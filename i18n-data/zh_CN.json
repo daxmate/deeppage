@@ -361,5 +361,8 @@
   },
   "extDesc": {
     "message": "在浏览网页时与 DeepSeek 对话——总结全文、提炼要点、自由问答"
+  },
+  "exportWord": {
+    "message": "下载 Word 文档"
   }
 }

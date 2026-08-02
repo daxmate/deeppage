@@ -24,6 +24,7 @@
                 "js/i18n.js",
                 "js/utils.js",
                 "lib/html2pdf.bundle.min.js",
+                "lib/docx.bundle.min.js",
                 "content/chat.js",
                 "js/provider-icons.js",
                 "content/sidebar.js",
@@ -80,5 +81,5 @@
         "tabs",
         "windows"
     ],
-    "version": "1.14.4"
+    "version": "1.15.0"
 }

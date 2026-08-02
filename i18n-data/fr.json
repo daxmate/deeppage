@@ -361,5 +361,8 @@
   },
   "extDesc": {
     "message": "Discutez avec DeepSeek pendant la navigation — résumer, points clés, traduire, poser des questions"
+  },
+  "exportWord": {
+    "message": "Télécharger Word"
   }
 }

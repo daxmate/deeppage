@@ -361,5 +361,8 @@
   },
   "extDesc": {
     "message": "웹 탐색 중 DeepSeek와 대화 — 요약, 핵심 정리, 번역, 자유 질문"
+  },
+  "exportWord": {
+    "message": "Word 다운로드"
   }
 }

@@ -127,6 +127,33 @@ test.describe("面板 UI 功能", () => {
     expect(buf.length).toBeGreaterThan(1024);
   });
 
+  test("导出 Word：菜单项存在，点击触发 .docx 下载", async ({ page }) => {
+    await page.fill("#__dp-input", "导出 Word 的内容");
+    await page.click("#__dp-send");
+    await expect(
+      page.locator("#__dp-chat .__dp-msg.__dp-assistant:not([data-msg-type]) .__dp-bubble-content")
+    ).toContainText("这是来自 mock 服务器的回复。", { timeout: 15000 });
+
+    // 打开导出菜单 → Word 菜单项存在
+    await page.click("#__dp-export-btn");
+    const wordItem = page.locator('#__dp-export-menu div[data-action="word"]');
+    await expect(wordItem).toBeVisible();
+    await expect(wordItem).toContainText("Word");
+
+    // 点击触发下载
+    const [download] = await Promise.all([
+      page.waitForEvent("download", { timeout: 30000 }),
+      wordItem.click(),
+    ]);
+    expect(download.suggestedFilename()).toMatch(/\.docx$/);
+    const file = await download.path();
+    const fs = await import("node:fs");
+    const buf = fs.readFileSync(file);
+    // .docx 是 OOXML zip 包：文件头 "PK"，且包含 word/document.xml（zip 内可搜索文本）
+    expect(buf.subarray(0, 2).toString("ascii")).toBe("PK");
+    expect(buf.length).toBeGreaterThan(2048);
+  });
+
   test("复制 Markdown 保留语法，复制纯文本剥离语法", async ({ page, mock }) => {
     // 授权 clipboard 读写（真实系统剪贴板）
     await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);

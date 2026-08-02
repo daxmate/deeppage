@@ -361,5 +361,8 @@
   },
   "extDesc": {
     "message": "Chatea con DeepSeek mientras navegas — resume, extrae puntos clave, traduce y pregunta"
+  },
+  "exportWord": {
+    "message": "Descargar Word"
   }
 }

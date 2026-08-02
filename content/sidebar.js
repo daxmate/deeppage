@@ -68,6 +68,7 @@ function createChatPanel() {
         <div data-action="text">${t("exportText") || "Copy Plain Text"}</div>
         <div data-action="download">${t("exportDownload") || "Download .md"}</div>
         <div data-action="pdf">${t("exportPdf") || "Download PDF"}</div>
+        <div data-action="word">${t("exportWord") || "Download Word"}</div>
       </div>
       <button id="__dp-clear-ctx-btn" title="${t("clearContextBtn") || "Clear Context"}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>
       <button id="__dp-close">✕</button>
@@ -603,6 +604,7 @@ function createButton() {
           if (items[1]) items[1].textContent = t("exportText") || "Copy Plain Text";
           if (items[2]) items[2].textContent = t("exportDownload") || "Download .md";
           if (items[3]) items[3].textContent = t("exportPdf") || "Download PDF";
+          if (items[4]) items[4].textContent = t("exportWord") || "Download Word";
         }
         // 更新选中文本按钮
         if (_selBtn) _selBtn.textContent = t("selAskButton") || "💬 对此段提问";

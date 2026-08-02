@@ -5,6 +5,12 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.15.0] - 2026-08-02
+
+### 新增
+
+- 导出 Word 文档：导出菜单新增「下载 Word 文档」，对话生成标准 .docx（基于 docx.js，打包 404KB 进 `lib/`），含页面标题、URL 与导出时间；消息区分 🧑 User / 🤖 Assistant 角色，代码块保留等宽字体 + 浅灰底纹；Word / WPS 可直接打开、打印。文件名格式与 PDF 一致（`<页面标题>_deeppage.docx`），i18n 同步 10 种语言
+
 ## [1.14.4] - 2026-08-02
 
 ### 重构

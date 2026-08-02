@@ -47,7 +47,7 @@
 - **对话上下文裁剪** — 自动裁剪最早的消息轮次（默认 20 轮），避免超出模型 token 限制，选项页可自定义
 - **页面内容截断可配置** — 发送给 AI 的页面正文最大字符数可调（默认 15000，范围 2000-50000），长页面不再一刀切
 - **一键清除上下文** — 面板标题栏清除按钮，保留最新消息，清空历史轻松重置对话
-- **对话导出** — 导出按钮支持复制 Markdown / 复制纯文本 / 下载 .md 文件 / 下载 PDF（气泡截图式 A4，中文友好），含页面标题和 URL；纯文本导出自动剥离 Markdown 语法
+- **对话导出** — 导出按钮支持复制 Markdown / 复制纯文本 / 下载 .md 文件 / 下载 PDF（气泡截图式 A4，中文友好）/ 下载 Word 文档（标准 .docx，代码块等宽样式），含页面标题和 URL；纯文本导出自动剥离 Markdown 语法
 - **可拖拽 / 可调整大小** — 面板位置随意拖动，大小自由缩放，初始垂直居中
 - **Markdown 渲染** — 对话回复支持标题、列表、表格、代码块、引用、任务列表等完整 GFM（基于 marked）
 - **多语言** — 内置 10 种语言（中文/English/日本語/한국어/Español/Français/Deutsch/Русский/Tiếng Việt），面板和选项页均可切换
@@ -102,7 +102,7 @@ git clone https://github.com/daxmate/deeppage.git
 
 ```bash
 npm install
-npm test        # 自动运行 i18n 校验 + 38 个 E2E 用例
+npm test        # 自动运行 i18n 校验 + 39 个 E2E 用例
 ```
 
 > 完整开发指南（添加 API 提供商 / 写测试 / i18n）见 [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md)
@@ -129,12 +129,13 @@ npm test        # 自动运行 i18n 校验 + 38 个 E2E 用例
 │   └── provider-icons.js   # 提供商图标映射（悬浮按钮状态指示）
 ├── lib/                    # 第三方依赖
 │   ├── marked.umd.min.js   # Markdown 渲染引擎（marked v15）
-│   └── html2pdf.bundle.min.js  # PDF 导出
+│   ├── html2pdf.bundle.min.js  # PDF 导出
+│   └── docx.bundle.min.js   # Word 导出（docx.js，标准 .docx）
 ├── i18n-data/              # 翻译数据（标准 messages.json 格式，10 种语言）
 │   └── <语言>.json
 ├── _locales/               # Chrome 标准 i18n 目录（default_locale，供 manifest 国际化）
 │   └── zh_CN/messages.json
-├── tests/                  # Playwright E2E 测试（38 个用例）
+├── tests/                  # Playwright E2E 测试（39 个用例）
 │   ├── mock-server.js      # OpenAI 兼容 mock API
 │   └── fixtures.mjs        # 扩展 context / storage / mock 控制 fixture
 ├── scripts/

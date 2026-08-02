@@ -361,5 +361,8 @@
   },
   "extDesc": {
     "message": "ウェブ閲覧中にDeepSeekと会話 — 要約、要点抽出、翻訳、自由な質問"
+  },
+  "exportWord": {
+    "message": "Word をダウンロード"
   }
 }

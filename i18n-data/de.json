@@ -361,5 +361,8 @@
   },
   "extDesc": {
     "message": "Chatte mit DeepSeek beim Surfen — zusammenfassen, Schlüsselpunkte, übersetzen, Fragen stellen"
+  },
+  "exportWord": {
+    "message": "Word herunterladen"
   }
 }

@@ -361,5 +361,8 @@
   },
   "extDesc": {
     "message": "Trò chuyện với DeepSeek trong khi duyệt web — tóm tắt, rút gọn ý chính, dịch thuật, hỏi đáp"
+  },
+  "exportWord": {
+    "message": "Tải xuống Word"
   }
 }
