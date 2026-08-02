@@ -147,7 +147,7 @@ npm run check:i18n
 | `content/content.css` | 聊天面板样式（manifest 自动注入） |
 | `i18n-data/` | 翻译数据（10 语言 × 标准 messages.json 格式，运行时加载） |
 | `tests/` | Playwright E2E 测试 |
-| `scripts/check-i18n.mjs` | i18n 校验脚本（_locales 结构/空值/引用） |
+| `scripts/check-i18n.mjs` | i18n 校验脚本（i18n-data 结构/空值/引用） |
 
 ---
 
