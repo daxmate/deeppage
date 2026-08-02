@@ -911,25 +911,45 @@
   display: none;
 }
 
-/* 浮动按钮 */
+/* 浮动按钮
+   页面全局 CSS（如 Fluent UI 等框架的 button 规则）会覆盖我们的尺寸/圆角，
+   导致按钮被拉成扁椭圆。关键属性全部加 !important 防御。
+*/
 #__dp-btn {
-  position: fixed;
+  position: fixed !important;
   bottom: 30px;
   right: 30px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
+  width: 56px !important;
+  height: 56px !important;
+  min-width: 56px !important;
+  max-width: 56px !important;
+  min-height: 56px !important;
+  max-height: 56px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 50% !important;
   background: #4a6cf7;
   color: white;
-  border: none;
+  border: none !important;
+  box-sizing: content-box !important;
   font-size: 28px;
   box-shadow: 0 8px 24px rgba(74, 108, 247, 0.4);
   cursor: pointer;
   z-index: 2147483646;
-  transition: all 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: none !important;
+}
+#__dp-btn svg {
+  width: 28px !important;
+  height: 28px !important;
+  flex-shrink: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
 }
 #__dp-btn:hover {
   transform: scale(1.05);
