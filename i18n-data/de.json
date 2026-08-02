@@ -104,6 +104,9 @@
   "deleteButton": {
     "message": "Löschen"
   },
+  "dragSortHint": {
+    "message": "Zum Sortieren ziehen"
+  },
   "errorNoApiKey": {
     "message": "❌ Kein API-Schlüssel konfiguriert. Bitte in den Erweiterungsoptionen einrichten."
   },
@@ -161,7 +164,6 @@
   "exportRoleAssistant": {
     "message": "Assistent"
   },
-
   "extDesc": {
     "message": "Chatte mit DeepSeek beim Surfen — zusammenfassen, Schlüsselpunkte, übersetzen, Fragen stellen"
   },

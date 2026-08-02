@@ -104,6 +104,9 @@
   "deleteButton": {
     "message": "Delete"
   },
+  "dragSortHint": {
+    "message": "Drag to reorder"
+  },
   "errorNoApiKey": {
     "message": "❌ API Key not configured. Please set it in the extension options."
   },
@@ -161,7 +164,6 @@
   "exportRoleAssistant": {
     "message": "Assistant"
   },
-
   "extDesc": {
     "message": "Chat with DeepSeek while browsing — summarize, outline, translate, and ask questions"
   },

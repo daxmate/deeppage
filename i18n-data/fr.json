@@ -104,6 +104,9 @@
   "deleteButton": {
     "message": "Supprimer"
   },
+  "dragSortHint": {
+    "message": "Glisser pour réordonner"
+  },
   "errorNoApiKey": {
     "message": "❌ Clé API non configurée. Veuillez la configurer dans les options de l\\'extension."
   },
@@ -161,7 +164,6 @@
   "exportRoleAssistant": {
     "message": "Assistant"
   },
-
   "extDesc": {
     "message": "Discutez avec DeepSeek pendant la navigation — résumer, points clés, traduire, poser des questions"
   },

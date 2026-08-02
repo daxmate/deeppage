@@ -104,6 +104,9 @@
   "deleteButton": {
     "message": "删除"
   },
+  "dragSortHint": {
+    "message": "拖拽排序"
+  },
   "errorNoApiKey": {
     "message": "❌ 未配置 API Key，请在扩展设置中配置"
   },
@@ -161,7 +164,6 @@
   "exportRoleAssistant": {
     "message": "助手"
   },
-
   "extDesc": {
     "message": "在浏览网页时与 DeepSeek 对话——总结全文、提炼要点、自由问答"
   },

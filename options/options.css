@@ -201,6 +201,24 @@ body {
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
+.action-card.dragging {
+  opacity: 0.45;
+  border-color: #4A6CF7;
+  box-shadow: 0 4px 14px rgba(74,108,247,0.18);
+}
+.action-card-drag {
+  font-size: 14px;
+  color: #9ca3af;
+  cursor: grab;
+  padding: 4px 6px;
+  border-radius: 6px;
+  line-height: 1;
+  user-select: none;
+  flex-shrink: 0;
+  transition: color 0.12s, background 0.12s;
+}
+.action-card-drag:hover { color: #4A6CF7; background: #eef2ff; }
+.action-card-drag:active { cursor: grabbing; }
 .action-card-header {
   display: flex;
   align-items: center;
@@ -328,6 +346,9 @@ small a:hover { text-decoration: underline; }
   .btn-test { background: #2c3035; border-color: #373a40; color: #9ca3af; }
   .btn-test:hover { border-color: #4A6CF7; color: #6B8AFF; }
   .action-card { background: #212529; border-color: #2c3035; box-shadow: none; }
+  .action-card.dragging { border-color: #4A6CF7; box-shadow: 0 4px 14px rgba(74,108,247,0.25); }
+  .action-card-drag { color: #6b7280; }
+  .action-card-drag:hover { color: #93a5fd; background: #2a3040; }
   .action-card-header { background: #1e2025; border-bottom-color: #2c3035; }
   .action-card-index { background: #373a40; color: #6b7280; }
   .action-card-label-input { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
@@ -370,6 +391,9 @@ small a:hover { text-decoration: underline; }
 .__dp-dark-options .btn-test { background: #2c3035; border-color: #373a40; color: #9ca3af; }
 .__dp-dark-options .btn-test:hover { border-color: #4A6CF7; color: #6B8AFF; }
 .__dp-dark-options .action-card { background: #212529; border-color: #2c3035; box-shadow: none; }
+.__dp-dark-options .action-card.dragging { border-color: #4A6CF7; box-shadow: 0 4px 14px rgba(74,108,247,0.25); }
+.__dp-dark-options .action-card-drag { color: #6b7280; }
+.__dp-dark-options .action-card-drag:hover { color: #93a5fd; background: #2a3040; }
 .__dp-dark-options .action-card-header { background: #1e2025; border-bottom-color: #2c3035; }
 .__dp-dark-options .action-card-index { background: #373a40; color: #6b7280; }
 .__dp-dark-options .action-card-label-input { background: #2c3035; border-color: #373a40; color: #e4e5e7; }

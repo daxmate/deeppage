@@ -104,6 +104,9 @@
   "deleteButton": {
     "message": "삭제"
   },
+  "dragSortHint": {
+    "message": "드래그하여 정렬"
+  },
   "errorNoApiKey": {
     "message": "❌ API 키가 설정되지 않았습니다. 확장 프로그램 옵션에서 설정해주세요."
   },
@@ -161,7 +164,6 @@
   "exportRoleAssistant": {
     "message": "어시스턴트"
   },
-
   "extDesc": {
     "message": "웹 탐색 중 DeepSeek와 대화 — 요약, 핵심 정리, 번역, 자유 질문"
   },

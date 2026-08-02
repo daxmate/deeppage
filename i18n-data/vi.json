@@ -104,6 +104,9 @@
   "deleteButton": {
     "message": "Xóa"
   },
+  "dragSortHint": {
+    "message": "Kéo để sắp xếp"
+  },
   "errorNoApiKey": {
     "message": "❌ Chưa cấu hình khóa API. Vui lòng cấu hình trong tùy chọn tiện ích."
   },
@@ -161,7 +164,6 @@
   "exportRoleAssistant": {
     "message": "Trợ lý"
   },
-
   "extDesc": {
     "message": "Trò chuyện với DeepSeek trong khi duyệt web — tóm tắt, rút gọn ý chính, dịch thuật, hỏi đáp"
   },

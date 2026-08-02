@@ -55,6 +55,7 @@ function initTabs() {
 
 // ---- 常量 ----
 let actions = [];
+let dragIndex = null; // 拖拽排序：当前拖拽卡片的下标
 
 const container = document.getElementById("actions-container");
 const btnAdd = document.getElementById("btn-add");
@@ -134,6 +135,7 @@ function render() {
     card.className = "action-card";
     card.innerHTML = `
       <div class="action-card-header">
+        <span class="action-card-drag" draggable="true" title="${t("dragSortHint")}">⠿</span>
         <span class="action-card-index">${i + 1}</span>
         <input class="action-card-label-input" type="text" placeholder="${t("buttonLabelPlaceholder")}" />
         <button class="action-card-del" title="${t("deleteButton")}">✕</button>
@@ -152,6 +154,60 @@ function render() {
     container.appendChild(card);
   });
 }
+
+// ---- 快捷按钮拖拽排序（原生 HTML5 DnD，把手触发） ----
+container.addEventListener("dragstart", (e) => {
+  const handle = e.target.closest(".action-card-drag");
+  const card = handle && handle.closest(".action-card");
+  if (!card) return;
+  dragIndex = [...container.children].indexOf(card);
+  card.classList.add("dragging");
+  e.dataTransfer.effectAllowed = "move";
+  // Firefox 需要 setData 才会启动拖拽
+  e.dataTransfer.setData("text/plain", String(dragIndex));
+});
+
+container.addEventListener("dragover", (e) => {
+  e.preventDefault(); // 允许 drop
+  const card = e.target.closest(".action-card");
+  if (!card || dragIndex === null) return;
+  const cards = [...container.children];
+  const targetIndex = cards.indexOf(card);
+  if (targetIndex === -1 || targetIndex === dragIndex) return;
+  const dragged = cards[dragIndex];
+  if (targetIndex < dragIndex) {
+    container.insertBefore(dragged, card);
+  } else {
+    container.insertBefore(dragged, card.nextSibling);
+  }
+  dragIndex = targetIndex;
+});
+
+container.addEventListener("drop", (e) => {
+  e.preventDefault();
+  if (dragIndex === null) return;
+  dragIndex = null;
+  // 从当前 DOM 顺序重建 actions（dragover 已实时重排 DOM，render 依赖 actions 数组）
+  const reordered = [];
+  container.querySelectorAll(".action-card").forEach((card) => {
+    const label = card.querySelector(".action-card-label-input").value.trim();
+    const prompt = card.querySelector(".fld-prompt").value.trim();
+    if (label) reordered.push({ label, prompt });
+  });
+  actions = reordered;
+  render(); // 刷新序号
+  autoSave(); // 持久化新顺序 → quickActions
+});
+
+container.addEventListener("dragend", () => {
+  container.querySelectorAll(".action-card").forEach((c) => c.classList.remove("dragging"));
+  if (dragIndex !== null) {
+    // 拖拽取消（drop 落在卡片外）：DOM 已在 dragover 中被实时重排，恢复原顺序
+    dragIndex = null;
+    render();
+  }
+  dragIndex = null;
+});
 
 // ---- Range slider helpers ----
 function initRange(id, key, defaultVal) {

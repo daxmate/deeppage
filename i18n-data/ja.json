@@ -104,6 +104,9 @@
   "deleteButton": {
     "message": "削除"
   },
+  "dragSortHint": {
+    "message": "ドラッグで並べ替え"
+  },
   "errorNoApiKey": {
     "message": "❌ API キーが設定されていません。拡張機能のオプションで設定してください。"
   },
@@ -161,7 +164,6 @@
   "exportRoleAssistant": {
     "message": "アシスタント"
   },
-
   "extDesc": {
     "message": "ウェブ閲覧中にDeepSeekと会話 — 要約、要点抽出、翻訳、自由な質問"
   },
