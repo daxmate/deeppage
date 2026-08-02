@@ -5,6 +5,13 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.17.1] - 2026-08-02
+
+### 🐛 修复
+
+- **导出菜单下载 .md 文件后无成功提示**：此前点击“下载 Markdown”下载成功后没有任何反馈，用户无法确认是否保存成功。现已补上与 PDF / Word 一致的 SweetAlert2 成功 Toast 提示，新增 `exportMarkdownSuccess` i18n key × 10 语言；E2E 的 md 下载用例同步补充 toast 可见性断言
+- **导出文档内容硬编码中英文，不跟随界面语言**：导出的 Markdown / 纯文本文件中的文件头标题、页面/时间标签、角色名此前固定为中文（部分为英文），在非中文界面下导出内容语言错乱。现已全部改为按界面语言读取 i18n，新增 `exportDocTitle` / `exportPageLabel` / `exportTimeLabel` / `exportRoleUser` / `exportRoleAssistant` 5 个 key × 10 语言；文件头相关断言改为语言无关，保证多语言环境下的测试稳定性
+
 ## [1.17.0] - 2026-08-02
 
 ### 新增
