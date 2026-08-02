@@ -59,9 +59,14 @@ jobs:
           mkdir -p dist
           zip -r dist/deeppage-${{ github.ref_name }}.zip \
             manifest.json \
+            background/ \
+            content/ \
+            options/ \
             js/ \
+            lib/ \
+            i18n-data/ \
+            _locales/ \
             icons/ \
-            options.html \
             LICENSE \
             README.md
 
