@@ -122,6 +122,9 @@
   "exportMarkdown": {
     "message": "Markdown kopieren"
   },
+  "exportMarkdownSuccess": {
+    "message": "Markdown heruntergeladen"
+  },
   "exportPdf": {
     "message": "PDF herunterladen"
   },
@@ -143,6 +146,22 @@
   "exportWordSuccess": {
     "message": "Word-Dokument exportiert"
   },
+  "exportDocTitle": {
+    "message": "DeepPage Gesprächsexport"
+  },
+  "exportPageLabel": {
+    "message": "Seite"
+  },
+  "exportTimeLabel": {
+    "message": "Exportiert"
+  },
+  "exportRoleUser": {
+    "message": "Benutzer"
+  },
+  "exportRoleAssistant": {
+    "message": "Assistent"
+  },
+
   "extDesc": {
     "message": "Chatte mit DeepSeek beim Surfen — zusammenfassen, Schlüsselpunkte, übersetzen, Fragen stellen"
   },

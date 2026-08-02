@@ -122,6 +122,9 @@
   "exportMarkdown": {
     "message": "Markdown をコピー"
   },
+  "exportMarkdownSuccess": {
+    "message": "Markdown をダウンロードしました"
+  },
   "exportPdf": {
     "message": "PDF をダウンロード"
   },
@@ -143,6 +146,22 @@
   "exportWordSuccess": {
     "message": "Word 文書を書き出しました"
   },
+  "exportDocTitle": {
+    "message": "DeepPage 会話エクスポート"
+  },
+  "exportPageLabel": {
+    "message": "ページ"
+  },
+  "exportTimeLabel": {
+    "message": "エクスポート日時"
+  },
+  "exportRoleUser": {
+    "message": "ユーザー"
+  },
+  "exportRoleAssistant": {
+    "message": "アシスタント"
+  },
+
   "extDesc": {
     "message": "ウェブ閲覧中にDeepSeekと会話 — 要約、要点抽出、翻訳、自由な質問"
   },

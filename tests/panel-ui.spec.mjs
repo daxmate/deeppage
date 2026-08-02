@@ -126,16 +126,17 @@ test.describe("面板 UI 功能", () => {
       page.locator("#__dp-chat .__dp-msg.__dp-assistant:not([data-msg-type]) .__dp-bubble-content")
     ).toContainText("这是来自 mock 服务器的回复。", { timeout: 15000 });
 
-    // 打开导出菜单 → 点 Download .md
+    // 打开导出菜单 → 点 Download .md（同时断言 SweetAlert2 toast 成功提示出现）
     await page.click("#__dp-export-btn");
     const [download] = await Promise.all([
       page.waitForEvent("download"),
+      page.waitForSelector(".swal2-toast", { timeout: 30000, state: "visible" }),
       page.locator('#__dp-export-menu div[data-action="download"]').click(),
     ]);
     const file = await download.path();
     const fs = await import("node:fs");
     const content = fs.readFileSync(file, "utf8");
-    expect(content).toContain("# DeepPage 对话导出");
+    expect(content).toMatch(/^# .*DeepPage/m); // 文件头标题（i18n，语言无关断言）
     expect(content).toContain("导出的内容");
     expect(content).toContain("这是来自 mock 服务器的回复。");
   });

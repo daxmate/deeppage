@@ -122,6 +122,9 @@
   "exportMarkdown": {
     "message": "Sao chép Markdown"
   },
+  "exportMarkdownSuccess": {
+    "message": "Đã tải Markdown"
+  },
   "exportPdf": {
     "message": "Tải xuống PDF"
   },
@@ -143,6 +146,22 @@
   "exportWordSuccess": {
     "message": "Đã xuất tài liệu Word"
   },
+  "exportDocTitle": {
+    "message": "Xuất hội thoại DeepPage"
+  },
+  "exportPageLabel": {
+    "message": "Trang"
+  },
+  "exportTimeLabel": {
+    "message": "Xuất lúc"
+  },
+  "exportRoleUser": {
+    "message": "Người dùng"
+  },
+  "exportRoleAssistant": {
+    "message": "Trợ lý"
+  },
+
   "extDesc": {
     "message": "Trò chuyện với DeepSeek trong khi duyệt web — tóm tắt, rút gọn ý chính, dịch thuật, hỏi đáp"
   },

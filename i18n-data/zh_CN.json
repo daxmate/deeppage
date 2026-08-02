@@ -122,6 +122,9 @@
   "exportMarkdown": {
     "message": "复制 Markdown"
   },
+  "exportMarkdownSuccess": {
+    "message": "Markdown 文档已下载"
+  },
   "exportPdf": {
     "message": "下载 PDF"
   },
@@ -143,6 +146,22 @@
   "exportWordSuccess": {
     "message": "Word 导出成功"
   },
+  "exportDocTitle": {
+    "message": "DeepPage 对话导出"
+  },
+  "exportPageLabel": {
+    "message": "页面"
+  },
+  "exportTimeLabel": {
+    "message": "导出时间"
+  },
+  "exportRoleUser": {
+    "message": "用户"
+  },
+  "exportRoleAssistant": {
+    "message": "助手"
+  },
+
   "extDesc": {
     "message": "在浏览网页时与 DeepSeek 对话——总结全文、提炼要点、自由问答"
   },

@@ -122,6 +122,9 @@
   "exportMarkdown": {
     "message": "Копировать Markdown"
   },
+  "exportMarkdownSuccess": {
+    "message": "Markdown загружен"
+  },
   "exportPdf": {
     "message": "Скачать PDF"
   },
@@ -143,6 +146,22 @@
   "exportWordSuccess": {
     "message": "Документ Word экспортирован"
   },
+  "exportDocTitle": {
+    "message": "Экспорт беседы DeepPage"
+  },
+  "exportPageLabel": {
+    "message": "Страница"
+  },
+  "exportTimeLabel": {
+    "message": "Экспортировано"
+  },
+  "exportRoleUser": {
+    "message": "Пользователь"
+  },
+  "exportRoleAssistant": {
+    "message": "Ассистент"
+  },
+
   "extDesc": {
     "message": "Общайтесь с DeepSeek во время просмотра — резюмируйте, выделяйте ключевые моменты, переводите, задавайте вопросы"
   },

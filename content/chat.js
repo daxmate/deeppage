@@ -945,18 +945,18 @@ function formatExportMarkdown() {
   const msgs = chatHistory.length ? chatHistory : currentMessages;
   if (!msgs.length) return "";
   const lines = [];
-  lines.push(`# DeepPage 对话导出`);
-  lines.push(`> 页面: ${pageContext ? pageContext.title : ""}`);
+  lines.push(`# ${t("exportDocTitle") || "DeepPage Conversation Export"}`);
+  lines.push(`> ${t("exportPageLabel") || "Page"}: ${pageContext ? pageContext.title : ""}`);
   lines.push(`> URL: ${pageContext ? pageContext.url : ""}`);
-  lines.push(`> 导出时间: ${new Date().toLocaleString()}`);
+  lines.push(`> ${t("exportTimeLabel") || "Exported"}: ${new Date().toLocaleString()}`);
   lines.push("");
   lines.push("---");
   lines.push("");
   for (const msg of msgs) {
     if (msg.role === "user") {
-      lines.push(`## 🧑 ${msg.role}`);
+      lines.push(`## 🧑 ${t("exportRoleUser") || "User"}`);
     } else {
-      lines.push(`## 🤖 ${msg.role}`);
+      lines.push(`## 🤖 ${t("exportRoleAssistant") || "Assistant"}`);
     }
     lines.push("");
     lines.push(msg.content);
@@ -971,13 +971,13 @@ function formatExportText() {
   const msgs = chatHistory.length ? chatHistory : currentMessages;
   if (!msgs.length) return "";
   const lines = [];
-  lines.push(`DeepPage Conversation Export`);
-  lines.push(`Page: ${pageContext ? pageContext.title : ""}`);
+  lines.push(t("exportDocTitle") || "DeepPage Conversation Export");
+  lines.push(`${t("exportPageLabel") || "Page"}: ${pageContext ? pageContext.title : ""}`);
   lines.push(`URL: ${pageContext ? pageContext.url : ""}`);
-  lines.push(`Exported: ${new Date().toLocaleString()}`);
+  lines.push(`${t("exportTimeLabel") || "Exported"}: ${new Date().toLocaleString()}`);
   lines.push("");
   for (const msg of msgs) {
-    lines.push(`[${msg.role === "user" ? "User" : "Assistant"}]`);
+    lines.push(`[${msg.role === "user" ? (t("exportRoleUser") || "User") : (t("exportRoleAssistant") || "Assistant")}]`);
     lines.push(markdownToPlainText(msg.content));
     lines.push("");
   }
@@ -1196,6 +1196,7 @@ async function exportConversation(format) {
     _suppressClose = false;
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    toastSuccess(t("exportMarkdownSuccess") || "Markdown downloaded");
   } else {
     try {
       await navigator.clipboard.writeText(content);

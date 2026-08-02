@@ -122,6 +122,9 @@
   "exportMarkdown": {
     "message": "Markdown 복사"
   },
+  "exportMarkdownSuccess": {
+    "message": "Markdown 파일이 다운로드되었습니다"
+  },
   "exportPdf": {
     "message": "PDF 다운로드"
   },
@@ -143,6 +146,22 @@
   "exportWordSuccess": {
     "message": "Word 문서 내보내기 완료"
   },
+  "exportDocTitle": {
+    "message": "DeepPage 대화 내보내기"
+  },
+  "exportPageLabel": {
+    "message": "페이지"
+  },
+  "exportTimeLabel": {
+    "message": "내보낸 시간"
+  },
+  "exportRoleUser": {
+    "message": "사용자"
+  },
+  "exportRoleAssistant": {
+    "message": "어시스턴트"
+  },
+
   "extDesc": {
     "message": "웹 탐색 중 DeepSeek와 대화 — 요약, 핵심 정리, 번역, 자유 질문"
   },

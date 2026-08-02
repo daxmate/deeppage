@@ -122,6 +122,9 @@
   "exportMarkdown": {
     "message": "Copiar Markdown"
   },
+  "exportMarkdownSuccess": {
+    "message": "Markdown descargado"
+  },
   "exportPdf": {
     "message": "Descargar PDF"
   },
@@ -143,6 +146,22 @@
   "exportWordSuccess": {
     "message": "Documento Word exportado"
   },
+  "exportDocTitle": {
+    "message": "Exportación de conversación DeepPage"
+  },
+  "exportPageLabel": {
+    "message": "Página"
+  },
+  "exportTimeLabel": {
+    "message": "Exportado"
+  },
+  "exportRoleUser": {
+    "message": "Usuario"
+  },
+  "exportRoleAssistant": {
+    "message": "Asistente"
+  },
+
   "extDesc": {
     "message": "Chatea con DeepSeek mientras navegas — resume, extrae puntos clave, traduce y pregunta"
   },
