@@ -364,5 +364,11 @@
   },
   "exportWord": {
     "message": "下載 Word 文件"
+  },
+  "fullscreenButton": {
+    "message": "全螢幕"
+  },
+  "exitFullscreenButton": {
+    "message": "結束全螢幕"
   }
 }

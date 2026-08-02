@@ -50,7 +50,7 @@ DeepPage 的提供商配置是**单一数据源**：`js/providers.js`。添加�
 
 ```bash
 npm run check:i18n   # 确认没破坏 i18n
-npm test             # 跑全部 39 个 E2E 用例（含 options 页提供商列表渲染）
+npm test             # 跑全部 40 个 E2E 用例（含 options 页提供商列表渲染）
 ```
 
 E2E 测试会断言提供商下拉框至少 12 项（`tests/options.spec.mjs`），新增后请同步更新断言数量。
@@ -63,7 +63,7 @@ E2E 测试会断言提供商下拉框至少 12 项（`tests/options.spec.mjs`）
 
 ```bash
 npm install          # 首次
-npm test             # i18n 校验（pretest 自动跑）+ 39 个 E2E 用例
+npm test             # i18n 校验（pretest 自动跑）+ 40 个 E2E 用例
 npm run test:ui      # Playwright UI 模式（可视化调试）
 ```
 

@@ -364,5 +364,11 @@
   },
   "exportWord": {
     "message": "Word 다운로드"
+  },
+  "fullscreenButton": {
+    "message": "전체 화면"
+  },
+  "exitFullscreenButton": {
+    "message": "전체 화면 종료"
   }
 }

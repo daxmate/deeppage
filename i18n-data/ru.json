@@ -364,5 +364,11 @@
   },
   "exportWord": {
     "message": "Скачать Word"
+  },
+  "fullscreenButton": {
+    "message": "Во весь экран"
+  },
+  "exitFullscreenButton": {
+    "message": "Выйти из полноэкранного режима"
   }
 }

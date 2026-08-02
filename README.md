@@ -33,7 +33,7 @@
 
 ## 功能
 
-- **内嵌对话面板** — 点击右下角按钮，在当前页面直接展开聊天气泡
+- **内嵌对话面板** — 点击右下角按钮，在当前页面直接展开聊天气泡；支持**全屏模式**（header 按钮 / Esc 切换，铺满视口留 24px 边距），适合深入长对话
 - **注入状态指示** — 悬浮按钮图标随当前配置的 AI 提供商切换，悬停可见完整「提供商 · 模型」，切换配置实时刷新
 - **一键快捷操作** — 可自定义的快捷按钮，默认支持总结全文、提炼要点、翻译
 - **全文理解** — 自动提取页面正文作为对话上下文
@@ -102,7 +102,7 @@ git clone https://github.com/daxmate/deeppage.git
 
 ```bash
 npm install
-npm test        # 自动运行 i18n 校验 + 39 个 E2E 用例
+npm test        # 自动运行 i18n 校验 + 40 个 E2E 用例
 ```
 
 > 完整开发指南（添加 API 提供商 / 写测试 / i18n）见 [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md)
@@ -135,7 +135,7 @@ npm test        # 自动运行 i18n 校验 + 39 个 E2E 用例
 │   └── <语言>.json
 ├── _locales/               # Chrome 标准 i18n 目录（default_locale，供 manifest 国际化）
 │   └── zh_CN/messages.json
-├── tests/                  # Playwright E2E 测试（39 个用例）
+├── tests/                  # Playwright E2E 测试（40 个用例）
 │   ├── mock-server.js      # OpenAI 兼容 mock API
 │   └── fixtures.mjs        # 扩展 context / storage / mock 控制 fixture
 ├── scripts/

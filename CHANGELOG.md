@@ -5,6 +5,12 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.16.0] - 2026-08-02
+
+### 新增
+
+- 全屏模式：面板 header 新增全屏按钮（⛶），点击后面板铺满视口（四边留 24px 边距），聊天区大幅扩展，适合深入长对话；再次点击按钮或按 Esc 退出并恢复原尺寸/位置；全屏期间禁用拖拽/缩放；i18n 同步 10 种语言
+
 ## [1.15.0] - 2026-08-02
 
 ### 新增

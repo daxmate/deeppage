@@ -364,5 +364,11 @@
   },
   "exportWord": {
     "message": "Word herunterladen"
+  },
+  "fullscreenButton": {
+    "message": "Vollbild"
+  },
+  "exitFullscreenButton": {
+    "message": "Vollbild beenden"
   }
 }

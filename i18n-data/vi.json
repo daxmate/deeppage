@@ -364,5 +364,11 @@
   },
   "exportWord": {
     "message": "Tải xuống Word"
+  },
+  "fullscreenButton": {
+    "message": "Toàn màn hình"
+  },
+  "exitFullscreenButton": {
+    "message": "Thoát toàn màn hình"
   }
 }

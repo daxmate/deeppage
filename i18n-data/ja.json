@@ -364,5 +364,11 @@
   },
   "exportWord": {
     "message": "Word をダウンロード"
+  },
+  "fullscreenButton": {
+    "message": "全画面"
+  },
+  "exitFullscreenButton": {
+    "message": "全画面を終了"
   }
 }

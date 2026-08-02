@@ -19,6 +19,48 @@ test.describe("面板 UI 功能", () => {
     await expect(page.locator("#__dp-input")).toBeEnabled({ timeout: 15000 });
   });
 
+  test("全屏模式：按钮切换铺满视口（四边 24px），Esc 退出并恢复", async ({ page }) => {
+    const panel = page.locator("#__dp-panel");
+    const fsBtn = page.locator("#__dp-fullscreen-btn");
+    await expect(fsBtn).toBeVisible();
+
+    // 记录进入前的普通模式尺寸
+    const before = await panel.boundingBox();
+    const vw0 = await page.evaluate(() => window.innerWidth);
+    expect(before.width).toBeLessThan(vw0);
+
+    // 用合成 click 触发（Playwright 坐标点击在此场景会先误命中隐藏的浮动按钮 #__dp-btn，
+    // 导致面板被 togglePanel 关闭；dispatchEvent 直接派发到目标元素，行为与真实用户一致）
+    const clickFs = () =>
+      page.evaluate(() => {
+        document
+          .getElementById("__dp-fullscreen-btn")
+          .dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+      });
+
+    // 点击进入全屏：面板铺满视口 - 48px（24px × 2）
+    await clickFs();
+    await expect(panel).toHaveClass(/__dp-fullscreen/);
+    const vw = await page.evaluate(() => window.innerWidth);
+    const vh = await page.evaluate(() => window.innerHeight);
+    const fsBox = await panel.boundingBox();
+    expect(Math.abs(fsBox.width - (vw - 48))).toBeLessThan(2);
+    expect(Math.abs(fsBox.height - (vh - 48))).toBeLessThan(2);
+
+    // Esc 退出全屏：class 移除，尺寸恢复
+    await page.keyboard.press("Escape");
+    await expect(panel).not.toHaveClass(/__dp-fullscreen/);
+    const after = await panel.boundingBox();
+    expect(Math.abs(after.width - before.width)).toBeLessThan(2);
+    expect(Math.abs(after.height - before.height)).toBeLessThan(2);
+
+    // 再点按钮进入，再点按钮退出（按钮同样能切回）
+    await clickFs();
+    await expect(panel).toHaveClass(/__dp-fullscreen/);
+    await clickFs();
+    await expect(panel).not.toHaveClass(/__dp-fullscreen/);
+  });
+
   test("发送消息后历史面板列出对话", async ({ page, mock }) => {
     // 关闭 AI 标题生成（失败降级），历史标题保持为消息截断（标题生成有独立测试 title-gen）
     await mock.config({ failNonStream: true });

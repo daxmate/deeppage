@@ -16,7 +16,7 @@ Chat with DeepSeek while browsing — summarize, outline, translate, and ask que
 
 ## Features
 
-- **Inline Chat Panel** — Click the floating button to open a chat bubble on any page
+- **Inline Chat Panel** — Click the floating button to open a chat bubble on any page; **fullscreen mode** (header button / Esc toggle, fills viewport with 24px margin) for deeper long conversations
 - **Provider Status Indicator** — The floating button icon switches to the current AI provider's logo; hover to see the full "provider · model", refreshed live when settings change
 - **Quick Actions** — Customizable buttons for summarize, outline, translate, or anything you define
 - **Full Page Context** — Automatically extracts page content as conversation context
@@ -116,7 +116,7 @@ npm test        # runs i18n validation + 39 E2E cases
 │   └── <lang>.json
 ├── _locales/               # Standard Chrome i18n dir (default_locale, used for manifest localization)
 │   └── zh_CN/messages.json
-├── tests/                  # Playwright E2E tests (39 cases)
+├── tests/                  # Playwright E2E tests (40 cases)
 │   ├── mock-server.js      # OpenAI-compatible mock API
 │   └── fixtures.mjs        # Extension context / storage / mock control fixtures
 ├── scripts/

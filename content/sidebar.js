@@ -71,6 +71,7 @@ function createChatPanel() {
         <div data-action="word">${t("exportWord") || "Download Word"}</div>
       </div>
       <button id="__dp-clear-ctx-btn" title="${t("clearContextBtn") || "Clear Context"}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>
+      <button id="__dp-fullscreen-btn" title="${t("fullscreenButton") || "Fullscreen"}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg></button>
       <button id="__dp-close">✕</button>
     </div>
     <div id="__dp-context-bar" class="__dp-hidden">
@@ -107,6 +108,7 @@ function enableDrag(headerEl, panelEl) {
     startLeft,
     startTop;
   headerEl.addEventListener("mousedown", (e) => {
+    if (panelEl.classList.contains("__dp-fullscreen")) return;
     if (e.target.closest("button") || e.target.closest("select")) return;
     isDragging = true;
     const rect = panelEl.getBoundingClientRect();
@@ -145,6 +147,7 @@ function enableResize(panelEl) {
 
   handles.forEach((handle) => {
     handle.addEventListener("mousedown", (e) => {
+      if (panelEl.classList.contains("__dp-fullscreen")) return;
       e.preventDefault();
       e.stopPropagation();
 
@@ -229,7 +232,6 @@ function togglePanel() {
   const btn = document.getElementById("__dp-btn");
   panel.classList.toggle("__dp-open", panelOpen);
   btn.classList.toggle("__dp-hidden", panelOpen);
-
   if (panelOpen) {
     if (!chatHistory.length) {
       loadActiveConversation();
@@ -256,6 +258,25 @@ function togglePanel() {
     document.removeEventListener("click", handleClickOutside);
     document.getElementById("__dp-quick-actions").classList.add("__dp-hidden");
   }
+}
+
+// ---- 全屏模式：面板铺满视口（四边留 24px margin） ----
+let isFullscreen = false;
+const FS_MAXIMIZE_SVG =
+  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>';
+const FS_MINIMIZE_SVG =
+  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>';
+
+function toggleFullscreen() {
+  const panel = document.getElementById("__dp-panel");
+  const btn = document.getElementById("__dp-fullscreen-btn");
+  if (!panel || !btn) return;
+  isFullscreen = !isFullscreen;
+  panel.classList.toggle("__dp-fullscreen", isFullscreen);
+  btn.innerHTML = isFullscreen ? FS_MINIMIZE_SVG : FS_MAXIMIZE_SVG;
+  btn.title =
+    t(isFullscreen ? "exitFullscreenButton" : "fullscreenButton") ||
+    (isFullscreen ? "Exit Fullscreen" : "Fullscreen");
 }
 
 function createSelBtn() {
@@ -521,6 +542,10 @@ function createButton() {
     document.getElementById("__dp-clear-ctx-btn").addEventListener("click", () => {
       clearContext();
     });
+    document.getElementById("__dp-fullscreen-btn").addEventListener("click", toggleFullscreen);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && isFullscreen) toggleFullscreen();
+    });
     document.getElementById("__dp-new-btn").addEventListener("click", () => {
       if (currentMessages.length === 0) return;
       newConversation();
@@ -593,6 +618,11 @@ function createButton() {
         // 更新清除上下文按钮
         const clearCtxBtn = document.getElementById("__dp-clear-ctx-btn");
         if (clearCtxBtn) clearCtxBtn.title = t("clearContextBtn") || "Clear Context";
+        const fsBtn = document.getElementById("__dp-fullscreen-btn");
+        if (fsBtn)
+          fsBtn.title =
+            t(isFullscreen ? "exitFullscreenButton" : "fullscreenButton") ||
+            (isFullscreen ? "Exit Fullscreen" : "Fullscreen");
         // 更新导出按钮
         const exportBtn = document.getElementById("__dp-export-btn");
         if (exportBtn) exportBtn.title = t("exportButton") || "Export";
