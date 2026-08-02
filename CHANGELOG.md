@@ -5,6 +5,12 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.16.3] - 2026-08-02
+
+### 修复
+
+- **API Key 改为仅本地保存，不再云端同步**：此前 API Key 存储在 `chrome.storage.sync`，会跟随 Chrome 登录的 Google 账号同步到云端。现已改为 `chrome.storage.local` 仅保存在本机；其余非敏感设置（模型、参数、快速操作、语言等）仍保持跨设备同步不受影响。旧版本已保存的 Key 会自动迁移到本地并从云端清除，无需重新填写；“重置所有设置”也会一并清除本地 Key；新增迁移回归测试
+
 ## [1.16.2] - 2026-08-02
 
 ### 修复
