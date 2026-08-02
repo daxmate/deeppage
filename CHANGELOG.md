@@ -10,6 +10,7 @@
 ### 修复
 
 - **悬浮按钮在部分页面变形**：某些站点（如 Microsoft Partner Center 等 Fluent UI 体系）的全局 CSS 会覆盖按钮尺寸/圆角，导致按钮被拉成扁椭圆。已为按钮关键属性（尺寸、内边距、圆角、边框等）全部加 `!important` 防御，并新增按钮内图标尺寸保护；同时用 JS 内联样式兜底（双保险），`transition` 从 `all` 收窄为仅 transform/box-shadow，避免被覆盖时的拉伸动画
+- **测试稳定性**：修复 `provider-badge` 用例的异步竞态（等待 storage 回调更新按钮 title 后再断言），消除 CI 偶发失败
 
 ## [1.16.0] - 2026-08-02
 
