@@ -16,6 +16,7 @@
   display: none;
   flex-direction: column;
   overflow: hidden;
+  overscroll-behavior: contain;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   z-index: 2147483647;
   transition: box-shadow 0.2s;
@@ -307,6 +308,7 @@
   flex: 1;
   padding: 16px;
   overflow-y: auto;
+  overscroll-behavior: contain;
   background: var(--dp-chat-bg);
   display: flex;
   flex-direction: column;
@@ -649,6 +651,7 @@
 .__dp-history-scroll {
   flex: 1;
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 8px;
 }
 .__dp-history-empty {
@@ -1013,5 +1016,6 @@
   line-height: 1.5;
   max-height: 240px;
   overflow-y: auto;
+  overscroll-behavior: contain;
   font-size: 12px;
 }

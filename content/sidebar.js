@@ -101,30 +101,55 @@ function createChatPanel() {
   return panel;
 }
 
+// 拖拽期间用 setPointerCapture 完全接管鼠标：
+// 指针捕获后所有 pointer 事件只派发给捕获元素，页面元素收不到任何鼠标事件
+// （不会触发 hover、文本选中、页面自身的拖拽逻辑），pointerup 后自动释放。
+// 注意：不能在 pointerdown 立即捕获 —— header 内的菜单项（导出/语言，都是 div）
+// 会被误捕获，导致随后的 click target 变成 header、菜单点击失效。
+// 因此等位移超过阈值才正式拖拽并捕获；此时鼠标仍在 header 内，页面收不到事件。
+const PANEL_DRAG_THRESHOLD = 4; // px
+
 function enableDrag(headerEl, panelEl) {
   let isDragging = false,
+    pressed = false,
+    pointerId = 0,
     startX,
     startY,
     startLeft,
     startTop;
-  headerEl.addEventListener("mousedown", (e) => {
+  headerEl.addEventListener("pointerdown", (e) => {
     if (panelEl.classList.contains("__dp-fullscreen")) return;
-    if (e.target.closest("button") || e.target.closest("select")) return;
-    isDragging = true;
+    // header 内交互控件（按钮/语言菜单/导出菜单）不启动拖拽
+    if (e.target.closest("button, select, .__dp-lang-menu, .__dp-lang-item, #__dp-export-menu"))
+      return;
+    pressed = true;
+    pointerId = e.pointerId;
     const rect = panelEl.getBoundingClientRect();
     startX = e.clientX;
     startY = e.clientY;
     startLeft = rect.left;
     startTop = rect.top;
-    panelEl.style.left = startLeft + "px";
-    panelEl.style.top = startTop + "px";
-    panelEl.style.transform = "none";
-    panelEl.style.bottom = "auto";
-    panelEl.style.right = "auto";
     e.preventDefault();
   });
-  document.addEventListener("mousemove", (e) => {
-    if (!isDragging) return;
+  headerEl.addEventListener("pointermove", (e) => {
+    if (!pressed || e.pointerId !== pointerId) return;
+    if (!isDragging) {
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      if (Math.abs(dx) < PANEL_DRAG_THRESHOLD && Math.abs(dy) < PANEL_DRAG_THRESHOLD) return;
+      // 位移超过阈值 → 正式进入拖拽并接管鼠标
+      isDragging = true;
+      panelEl.style.left = startLeft + "px";
+      panelEl.style.top = startTop + "px";
+      panelEl.style.transform = "none";
+      panelEl.style.bottom = "auto";
+      panelEl.style.right = "auto";
+      try {
+        headerEl.setPointerCapture(e.pointerId);
+      } catch (err) {
+        /* 极少数环境不支持捕获时退化为普通拖动 */
+      }
+    }
     let left = startLeft + e.clientX - startX;
     let top = startTop + e.clientY - startY;
     // 边界限制
@@ -135,9 +160,13 @@ function enableDrag(headerEl, panelEl) {
     panelEl.style.left = left + "px";
     panelEl.style.top = top + "px";
   });
-  document.addEventListener("mouseup", () => {
+  const endDrag = (e) => {
+    if (e.pointerId !== pointerId) return;
+    pressed = false;
     isDragging = false;
-  });
+  };
+  headerEl.addEventListener("pointerup", endDrag);
+  headerEl.addEventListener("pointercancel", endDrag);
 }
 
 function enableResize(panelEl) {
@@ -146,10 +175,16 @@ function enableResize(panelEl) {
     minH = 280;
 
   handles.forEach((handle) => {
-    handle.addEventListener("mousedown", (e) => {
+    handle.addEventListener("pointerdown", (e) => {
       if (panelEl.classList.contains("__dp-fullscreen")) return;
       e.preventDefault();
       e.stopPropagation();
+      // 完全接管鼠标：捕获后所有事件派发给手柄，页面收不到
+      try {
+        handle.setPointerCapture(e.pointerId);
+      } catch (err) {
+        /* 不支持捕获时退化为普通缩放 */
+      }
 
       const dir = handle.dataset.dir;
       const rect = panelEl.getBoundingClientRect();
@@ -205,12 +240,14 @@ function enableResize(panelEl) {
       };
 
       const onEnd = () => {
-        document.removeEventListener("mousemove", onMove);
-        document.removeEventListener("mouseup", onEnd);
+        handle.removeEventListener("pointermove", onMove);
+        handle.removeEventListener("pointerup", onEnd);
+        handle.removeEventListener("pointercancel", onEnd);
       };
 
-      document.addEventListener("mousemove", onMove);
-      document.addEventListener("mouseup", onEnd);
+      handle.addEventListener("pointermove", onMove);
+      handle.addEventListener("pointerup", onEnd);
+      handle.addEventListener("pointercancel", onEnd);
     });
   });
 }
@@ -227,6 +264,29 @@ function handleClickOutside(e) {
   if (path.includes(panel) || path.includes(btn)) return;
   // 面板当前开启 → 关闭
   if (panelOpen) togglePanel();
+}
+
+// 面板内滚轮拦截：面板内无可滚动区域、或滚动已到边界时 preventDefault，
+// 阻止滚轮穿透导致主页面跟着滚动。
+// 正常情况（面板内滚动区还有余地）不干预，面板内部照常滚动。
+function onPanelWheel(e) {
+  const panel = e.currentTarget;
+  // 收集 target 到面板之间的可滚动元素（聊天区 / 历史列表 / 思考框等）
+  const scrollers = [];
+  let node = e.target;
+  while (node && node !== panel) {
+    if (node.scrollHeight > node.clientHeight + 1) scrollers.push(node);
+    node = node.parentElement;
+  }
+  if (!scrollers.length) {
+    e.preventDefault();
+    return;
+  }
+  const delta = e.deltaY;
+  const canScroll = scrollers.some((sc) =>
+    delta > 0 ? sc.scrollTop < sc.scrollHeight - sc.clientHeight - 1 : sc.scrollTop > 1
+  );
+  if (!canScroll) e.preventDefault();
 }
 
 function togglePanel() {
@@ -395,9 +455,15 @@ function enableBtnDrag(btn) {
     startTop = 0,
     dragging = false;
 
-  btn.addEventListener("mousedown", (e) => {
+  btn.addEventListener("pointerdown", (e) => {
     if (e.button !== 0) return;
     e.preventDefault();
+    // 完全接管鼠标：捕获后事件只派发给按钮，页面收不到
+    try {
+      btn.setPointerCapture(e.pointerId);
+    } catch (err) {
+      /* 不支持捕获时退化为普通拖拽 */
+    }
     const rect = btn.getBoundingClientRect();
     startX = e.clientX;
     startY = e.clientY;
@@ -420,8 +486,9 @@ function enableBtnDrag(btn) {
     };
 
     const onUp = (ev) => {
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
+      btn.removeEventListener("pointermove", onMove);
+      btn.removeEventListener("pointerup", onUp);
+      btn.removeEventListener("pointercancel", onUp);
       btn.classList.remove("__dp-dragging");
       if (dragging) {
         btn._dpDragged = true;
@@ -440,8 +507,9 @@ function enableBtnDrag(btn) {
       }
     };
 
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
+    btn.addEventListener("pointermove", onMove);
+    btn.addEventListener("pointerup", onUp);
+    btn.addEventListener("pointercancel", onUp);
   });
 }
 
@@ -521,6 +589,9 @@ function createButton() {
     // 启用拖拽移动 + 四角缩放
     enableDrag(document.getElementById("__dp-panel-header"), chatPanel);
     enableResize(chatPanel);
+
+    // 滚轮拦截：面板内滚动到边界/无可滚动区域时不传给主页面
+    chatPanel.addEventListener("wheel", onPanelWheel, { passive: false });
 
     // 绑定事件
     document.getElementById("__dp-close").addEventListener("click", togglePanel);
