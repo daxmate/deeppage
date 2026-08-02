@@ -141,7 +141,7 @@ npm run check:i18n
 | `background/background.js` | Service Worker：API 调用、SSE 解析、非流式兜底 |
 | `js/utils.js` | 工具函数（含 markdown 渲染/纯文本剥离） |
 | `js/providers.js` | API 提供商单一数据源 |
-| `js/i18n.js` | 多语言加载器（数据在 `_locales/`） |
+| `js/i18n.js` | 多语言加载器（数据在 `i18n-data/`） |
 | `options/options.js` + `options.html` | 选项页 |
 | `content/spa-patch.js` | 主世界 SPA 导航补丁（清理选中按钮） |
 | `content/content.css` | 聊天面板样式（manifest 自动注入） |
