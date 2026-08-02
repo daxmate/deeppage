@@ -1,0 +1,365 @@
+{
+  "appName": {
+    "message": "DeepPage"
+  },
+  "appDesc": {
+    "message": "在浏览网页时与 DeepSeek 对话——总结全文、提炼要点、自由问答"
+  },
+  "panelTitle": {
+    "message": "DeepPage"
+  },
+  "inputPlaceholder": {
+    "message": "输入问题..."
+  },
+  "contextLoaded": {
+    "message": "已加载「$1」作为对话背景"
+  },
+  "loginNoticeTitle": {
+    "message": "需要配置 DeepSeek API Key"
+  },
+  "loginNoticeStep1": {
+    "message": "· 点击扩展图标 → 选项 → 输入 API Key"
+  },
+  "loginNoticeStep2": {
+    "message": "· 或去 platform.deepseek.com 获取"
+  },
+  "errorNoApiKey": {
+    "message": "❌ 未配置 API Key，请在扩展设置中配置"
+  },
+  "optionTitle": {
+    "message": "DeepPage 设置"
+  },
+  "optionDesc": {
+    "message": "使用 DeepSeek 官方 API 与浏览的网页对话"
+  },
+  "apiKeyLabel": {
+    "message": "API Key"
+  },
+  "apiKeyPlaceholder": {
+    "message": "sk-..."
+  },
+  "getApiKeyLink": {
+    "message": "从 platform.deepseek.com 获取"
+  },
+  "quickActionsSection": {
+    "message": "快捷操作按钮"
+  },
+  "addButton": {
+    "message": "＋ 添加按钮"
+  },
+  "saveButton": {
+    "message": "保存"
+  },
+  "savedSuccess": {
+    "message": "✅ 已保存"
+  },
+  "apiKeyRequired": {
+    "message": "请输入 API Key"
+  },
+  "buttonLabel": {
+    "message": "按钮文字"
+  },
+  "promptLabel": {
+    "message": "提示词"
+  },
+  "buttonLabelPlaceholder": {
+    "message": "如 📝 总结全文"
+  },
+  "promptPlaceholder": {
+    "message": "点击按钮时自动输入的提示词"
+  },
+  "deleteButton": {
+    "message": "删除"
+  },
+  "renameButton": {
+    "message": "重命名"
+  },
+  "renamePlaceholder": {
+    "message": "输入新标题"
+  },
+  "copyButton": {
+    "message": "复制"
+  },
+  "historyButton": {
+    "message": "历史"
+  },
+  "backToChat": {
+    "message": "返回"
+  },
+  "historyEmpty": {
+    "message": "暂无对话"
+  },
+  "historySearchPlaceholder": {
+    "message": "搜索对话…"
+  },
+  "historyNoMatch": {
+    "message": "无匹配对话"
+  },
+  "justNow": {
+    "message": "刚刚"
+  },
+  "newChat": {
+    "message": "新对话"
+  },
+  "newChatShort": {
+    "message": "新对话"
+  },
+  "titleGenPrompt": {
+    "message": "为这段对话生成一个简洁的中文标题，不超过15个字，不要引号、不要句号，直接输出标题："
+  },
+  "selAskButton": {
+    "message": "💬 对此段提问"
+  },
+  "selContextLabel": {
+    "message": "选中内容"
+  },
+  "maxRoundsLabel": {
+    "message": "最大对话轮数"
+  },
+  "maxRoundsDesc": {
+    "message": "超过此轮数的早期消息将被自动裁剪，避免超出 token 限制"
+  },
+  "clearContextBtn": {
+    "message": "清除上下文"
+  },
+  "contextCleared": {
+    "message": "已清除上下文"
+  },
+  "exportButton": {
+    "message": "导出对话"
+  },
+  "exportMarkdown": {
+    "message": "复制 Markdown"
+  },
+  "exportText": {
+    "message": "复制纯文本"
+  },
+  "exportDownload": {
+    "message": "下载 .md 文件"
+  },
+  "exportPdf": {
+    "message": "下载 PDF"
+  },
+  "exportExported": {
+    "message": "已复制到剪贴板"
+  },
+  "apiTypeLabel": {
+    "message": "API 格式"
+  },
+  "apiBaseUrlLabel": {
+    "message": "接口地址"
+  },
+  "apiBaseUrlHint": {
+    "message": "填写完整的 API 基础路径（如 /v1 后缀）"
+  },
+  "customLabel": {
+    "message": "🔧 自定义"
+  },
+  "apiModelLabel": {
+    "message": "模型"
+  },
+  "apiModelHint": {
+    "message": "输入你的端点支持的模型名称"
+  },
+  "apiProviderLabel": {
+    "message": "API 提供商"
+  },
+  "testApiLabel": {
+    "message": "测试连接"
+  },
+  "testApiButton": {
+    "message": "测试连接"
+  },
+  "testApiSuccess": {
+    "message": "✅ 连接成功"
+  },
+  "testApiFailed": {
+    "message": "❌ 连接失败："
+  },
+  "testApiRequired": {
+    "message": "请先填写接口地址、API Key 和模型名称"
+  },
+  "tabApi": {
+    "message": "API"
+  },
+  "tabQuick": {
+    "message": "快捷按钮"
+  },
+  "tabAppearance": {
+    "message": "外观"
+  },
+  "selectModelPlaceholder": {
+    "message": "-- 选择或输入模型名称 --"
+  },
+  "apiProviderHint": {
+    "message": "选择 AI 服务提供商"
+  },
+  "apiTypeDesc": {
+    "message": "OpenAI 兼容接口或 Anthropic 格式"
+  },
+  "apiBaseUrlHint2": {
+    "message": "API 接口地址"
+  },
+  "apiKeyHint": {
+    "message": "输入你的 API Key"
+  },
+  "apiModelHint2": {
+    "message": "选择或输入模型名称"
+  },
+  "testApiDesc": {
+    "message": "验证 API Key 和接口是否可用"
+  },
+  "languageDesc": {
+    "message": "界面语言"
+  },
+  "darkModeDesc": {
+    "message": "使用深色主题"
+  },
+  "maxRoundsDesc2": {
+    "message": "超出限制的早期消息将被自动裁剪"
+  },
+  "maxContextLabel": {
+    "message": "页面内容截断"
+  },
+  "maxContextDesc": {
+    "message": "发送给 AI 的页面正文最大字符数，超出部分将被截断"
+  },
+  "sectionConfig": {
+    "message": "配置"
+  },
+  "sectionApi": {
+    "message": "API"
+  },
+  "sectionQuick": {
+    "message": "快捷按钮"
+  },
+  "sectionPreferences": {
+    "message": "偏好"
+  },
+  "sectionAppearance": {
+    "message": "外观"
+  },
+  "groupConnection": {
+    "message": "连接"
+  },
+  "groupEndpoint": {
+    "message": "接口"
+  },
+  "groupLanguage": {
+    "message": "语言"
+  },
+  "groupTheme": {
+    "message": "主题"
+  },
+  "groupConversation": {
+    "message": "对话"
+  },
+  "groupButtons": {
+    "message": "按钮"
+  },
+  "defaultSummarizeLabel": {
+    "message": "📝 总结全文"
+  },
+  "defaultSummarizePrompt": {
+    "message": "请用中文总结这篇网页正文部分的核心内容"
+  },
+  "defaultOutlineLabel": {
+    "message": "🎯 提炼要点"
+  },
+  "defaultOutlinePrompt": {
+    "message": "请提炼这篇网页正文部分的要点，以列表形式列出"
+  },
+  "defaultTranslateLabel": {
+    "message": "🌐 翻译"
+  },
+  "defaultTranslatePrompt": {
+    "message": "请将这篇网页的正文部分翻译成中文"
+  },
+  "newButtonLabel": {
+    "message": "新按钮"
+  },
+  "languageLabel": {
+    "message": "语言"
+  },
+  "darkModeLabel": {
+    "message": "深色模式"
+  },
+  "groupParameters": {
+    "message": "请求参数"
+  },
+  "streamOutputLabel": {
+    "message": "流式输出"
+  },
+  "streamOutputDesc": {
+    "message": "逐字显示 AI 回复内容。若 API 不支持流式，请关闭此选项"
+  },
+  "groupAdvanced": {
+    "message": "高级参数"
+  },
+  "temperatureLabel": {
+    "message": "温度"
+  },
+  "temperatureDesc": {
+    "message": "控制输出的随机性，值越高越有创造力"
+  },
+  "maxTokensLabel": {
+    "message": "最多 Token"
+  },
+  "maxTokensDesc": {
+    "message": "单次回复的最大 token 数"
+  },
+  "reasoningLabel": {
+    "message": "推理深度"
+  },
+  "reasoningDesc": {
+    "message": "控制模型的思考深度，部分模型自动适配"
+  },
+  "topPDesc": {
+    "message": "核采样阈值，与温度互补"
+  },
+  "freqPenaltyLabel": {
+    "message": "频率惩罚"
+  },
+  "freqPenaltyDesc": {
+    "message": "惩罚已出现过的 token，减少重复"
+  },
+  "presPenaltyLabel": {
+    "message": "存在惩罚"
+  },
+  "presPenaltyDesc": {
+    "message": "鼓励模型谈论新主题，提高多样性"
+  },
+  "stopSeqLabel": {
+    "message": "停止序列"
+  },
+  "stopSeqDesc": {
+    "message": "逗号分隔，遇到这些序列时停止生成"
+  },
+  "systemPromptLabel": {
+    "message": "自定义 System Prompt"
+  },
+  "systemPromptDesc": {
+    "message": "附加在自动生成的上下文提示之后"
+  },
+  "systemPromptPlaceholder": {
+    "message": "例如：请一步步思考，用中文回答"
+  },
+  "thinkingLabel": {
+    "message": "思考过程"
+  },
+  "resetButton": {
+    "message": "重置所有设置"
+  },
+  "resetConfirm": {
+    "message": "确定要重置所有设置吗？此操作不可撤销。"
+  },
+  "resetHint": {
+    "message": "所有配置将恢复为默认值，不可撤销"
+  },
+  "extName": {
+    "message": "DeepPage"
+  },
+  "extDesc": {
+    "message": "在浏览网页时与 DeepSeek 对话——总结全文、提炼要点、自由问答"
+  }
+}

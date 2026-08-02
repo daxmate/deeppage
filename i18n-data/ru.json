@@ -1,0 +1,365 @@
+{
+  "appName": {
+    "message": "DeepPage"
+  },
+  "appDesc": {
+    "message": "Общайтесь с DeepSeek во время просмотра — резюмируйте, выделяйте ключевые моменты, переводите, задавайте вопросы"
+  },
+  "panelTitle": {
+    "message": "DeepPage"
+  },
+  "inputPlaceholder": {
+    "message": "Задайте вопрос..."
+  },
+  "contextLoaded": {
+    "message": "«$1» загружен как контекст беседы"
+  },
+  "loginNoticeTitle": {
+    "message": "Требуется ключ API DeepSeek"
+  },
+  "loginNoticeStep1": {
+    "message": "· Нажмите на значок расширения → Параметры → Введите ключ API"
+  },
+  "loginNoticeStep2": {
+    "message": "· Или получите его на platform.deepseek.com"
+  },
+  "errorNoApiKey": {
+    "message": "❌ Ключ API не настроен. Пожалуйста, настройте его в параметрах расширения."
+  },
+  "optionTitle": {
+    "message": "Настройки DeepPage"
+  },
+  "optionDesc": {
+    "message": "Общайтесь с DeepSeek через официальный API во время просмотра веб-страниц"
+  },
+  "apiKeyLabel": {
+    "message": "Ключ API"
+  },
+  "apiKeyPlaceholder": {
+    "message": "sk-..."
+  },
+  "getApiKeyLink": {
+    "message": "Получить на platform.deepseek.com"
+  },
+  "quickActionsSection": {
+    "message": "Кнопки быстрых действий"
+  },
+  "addButton": {
+    "message": "＋ Добавить кнопку"
+  },
+  "saveButton": {
+    "message": "Сохранить"
+  },
+  "savedSuccess": {
+    "message": "✅ Сохранено"
+  },
+  "apiKeyRequired": {
+    "message": "Пожалуйста, введите ключ API"
+  },
+  "buttonLabel": {
+    "message": "Текст кнопки"
+  },
+  "promptLabel": {
+    "message": "Подсказка"
+  },
+  "buttonLabelPlaceholder": {
+    "message": "например 📝 Резюме"
+  },
+  "promptPlaceholder": {
+    "message": "Текст, отправляемый при нажатии кнопки"
+  },
+  "deleteButton": {
+    "message": "Удалить"
+  },
+  "renameButton": {
+    "message": "Переименовать"
+  },
+  "renamePlaceholder": {
+    "message": "Введите новый заголовок"
+  },
+  "copyButton": {
+    "message": "Копировать"
+  },
+  "historyButton": {
+    "message": "История"
+  },
+  "backToChat": {
+    "message": "Назад"
+  },
+  "historyEmpty": {
+    "message": "Нет диалогов"
+  },
+  "historySearchPlaceholder": {
+    "message": "Поиск диалогов…"
+  },
+  "historyNoMatch": {
+    "message": "Нет подходящих диалогов"
+  },
+  "justNow": {
+    "message": "только что"
+  },
+  "newChat": {
+    "message": "Новый диалог"
+  },
+  "newChatShort": {
+    "message": "Новый"
+  },
+  "titleGenPrompt": {
+    "message": "Создайте краткий заголовок на русском для этого диалога, не более 10 слов, без кавычек и точек, выведите только заголовок:"
+  },
+  "selAskButton": {
+    "message": "💬 Спросить о выделенном"
+  },
+  "selContextLabel": {
+    "message": "Выделенное"
+  },
+  "maxRoundsLabel": {
+    "message": "Максимум раундов"
+  },
+  "maxRoundsDesc": {
+    "message": "Старые сообщения сверх этого лимита будут автоматически обрезаны"
+  },
+  "clearContextBtn": {
+    "message": "Очистить контекст"
+  },
+  "contextCleared": {
+    "message": "Контекст очищен"
+  },
+  "exportButton": {
+    "message": "Экспорт"
+  },
+  "exportMarkdown": {
+    "message": "Копировать Markdown"
+  },
+  "exportText": {
+    "message": "Копировать текст"
+  },
+  "exportDownload": {
+    "message": "Скачать .md"
+  },
+  "exportPdf": {
+    "message": "Скачать PDF"
+  },
+  "exportExported": {
+    "message": "Скопировано в буфер обмена"
+  },
+  "apiTypeLabel": {
+    "message": "Формат API"
+  },
+  "apiBaseUrlLabel": {
+    "message": "Базовый URL"
+  },
+  "apiBaseUrlHint": {
+    "message": "Полный базовый путь (включая суффикс /v1)"
+  },
+  "customLabel": {
+    "message": "🔧 Пользовательский"
+  },
+  "apiModelLabel": {
+    "message": "Модель"
+  },
+  "apiModelHint": {
+    "message": "Название модели, поддерживаемой вашим endpoint"
+  },
+  "apiProviderLabel": {
+    "message": "Поставщик API"
+  },
+  "testApiLabel": {
+    "message": "Проверить соединение"
+  },
+  "testApiButton": {
+    "message": "Проверить соединение"
+  },
+  "testApiSuccess": {
+    "message": "✅ Соединение OK"
+  },
+  "testApiFailed": {
+    "message": "❌ Ошибка соединения："
+  },
+  "testApiRequired": {
+    "message": "Сначала укажите базовый URL, API-ключ и название модели"
+  },
+  "tabApi": {
+    "message": "API"
+  },
+  "tabQuick": {
+    "message": "Быстрые действия"
+  },
+  "tabAppearance": {
+    "message": "Внешний вид"
+  },
+  "selectModelPlaceholder": {
+    "message": "-- выберите или введите модель --"
+  },
+  "apiProviderHint": {
+    "message": "Выберите поставщика ИИ"
+  },
+  "apiTypeDesc": {
+    "message": "Совместимый с OpenAI или формат Anthropic"
+  },
+  "apiBaseUrlHint2": {
+    "message": "Адрес конечной точки API"
+  },
+  "apiKeyHint": {
+    "message": "Введите ваш ключ API"
+  },
+  "apiModelHint2": {
+    "message": "Выберите или введите модель"
+  },
+  "testApiDesc": {
+    "message": "Проверить ключ API и конечную точку"
+  },
+  "languageDesc": {
+    "message": "Язык интерфейса"
+  },
+  "darkModeDesc": {
+    "message": "Использовать темную тему"
+  },
+  "maxRoundsDesc2": {
+    "message": "Старые сообщения сверх лимита будут обрезаны"
+  },
+  "maxContextLabel": {
+    "message": "Макс. контекст страницы"
+  },
+  "maxContextDesc": {
+    "message": "Максимальная длина текста страницы, отправляемого ИИ"
+  },
+  "sectionConfig": {
+    "message": "КОНФИГУРАЦИЯ"
+  },
+  "sectionApi": {
+    "message": "API"
+  },
+  "sectionQuick": {
+    "message": "Быстрые действия"
+  },
+  "sectionPreferences": {
+    "message": "НАСТРОЙКИ"
+  },
+  "sectionAppearance": {
+    "message": "Внешний вид"
+  },
+  "groupConnection": {
+    "message": "ПОДКЛЮЧЕНИЕ"
+  },
+  "groupEndpoint": {
+    "message": "ENDPOINT"
+  },
+  "groupLanguage": {
+    "message": "ЯЗЫК"
+  },
+  "groupTheme": {
+    "message": "ТЕМА"
+  },
+  "groupConversation": {
+    "message": "ДИАЛОГ"
+  },
+  "groupButtons": {
+    "message": "КНОПКИ"
+  },
+  "defaultSummarizeLabel": {
+    "message": "📝 Резюме"
+  },
+  "defaultSummarizePrompt": {
+    "message": "Пожалуйста, резюмируйте основное содержание этой веб-страницы на русском языке"
+  },
+  "defaultOutlineLabel": {
+    "message": "🎯 Ключевые моменты"
+  },
+  "defaultOutlinePrompt": {
+    "message": "Пожалуйста, выделите ключевые моменты этой веб-страницы и перечислите их"
+  },
+  "defaultTranslateLabel": {
+    "message": "🌐 Перевести"
+  },
+  "defaultTranslatePrompt": {
+    "message": "Пожалуйста, переведите основное содержание этой веб-страницы на русский язык"
+  },
+  "newButtonLabel": {
+    "message": "Новая кнопка"
+  },
+  "languageLabel": {
+    "message": "Язык"
+  },
+  "darkModeLabel": {
+    "message": "Тёмная тема"
+  },
+  "groupParameters": {
+    "message": "ПАРАМЕТРЫ"
+  },
+  "streamOutputLabel": {
+    "message": "Потоковый вывод"
+  },
+  "streamOutputDesc": {
+    "message": "Отображать токены по мере генерации. Отключите для API без потоковой передачи"
+  },
+  "groupAdvanced": {
+    "message": "РАСШИРЕННЫЕ ПАРАМЕТРЫ"
+  },
+  "temperatureLabel": {
+    "message": "Температура"
+  },
+  "temperatureDesc": {
+    "message": "Управляет случайностью вывода. Выше = креативнее"
+  },
+  "maxTokensLabel": {
+    "message": "Макс. токенов"
+  },
+  "maxTokensDesc": {
+    "message": "Максимум токенов на ответ"
+  },
+  "reasoningLabel": {
+    "message": "Глубина рассуждения"
+  },
+  "reasoningDesc": {
+    "message": "Управляет глубиной мышления. Автоподстройка по модели"
+  },
+  "topPDesc": {
+    "message": "Порог ядерной выборки, дополняет температуру"
+  },
+  "freqPenaltyLabel": {
+    "message": "Штраф за частоту"
+  },
+  "freqPenaltyDesc": {
+    "message": "Штрафует повторяющиеся токены, уменьшает повторы"
+  },
+  "presPenaltyLabel": {
+    "message": "Штраф за присутствие"
+  },
+  "presPenaltyDesc": {
+    "message": "Поощряет модель говорить о новых темах"
+  },
+  "stopSeqLabel": {
+    "message": "Стоп-последовательности"
+  },
+  "stopSeqDesc": {
+    "message": "Через запятую. Останавливает генерацию"
+  },
+  "systemPromptLabel": {
+    "message": "Пользовательский системный промпт"
+  },
+  "systemPromptDesc": {
+    "message": "Добавляется после автоматически сгенерированного промпта контекста"
+  },
+  "systemPromptPlaceholder": {
+    "message": "например: думайте шаг за шагом, отвечайте на русском"
+  },
+  "thinkingLabel": {
+    "message": "Размышление"
+  },
+  "resetButton": {
+    "message": "Сбросить все настройки"
+  },
+  "resetConfirm": {
+    "message": "Сбросить все настройки? Это действие нельзя отменить."
+  },
+  "resetHint": {
+    "message": "Все настройки будут восстановлены по умолчанию. Это действие нельзя отменить."
+  },
+  "extName": {
+    "message": "DeepPage"
+  },
+  "extDesc": {
+    "message": "Общайтесь с DeepSeek во время просмотра — резюмируйте, выделяйте ключевые моменты, переводите, задавайте вопросы"
+  }
+}

@@ -1,11 +1,12 @@
 // ESLint flat config — DeepPage
 // 环境分区：
-//   js/      → content script 全局脚本（browser globals + chrome/marked + 项目内部全局）
+//   js/ content/ → content script 全局脚本（browser globals + chrome/marked + 项目内部全局）
 //   tests/ scripts/ → Node ESM
+//   background/ options/ providers → ES module
 import eslintJs from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
 
-// content script 是普通全局脚本，6 个文件共享同一全局作用域（window），
+// content script 是普通全局脚本，多个文件共享同一全局作用域（window），
 // 文件间通过顶层函数/变量互调 —— 这里列出全部项目内部全局声明，
 // 供 no-undef 识别（新增全局函数时需同步补充）
 const contentScriptGlobals = {
@@ -25,14 +26,15 @@ const contentScriptGlobals = {
   scrollChat: 'readonly',
   // ---- js/i18n.js ----
   LANG_CODES: 'readonly',
-  TRANSLATIONS: 'readonly',
   LANGUAGES: 'readonly',
   t: 'readonly',
   loadLanguage: 'readonly',
   getCurrentLang: 'readonly',
+  setLanguage: 'readonly',
+  getStoredLanguage: 'readonly',
   setStoredLanguage: 'readonly',
   detectLanguage: 'readonly',
-  // ---- js/chat.js ----
+  // ---- content/chat.js ----
   currentMessages: 'writable',
   currentConvId: 'writable',
   _sending: 'writable',
@@ -54,7 +56,7 @@ const contentScriptGlobals = {
   formatExportMarkdown: 'readonly',
   formatExportText: 'readonly',
   exportConversation: 'readonly',
-  // ---- js/sidebar.js ----
+  // ---- content/sidebar.js ----
   panelOpen: 'writable',
   chatPanel: 'writable',
   _selBtn: 'writable',
@@ -81,12 +83,20 @@ const contentScriptGlobals = {
 };
 
 export default [
-  { ignores: ['js/marked.umd.min.js', 'js/vendor/**', 'test-results/**', 'dist/**', 'node_modules/**'] },
+  {
+    ignores: [
+      'lib/marked.umd.min.js',
+      'lib/html2pdf.bundle.min.js',
+      'test-results/**',
+      'dist/**',
+      'node_modules/**',
+    ],
+  },
   eslintJs.configs.recommended,
   eslintConfigPrettier,
   {
     // ES module 文件：background.js（SW module）、options.js（options.html type=module）、providers.js（被 import）
-    files: ['js/background.js', 'js/options.js', 'js/providers.js'],
+    files: ['background/background.js', 'options/options.js', 'js/providers.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
@@ -123,8 +133,8 @@ export default [
     },
   },
   {
-    files: ['js/*.js'],
-    ignores: ['js/background.js', 'js/options.js', 'js/providers.js'],
+    files: ['js/*.js', 'content/*.js'],
+    ignores: ['background/background.js', 'options/options.js', 'js/providers.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'script',

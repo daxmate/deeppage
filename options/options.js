@@ -1,4 +1,4 @@
-import { API_PROVIDERS } from "./providers.js";
+import { API_PROVIDERS } from "../js/providers.js";
 
 // ---- 页面文本本地化 ----
 function localizePage() {
@@ -276,8 +276,7 @@ document.getElementById("apiType").addEventListener("change", (e) => {
 
 // ---- 语言切换 ----
 document.getElementById("language-select").addEventListener("change", (e) => {
-  window.__dp_lang = e.target.value;
-  setStoredLanguage(e.target.value, () => {
+  setLanguage(e.target.value, () => {
     localizePage();
     loadSavedData();
   });

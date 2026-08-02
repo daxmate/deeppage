@@ -110,27 +110,36 @@ npm test        # 自动运行 i18n 校验 + 38 个 E2E 用例
 ### 项目结构
 
 ```
-├── js/                     # JavaScript 脚本
-│   ├── i18n.js             # 多语言引擎（10 种语言）
+├── background/             # Service Worker（API 调用）
+│   └── background.js
+├── content/                # 内容脚本（注入网页的面板 UI）
+│   ├── content.js          # 入口（启动面板）
+│   ├── sidebar.js          # 面板 UI + 拖拽 + 选中按钮
+│   ├── chat.js             # 对话管理 + API 调用 + 导出
+│   ├── spa-patch.js        # SPA 导航补丁（主世界，清理选中按钮）
+│   └── content.css         # 聊天面板样式（manifest 自动注入）
+├── options/                # 设置页面
+│   ├── options.html
+│   ├── options.css
+│   └── options.js
+├── js/                     # 共享模块
+│   ├── i18n.js             # 多语言加载器（数据在 _locales/）
 │   ├── utils.js            # 工具函数
 │   ├── providers.js        # API 提供商配置（单一数据源，background/options 共享）
-│   ├── provider-icons.js   # 提供商图标映射（悬浮按钮状态指示）
-│   ├── chat.js             # 对话管理 + API 调用 + 导出
-│   ├── sidebar.js          # 面板 UI + 拖拽 + 选中按钮
-│   ├── content.js          # 内容脚本 — 入口（启动面板）
-│   ├── background.js       # 后台服务 — API 调用
-│   ├── options.js          # 设置页面逻辑
-│   ├── spa-patch.js        # SPA 导航补丁（主世界，清理选中按钮）
+│   └── provider-icons.js   # 提供商图标映射（悬浮按钮状态指示）
+├── lib/                    # 第三方依赖
 │   ├── marked.umd.min.js   # Markdown 渲染引擎（marked v15）
-│   └── vendor/             # 第三方依赖（html2pdf.js，PDF 导出用）
+│   └── html2pdf.bundle.min.js  # PDF 导出
+├── i18n-data/              # 翻译数据（标准 messages.json 格式，10 种语言）
+│   └── <语言>.json
+├── _locales/               # Chrome 标准 i18n 目录（default_locale，供 manifest 国际化）
+│   └── zh_CN/messages.json
 ├── tests/                  # Playwright E2E 测试（38 个用例）
 │   ├── mock-server.js      # OpenAI 兼容 mock API
 │   └── fixtures.mjs        # 扩展 context / storage / mock 控制 fixture
 ├── scripts/
-│   └── check-i18n.mjs      # i18n 校验脚本（语言数组长度/顺序/空值/引用）
-├── options.html            # 设置页面
-├── options.css             # 设置页面样式
-├── content.css             # 聊天面板样式（manifest 自动注入）
+│   ├── check-i18n.mjs      # i18n 校验（_locales 结构/空值/引用）
+│   └── migrate-i18n.mjs    # 旧版 TRANSLATIONS → _locales 一次性迁移
 ├── manifest.json           # 扩展配置
 ├── icons/                  # DeepSeek 图标
 └── .github/workflows/      # CI 发布配置（push tag 自动打包发版）

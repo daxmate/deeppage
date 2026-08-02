@@ -7,7 +7,7 @@ test.describe("Options 页", () => {
   test("提供商下拉框渲染完整", async ({ extensionId, page }) => {
     const errors = [];
     page.on("pageerror", (e) => errors.push(String(e)));
-    await page.goto(`chrome-extension://${extensionId}/options.html`, {
+    await page.goto(`chrome-extension://${extensionId}/options/options.html`, {
       waitUntil: "domcontentloaded",
     });
     await page
@@ -23,7 +23,7 @@ test.describe("Options 页", () => {
   });
 
   test("修改参数自动保存到 storage（含流式开关）", async ({ extensionId, page, sw }) => {
-    await page.goto(`chrome-extension://${extensionId}/options.html`, {
+    await page.goto(`chrome-extension://${extensionId}/options/options.html`, {
       waitUntil: "domcontentloaded",
     });
     await page
@@ -68,7 +68,7 @@ test.describe("Options 页", () => {
     await setupMockApi();
     // testApi 发 stream:false 请求，mock 需以非流式 JSON 响应
     await mock.config({ stream: false, responseContent: "ok", failNext: false });
-    await page.goto(`chrome-extension://${extensionId}/options.html`, {
+    await page.goto(`chrome-extension://${extensionId}/options/options.html`, {
       waitUntil: "domcontentloaded",
     });
     await page
@@ -94,7 +94,7 @@ test.describe("Options 页", () => {
   });
 
   test("快速操作按钮：添加/删除卡片", async ({ extensionId, page }) => {
-    await page.goto(`chrome-extension://${extensionId}/options.html`, {
+    await page.goto(`chrome-extension://${extensionId}/options/options.html`, {
       waitUntil: "domcontentloaded",
     });
     await page
@@ -118,7 +118,7 @@ test.describe("Options 页", () => {
   });
 
   test("Custom System Prompt placeholder 跟随语言", async ({ extensionId, page }) => {
-    await page.goto(`chrome-extension://${extensionId}/options.html`, {
+    await page.goto(`chrome-extension://${extensionId}/options/options.html`, {
       waitUntil: "domcontentloaded",
     });
     await page

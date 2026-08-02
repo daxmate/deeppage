@@ -1,5 +1,5 @@
-js/marked.umd.min.js
-js/vendor/
+lib/marked.umd.min.js
+lib/html2pdf.bundle.min.js
 test-results/
 dist/
 node_modules/

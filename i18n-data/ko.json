@@ -1,0 +1,365 @@
+{
+  "appName": {
+    "message": "DeepPage"
+  },
+  "appDesc": {
+    "message": "웹 탐색 중 DeepSeek와 대화 — 요약, 핵심 정리, 번역, 자유 질문"
+  },
+  "panelTitle": {
+    "message": "DeepPage"
+  },
+  "inputPlaceholder": {
+    "message": "질문 입력..."
+  },
+  "contextLoaded": {
+    "message": "\"$1\"을(를) 대화 배경으로 불러왔습니다"
+  },
+  "loginNoticeTitle": {
+    "message": "DeepSeek API 키가 필요합니다"
+  },
+  "loginNoticeStep1": {
+    "message": "· 확장 프로그램 아이콘 → 옵션 → API 키 입력"
+  },
+  "loginNoticeStep2": {
+    "message": "· 또는 platform.deepseek.com에서 받기"
+  },
+  "errorNoApiKey": {
+    "message": "❌ API 키가 설정되지 않았습니다. 확장 프로그램 옵션에서 설정해주세요."
+  },
+  "optionTitle": {
+    "message": "DeepPage 설정"
+  },
+  "optionDesc": {
+    "message": "DeepSeek 공식 API를 사용하여 웹 탐색 중 채팅"
+  },
+  "apiKeyLabel": {
+    "message": "API Key"
+  },
+  "apiKeyPlaceholder": {
+    "message": "sk-..."
+  },
+  "getApiKeyLink": {
+    "message": "platform.deepseek.com에서 받기"
+  },
+  "quickActionsSection": {
+    "message": "빠른 작업 버튼"
+  },
+  "addButton": {
+    "message": "＋ 버튼 추가"
+  },
+  "saveButton": {
+    "message": "저장"
+  },
+  "savedSuccess": {
+    "message": "✅ 저장됨"
+  },
+  "apiKeyRequired": {
+    "message": "API 키를 입력해주세요"
+  },
+  "buttonLabel": {
+    "message": "버튼 라벨"
+  },
+  "promptLabel": {
+    "message": "프롬프트"
+  },
+  "buttonLabelPlaceholder": {
+    "message": "예: 📝 요약"
+  },
+  "promptPlaceholder": {
+    "message": "버튼 클릭 시 자동 입력되는 프롬프트"
+  },
+  "deleteButton": {
+    "message": "삭제"
+  },
+  "renameButton": {
+    "message": "이름 바꾸기"
+  },
+  "renamePlaceholder": {
+    "message": "새 제목 입력"
+  },
+  "copyButton": {
+    "message": "복사"
+  },
+  "historyButton": {
+    "message": "기록"
+  },
+  "backToChat": {
+    "message": "돌아가기"
+  },
+  "historyEmpty": {
+    "message": "대화가 없습니다"
+  },
+  "historySearchPlaceholder": {
+    "message": "대화 검색…"
+  },
+  "historyNoMatch": {
+    "message": "일치하는 대화가 없습니다"
+  },
+  "justNow": {
+    "message": "방금"
+  },
+  "newChat": {
+    "message": "새 대화"
+  },
+  "newChatShort": {
+    "message": "새로 만들기"
+  },
+  "titleGenPrompt": {
+    "message": "이 대화에 대한 간결한 한국어 제목을 생성하세요. 15자 이내, 따옴표나 마침표 없이, 제목만 출력하세요:"
+  },
+  "selAskButton": {
+    "message": "💬 선택한 내용 질문"
+  },
+  "selContextLabel": {
+    "message": "선택 내용"
+  },
+  "maxRoundsLabel": {
+    "message": "최대 대화 라운드"
+  },
+  "maxRoundsDesc": {
+    "message": "이 수를 초과하는 이전 메시지는 토큰 제한을 피하기 위해 자동으로 정리됩니다"
+  },
+  "clearContextBtn": {
+    "message": "컨텍스트 지우기"
+  },
+  "contextCleared": {
+    "message": "컨텍스트가 지워졌습니다"
+  },
+  "exportButton": {
+    "message": "내보내기"
+  },
+  "exportMarkdown": {
+    "message": "Markdown 복사"
+  },
+  "exportText": {
+    "message": "일반 텍스트 복사"
+  },
+  "exportDownload": {
+    "message": ".md 다운로드"
+  },
+  "exportPdf": {
+    "message": "PDF 다운로드"
+  },
+  "exportExported": {
+    "message": "클립보드에 복사됨"
+  },
+  "apiTypeLabel": {
+    "message": "API 형식"
+  },
+  "apiBaseUrlLabel": {
+    "message": "Base URL"
+  },
+  "apiBaseUrlHint": {
+    "message": "전체 API 기본 경로 (예: /v1 접미사 포함)"
+  },
+  "customLabel": {
+    "message": "🔧 사용자 정의"
+  },
+  "apiModelLabel": {
+    "message": "모델"
+  },
+  "apiModelHint": {
+    "message": "엔드포인트가 지원하는 모델 이름 입력"
+  },
+  "apiProviderLabel": {
+    "message": "API 제공자"
+  },
+  "testApiLabel": {
+    "message": "연결 테스트"
+  },
+  "testApiButton": {
+    "message": "연결 테스트"
+  },
+  "testApiSuccess": {
+    "message": "✅ 연결 성공"
+  },
+  "testApiFailed": {
+    "message": "❌ 연결 실패："
+  },
+  "testApiRequired": {
+    "message": "먼저 기본 URL, API 키 및 모델 이름을 입력하세요"
+  },
+  "tabApi": {
+    "message": "API"
+  },
+  "tabQuick": {
+    "message": "빠른 작업"
+  },
+  "tabAppearance": {
+    "message": "외관"
+  },
+  "selectModelPlaceholder": {
+    "message": "-- 모델 선택 또는 입력 --"
+  },
+  "apiProviderHint": {
+    "message": "AI 제공자를 선택하세요"
+  },
+  "apiTypeDesc": {
+    "message": "OpenAI 호환 또는 Anthropic 형식"
+  },
+  "apiBaseUrlHint2": {
+    "message": "API 엔드포인트 주소"
+  },
+  "apiKeyHint": {
+    "message": "API 키 입력"
+  },
+  "apiModelHint2": {
+    "message": "모델 이름 선택 또는 입력"
+  },
+  "testApiDesc": {
+    "message": "API 키와 엔드포인트 확인"
+  },
+  "languageDesc": {
+    "message": "인터페이스 언어"
+  },
+  "darkModeDesc": {
+    "message": "다크 테마 사용"
+  },
+  "maxRoundsDesc2": {
+    "message": "제한을 초과하는 이전 메시지가 자동으로 정리됩니다"
+  },
+  "maxContextLabel": {
+    "message": "페이지 본문 최대 길이"
+  },
+  "maxContextDesc": {
+    "message": "AI에 전송되는 페이지 본문 최대 길이입니다. 초과분은 잘립니다"
+  },
+  "sectionConfig": {
+    "message": "설정"
+  },
+  "sectionApi": {
+    "message": "API"
+  },
+  "sectionQuick": {
+    "message": "빠른 작업"
+  },
+  "sectionPreferences": {
+    "message": "환경 설정"
+  },
+  "sectionAppearance": {
+    "message": "외관"
+  },
+  "groupConnection": {
+    "message": "연결"
+  },
+  "groupEndpoint": {
+    "message": "엔드포인트"
+  },
+  "groupLanguage": {
+    "message": "언어"
+  },
+  "groupTheme": {
+    "message": "테마"
+  },
+  "groupConversation": {
+    "message": "대화"
+  },
+  "groupButtons": {
+    "message": "버튼"
+  },
+  "defaultSummarizeLabel": {
+    "message": "📝 요약"
+  },
+  "defaultSummarizePrompt": {
+    "message": "이 웹페이지 본문의 핵심 내용을 한국어로 요약해주세요"
+  },
+  "defaultOutlineLabel": {
+    "message": "🎯 핵심 정리"
+  },
+  "defaultOutlinePrompt": {
+    "message": "이 웹페이지의 핵심 포인트를 목록 형식으로 추출해주세요"
+  },
+  "defaultTranslateLabel": {
+    "message": "🌐 번역"
+  },
+  "defaultTranslatePrompt": {
+    "message": "이 웹페이지의 본문을 한국어로 번역해주세요"
+  },
+  "newButtonLabel": {
+    "message": "새 버튼"
+  },
+  "languageLabel": {
+    "message": "언어"
+  },
+  "darkModeLabel": {
+    "message": "다크 모드"
+  },
+  "groupParameters": {
+    "message": "요청 매개변수"
+  },
+  "streamOutputLabel": {
+    "message": "스트리밍 출력"
+  },
+  "streamOutputDesc": {
+    "message": "토큰이 생성되는 대로 표시합니다. 스트리밍을 지원하지 않는 API는 끄세요"
+  },
+  "groupAdvanced": {
+    "message": "고급 매개변수"
+  },
+  "temperatureLabel": {
+    "message": "온도"
+  },
+  "temperatureDesc": {
+    "message": "출력의 무작위성을 제어합니다. 높을수록 창의적"
+  },
+  "maxTokensLabel": {
+    "message": "최대 토큰"
+  },
+  "maxTokensDesc": {
+    "message": "응답당 최대 토큰 수"
+  },
+  "reasoningLabel": {
+    "message": "추론 깊이"
+  },
+  "reasoningDesc": {
+    "message": "모델의 사고 깊이를 제어합니다. 모델별 자동 적용"
+  },
+  "topPDesc": {
+    "message": "핵 샘플링 임계값. 온도와 보완 관계"
+  },
+  "freqPenaltyLabel": {
+    "message": "빈도 패널티"
+  },
+  "freqPenaltyDesc": {
+    "message": "이미 나온 토큰에 패널티를 부과하여 반복 감소"
+  },
+  "presPenaltyLabel": {
+    "message": "존재 패널티"
+  },
+  "presPenaltyDesc": {
+    "message": "모델이 새로운 주제를 말하도록 유도, 다양성 향상"
+  },
+  "stopSeqLabel": {
+    "message": "중지 시퀀스"
+  },
+  "stopSeqDesc": {
+    "message": "쉼표로 구분. 이 시퀀스를 만나면 생성 중지"
+  },
+  "systemPromptLabel": {
+    "message": "커스텀 System Prompt"
+  },
+  "systemPromptDesc": {
+    "message": "자동 생성된 컨텍스트 프롬프트 뒤에 추가됨"
+  },
+  "systemPromptPlaceholder": {
+    "message": "예: 단계별로 생각하고 한국어로 응답하세요"
+  },
+  "thinkingLabel": {
+    "message": "생각 과정"
+  },
+  "resetButton": {
+    "message": "모든 설정 초기화"
+  },
+  "resetConfirm": {
+    "message": "모든 설정을 초기화하시겠습니까? 취소할 수 없습니다."
+  },
+  "resetHint": {
+    "message": "모든 설정이 기본값으로 복원됩니다. 취소할 수 없습니다."
+  },
+  "extName": {
+    "message": "DeepPage"
+  },
+  "extDesc": {
+    "message": "웹 탐색 중 DeepSeek와 대화 — 요약, 핵심 정리, 번역, 자유 질문"
+  }
+}

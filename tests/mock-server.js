@@ -88,8 +88,7 @@ const server = http.createServer((req, res) => {
     }
 
     // 响应格式以请求体 stream 字段为准（模拟真实后端行为）；请求体未声明时退回 state.stream 配置
-    const isStream =
-      typeof parsed.stream === "boolean" ? parsed.stream : state.stream === true;
+    const isStream = typeof parsed.stream === "boolean" ? parsed.stream : state.stream === true;
 
     // 非流式请求失败开关：标题生成等非流式请求单独失败，不影响流式对话
     if (state.failNonStream && !isStream) {

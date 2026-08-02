@@ -5,6 +5,15 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.14.4] - 2026-08-02
+
+### 重构
+
+- **目录结构按职责规整**：拆分 `background/`（Service Worker）、`content/`（内容脚本 + 面板样式）、`options/`（设置页）、`lib/`（第三方库）、`js/`（共享模块）；manifest 引用、options 页脚本、SPA 补丁注入路径全部同步更新
+- **多语言数据标准化**：119 个翻译 key × 10 语言从 JS 常量对象迁移为标准 Chrome messages.json 格式（`i18n-data/<语言>.json`）；`js/i18n.js` 重写为按当前语言异步加载 + 缓存，运行时切换语言（options / 侧边栏菜单）体验不变；`scripts/check-i18n.mjs` 升级校验（语言文件完整性 / key 集合一致 / 无空值 / 占位符一致 / 代码引用），新增 `scripts/migrate-i18n.mjs` 迁移脚本
+- **manifest 国际化**：扩展名称与描述改用 `__MSG_*` 标准占位符，`_locales/zh_CN` 作为 `default_locale`（Chrome 商店/扩展管理页按浏览器语言显示本地化描述）
+- 修复迁移脚本语言错位（zh_TW / en / ja 翻译互换），已按旧版 `LANG_CODES` 顺序重新生成并校验
+
 ## [1.14.3] - 2026-08-02
 
 ### 文档

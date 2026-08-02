@@ -28,24 +28,30 @@ test.describe("AI 生成对话标题", () => {
 
     // 等待 generateTitle 的非流式请求发出（mock 返回同样内容 → 标题应为回复文本截断 50 字符）
     await expect
-      .poll(async () => {
-        const { requests } = await mock.requests();
-        return requests.filter((r) => r.url.includes("/chat/completions")).length;
-      }, { timeout: 10000 })
+      .poll(
+        async () => {
+          const { requests } = await mock.requests();
+          return requests.filter((r) => r.url.includes("/chat/completions")).length;
+        },
+        { timeout: 10000 }
+      )
       .toBeGreaterThanOrEqual(2);
 
     // 标题已更新为 AI 生成内容（对话存储里 conv.title）
     await expect
-      .poll(async () => {
-        const stored = await sw.evaluate(
-          () =>
-            new Promise((resolve) =>
-              chrome.storage.local.get("deeppage_convs", (r) => resolve(r.deeppage_convs))
-            )
-        );
-        const convs = stored?.conversations || [];
-        return convs.length ? convs[0].title : null;
-      }, { timeout: 10000 })
+      .poll(
+        async () => {
+          const stored = await sw.evaluate(
+            () =>
+              new Promise((resolve) =>
+                chrome.storage.local.get("deeppage_convs", (r) => resolve(r.deeppage_convs))
+              )
+          );
+          const convs = stored?.conversations || [];
+          return convs.length ? convs[0].title : null;
+        },
+        { timeout: 10000 }
+      )
       .toContain("这是来自 mock 服务器的回复");
 
     // generateTitle 请求是低温度、小 maxTokens 的非流式请求
@@ -67,10 +73,13 @@ test.describe("AI 生成对话标题", () => {
       page.locator("#__dp-chat .__dp-msg.__dp-assistant:not([data-msg-type]) .__dp-bubble-content")
     ).toContainText("这是来自 mock 服务器的回复。", { timeout: 15000 });
     await expect
-      .poll(async () => {
-        const { requests } = await mock.requests();
-        return requests.filter((r) => r.url.includes("/chat/completions")).length;
-      }, { timeout: 10000 })
+      .poll(
+        async () => {
+          const { requests } = await mock.requests();
+          return requests.filter((r) => r.url.includes("/chat/completions")).length;
+        },
+        { timeout: 10000 }
+      )
       .toBeGreaterThanOrEqual(2);
 
     // 第二轮（此时 mock 已记录请求数）
@@ -84,10 +93,13 @@ test.describe("AI 生成对话标题", () => {
     ).toHaveCount(2, { timeout: 15000 });
 
     await expect
-      .poll(async () => {
-        const { requests } = await mock.requests();
-        return requests.filter((r) => r.url.includes("/chat/completions")).length;
-      }, { timeout: 10000 })
+      .poll(
+        async () => {
+          const { requests } = await mock.requests();
+          return requests.filter((r) => r.url.includes("/chat/completions")).length;
+        },
+        { timeout: 10000 }
+      )
       .toBe(countBefore + 1); // 只多 1 个流式请求，无新增 generateTitle 请求
 
     // 标题仍是第一轮生成的（未被第二轮覆盖）

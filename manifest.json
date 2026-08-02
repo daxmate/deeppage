@@ -11,7 +11,7 @@
     },
     "author": "daxmate",
     "background": {
-        "service_worker": "js/background.js",
+        "service_worker": "background/background.js",
         "type": "module"
     },
     "content_scripts": [
@@ -20,26 +20,26 @@
                 "https://chat.deepseek.com/*"
             ],
             "js": [
-                "js/marked.umd.min.js",
+                "lib/marked.umd.min.js",
                 "js/i18n.js",
                 "js/utils.js",
-                "js/vendor/html2pdf.bundle.min.js",
-                "js/chat.js",
+                "lib/html2pdf.bundle.min.js",
+                "content/chat.js",
                 "js/provider-icons.js",
-                "js/sidebar.js",
-                "js/content.js"
+                "content/sidebar.js",
+                "content/content.js"
             ],
             "matches": [
                 "<all_urls>"
             ],
             "run_at": "document_end",
             "css": [
-                "content.css"
+                "content/content.css"
             ]
         }
     ],
-    "description": "Chat with DeepSeek while browsing — summarize, outline, translate, and ask questions",
-    "name": "DeepPage",
+    "description": "__MSG_extDesc__",
+    "name": "__MSG_extName__",
     "host_permissions": [
         "https://api.deepseek.com/*",
         "https://api.moonshot.cn/*",
@@ -57,7 +57,8 @@
     "web_accessible_resources": [
         {
             "resources": [
-                "js/spa-patch.js"
+                "content/spa-patch.js",
+                "i18n-data/*"
             ],
             "matches": [
                 "<all_urls>"
@@ -71,12 +72,13 @@
         "64": "icons/icon64.png",
         "128": "icons/icon128.png"
     },
+    "default_locale": "zh_CN",
     "manifest_version": 3,
-    "options_page": "options.html",
+    "options_page": "options/options.html",
     "permissions": [
         "storage",
         "tabs",
         "windows"
     ],
-    "version": "1.14.3"
+    "version": "1.14.4"
 }

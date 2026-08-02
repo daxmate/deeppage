@@ -337,7 +337,7 @@ function watchSpaNavigation() {
   // 主世界 patch：content script 在 isolated world，直接改 history 方法对页面无效
   try {
     const s = document.createElement("script");
-    s.src = chrome.runtime.getURL("js/spa-patch.js");
+    s.src = chrome.runtime.getURL("content/spa-patch.js");
     s.onload = () => s.remove();
     (document.head || document.documentElement).appendChild(s);
   } catch (e) {
@@ -566,8 +566,7 @@ function createButton() {
       const code = item.dataset.code;
       langMenu.classList.remove("__dp-show");
       if (code === getCurrentLang()) return;
-      window.__dp_lang = code;
-      setStoredLanguage(code, () => {
+      setLanguage(code, () => {
         // 重新初始化默认按钮并刷新
         initDefaultActions();
         updateLangSelection();

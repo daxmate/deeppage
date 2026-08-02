@@ -1003,8 +1003,8 @@ async function exportPdf() {
         .map((m) => {
           const isUser = m.role === "user";
           const align = isUser ? "right" : "left";
-          const bg = isUser ? "#4a6cf7" : (isDark ? "#2a2b30" : "#f3f4f6");
-          const color = isUser ? "#fff" : (isDark ? "#e4e5e7" : "#1f2937");
+          const bg = isUser ? "#4a6cf7" : isDark ? "#2a2b30" : "#f3f4f6";
+          const color = isUser ? "#fff" : isDark ? "#e4e5e7" : "#1f2937";
           const maxW = isUser ? "80%" : "100%";
           const content = markdownToHtml(m.content || "");
           // 气泡用 block + margin auto 对齐（inline-block 内嵌块级元素 html2canvas 渲染丢文字）
@@ -1023,11 +1023,9 @@ async function exportPdf() {
     const worker = html2pdf()
       .set({
         margin: [12, 12, 16, 12],
-        filename: `${
-          (pageContext ? pageContext.title : "deeppage")
-            .replace(/[^\w\u4e00-\u9fff-]/g, "_")
-            .slice(0, 50)
-        }_deeppage.pdf`,
+        filename: `${(pageContext ? pageContext.title : "deeppage")
+          .replace(/[^\w\u4e00-\u9fff-]/g, "_")
+          .slice(0, 50)}_deeppage.pdf`,
         image: { type: "jpeg", quality: 0.95 },
         html2canvas: {
           scale: 2,

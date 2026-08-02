@@ -91,27 +91,36 @@ npm test        # runs i18n validation + 38 E2E cases
 ### Project Structure
 
 ```
-├── js/                     # JavaScript
-│   ├── i18n.js             # Translation engine (10 languages)
+├── background/             # Service worker (API calls)
+│   └── background.js
+├── content/                # Content scripts (panel UI injected into pages)
+│   ├── content.js          # Entry (boots the panel)
+│   ├── sidebar.js          # Panel UI + drag + selection button
+│   ├── chat.js             # Chat management + API calls + export
+│   ├── spa-patch.js        # SPA navigation patch (main world, cleans up selection button)
+│   └── content.css         # Chat panel styles (injected via manifest)
+├── options/                # Options page
+│   ├── options.html
+│   ├── options.css
+│   └── options.js
+├── js/                     # Shared modules
+│   ├── i18n.js             # Translation loader (data in _locales/)
 │   ├── utils.js            # Utility functions
 │   ├── providers.js        # API provider config (single source of truth, shared by background/options)
-│   ├── provider-icons.js   # Provider icon map (floating button status indicator)
-│   ├── chat.js             # Chat management + API calls + export
-│   ├── sidebar.js          # Panel UI + drag + selection button
-│   ├── content.js          # Content script — entry (boots the panel)
-│   ├── background.js       # Service worker — API calls
-│   ├── options.js          # Options page logic
-│   ├── spa-patch.js        # SPA navigation patch (main world, cleans up selection button)
+│   └── provider-icons.js   # Provider icon map (floating button status indicator)
+├── lib/                    # Third-party deps
 │   ├── marked.umd.min.js   # Markdown renderer (marked v15)
-│   └── vendor/             # Third-party deps (html2pdf.js, used for PDF export)
+│   └── html2pdf.bundle.min.js  # PDF export
+├── i18n-data/              # Translation data (standard messages.json format, 10 languages)
+│   └── <lang>.json
+├── _locales/               # Standard Chrome i18n dir (default_locale, used for manifest localization)
+│   └── zh_CN/messages.json
 ├── tests/                  # Playwright E2E tests (38 cases)
 │   ├── mock-server.js      # OpenAI-compatible mock API
 │   └── fixtures.mjs        # Extension context / storage / mock control fixtures
 ├── scripts/
-│   └── check-i18n.mjs      # i18n validation (array length/order/emptiness/references)
-├── options.html            # Options page
-├── options.css             # Options page styles
-├── content.css             # Chat panel styles (injected via manifest)
+│   ├── check-i18n.mjs      # i18n validation (_locales structure/emptiness/references)
+│   └── migrate-i18n.mjs    # One-time TRANSLATIONS → _locales migration
 ├── manifest.json           # Extension manifest
 ├── icons/                  # DeepSeek icons
 └── .github/workflows/      # CI release config (auto-release on tag push)

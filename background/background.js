@@ -3,7 +3,7 @@
 // Routes API calls — OpenAI or Anthropic format
 // ==============================================
 
-import { API_PROVIDER_MAP as API_PROVIDERS } from "./providers.js";
+import { API_PROVIDER_MAP as API_PROVIDERS } from "../js/providers.js";
 
 const API_PATHS = {
   openai: "/chat/completions",

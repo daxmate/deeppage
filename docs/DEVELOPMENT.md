@@ -39,7 +39,7 @@ DeepPage 的提供商配置是**单一数据源**：`js/providers.js`。添加�
 
 ### 注意事项
 
-1. **Anthropic 格式**：`type: 'anthropic'` 的提供商走 `/messages` 端点，请求头用 `x-api-key` + `anthropic-version`。背景逻辑见 `js/background.js` 的 `API_PATHS` 和 `buildBody()`。
+1. **Anthropic 格式**：`type: 'anthropic'` 的提供商走 `/messages` 端点，请求头用 `x-api-key` + `anthropic-version`。背景逻辑见 `background/background.js` 的 `API_PATHS` 和 `buildBody()`。
 2. **OpenAI 兼容**：绝大多数提供商（DeepSeek、Ollama、Groq、Together 等）都是这个格式，`stream` 参数由选项页的「流式输出」开关控制。
 3. **自定义提供商**：`custom` 项是用户手动填 Base URL 的入口，不要改动它的 `baseUrl: ''`。
 4. **非流式 API**：如果提供商不支持流式，用户可在选项页关闭「流式输出」开关，扩展会自动用非流式 JSON 请求并解析（`background.js` 已内置兜底）。
@@ -107,18 +107,13 @@ tests/
 
 ## i18n 多语言维护
 
-DeepPage 内置 10 种语言（`zh_CN, en, ja, zh_TW, ko, es, fr, de, ru, vi`），翻译集中在 `js/i18n.js` 的 `TRANSLATIONS` 对象。
+DeepPage 内置 10 种语言（`zh_CN, zh_TW, en, ja, ko, es, fr, de, ru, vi`），翻译数据存放在 `i18n-data/<语言>.json`，格式遵循标准 Chrome messages.json 规范（每个 key 为 `{ "message": "..." }`）。`js/i18n.js` 负责按当前语言异步加载对应 json 并缓存，支持运行时切换语言（options 页 / 侧边栏语言菜单），不依赖 `chrome.i18n.getMessage`（该 API 不支持运行时切换）。
 
-### 添加语言
-
-1. `LANG_CODES` 数组末尾添加语言代码
-2. 每个 `TRANSLATIONS` key 的数组末尾追加对应翻译
-3. `LANGUAGES` 数组添加语言显示名
-4. 更新 `detectLanguage()`（如需自动检测）
+> ⚠️ **为什么不用 `_locales/`？** Chrome 对 `_locales/` 目录下的请求有底层虚拟化——无论请求哪个语言目录，都会返回当前 UI locale 的内容，无法按 URL 获取指定语言的数据。所以运行时切换数据放在普通目录 `i18n-data/`（通过 `web_accessible_resources` 暴露）；`_locales/` 仅保留 `zh_CN`（default_locale，供 manifest 的 `__MSG_*` 和 `chrome.i18n` 兜底用）。
 
 ### 修改翻译
 
-每个 key 的数组按 `LANG_CODES` 顺序对应语言，**位置不能错**（历史上出过语言错位 bug）。
+直接编辑 `i18n-data/<语言>.json` 中对应 key 的 `message` 字段。所有语言的 key 集合必须一致（漏译会导致页面空白），占位符（`$1`、`$2`）在各语言中必须一致。
 
 改完运行：
 
@@ -126,7 +121,13 @@ DeepPage 内置 10 种语言（`zh_CN, en, ja, zh_TW, ko, es, fr, de, ru, vi`）
 npm run check:i18n
 ```
 
-脚本检查：数组长度一致、顺序正确、无空值、代码引用完整。`npm test` 也会自动执行。
+脚本检查：语言文件完整性、key 集合一致性、无空值、占位符一致、代码引用完整。`npm test` 也会自动执行。
+
+### 添加语言
+
+1. 新建 `i18n-data/<code>.json`，key 集合与现有语言完全一致（可复制 zh_CN 后逐个翻译）
+2. `js/i18n.js` 的 `LANGUAGES` 数组添加语言显示名（语言选择器用）
+3. 如需浏览器自动检测，更新 `detectLanguage()`
 
 ---
 
@@ -134,18 +135,19 @@ npm run check:i18n
 
 | 文件 | 职责 |
 |---|---|
-| `js/content.js` | 内容脚本入口，非 HTML 文档跳过，启动面板 |
-| `js/sidebar.js` | 面板 UI 创建/开关、拖拽缩放、导出菜单、选中文本按钮 |
-| `js/chat.js` | 对话管理、流式渲染（rAF 节流）、清除上下文、导出格式化 |
-| `js/background.js` | Service Worker：API 调用、SSE 解析、非流式兜底 |
+| `content/content.js` | 内容脚本入口，非 HTML 文档跳过，启动面板 |
+| `content/sidebar.js` | 面板 UI 创建/开关、拖拽缩放、导出菜单、选中文本按钮 |
+| `content/chat.js` | 对话管理、流式渲染（rAF 节流）、清除上下文、导出格式化 |
+| `background/background.js` | Service Worker：API 调用、SSE 解析、非流式兜底 |
 | `js/utils.js` | 工具函数（含 markdown 渲染/纯文本剥离） |
 | `js/providers.js` | API 提供商单一数据源 |
-| `js/i18n.js` | 多语言引擎（10 语言） |
-| `js/options.js` + `options.html` | 选项页 |
-| `js/spa-patch.js` | 主世界 SPA 导航补丁（清理选中按钮） |
-| `content.css` | 聊天面板样式（manifest 自动注入） |
+| `js/i18n.js` | 多语言加载器（数据在 `_locales/`） |
+| `options/options.js` + `options.html` | 选项页 |
+| `content/spa-patch.js` | 主世界 SPA 导航补丁（清理选中按钮） |
+| `content/content.css` | 聊天面板样式（manifest 自动注入） |
+| `i18n-data/` | 翻译数据（10 语言 × 标准 messages.json 格式，运行时加载） |
 | `tests/` | Playwright E2E 测试 |
-| `scripts/check-i18n.mjs` | i18n 校验脚本 |
+| `scripts/check-i18n.mjs` | i18n 校验脚本（_locales 结构/空值/引用） |
 
 ---
 

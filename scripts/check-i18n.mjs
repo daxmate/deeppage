@@ -1,9 +1,12 @@
 // ==============================================
 // DeepPage — 多语言 key 校验脚本
-// 检查：1) 所有翻译 key 的 10 语言数组长度一致
-//       2) 数组顺序与 LANG_CODES 一致（防止语言错位）
-//       3) 无空值（防止页面空白）
-//       4) 代码中 t('key') 引用的 key 都存在（防止翻译缺失）
+// 检查标准 Chrome i18n 目录 _locales/：
+//   1) 10 个语言目录存在且 messages.json 为合法 JSON
+//   2) 各语言 key 集合一致（以 zh_CN 为基准，防止漏译）
+//   3) 无空值（防止页面空白）
+//   4) 占位符 $N 在各语言中一致（防止参数错位）
+//   5) 代码中 t('key') 引用的 key 都存在（防止翻译缺失）
+//   6) manifest 的 __MSG_extName__/__MSG_extDesc__ 存在
 // 用法：node scripts/check-i18n.mjs  或  npm run check:i18n
 // ==============================================
 import fs from "node:fs";
@@ -12,138 +15,96 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
+const LOCALES_DIR = path.join(ROOT, "i18n-data");
 
-// 提取 LANG_CODES 数组
-function extractLangCodes(src) {
-  const m = src.match(/const LANG_CODES = \[([\s\S]*?)\];/);
-  if (!m) throw new Error("找不到 LANG_CODES 定义");
-  return [...m[1].matchAll(/"([^"]+)"/g)].map((x) => x[1]);
-}
+// 期望的语言文件（与 js/i18n.js LANGUAGES 一一对应）
+const EXPECTED_LOCALES = ["zh_CN", "zh_TW", "en", "ja", "ko", "es", "fr", "de", "ru", "vi"];
 
-// 提取 TRANSLATIONS 对象（用 vm 执行到对象定义处，避免手写正则解析字符串）
-function extractTranslations(src) {
-  const start = src.indexOf("const TRANSLATIONS = {");
-  if (start === -1) throw new Error("找不到 TRANSLATIONS 定义");
-  const braceStart = src.indexOf("{", start);
-  // 括号配对（跳过字符串与注释）
-  let depth = 0,
-    inStr = false,
-    strCh = "",
-    inLineComment = false,
-    inBlockComment = false;
-  let end = -1;
-  for (let i = braceStart; i < src.length; i++) {
-    const c = src[i],
-      n = src[i + 1];
-    if (inLineComment) {
-      if (c === "\n") inLineComment = false;
-      continue;
-    }
-    if (inBlockComment) {
-      if (c === "*" && n === "/") {
-        inBlockComment = false;
-        i++;
-      }
-      continue;
-    }
-    if (inStr) {
-      if (c === "\\") {
-        i++;
-        continue;
-      }
-      if (c === strCh) inStr = false;
-      continue;
-    }
-    if (c === "/" && n === "/") {
-      inLineComment = true;
-      i++;
-      continue;
-    }
-    if (c === "/" && n === "*") {
-      inBlockComment = true;
-      i++;
-      continue;
-    }
-    if (c === '"' || c === "'" || c === "`") {
-      inStr = true;
-      strCh = c;
-      continue;
-    }
-    if (c === "{") depth++;
-    else if (c === "}") {
-      depth--;
-      if (depth === 0) {
-        end = i;
-        break;
-      }
-    }
-  }
-  if (end === -1) throw new Error("TRANSLATIONS 对象括号未闭合");
-  const objSrc = src.slice(braceStart, end + 1);
-  // 用 Function 求值（对象字面量纯数据，安全）
-  const obj = new Function(`return ${objSrc}`)();
-  return obj;
-}
+let errors = 0;
+const fail = (msg) => {
+  console.error(`✗ ${msg}`);
+  errors++;
+};
 
-// 扫描代码里 t('key') 引用
-function collectUsedKeys() {
-  const used = new Set();
-  for (const file of ["js/options.js", "js/chat.js", "js/sidebar.js", "js/utils.js"]) {
-    const src = fs.readFileSync(path.join(ROOT, file), "utf8");
-    // t('key') / t("key") 精确引用（排除 createElement('option') 等误报）
-    for (const m of src.matchAll(/\bt\(\s*['"]([A-Za-z0-9_]+)['"]\s*\)/g)) {
-      used.add(m[1]);
-    }
-  }
-  return used;
-}
-
-// ---- 主流程 ----
-const src = fs.readFileSync(path.join(ROOT, "js/i18n.js"), "utf8");
-const langCodes = extractLangCodes(src);
-const translations = extractTranslations(src);
-const problems = [];
-
-// 1) 数组长度 + 3) 空值 + 2) 顺序（隐式：按索引对应语言）
-const expectedLen = langCodes.length;
-for (const [key, arr] of Object.entries(translations)) {
-  if (!Array.isArray(arr)) {
-    problems.push(`❌ ${key}: 不是数组`);
+// ---- 1) 语言目录 + JSON 合法性 ----
+const loaded = {};
+for (const code of EXPECTED_LOCALES) {
+  const file = path.join(LOCALES_DIR, `${code}.json`);
+  if (!fs.existsSync(file)) {
+    fail(`缺少 i18n-data/${code}.json`);
     continue;
   }
-  if (arr.length !== expectedLen) {
-    problems.push(`❌ ${key}: 数组长度 ${arr.length} ≠ ${expectedLen}（${langCodes.join(",")}）`);
-    continue;
-  }
-  arr.forEach((v, i) => {
-    if (typeof v !== "string" || v.trim() === "") {
-      problems.push(`❌ ${key}[${i}] (${langCodes[i]}): 空值`);
-    }
-  });
-}
-
-// 4) 代码引用完整性
-const usedKeys = collectUsedKeys();
-for (const key of usedKeys) {
-  if (!(key in translations)) {
-    problems.push(`❌ 代码引用了缺失的 i18n key: "${key}"`);
+  try {
+    loaded[code] = JSON.parse(fs.readFileSync(file, "utf8"));
+  } catch (e) {
+    fail(`i18n-data/${code}.json 不是合法 JSON: ${e.message}`);
   }
 }
-// 反向：翻译里有但没人用的 key（提示性，不报错）
-const unused = Object.keys(translations).filter((k) => !usedKeys.has(k));
-
-// ---- 输出 ----
-console.log(`✅ 语言数: ${langCodes.length} (${langCodes.join(", ")})`);
-console.log(`✅ 翻译 key 总数: ${Object.keys(translations).length}`);
-console.log(`✅ 代码引用 key: ${usedKeys.size} 个`);
-if (unused.length)
-  console.log(
-    `ℹ️ 未被代码引用的 key（${unused.length} 个，仅提示）: ${unused.slice(0, 20).join(", ")}${unused.length > 20 ? "..." : ""}`
-  );
-
-if (problems.length) {
-  console.log(`\n===== 校验失败（${problems.length} 个问题）=====`);
-  problems.forEach((p) => console.log(p));
+if (Object.keys(loaded).length === 0) {
+  console.error("✗ _locales/ 无任何可用翻译文件");
   process.exit(1);
 }
-console.log("\n===== i18n 校验通过 ✅ =====");
+
+// ---- 2) key 集合一致性（以 zh_CN 为基准） ----
+const base = loaded.zh_CN;
+const baseKeys = Object.keys(base);
+for (const code of Object.keys(loaded)) {
+  const keys = Object.keys(loaded[code]);
+  const missing = baseKeys.filter((k) => !keys.includes(k));
+  const extra = keys.filter((k) => !baseKeys.includes(k));
+  if (missing.length) fail(`${code} 缺少 key: ${missing.join(", ")}`);
+  if (extra.length) fail(`${code} 多出 key: ${extra.join(", ")}`);
+}
+
+// ---- 3) 空值 + 4) 占位符一致性 ----
+const placeholders = (s) => [...new Set(String(s).match(/\$\d+/g) || [])].sort().join(",");
+for (const key of baseKeys) {
+  let phBase = null;
+  for (const code of Object.keys(loaded)) {
+    const entry = loaded[code][key];
+    const msg = entry && typeof entry === "object" ? entry.message : entry;
+    if (msg == null || String(msg).trim() === "") {
+      fail(`${key} [${code}] 为空值`);
+      continue;
+    }
+    const ph = placeholders(msg);
+    if (phBase === null) phBase = ph;
+    else if (ph !== phBase) fail(`${key}: 占位符不一致 (${phBase} vs ${ph} @${code})`);
+  }
+}
+
+// ---- 5) 代码中 t('key') 引用检查 ----
+const srcDirs = ["js", "content", "background", "options"];
+const tRefs = new Set();
+for (const dir of srcDirs) {
+  const abs = path.join(ROOT, dir);
+  if (!fs.existsSync(abs)) continue;
+  for (const f of fs.readdirSync(abs)) {
+    if (!f.endsWith(".js")) continue;
+    const src = fs.readFileSync(path.join(abs, f), "utf8");
+    // 匹配 t('key') / t("key")
+    for (const m of src.matchAll(/\bt\(\s*['"]([A-Za-z0-9_@]+)['"]/g)) {
+      tRefs.add(m[1]);
+    }
+  }
+}
+for (const key of tRefs) {
+  if (!(key in base)) fail(`代码引用了不存在的 key: ${key}`);
+}
+
+// ---- 6) manifest __MSG_* 引用检查 ----
+const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, "manifest.json"), "utf8"));
+for (const v of Object.values(manifest)) {
+  if (typeof v !== "string") continue;
+  const m = v.match(/^__MSG_([A-Za-z0-9_@]+)__$/);
+  if (m && !(m[1] in base)) fail(`manifest 引用了不存在的 key: __MSG_${m[1]}__`);
+}
+
+// ---- 汇总 ----
+if (errors > 0) {
+  console.error(`\n✗ i18n 校验失败：${errors} 处错误`);
+  process.exit(1);
+}
+console.log(
+  `✓ i18n 校验通过：${Object.keys(loaded).length} 种语言 × ${baseKeys.length} 个 key，代码引用 ${tRefs.size} 个 key 全部存在`
+);
