@@ -59,7 +59,7 @@ test.describe("AI 生成对话标题", () => {
     const titleReq = requests.filter((r) => r.url.includes("/chat/completions")).pop();
     expect(titleReq.body.stream).toBe(false);
     expect(titleReq.body.temperature).toBe(0.3);
-    expect(titleReq.body.max_tokens).toBeLessThanOrEqual(50);
+    expect(titleReq.body.max_tokens).toBeLessThanOrEqual(200);
     // system prompt 是标题生成指令
     const sysMsg = titleReq.body.messages.find((m) => m.role === "system");
     expect(sysMsg.content.length).toBeGreaterThan(0);

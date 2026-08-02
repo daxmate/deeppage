@@ -277,6 +277,7 @@ function buildBody(apiType, model, messages, stream, params = {}) {
     reasoningLevel,
     apiProvider,
     baseUrl,
+    disableThinking,
   } = params;
   if (apiType === "anthropic") {
     let system = "";
@@ -314,15 +315,16 @@ function buildBody(apiType, model, messages, stream, params = {}) {
       .map((s) => s.trim())
       .filter(Boolean);
   // DeepSeek native thinking mode
-  if (
-    reasoningLevel &&
-    reasoningLevel !== "off" &&
-    (apiProvider === "deepseek" || (baseUrl && baseUrl.includes("api.deepseek.com")))
-  ) {
-    const effortMap = { low: "low", medium: "medium", high: "high" };
-    body.thinking = { type: "enabled" };
-    body.reasoning_effort = effortMap[reasoningLevel] || "medium";
-    console.log("[DeepPage] Enabled DeepSeek thinking mode, effort:", body.reasoning_effort);
+  if (apiProvider === "deepseek" || (baseUrl && baseUrl.includes("api.deepseek.com"))) {
+    if (disableThinking) {
+      // 标题生成等场景：显式关闭思考模式，避免思维链吃掉 max_tokens 导致 content 为空
+      body.thinking = { type: "disabled" };
+    } else if (reasoningLevel && reasoningLevel !== "off") {
+      const effortMap = { low: "low", medium: "medium", high: "high" };
+      body.thinking = { type: "enabled" };
+      body.reasoning_effort = effortMap[reasoningLevel] || "medium";
+      console.log("[DeepPage] Enabled DeepSeek thinking mode, effort:", body.reasoning_effort);
+    }
   }
   // Reasoning effort for o1/o3 series
   if (
@@ -480,9 +482,10 @@ async function generateTitle(msg) {
     headers,
     body: buildBody(apiType, model, msg.messages || [], false, {
       temperature: 0.3,
-      maxTokens: 50,
+      maxTokens: 200,
       apiProvider,
       baseUrl,
+      disableThinking: true,
     }),
   });
   const data = await resp.json();

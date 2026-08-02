@@ -5,6 +5,12 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.18.1] - 2026-08-02
+
+### 🐛 修复
+
+- **DeepSeek V4 自动生成对话标题不生效**：此前在 DeepSeek V4 模型（如 deepseek-v4-flash）下，新对话自动生成标题经常静默失败，标题一直保持默认「新对话」。根因是 V4 系列思考模式默认开启，而标题生成请求硬编码 `maxTokens=50`，思维链（CoT）就吃光了 token 预算，返回的 `content` 为空，标题生成被静默降级跳过。现已为 `buildBody` 新增 `disableThinking` 参数（DeepSeek 路径显式发送 `thinking: { type: "disabled" }`），标题生成请求关闭思考模式、不再消耗思维链 token，并将 `maxTokens` 从 50 提升到 200；同步更新 `title-gen.spec.mjs` 断言（`max_tokens <= 200`）保证回归覆盖。修复后 V4 模型标题生成恢复可用，且不再受思考链截断影响
+
 ## [1.18.0] - 2026-08-02
 
 ### 新增
