@@ -12,10 +12,9 @@ test.describe("注入状态指示", () => {
     const btn = page.locator("#__dp-btn");
     await expect(btn.locator("svg")).toBeVisible();
 
-    // title：默认 deepseek
-    const btnTitle = await btn.getAttribute("title");
-    expect(btnTitle).toContain("DeepSeek");
-    expect(btnTitle).toContain("deepseek-v4-flash");
+    // title：默认 deepseek（storage 异步回调，需等 title 更新到位）
+    await expect(btn).toHaveAttribute("title", /DeepSeek/);
+    await expect(btn).toHaveAttribute("title", /deepseek-v4-flash/);
   });
 
   test("storage 修改 provider 后按钮图标实时刷新", async ({ page, sw }) => {
