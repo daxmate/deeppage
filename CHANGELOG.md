@@ -5,6 +5,12 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.18.3] - 2026-08-02
+
+### 🐛 修复
+
+- **SweetAlert2 升级 v10.16.6 → v11.26.25**：旧版每次 toast 都在控制台报 `Unknown parameter 'color'` 警告（`color` 参数 v11 才正式支持），且文字颜色被忽略（背景色正常但文字是默认色）。升级后警告消失，成功=绿字/失败=红字/信息=蓝字配色真正生效。全局 `Sweetalert2`/`mixin`/`Toast.fire`/`didOpen` API 完全兼容，零代码改动
+
 ## [1.18.2] - 2026-08-02
 
 ### 🐛 修复
