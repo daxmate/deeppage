@@ -49,11 +49,13 @@ export const test = base.extend({
                 apiProvider: "custom",
                 apiBaseUrl: base,
                 apiType: "openai",
-                apiKey: "***",
                 apiModel: "mock-model",
                 ...extra,
               },
-              resolve
+              () => {
+                // 🔒 API Key 仅本地保存（与扩展新行为一致）
+                chrome.storage.local.set({ apiKey: "***" }, resolve);
+              }
             );
           }),
         { base: MOCK_BASE, extra }

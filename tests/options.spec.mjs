@@ -93,6 +93,47 @@ test.describe("Options 页", () => {
     await expect(page.locator("#testApiStatus")).toContainText("✅", { timeout: 15000 });
   });
 
+  test("旧版 sync 中的 API Key 自动迁移到本地并清除云端", async ({ extensionId, page, sw }) => {
+    // 模拟旧版本：key 存在 chrome.storage.sync
+    await sw.evaluate(
+      () =>
+        new Promise((resolve) => {
+          chrome.storage.sync.set({ apiKey: "legacy-key" }, resolve);
+        })
+    );
+    await page.goto(`chrome-extension://${extensionId}/options/options.html`, {
+      waitUntil: "domcontentloaded",
+    });
+    await page
+      .locator("#apiProvider option")
+      .first()
+      .waitFor({ state: "attached", timeout: 15000 });
+
+    // 旧 key 应能回退显示在输入框
+    await expect(page.locator("#apiKey")).toHaveValue("legacy-key");
+
+    // 触发一次 getSettings（checkLogin，从 options 页发消息，SW 收得到）→ 触发迁移
+    const loggedIn = await page.evaluate(
+      () =>
+        new Promise((resolve) =>
+          chrome.runtime.sendMessage({ action: "checkLogin" }, (r) => resolve(r))
+        )
+    );
+    expect(loggedIn.loggedIn).toBe(true);
+
+    // 迁移后：key 在本地，sync 已清除
+    const local = await sw.evaluate(
+      () =>
+        new Promise((resolve) => chrome.storage.local.get(["apiKey", "deepseekApiKey"], resolve))
+    );
+    expect(local.apiKey).toBe("legacy-key");
+    const synced = await sw.evaluate(
+      () => new Promise((resolve) => chrome.storage.sync.get(["apiKey", "deepseekApiKey"], resolve))
+    );
+    expect(synced.apiKey).toBeUndefined();
+    expect(synced.deepseekApiKey).toBeUndefined();
+  });
+
   test("快速操作按钮：添加/删除卡片", async ({ extensionId, page }) => {
     await page.goto(`chrome-extension://${extensionId}/options/options.html`, {
       waitUntil: "domcontentloaded",

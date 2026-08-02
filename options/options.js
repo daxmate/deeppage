@@ -211,8 +211,16 @@ function loadSavedData() {
         baseUrlInput.value = storedUrl;
       }
 
-      // API Key — new apiKey first, fallback deepseekApiKey
-      document.getElementById("apiKey").value = result.apiKey || result.deepseekApiKey || "";
+      // API Key — 🔒 仅本地保存；local 优先，旧 sync 数据仅作显示回退
+      chrome.storage.local.get(["apiKey", "deepseekApiKey"], (localRes) => {
+        const key =
+          localRes.apiKey ||
+          localRes.deepseekApiKey ||
+          result.apiKey ||
+          result.deepseekApiKey ||
+          "";
+        document.getElementById("apiKey").value = key;
+      });
 
       // Model — populate select
       const modelSelect = document.getElementById("apiModel");
@@ -377,14 +385,19 @@ document.getElementById("testApiBtn").addEventListener("click", async () => {
     return;
   }
 
-  // Save first
-  await chrome.storage.sync.set({
+  // Save first — 🔒 API Key 仅存本地，其余设置仍同步
+  const settingsToSync = {
     apiProvider: providerId,
     apiBaseUrl: baseUrl,
-    apiKey,
     apiModel: model,
     apiType: providerId === "custom" ? apiType : undefined,
-  });
+  };
+  if (apiKey) {
+    await chrome.storage.local.set({ apiKey });
+  } else {
+    await chrome.storage.local.remove("apiKey");
+  }
+  await chrome.storage.sync.set(settingsToSync);
 
   try {
     const result = await chrome.runtime.sendMessage({ action: "testApi" });
@@ -477,10 +490,15 @@ function autoSave() {
     if (label) cleaned.push({ label, prompt });
   });
 
+  // 🔒 API Key 仅存本地，其余设置仍同步
+  if (apiKey) {
+    chrome.storage.local.set({ apiKey });
+  } else {
+    chrome.storage.local.remove("apiKey");
+  }
   chrome.storage.sync.set({
     apiProvider: providerId,
     apiBaseUrl: baseUrl,
-    apiKey,
     apiModel: model,
     apiType: providerId === "custom" ? apiType : undefined,
     quickActions: cleaned,
@@ -529,7 +547,8 @@ document.getElementById("reset-all-btn").addEventListener("click", () => {
   const msg = t("resetConfirm") || "确定要重置所有设置吗？此操作不可撤销。";
   if (!confirm(msg)) return;
   chrome.storage.sync.clear(() => {
-    chrome.storage.local.remove("advancedParamsOpen", () => {
+    // 🔒 同时清除本地保存的 API Key
+    chrome.storage.local.remove(["apiKey", "deepseekApiKey", "advancedParamsOpen"], () => {
       location.reload();
     });
   });

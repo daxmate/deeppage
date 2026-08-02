@@ -14,10 +14,10 @@ async function getSettings() {
   const result = await chrome.storage.sync.get([
     "apiProvider",
     "apiBaseUrl",
-    "apiKey",
+    "apiKey", // 仅用于检测旧版数据（迁移用）
     "apiModel",
     "apiType",
-    "deepseekApiKey", // fallback
+    "deepseekApiKey", // 仅用于检测旧版数据（迁移用）
     // model params
     "streamOutput",
     "temperature",
@@ -29,13 +29,24 @@ async function getSettings() {
     "reasoningLevel",
     "customSystemPrompt",
   ]);
+  // 🔒 API Key 仅保存在本地（chrome.storage.local），不随账号云端同步
+  const local = await chrome.storage.local.get(["apiKey", "deepseekApiKey"]);
+  let apiKey = local.apiKey || local.deepseekApiKey || null;
+  // 旧版本 key 存在 sync —— 一次性迁移到本地并清除云端数据
+  const legacyKey = result.apiKey || result.deepseekApiKey || null;
+  if (legacyKey) {
+    if (!apiKey) {
+      apiKey = legacyKey;
+      await chrome.storage.local.set({ apiKey: legacyKey });
+    }
+    await chrome.storage.sync.remove(["apiKey", "deepseekApiKey"]);
+  }
   const apiProvider = result.apiProvider || "deepseek";
   const defaults = API_PROVIDERS[apiProvider] || API_PROVIDERS.deepseek;
 
   // For custom, apiType comes from storage; for known providers, from config
   const apiType = apiProvider === "custom" ? result.apiType || "openai" : defaults.type;
   const baseUrl = result.apiBaseUrl || defaults.baseUrl;
-  const apiKey = result.apiKey || result.deepseekApiKey || null;
   const model = result.apiModel || defaults.model;
 
   return {
