@@ -1,6 +1,6 @@
 // ==============================================
 // DeepPage — 多语言 key 校验脚本
-// 检查标准 Chrome i18n 目录 _locales/：
+// 检查标准 Chrome messages.json 格式目录 i18n-data/：
 //   1) 10 个语言目录存在且 messages.json 为合法 JSON
 //   2) 各语言 key 集合一致（以 zh_CN 为基准，防止漏译）
 //   3) 无空值（防止页面空白）
@@ -41,7 +41,7 @@ for (const code of EXPECTED_LOCALES) {
   }
 }
 if (Object.keys(loaded).length === 0) {
-  console.error("✗ _locales/ 无任何可用翻译文件");
+  console.error("✗ i18n-data/ 无任何可用翻译文件");
   process.exit(1);
 }
 

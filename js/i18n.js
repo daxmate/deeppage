@@ -9,7 +9,7 @@
 //       再不行返回 key 本身。
 // ==============================================
 
-// 语言定义(与 _locales/ 目录一一对应)
+// 语言定义(与 i18n-data/ 文件一一对应)
 const LANGUAGES = [
   { code: "zh_CN", label: "中文", short: "简" },
   { code: "zh_TW", label: "繁體中文", short: "繁" },
