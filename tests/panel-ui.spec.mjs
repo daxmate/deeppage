@@ -263,7 +263,7 @@ test.describe("面板 UI 功能", () => {
 
     // 删光所有消息（从后往前删）→ 重新置灰
     const delBtns = page.locator("#__dp-chat .__dp-del-btn");
-    let count = await delBtns.count();
+    const count = await delBtns.count();
     for (let i = count - 1; i >= 0; i--) {
       await delBtns.nth(i).click();
       await page.waitForTimeout(50);

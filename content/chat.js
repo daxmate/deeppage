@@ -983,7 +983,9 @@ function formatExportText() {
   lines.push(`${t("exportTimeLabel") || "Exported"}: ${new Date().toLocaleString()}`);
   lines.push("");
   for (const msg of msgs) {
-    lines.push(`[${msg.role === "user" ? (t("exportRoleUser") || "User") : (t("exportRoleAssistant") || "Assistant")}]`);
+    lines.push(
+      `[${msg.role === "user" ? t("exportRoleUser") || "User" : t("exportRoleAssistant") || "Assistant"}]`
+    );
     lines.push(markdownToPlainText(msg.content));
     lines.push("");
   }

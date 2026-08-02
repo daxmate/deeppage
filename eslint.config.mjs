@@ -74,6 +74,7 @@ const contentScriptGlobals = {
   initDefaultActions: 'readonly',
   loadQuickActionsFromStorage: 'readonly',
   createChatPanel: 'readonly',
+  updateHeaderButtons: 'readonly',
   enableDrag: 'readonly',
   enableResize: 'readonly',
   togglePanel: 'readonly',
