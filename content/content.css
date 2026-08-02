@@ -402,6 +402,27 @@
   color: #6b8aff;
   border-color: #4a6cf7;
 }
+/* 空对话时禁用：导出/清除上下文/新建均不可用，避免“按了没反应” */
+#__dp-export-btn:disabled,
+#__dp-clear-ctx-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+#__dp-export-btn:disabled:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+#__dp-clear-ctx-btn:disabled:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+#__dp-new-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+#__dp-new-btn:disabled:hover {
+  background: none;
+  color: var(--dp-new-btn-text);
+  border-color: var(--dp-new-btn-border);
+}
 #__dp-input {
   flex: 1;
   border: 1px solid var(--dp-input-border);

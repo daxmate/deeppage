@@ -236,6 +236,43 @@ test.describe("面板 UI 功能", () => {
     expect(md).not.toEqual(txt);
   });
 
+  test("空对话时导出/清除上下文/新建按钮置灰，发消息后恢复，删空后重新置灰", async ({ page }) => {
+    const exportBtn = page.locator("#__dp-export-btn");
+    const clearBtn = page.locator("#__dp-clear-ctx-btn");
+    const newBtn = page.locator("#__dp-new-btn");
+
+    // 空对话（仅有欢迎消息，不计入 currentMessages）→ 三个按钮均禁用
+    await expect(exportBtn).toBeDisabled();
+    await expect(clearBtn).toBeDisabled();
+    await expect(newBtn).toBeDisabled();
+
+    // disabled 按钮不响应点击：导出菜单保持隐藏（浏览器规范不派发 click）
+    await page.evaluate(() => document.getElementById("__dp-export-btn").click());
+    await page.waitForTimeout(100);
+    await expect(page.locator("#__dp-export-menu")).not.toHaveClass(/__dp-show/);
+
+    // 发消息 → 三个按钮恢复可用
+    await page.fill("#__dp-input", "你好");
+    await page.click("#__dp-send");
+    await expect(
+      page.locator("#__dp-chat .__dp-msg.__dp-assistant:not([data-msg-type]) .__dp-bubble-content")
+    ).toContainText("这是来自 mock 服务器的回复。", { timeout: 15000 });
+    await expect(exportBtn).toBeEnabled();
+    await expect(clearBtn).toBeEnabled();
+    await expect(newBtn).toBeEnabled();
+
+    // 删光所有消息（从后往前删）→ 重新置灰
+    const delBtns = page.locator("#__dp-chat .__dp-del-btn");
+    let count = await delBtns.count();
+    for (let i = count - 1; i >= 0; i--) {
+      await delBtns.nth(i).click();
+      await page.waitForTimeout(50);
+    }
+    await expect(exportBtn).toBeDisabled();
+    await expect(clearBtn).toBeDisabled();
+    await expect(newBtn).toBeDisabled();
+  });
+
   test("清除上下文：多轮后只保留当前问题", async ({ page }) => {
     // 两轮对话（4 条消息）
     for (const q of ["第一轮问题", "第二轮问题"]) {

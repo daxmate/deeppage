@@ -267,6 +267,8 @@ async function newConversation() {
   document.getElementById("__dp-chat").innerHTML = "";
   await getOrCreateConv();
   showChat();
+  // 空对话：禁用导出/清除上下文/新建按钮
+  updateHeaderButtons();
 }
 
 async function loadActiveConversation() {
@@ -546,6 +548,8 @@ function addMsg(role, text, extra) {
 
   chat.appendChild(div);
   scrollChat();
+  // 消息变化后同步 header 按钮可用状态
+  updateHeaderButtons();
 }
 
 // ===== 消息删除 =====
@@ -588,6 +592,8 @@ async function deleteMessage(div) {
     const hi = chatHistory.findIndex((m) => m.role === ref.role && m.content === ref.content);
     if (hi !== -1) chatHistory.splice(hi, 1);
   }
+  // 删空后重新置灰 header 按钮
+  updateHeaderButtons();
   await saveCurrentMessages();
 }
 

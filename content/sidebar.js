@@ -101,6 +101,17 @@ function createChatPanel() {
   return panel;
 }
 
+// 空对话时禁用导出/清除上下文/新建按钮，避免“按了没反应”的困惑
+function updateHeaderButtons() {
+  const empty = currentMessages.length === 0;
+  const exportBtn = document.getElementById("__dp-export-btn");
+  const clearBtn = document.getElementById("__dp-clear-ctx-btn");
+  const newBtn = document.getElementById("__dp-new-btn");
+  if (exportBtn) exportBtn.disabled = empty;
+  if (clearBtn) clearBtn.disabled = empty;
+  if (newBtn) newBtn.disabled = empty;
+}
+
 // 拖拽期间用 setPointerCapture 完全接管鼠标：
 // 指针捕获后所有 pointer 事件只派发给捕获元素，页面元素收不到任何鼠标事件
 // （不会触发 hover、文本选中、页面自身的拖拽逻辑），pointerup 后自动释放。
@@ -585,6 +596,8 @@ function createButton() {
     restoreBtnPos(btn);
 
     chatPanel = createChatPanel();
+    // 初始为空对话：导出/清除上下文/新建按钮置灰
+    updateHeaderButtons();
 
     // 启用拖拽移动 + 四角缩放
     enableDrag(document.getElementById("__dp-panel-header"), chatPanel);
