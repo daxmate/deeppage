@@ -5,6 +5,13 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.16.2] - 2026-08-02
+
+### 修复
+
+- **点击全屏按钮后面板被误关闭**：全屏/暗色等按钮的 click handler 会替换按钮内 SVG，导致事件冒泡时 `e.target` 已脱离 DOM，`panel.contains()` 误判为点击面板外部而关闭面板（随后再点悬浮球会以全屏状态打开，操作错乱）。`handleClickOutside` 改用 `e.composedPath()` 判断命中，覆盖所有“点击时替换 innerHTML”的按钮；新增 3 个回归测试（全屏点击不关闭 / 全屏中暗色切换不关闭 / 外部点击仍可正常关闭），全屏 E2E 改为真实坐标点击
+- **悬浮按钮在面板打开时未隐藏**：上一版为防变形添加的内联 `display:flex` 压过了 `__dp-hidden` 的 `display:none`，导致面板打开时悬浮按钮仍显示。已从内联样式中移除 `display` 改由 CSS 控制，并给 `__dp-hidden` 加 `!important` 保险
+
 ## [1.16.1] - 2026-08-02
 
 ### 修复

@@ -961,7 +961,7 @@
   transition: none !important;
 }
 #__dp-btn.__dp-hidden {
-  display: none;
+  display: none !important;
 }
 
 /* 选中文本浮动按钮 */

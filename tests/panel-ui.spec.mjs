@@ -29,14 +29,13 @@ test.describe("面板 UI 功能", () => {
     const vw0 = await page.evaluate(() => window.innerWidth);
     expect(before.width).toBeLessThan(vw0);
 
-    // 用合成 click 触发（Playwright 坐标点击在此场景会先误命中隐藏的浮动按钮 #__dp-btn，
-    // 导致面板被 togglePanel 关闭；dispatchEvent 直接派发到目标元素，行为与真实用户一致）
-    const clickFs = () =>
-      page.evaluate(() => {
-        document
-          .getElementById("__dp-fullscreen-btn")
-          .dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
-      });
+    // 真实坐标点击（Playwright 坐标点击与真实用户一致，直接覆盖此前
+    // “点击全屏按钮 → handleClickOutside 误判关闭面板”的回归）
+    const clickFs = async () => {
+      const box = await fsBtn.boundingBox();
+      await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+      await page.waitForTimeout(100);
+    };
 
     // 点击进入全屏：面板铺满视口 - 48px（24px × 2）
     await clickFs();
