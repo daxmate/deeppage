@@ -1,36 +1,18 @@
 {
-  "appName": {
-    "message": "DeepPage"
+  "addButton": {
+    "message": "＋ ボタンを追加"
   },
-  "appDesc": {
-    "message": "ウェブ閲覧中にDeepSeekと会話 — 要約、要点抽出、翻訳、自由な質問"
+  "apiBaseUrlHint": {
+    "message": "完全な API ベースパス（例: /v1 接尾辞を含む）"
   },
-  "panelTitle": {
-    "message": "DeepPage"
+  "apiBaseUrlHint2": {
+    "message": "APIエンドポイントアドレス"
   },
-  "inputPlaceholder": {
-    "message": "質問を入力..."
+  "apiBaseUrlLabel": {
+    "message": "ベース URL"
   },
-  "contextLoaded": {
-    "message": "「$1」を会話の背景として読み込みました"
-  },
-  "loginNoticeTitle": {
-    "message": "DeepSeek API キーが必要です"
-  },
-  "loginNoticeStep1": {
-    "message": "· 拡張機能アイコン → オプション → APIキーを入力"
-  },
-  "loginNoticeStep2": {
-    "message": "· または platform.deepseek.com で取得"
-  },
-  "errorNoApiKey": {
-    "message": "❌ API キーが設定されていません。拡張機能のオプションで設定してください。"
-  },
-  "optionTitle": {
-    "message": "DeepPage 設定"
-  },
-  "optionDesc": {
-    "message": "DeepSeek 公式 API を使用してウェブ閲覧中にチャット"
+  "apiKeyHint": {
+    "message": "APIキーを入力"
   },
   "apiKeyLabel": {
     "message": "API Key"
@@ -38,86 +20,44 @@
   "apiKeyPlaceholder": {
     "message": "sk-..."
   },
-  "getApiKeyLink": {
-    "message": "platform.deepseek.com で取得"
-  },
-  "quickActionsSection": {
-    "message": "クイックアクションボタン"
-  },
-  "addButton": {
-    "message": "＋ ボタンを追加"
-  },
-  "saveButton": {
-    "message": "保存"
-  },
-  "savedSuccess": {
-    "message": "✅ 保存しました"
-  },
   "apiKeyRequired": {
     "message": "API キーを入力してください"
   },
-  "buttonLabel": {
-    "message": "ボタンラベル"
+  "apiModelHint": {
+    "message": "エンドポイントがサポートするモデル名を入力"
   },
-  "promptLabel": {
-    "message": "プロンプト"
+  "apiModelHint2": {
+    "message": "モデル名を選択または入力"
   },
-  "buttonLabelPlaceholder": {
-    "message": "例 📝 要約"
+  "apiModelLabel": {
+    "message": "モデル"
   },
-  "promptPlaceholder": {
-    "message": "ボタンクリック時に送信されるプロンプト"
+  "apiProviderHint": {
+    "message": "AIプロバイダーを選択"
   },
-  "deleteButton": {
-    "message": "削除"
+  "apiProviderLabel": {
+    "message": "API プロバイダー"
   },
-  "renameButton": {
-    "message": "名前を変更"
+  "apiTypeDesc": {
+    "message": "OpenAI互換またはAnthropic形式"
   },
-  "renamePlaceholder": {
-    "message": "新しいタイトルを入力"
+  "apiTypeLabel": {
+    "message": "API 形式"
   },
-  "copyButton": {
-    "message": "コピー"
+  "appDesc": {
+    "message": "ウェブ閲覧中にDeepSeekと会話 — 要約、要点抽出、翻訳、自由な質問"
   },
-  "historyButton": {
-    "message": "履歴"
+  "appName": {
+    "message": "DeepPage"
   },
   "backToChat": {
     "message": "戻る"
   },
-  "historyEmpty": {
-    "message": "会話がありません"
+  "buttonLabel": {
+    "message": "ボタンラベル"
   },
-  "historySearchPlaceholder": {
-    "message": "会話を検索…"
-  },
-  "historyNoMatch": {
-    "message": "一致する会話がありません"
-  },
-  "justNow": {
-    "message": "たった今"
-  },
-  "newChat": {
-    "message": "新規会話"
-  },
-  "newChatShort": {
-    "message": "新規"
-  },
-  "titleGenPrompt": {
-    "message": "この会話に簡潔な日本語のタイトルを付けてください。15文字以内、引用符や句読点なし、タイトルのみを出力："
-  },
-  "selAskButton": {
-    "message": "💬 選択部分について質問"
-  },
-  "selContextLabel": {
-    "message": "選択内容"
-  },
-  "maxRoundsLabel": {
-    "message": "最大会話ラウンド数"
-  },
-  "maxRoundsDesc": {
-    "message": "この数を超える古いメッセージは自動的に削除され、トークン制限を回避します"
+  "buttonLabelPlaceholder": {
+    "message": "例 📝 要約"
   },
   "clearContextBtn": {
     "message": "コンテキストをクリア"
@@ -125,143 +65,23 @@
   "contextCleared": {
     "message": "コンテキストをクリアしました"
   },
-  "exportButton": {
-    "message": "会話をエクスポート"
+  "contextLoaded": {
+    "message": "「$1」を会話の背景として読み込みました"
   },
-  "exportMarkdown": {
-    "message": "Markdown をコピー"
+  "copyButton": {
+    "message": "コピー"
   },
-  "exportText": {
-    "message": "プレーンテキストをコピー"
-  },
-  "exportDownload": {
-    "message": ".md ファイルをダウンロード"
-  },
-  "exportPdf": {
-    "message": "PDF をダウンロード"
-  },
-  "exportExported": {
-    "message": "クリップボードにコピーしました"
-  },
-  "apiTypeLabel": {
-    "message": "API 形式"
-  },
-  "apiBaseUrlLabel": {
-    "message": "ベース URL"
-  },
-  "apiBaseUrlHint": {
-    "message": "完全な API ベースパス（例: /v1 接尾辞を含む）"
+  "copySuccess": {
+    "message": "コピーしました"
   },
   "customLabel": {
     "message": "🔧 カスタム"
   },
-  "apiModelLabel": {
-    "message": "モデル"
-  },
-  "apiModelHint": {
-    "message": "エンドポイントがサポートするモデル名を入力"
-  },
-  "apiProviderLabel": {
-    "message": "API プロバイダー"
-  },
-  "testApiLabel": {
-    "message": "接続テスト"
-  },
-  "testApiButton": {
-    "message": "接続テスト"
-  },
-  "testApiSuccess": {
-    "message": "✅ 接続成功"
-  },
-  "testApiFailed": {
-    "message": "❌ 接続失敗："
-  },
-  "testApiRequired": {
-    "message": "先にベースURL、APIキー、モデル名を入力してください"
-  },
-  "tabApi": {
-    "message": "API"
-  },
-  "tabQuick": {
-    "message": "クイック操作"
-  },
-  "tabAppearance": {
-    "message": "外観"
-  },
-  "selectModelPlaceholder": {
-    "message": "-- モデルを選択または入力 --"
-  },
-  "apiProviderHint": {
-    "message": "AIプロバイダーを選択"
-  },
-  "apiTypeDesc": {
-    "message": "OpenAI互換またはAnthropic形式"
-  },
-  "apiBaseUrlHint2": {
-    "message": "APIエンドポイントアドレス"
-  },
-  "apiKeyHint": {
-    "message": "APIキーを入力"
-  },
-  "apiModelHint2": {
-    "message": "モデル名を選択または入力"
-  },
-  "testApiDesc": {
-    "message": "APIキーとエンドポイントを確認"
-  },
-  "languageDesc": {
-    "message": "インターフェース言語"
-  },
   "darkModeDesc": {
     "message": "ダークテーマを使用"
   },
-  "maxRoundsDesc2": {
-    "message": "制限を超えた古いメッセージは自動的に削除されます"
-  },
-  "maxContextLabel": {
-    "message": "ページ本文の最大文字数"
-  },
-  "maxContextDesc": {
-    "message": "AI に送るページ本文の最大文字数。超えた分は切り捨てられます"
-  },
-  "sectionConfig": {
-    "message": "設定"
-  },
-  "sectionApi": {
-    "message": "API"
-  },
-  "sectionQuick": {
-    "message": "クイック操作"
-  },
-  "sectionPreferences": {
-    "message": "環境設定"
-  },
-  "sectionAppearance": {
-    "message": "外観"
-  },
-  "groupConnection": {
-    "message": "接続"
-  },
-  "groupEndpoint": {
-    "message": "エンドポイント"
-  },
-  "groupLanguage": {
-    "message": "言語"
-  },
-  "groupTheme": {
-    "message": "テーマ"
-  },
-  "groupConversation": {
-    "message": "会話"
-  },
-  "groupButtons": {
-    "message": "ボタン"
-  },
-  "defaultSummarizeLabel": {
-    "message": "📝 要約"
-  },
-  "defaultSummarizePrompt": {
-    "message": "このウェブページの本文の核心内容を日本語で要約してください"
+  "darkModeLabel": {
+    "message": "ダークモード"
   },
   "defaultOutlineLabel": {
     "message": "🎯 ポイント抽出"
@@ -269,83 +89,200 @@
   "defaultOutlinePrompt": {
     "message": "このウェブページの要点をリスト形式で抽出してください"
   },
+  "defaultSummarizeLabel": {
+    "message": "📝 要約"
+  },
+  "defaultSummarizePrompt": {
+    "message": "このウェブページの本文の核心内容を日本語で要約してください"
+  },
   "defaultTranslateLabel": {
     "message": "🌐 翻訳"
   },
   "defaultTranslatePrompt": {
     "message": "このウェブページの本文を日本語に翻訳してください"
   },
-  "newButtonLabel": {
-    "message": "新規ボタン"
+  "deleteButton": {
+    "message": "削除"
   },
-  "languageLabel": {
-    "message": "言語"
+  "errorNoApiKey": {
+    "message": "❌ API キーが設定されていません。拡張機能のオプションで設定してください。"
   },
-  "darkModeLabel": {
-    "message": "ダークモード"
+  "exitFullscreenButton": {
+    "message": "全画面を終了"
   },
-  "groupParameters": {
-    "message": "リクエストパラメータ"
+  "exportButton": {
+    "message": "会話をエクスポート"
   },
-  "streamOutputLabel": {
-    "message": "ストリーミング出力"
+  "exportDownload": {
+    "message": ".md ファイルをダウンロード"
   },
-  "streamOutputDesc": {
-    "message": "トークンを生成しながら表示します。ストリーミング非対応のAPIではオフにしてください"
+  "exportExported": {
+    "message": "クリップボードにコピーしました"
   },
-  "groupAdvanced": {
-    "message": "詳細パラメータ"
+  "exportMarkdown": {
+    "message": "Markdown をコピー"
   },
-  "temperatureLabel": {
-    "message": "温度"
+  "exportPdf": {
+    "message": "PDF をダウンロード"
   },
-  "temperatureDesc": {
-    "message": "出力のランダム性を制御。高いほど創造的"
+  "exportPdfFailed": {
+    "message": "PDF の書き出しに失敗しました"
   },
-  "maxTokensLabel": {
-    "message": "最大トークン数"
+  "exportPdfSuccess": {
+    "message": "PDF を書き出しました"
   },
-  "maxTokensDesc": {
-    "message": "1回の応答あたりの最大トークン数"
+  "exportText": {
+    "message": "プレーンテキストをコピー"
   },
-  "reasoningLabel": {
-    "message": "推論深度"
+  "exportWord": {
+    "message": "Word をダウンロード"
   },
-  "reasoningDesc": {
-    "message": "モデルの思考深度を制御。モデルに応じて自動調整"
+  "exportWordFailed": {
+    "message": "Word 文書の書き出しに失敗しました"
   },
-  "topPDesc": {
-    "message": "核サンプリングの閾値。温度と補完関係"
+  "exportWordSuccess": {
+    "message": "Word 文書を書き出しました"
   },
-  "freqPenaltyLabel": {
-    "message": "頻度ペナルティ"
+  "extDesc": {
+    "message": "ウェブ閲覧中にDeepSeekと会話 — 要約、要点抽出、翻訳、自由な質問"
+  },
+  "extName": {
+    "message": "DeepPage"
   },
   "freqPenaltyDesc": {
     "message": "既出トークンにペナルティを課し、繰り返しを減らす"
   },
-  "presPenaltyLabel": {
-    "message": "存在ペナルティ"
+  "freqPenaltyLabel": {
+    "message": "頻度ペナルティ"
+  },
+  "fullscreenButton": {
+    "message": "全画面"
+  },
+  "getApiKeyLink": {
+    "message": "platform.deepseek.com で取得"
+  },
+  "groupAdvanced": {
+    "message": "詳細パラメータ"
+  },
+  "groupButtons": {
+    "message": "ボタン"
+  },
+  "groupConnection": {
+    "message": "接続"
+  },
+  "groupConversation": {
+    "message": "会話"
+  },
+  "groupEndpoint": {
+    "message": "エンドポイント"
+  },
+  "groupLanguage": {
+    "message": "言語"
+  },
+  "groupParameters": {
+    "message": "リクエストパラメータ"
+  },
+  "groupTheme": {
+    "message": "テーマ"
+  },
+  "historyButton": {
+    "message": "履歴"
+  },
+  "historyEmpty": {
+    "message": "会話がありません"
+  },
+  "historyNoMatch": {
+    "message": "一致する会話がありません"
+  },
+  "historySearchPlaceholder": {
+    "message": "会話を検索…"
+  },
+  "inputPlaceholder": {
+    "message": "質問を入力..."
+  },
+  "justNow": {
+    "message": "たった今"
+  },
+  "languageDesc": {
+    "message": "インターフェース言語"
+  },
+  "languageLabel": {
+    "message": "言語"
+  },
+  "loginNoticeStep1": {
+    "message": "· 拡張機能アイコン → オプション → APIキーを入力"
+  },
+  "loginNoticeStep2": {
+    "message": "· または platform.deepseek.com で取得"
+  },
+  "loginNoticeTitle": {
+    "message": "DeepSeek API キーが必要です"
+  },
+  "maxContextDesc": {
+    "message": "AI に送るページ本文の最大文字数。超えた分は切り捨てられます"
+  },
+  "maxContextLabel": {
+    "message": "ページ本文の最大文字数"
+  },
+  "maxRoundsDesc": {
+    "message": "この数を超える古いメッセージは自動的に削除され、トークン制限を回避します"
+  },
+  "maxRoundsDesc2": {
+    "message": "制限を超えた古いメッセージは自動的に削除されます"
+  },
+  "maxRoundsLabel": {
+    "message": "最大会話ラウンド数"
+  },
+  "maxTokensDesc": {
+    "message": "1回の応答あたりの最大トークン数"
+  },
+  "maxTokensLabel": {
+    "message": "最大トークン数"
+  },
+  "newButtonLabel": {
+    "message": "新規ボタン"
+  },
+  "newChat": {
+    "message": "新規会話"
+  },
+  "newChatShort": {
+    "message": "新規"
+  },
+  "optionDesc": {
+    "message": "DeepSeek 公式 API を使用してウェブ閲覧中にチャット"
+  },
+  "optionTitle": {
+    "message": "DeepPage 設定"
+  },
+  "panelTitle": {
+    "message": "DeepPage"
   },
   "presPenaltyDesc": {
     "message": "モデルが新しい話題を話すよう促し、多様性を向上"
   },
-  "stopSeqLabel": {
-    "message": "停止シーケンス"
+  "presPenaltyLabel": {
+    "message": "存在ペナルティ"
   },
-  "stopSeqDesc": {
-    "message": "カンマ区切り。これらのシーケンスで生成を停止"
+  "promptLabel": {
+    "message": "プロンプト"
   },
-  "systemPromptLabel": {
-    "message": "カスタム System Prompt"
+  "promptPlaceholder": {
+    "message": "ボタンクリック時に送信されるプロンプト"
   },
-  "systemPromptDesc": {
-    "message": "自動生成されたコンテキストプロンプトの後に追加"
+  "quickActionsSection": {
+    "message": "クイックアクションボタン"
   },
-  "systemPromptPlaceholder": {
-    "message": "例：ステップバイステップで考え、日本語で回答してください"
+  "reasoningDesc": {
+    "message": "モデルの思考深度を制御。モデルに応じて自動調整"
   },
-  "thinkingLabel": {
-    "message": "思考過程"
+  "reasoningLabel": {
+    "message": "推論深度"
+  },
+  "renameButton": {
+    "message": "名前を変更"
+  },
+  "renamePlaceholder": {
+    "message": "新しいタイトルを入力"
   },
   "resetButton": {
     "message": "すべての設定をリセット"
@@ -356,19 +293,97 @@
   "resetHint": {
     "message": "すべての設定がデフォルトに戻ります。元に戻せません。"
   },
-  "extName": {
-    "message": "DeepPage"
+  "saveButton": {
+    "message": "保存"
   },
-  "extDesc": {
-    "message": "ウェブ閲覧中にDeepSeekと会話 — 要約、要点抽出、翻訳、自由な質問"
+  "savedSuccess": {
+    "message": "✅ 保存しました"
   },
-  "exportWord": {
-    "message": "Word をダウンロード"
+  "sectionApi": {
+    "message": "API"
   },
-  "fullscreenButton": {
-    "message": "全画面"
+  "sectionAppearance": {
+    "message": "外観"
   },
-  "exitFullscreenButton": {
-    "message": "全画面を終了"
+  "sectionConfig": {
+    "message": "設定"
+  },
+  "sectionPreferences": {
+    "message": "環境設定"
+  },
+  "sectionQuick": {
+    "message": "クイック操作"
+  },
+  "selAskButton": {
+    "message": "💬 選択部分について質問"
+  },
+  "selContextLabel": {
+    "message": "選択内容"
+  },
+  "selectModelPlaceholder": {
+    "message": "-- モデルを選択または入力 --"
+  },
+  "stopSeqDesc": {
+    "message": "カンマ区切り。これらのシーケンスで生成を停止"
+  },
+  "stopSeqLabel": {
+    "message": "停止シーケンス"
+  },
+  "streamOutputDesc": {
+    "message": "トークンを生成しながら表示します。ストリーミング非対応のAPIではオフにしてください"
+  },
+  "streamOutputLabel": {
+    "message": "ストリーミング出力"
+  },
+  "systemPromptDesc": {
+    "message": "自動生成されたコンテキストプロンプトの後に追加"
+  },
+  "systemPromptLabel": {
+    "message": "カスタム System Prompt"
+  },
+  "systemPromptPlaceholder": {
+    "message": "例：ステップバイステップで考え、日本語で回答してください"
+  },
+  "tabApi": {
+    "message": "API"
+  },
+  "tabAppearance": {
+    "message": "外観"
+  },
+  "tabQuick": {
+    "message": "クイック操作"
+  },
+  "temperatureDesc": {
+    "message": "出力のランダム性を制御。高いほど創造的"
+  },
+  "temperatureLabel": {
+    "message": "温度"
+  },
+  "testApiButton": {
+    "message": "接続テスト"
+  },
+  "testApiDesc": {
+    "message": "APIキーとエンドポイントを確認"
+  },
+  "testApiFailed": {
+    "message": "❌ 接続失敗："
+  },
+  "testApiLabel": {
+    "message": "接続テスト"
+  },
+  "testApiRequired": {
+    "message": "先にベースURL、APIキー、モデル名を入力してください"
+  },
+  "testApiSuccess": {
+    "message": "✅ 接続成功"
+  },
+  "thinkingLabel": {
+    "message": "思考過程"
+  },
+  "titleGenPrompt": {
+    "message": "この会話に簡潔な日本語のタイトルを付けてください。15文字以内、引用符や句読点なし、タイトルのみを出力："
+  },
+  "topPDesc": {
+    "message": "核サンプリングの閾値。温度と補完関係"
   }
 }

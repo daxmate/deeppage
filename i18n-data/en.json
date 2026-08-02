@@ -1,36 +1,18 @@
 {
-  "appName": {
-    "message": "DeepPage"
+  "addButton": {
+    "message": "＋ Add Button"
   },
-  "appDesc": {
-    "message": "Chat with DeepSeek while browsing — summarize, outline, translate, and ask questions"
+  "apiBaseUrlHint": {
+    "message": "Full base path (e.g., including /v1 suffix)"
   },
-  "panelTitle": {
-    "message": "DeepPage"
+  "apiBaseUrlHint2": {
+    "message": "API endpoint address"
   },
-  "inputPlaceholder": {
-    "message": "Ask anything..."
+  "apiBaseUrlLabel": {
+    "message": "Base URL"
   },
-  "contextLoaded": {
-    "message": "Loaded \"$1\" as conversation context"
-  },
-  "loginNoticeTitle": {
-    "message": "DeepSeek API Key Required"
-  },
-  "loginNoticeStep1": {
-    "message": "· Click extension icon → Options → Enter API Key"
-  },
-  "loginNoticeStep2": {
-    "message": "· Or get one at platform.deepseek.com"
-  },
-  "errorNoApiKey": {
-    "message": "❌ API Key not configured. Please set it in the extension options."
-  },
-  "optionTitle": {
-    "message": "DeepPage Settings"
-  },
-  "optionDesc": {
-    "message": "Chat with DeepSeek using the official API while browsing the web"
+  "apiKeyHint": {
+    "message": "Enter your API key"
   },
   "apiKeyLabel": {
     "message": "API Key"
@@ -38,86 +20,44 @@
   "apiKeyPlaceholder": {
     "message": "sk-..."
   },
-  "getApiKeyLink": {
-    "message": "Get one at platform.deepseek.com"
-  },
-  "quickActionsSection": {
-    "message": "Quick Action Buttons"
-  },
-  "addButton": {
-    "message": "＋ Add Button"
-  },
-  "saveButton": {
-    "message": "Save"
-  },
-  "savedSuccess": {
-    "message": "✅ Saved"
-  },
   "apiKeyRequired": {
     "message": "Please enter an API Key"
   },
-  "buttonLabel": {
-    "message": "Button Label"
+  "apiModelHint": {
+    "message": "Enter your endpoint model name"
   },
-  "promptLabel": {
-    "message": "Prompt"
+  "apiModelHint2": {
+    "message": "Select or enter model name"
   },
-  "buttonLabelPlaceholder": {
-    "message": "e.g. 📝 Summarize"
+  "apiModelLabel": {
+    "message": "Model"
   },
-  "promptPlaceholder": {
-    "message": "Prompt text sent when button is clicked"
+  "apiProviderHint": {
+    "message": "Choose your AI provider"
   },
-  "deleteButton": {
-    "message": "Delete"
+  "apiProviderLabel": {
+    "message": "API Provider"
   },
-  "renameButton": {
-    "message": "Rename"
+  "apiTypeDesc": {
+    "message": "OpenAI-compatible or Anthropic format"
   },
-  "renamePlaceholder": {
-    "message": "Enter new title"
+  "apiTypeLabel": {
+    "message": "API Format"
   },
-  "copyButton": {
-    "message": "Copy"
+  "appDesc": {
+    "message": "Chat with DeepSeek while browsing — summarize, outline, translate, and ask questions"
   },
-  "historyButton": {
-    "message": "History"
+  "appName": {
+    "message": "DeepPage"
   },
   "backToChat": {
     "message": "Back"
   },
-  "historyEmpty": {
-    "message": "No conversations"
+  "buttonLabel": {
+    "message": "Button Label"
   },
-  "historySearchPlaceholder": {
-    "message": "Search conversations…"
-  },
-  "historyNoMatch": {
-    "message": "No matching conversations"
-  },
-  "justNow": {
-    "message": "just now"
-  },
-  "newChat": {
-    "message": "New Chat"
-  },
-  "newChatShort": {
-    "message": "New"
-  },
-  "titleGenPrompt": {
-    "message": "Generate a concise English title for this conversation, max 10 words, no quotes or periods, output only the title:"
-  },
-  "selAskButton": {
-    "message": "💬 Ask about selection"
-  },
-  "selContextLabel": {
-    "message": "Selection"
-  },
-  "maxRoundsLabel": {
-    "message": "Max Conversation Rounds"
-  },
-  "maxRoundsDesc": {
-    "message": "Older messages beyond this limit will be trimmed to avoid token overflow"
+  "buttonLabelPlaceholder": {
+    "message": "e.g. 📝 Summarize"
   },
   "clearContextBtn": {
     "message": "Clear Context"
@@ -125,143 +65,23 @@
   "contextCleared": {
     "message": "Context cleared"
   },
-  "exportButton": {
-    "message": "Export"
+  "contextLoaded": {
+    "message": "Loaded \"$1\" as conversation context"
   },
-  "exportMarkdown": {
-    "message": "Copy Markdown"
+  "copyButton": {
+    "message": "Copy"
   },
-  "exportText": {
-    "message": "Copy Plain Text"
-  },
-  "exportDownload": {
-    "message": "Download .md"
-  },
-  "exportPdf": {
-    "message": "Download PDF"
-  },
-  "exportExported": {
-    "message": "Copied to clipboard"
-  },
-  "apiTypeLabel": {
-    "message": "API Format"
-  },
-  "apiBaseUrlLabel": {
-    "message": "Base URL"
-  },
-  "apiBaseUrlHint": {
-    "message": "Full base path (e.g., including /v1 suffix)"
+  "copySuccess": {
+    "message": "Copied"
   },
   "customLabel": {
     "message": "🔧 Custom"
   },
-  "apiModelLabel": {
-    "message": "Model"
-  },
-  "apiModelHint": {
-    "message": "Enter your endpoint model name"
-  },
-  "apiProviderLabel": {
-    "message": "API Provider"
-  },
-  "testApiLabel": {
-    "message": "Test Connection"
-  },
-  "testApiButton": {
-    "message": "Test Connection"
-  },
-  "testApiSuccess": {
-    "message": "✅ Connection OK"
-  },
-  "testApiFailed": {
-    "message": "❌ Connection failed: "
-  },
-  "testApiRequired": {
-    "message": "Fill in Base URL, API Key, and Model first"
-  },
-  "tabApi": {
-    "message": "API"
-  },
-  "tabQuick": {
-    "message": "Quick Actions"
-  },
-  "tabAppearance": {
-    "message": "Appearance"
-  },
-  "selectModelPlaceholder": {
-    "message": "-- select or enter model name --"
-  },
-  "apiProviderHint": {
-    "message": "Choose your AI provider"
-  },
-  "apiTypeDesc": {
-    "message": "OpenAI-compatible or Anthropic format"
-  },
-  "apiBaseUrlHint2": {
-    "message": "API endpoint address"
-  },
-  "apiKeyHint": {
-    "message": "Enter your API key"
-  },
-  "apiModelHint2": {
-    "message": "Select or enter model name"
-  },
-  "testApiDesc": {
-    "message": "Verify API key and endpoint"
-  },
-  "languageDesc": {
-    "message": "Interface language"
-  },
   "darkModeDesc": {
     "message": "Use dark theme"
   },
-  "maxRoundsDesc2": {
-    "message": "Older messages beyond this limit will be trimmed"
-  },
-  "maxContextLabel": {
-    "message": "Max Page Context"
-  },
-  "maxContextDesc": {
-    "message": "Page text truncation length in characters sent to the AI"
-  },
-  "sectionConfig": {
-    "message": "CONFIGURATION"
-  },
-  "sectionApi": {
-    "message": "API"
-  },
-  "sectionQuick": {
-    "message": "Quick Actions"
-  },
-  "sectionPreferences": {
-    "message": "PREFERENCES"
-  },
-  "sectionAppearance": {
-    "message": "Appearance"
-  },
-  "groupConnection": {
-    "message": "CONNECTION"
-  },
-  "groupEndpoint": {
-    "message": "ENDPOINT"
-  },
-  "groupLanguage": {
-    "message": "LANGUAGE"
-  },
-  "groupTheme": {
-    "message": "THEME"
-  },
-  "groupConversation": {
-    "message": "CONVERSATION"
-  },
-  "groupButtons": {
-    "message": "BUTTONS"
-  },
-  "defaultSummarizeLabel": {
-    "message": "📝 Summarize"
-  },
-  "defaultSummarizePrompt": {
-    "message": "Please summarize the core content of this web page in English"
+  "darkModeLabel": {
+    "message": "Dark Mode"
   },
   "defaultOutlineLabel": {
     "message": "🎯 Key Points"
@@ -269,83 +89,200 @@
   "defaultOutlinePrompt": {
     "message": "Please extract the key points from this web page and list them"
   },
+  "defaultSummarizeLabel": {
+    "message": "📝 Summarize"
+  },
+  "defaultSummarizePrompt": {
+    "message": "Please summarize the core content of this web page in English"
+  },
   "defaultTranslateLabel": {
     "message": "🌐 Translate"
   },
   "defaultTranslatePrompt": {
     "message": "Please translate the main content of this web page to English"
   },
-  "newButtonLabel": {
-    "message": "New Button"
+  "deleteButton": {
+    "message": "Delete"
   },
-  "languageLabel": {
-    "message": "Language"
+  "errorNoApiKey": {
+    "message": "❌ API Key not configured. Please set it in the extension options."
   },
-  "darkModeLabel": {
-    "message": "Dark Mode"
+  "exitFullscreenButton": {
+    "message": "Exit Fullscreen"
   },
-  "groupParameters": {
-    "message": "REQUEST PARAMETERS"
+  "exportButton": {
+    "message": "Export"
   },
-  "streamOutputLabel": {
-    "message": "Streaming Output"
+  "exportDownload": {
+    "message": "Download .md"
   },
-  "streamOutputDesc": {
-    "message": "Stream tokens as they are generated. Turn off for APIs that only support non-streaming responses"
+  "exportExported": {
+    "message": "Copied to clipboard"
   },
-  "groupAdvanced": {
-    "message": "ADVANCED PARAMETERS"
+  "exportMarkdown": {
+    "message": "Copy Markdown"
   },
-  "temperatureLabel": {
-    "message": "Temperature"
+  "exportPdf": {
+    "message": "Download PDF"
   },
-  "temperatureDesc": {
-    "message": "Controls randomness of output. Higher = more creative"
+  "exportPdfFailed": {
+    "message": "PDF export failed"
   },
-  "maxTokensLabel": {
-    "message": "Max Tokens"
+  "exportPdfSuccess": {
+    "message": "PDF exported"
   },
-  "maxTokensDesc": {
-    "message": "Maximum tokens per response"
+  "exportText": {
+    "message": "Copy Plain Text"
   },
-  "reasoningLabel": {
-    "message": "Reasoning Depth"
+  "exportWord": {
+    "message": "Download Word"
   },
-  "reasoningDesc": {
-    "message": "Control the model's thinking depth. Auto-adapts per model"
+  "exportWordFailed": {
+    "message": "Word export failed"
   },
-  "topPDesc": {
-    "message": "Nucleus sampling threshold, complements temperature"
+  "exportWordSuccess": {
+    "message": "Word document exported"
   },
-  "freqPenaltyLabel": {
-    "message": "Frequency Penalty"
+  "extDesc": {
+    "message": "Chat with DeepSeek while browsing — summarize, outline, translate, and ask questions"
+  },
+  "extName": {
+    "message": "DeepPage"
   },
   "freqPenaltyDesc": {
     "message": "Penalizes repeated tokens"
   },
-  "presPenaltyLabel": {
-    "message": "Presence Penalty"
+  "freqPenaltyLabel": {
+    "message": "Frequency Penalty"
+  },
+  "fullscreenButton": {
+    "message": "Fullscreen"
+  },
+  "getApiKeyLink": {
+    "message": "Get one at platform.deepseek.com"
+  },
+  "groupAdvanced": {
+    "message": "ADVANCED PARAMETERS"
+  },
+  "groupButtons": {
+    "message": "BUTTONS"
+  },
+  "groupConnection": {
+    "message": "CONNECTION"
+  },
+  "groupConversation": {
+    "message": "CONVERSATION"
+  },
+  "groupEndpoint": {
+    "message": "ENDPOINT"
+  },
+  "groupLanguage": {
+    "message": "LANGUAGE"
+  },
+  "groupParameters": {
+    "message": "REQUEST PARAMETERS"
+  },
+  "groupTheme": {
+    "message": "THEME"
+  },
+  "historyButton": {
+    "message": "History"
+  },
+  "historyEmpty": {
+    "message": "No conversations"
+  },
+  "historyNoMatch": {
+    "message": "No matching conversations"
+  },
+  "historySearchPlaceholder": {
+    "message": "Search conversations…"
+  },
+  "inputPlaceholder": {
+    "message": "Ask anything..."
+  },
+  "justNow": {
+    "message": "just now"
+  },
+  "languageDesc": {
+    "message": "Interface language"
+  },
+  "languageLabel": {
+    "message": "Language"
+  },
+  "loginNoticeStep1": {
+    "message": "· Click extension icon → Options → Enter API Key"
+  },
+  "loginNoticeStep2": {
+    "message": "· Or get one at platform.deepseek.com"
+  },
+  "loginNoticeTitle": {
+    "message": "DeepSeek API Key Required"
+  },
+  "maxContextDesc": {
+    "message": "Page text truncation length in characters sent to the AI"
+  },
+  "maxContextLabel": {
+    "message": "Max Page Context"
+  },
+  "maxRoundsDesc": {
+    "message": "Older messages beyond this limit will be trimmed to avoid token overflow"
+  },
+  "maxRoundsDesc2": {
+    "message": "Older messages beyond this limit will be trimmed"
+  },
+  "maxRoundsLabel": {
+    "message": "Max Conversation Rounds"
+  },
+  "maxTokensDesc": {
+    "message": "Maximum tokens per response"
+  },
+  "maxTokensLabel": {
+    "message": "Max Tokens"
+  },
+  "newButtonLabel": {
+    "message": "New Button"
+  },
+  "newChat": {
+    "message": "New Chat"
+  },
+  "newChatShort": {
+    "message": "New"
+  },
+  "optionDesc": {
+    "message": "Chat with DeepSeek using the official API while browsing the web"
+  },
+  "optionTitle": {
+    "message": "DeepPage Settings"
+  },
+  "panelTitle": {
+    "message": "DeepPage"
   },
   "presPenaltyDesc": {
     "message": "Encourages the model to talk about new topics"
   },
-  "stopSeqLabel": {
-    "message": "Stop Sequences"
+  "presPenaltyLabel": {
+    "message": "Presence Penalty"
   },
-  "stopSeqDesc": {
-    "message": "Comma-separated. Stops generation when encountered"
+  "promptLabel": {
+    "message": "Prompt"
   },
-  "systemPromptLabel": {
-    "message": "Custom System Prompt"
+  "promptPlaceholder": {
+    "message": "Prompt text sent when button is clicked"
   },
-  "systemPromptDesc": {
-    "message": "Appended after the auto-generated context prompt"
+  "quickActionsSection": {
+    "message": "Quick Action Buttons"
   },
-  "systemPromptPlaceholder": {
-    "message": "e.g. Think step by step, respond in Chinese"
+  "reasoningDesc": {
+    "message": "Control the model's thinking depth. Auto-adapts per model"
   },
-  "thinkingLabel": {
-    "message": "Thinking"
+  "reasoningLabel": {
+    "message": "Reasoning Depth"
+  },
+  "renameButton": {
+    "message": "Rename"
+  },
+  "renamePlaceholder": {
+    "message": "Enter new title"
   },
   "resetButton": {
     "message": "Reset All Settings"
@@ -356,19 +293,97 @@
   "resetHint": {
     "message": "All settings will be restored to defaults. This cannot be undone."
   },
-  "extName": {
-    "message": "DeepPage"
+  "saveButton": {
+    "message": "Save"
   },
-  "extDesc": {
-    "message": "Chat with DeepSeek while browsing — summarize, outline, translate, and ask questions"
+  "savedSuccess": {
+    "message": "✅ Saved"
   },
-  "exportWord": {
-    "message": "Download Word"
+  "sectionApi": {
+    "message": "API"
   },
-  "fullscreenButton": {
-    "message": "Fullscreen"
+  "sectionAppearance": {
+    "message": "Appearance"
   },
-  "exitFullscreenButton": {
-    "message": "Exit Fullscreen"
+  "sectionConfig": {
+    "message": "CONFIGURATION"
+  },
+  "sectionPreferences": {
+    "message": "PREFERENCES"
+  },
+  "sectionQuick": {
+    "message": "Quick Actions"
+  },
+  "selAskButton": {
+    "message": "💬 Ask about selection"
+  },
+  "selContextLabel": {
+    "message": "Selection"
+  },
+  "selectModelPlaceholder": {
+    "message": "-- select or enter model name --"
+  },
+  "stopSeqDesc": {
+    "message": "Comma-separated. Stops generation when encountered"
+  },
+  "stopSeqLabel": {
+    "message": "Stop Sequences"
+  },
+  "streamOutputDesc": {
+    "message": "Stream tokens as they are generated. Turn off for APIs that only support non-streaming responses"
+  },
+  "streamOutputLabel": {
+    "message": "Streaming Output"
+  },
+  "systemPromptDesc": {
+    "message": "Appended after the auto-generated context prompt"
+  },
+  "systemPromptLabel": {
+    "message": "Custom System Prompt"
+  },
+  "systemPromptPlaceholder": {
+    "message": "e.g. Think step by step, respond in Chinese"
+  },
+  "tabApi": {
+    "message": "API"
+  },
+  "tabAppearance": {
+    "message": "Appearance"
+  },
+  "tabQuick": {
+    "message": "Quick Actions"
+  },
+  "temperatureDesc": {
+    "message": "Controls randomness of output. Higher = more creative"
+  },
+  "temperatureLabel": {
+    "message": "Temperature"
+  },
+  "testApiButton": {
+    "message": "Test Connection"
+  },
+  "testApiDesc": {
+    "message": "Verify API key and endpoint"
+  },
+  "testApiFailed": {
+    "message": "❌ Connection failed: "
+  },
+  "testApiLabel": {
+    "message": "Test Connection"
+  },
+  "testApiRequired": {
+    "message": "Fill in Base URL, API Key, and Model first"
+  },
+  "testApiSuccess": {
+    "message": "✅ Connection OK"
+  },
+  "thinkingLabel": {
+    "message": "Thinking"
+  },
+  "titleGenPrompt": {
+    "message": "Generate a concise English title for this conversation, max 10 words, no quotes or periods, output only the title:"
+  },
+  "topPDesc": {
+    "message": "Nucleus sampling threshold, complements temperature"
   }
 }

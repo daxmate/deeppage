@@ -16,6 +16,13 @@ const contentScriptGlobals = {
   marked: 'readonly',
   html2pdf: 'readonly',
   docx: 'readonly',
+  Sweetalert2: 'readonly',
+  // ---- js/toast.js ----
+  Toast: 'readonly',
+  showToast: 'readonly',
+  toastSuccess: 'readonly',
+  toastError: 'readonly',
+  toastInfo: 'readonly',
   // ---- js/utils.js ----
   generateId: 'readonly',
   formatRelativeTime: 'readonly',
@@ -88,6 +95,7 @@ export default [
     ignores: [
       'lib/marked.umd.min.js',
       'lib/html2pdf.bundle.min.js',
+      'lib/sweetalert2.all.min.js',
       'test-results/**',
       'dist/**',
       'node_modules/**',

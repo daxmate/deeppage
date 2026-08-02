@@ -23,6 +23,8 @@
                 "lib/marked.umd.min.js",
                 "js/i18n.js",
                 "js/utils.js",
+                "lib/sweetalert2.all.min.js",
+                "js/toast.js",
                 "lib/html2pdf.bundle.min.js",
                 "lib/docx.bundle.min.js",
                 "content/chat.js",

@@ -1,36 +1,18 @@
 {
-  "appName": {
-    "message": "DeepPage"
+  "addButton": {
+    "message": "＋ 新增按鈕"
   },
-  "appDesc": {
-    "message": "在瀏覽網頁時與 DeepSeek 對話——總結全文、提煉要點、自由問答"
+  "apiBaseUrlHint": {
+    "message": "填寫完整的 API 基礎路徑（如 /v1 後綴）"
   },
-  "panelTitle": {
-    "message": "DeepPage"
+  "apiBaseUrlHint2": {
+    "message": "API 接口地址"
   },
-  "inputPlaceholder": {
-    "message": "輸入問題..."
+  "apiBaseUrlLabel": {
+    "message": "接口地址"
   },
-  "contextLoaded": {
-    "message": "已載入「$1」作為對話背景"
-  },
-  "loginNoticeTitle": {
-    "message": "需要設定 DeepSeek API Key"
-  },
-  "loginNoticeStep1": {
-    "message": "· 點擊擴充功能圖示 → 選項 → 輸入 API Key"
-  },
-  "loginNoticeStep2": {
-    "message": "· 或前往 platform.deepseek.com 取得"
-  },
-  "errorNoApiKey": {
-    "message": "❌ 未設定 API Key，請在擴充功能設定中設定"
-  },
-  "optionTitle": {
-    "message": "DeepPage 設定"
-  },
-  "optionDesc": {
-    "message": "使用 DeepSeek 官方 API 與瀏覽的網頁對話"
+  "apiKeyHint": {
+    "message": "輸入你的 API Key"
   },
   "apiKeyLabel": {
     "message": "API Key"
@@ -38,86 +20,44 @@
   "apiKeyPlaceholder": {
     "message": "sk-..."
   },
-  "getApiKeyLink": {
-    "message": "從 platform.deepseek.com 取得"
-  },
-  "quickActionsSection": {
-    "message": "快速操作按鈕"
-  },
-  "addButton": {
-    "message": "＋ 新增按鈕"
-  },
-  "saveButton": {
-    "message": "儲存"
-  },
-  "savedSuccess": {
-    "message": "✅ 已儲存"
-  },
   "apiKeyRequired": {
     "message": "請輸入 API Key"
   },
-  "buttonLabel": {
-    "message": "按鈕文字"
+  "apiModelHint": {
+    "message": "輸入你的端點支援的模型名稱"
   },
-  "promptLabel": {
-    "message": "提示詞"
+  "apiModelHint2": {
+    "message": "選擇或輸入模型名稱"
   },
-  "buttonLabelPlaceholder": {
-    "message": "如 📝 總結全文"
+  "apiModelLabel": {
+    "message": "模型"
   },
-  "promptPlaceholder": {
-    "message": "點擊按鈕時自動輸入的提示詞"
+  "apiProviderHint": {
+    "message": "選擇 AI 服務提供商"
   },
-  "deleteButton": {
-    "message": "刪除"
+  "apiProviderLabel": {
+    "message": "API 提供商"
   },
-  "renameButton": {
-    "message": "重新命名"
+  "apiTypeDesc": {
+    "message": "OpenAI 兼容接口或 Anthropic 格式"
   },
-  "renamePlaceholder": {
-    "message": "輸入新標題"
+  "apiTypeLabel": {
+    "message": "API 格式"
   },
-  "copyButton": {
-    "message": "複製"
+  "appDesc": {
+    "message": "在瀏覽網頁時與 DeepSeek 對話——總結全文、提煉要點、自由問答"
   },
-  "historyButton": {
-    "message": "歷史"
+  "appName": {
+    "message": "DeepPage"
   },
   "backToChat": {
     "message": "返回"
   },
-  "historyEmpty": {
-    "message": "暫無對話"
+  "buttonLabel": {
+    "message": "按鈕文字"
   },
-  "historySearchPlaceholder": {
-    "message": "搜尋對話…"
-  },
-  "historyNoMatch": {
-    "message": "無符合的對話"
-  },
-  "justNow": {
-    "message": "剛剛"
-  },
-  "newChat": {
-    "message": "新對話"
-  },
-  "newChatShort": {
-    "message": "新對話"
-  },
-  "titleGenPrompt": {
-    "message": "為這段對話生成一個簡潔的繁體中文標題，不超過15個字，不要引號、不要句號，直接輸出標題："
-  },
-  "selAskButton": {
-    "message": "💬 對此段提問"
-  },
-  "selContextLabel": {
-    "message": "選中內容"
-  },
-  "maxRoundsLabel": {
-    "message": "最大對話輪數"
-  },
-  "maxRoundsDesc": {
-    "message": "超過此輪數的早期消息將被自動裁剪，避免超出 token 限制"
+  "buttonLabelPlaceholder": {
+    "message": "如 📝 總結全文"
   },
   "clearContextBtn": {
     "message": "清除上下文"
@@ -125,143 +65,23 @@
   "contextCleared": {
     "message": "已清除上下文"
   },
-  "exportButton": {
-    "message": "導出對話"
+  "contextLoaded": {
+    "message": "已載入「$1」作為對話背景"
   },
-  "exportMarkdown": {
-    "message": "複製 Markdown"
+  "copyButton": {
+    "message": "複製"
   },
-  "exportText": {
-    "message": "複製純文字"
-  },
-  "exportDownload": {
-    "message": "下載 .md 文件"
-  },
-  "exportPdf": {
-    "message": "下載 PDF"
-  },
-  "exportExported": {
-    "message": "已複製到剪貼板"
-  },
-  "apiTypeLabel": {
-    "message": "API 格式"
-  },
-  "apiBaseUrlLabel": {
-    "message": "接口地址"
-  },
-  "apiBaseUrlHint": {
-    "message": "填寫完整的 API 基礎路徑（如 /v1 後綴）"
+  "copySuccess": {
+    "message": "已複製"
   },
   "customLabel": {
     "message": "🔧 自定義"
   },
-  "apiModelLabel": {
-    "message": "模型"
-  },
-  "apiModelHint": {
-    "message": "輸入你的端點支援的模型名稱"
-  },
-  "apiProviderLabel": {
-    "message": "API 提供商"
-  },
-  "testApiLabel": {
-    "message": "測試連接"
-  },
-  "testApiButton": {
-    "message": "測試連接"
-  },
-  "testApiSuccess": {
-    "message": "✅ 連接成功"
-  },
-  "testApiFailed": {
-    "message": "❌ 連接失敗："
-  },
-  "testApiRequired": {
-    "message": "請先填寫接口地址、API Key 和模型名稱"
-  },
-  "tabApi": {
-    "message": "API"
-  },
-  "tabQuick": {
-    "message": "快捷按鈕"
-  },
-  "tabAppearance": {
-    "message": "外觀"
-  },
-  "selectModelPlaceholder": {
-    "message": "-- 選擇或輸入模型名稱 --"
-  },
-  "apiProviderHint": {
-    "message": "選擇 AI 服務提供商"
-  },
-  "apiTypeDesc": {
-    "message": "OpenAI 兼容接口或 Anthropic 格式"
-  },
-  "apiBaseUrlHint2": {
-    "message": "API 接口地址"
-  },
-  "apiKeyHint": {
-    "message": "輸入你的 API Key"
-  },
-  "apiModelHint2": {
-    "message": "選擇或輸入模型名稱"
-  },
-  "testApiDesc": {
-    "message": "驗證 API Key 和接口是否可用"
-  },
-  "languageDesc": {
-    "message": "界面語言"
-  },
   "darkModeDesc": {
     "message": "使用深色主題"
   },
-  "maxRoundsDesc2": {
-    "message": "超出限制的早期消息將被自動裁剪"
-  },
-  "maxContextLabel": {
-    "message": "頁面內容截斷"
-  },
-  "maxContextDesc": {
-    "message": "發送給 AI 的頁面正文最大字元數，超出部分將被截斷"
-  },
-  "sectionConfig": {
-    "message": "配置"
-  },
-  "sectionApi": {
-    "message": "API"
-  },
-  "sectionQuick": {
-    "message": "快捷按鈕"
-  },
-  "sectionPreferences": {
-    "message": "偏好"
-  },
-  "sectionAppearance": {
-    "message": "外觀"
-  },
-  "groupConnection": {
-    "message": "連接"
-  },
-  "groupEndpoint": {
-    "message": "接口"
-  },
-  "groupLanguage": {
-    "message": "語言"
-  },
-  "groupTheme": {
-    "message": "主題"
-  },
-  "groupConversation": {
-    "message": "對話"
-  },
-  "groupButtons": {
-    "message": "按鈕"
-  },
-  "defaultSummarizeLabel": {
-    "message": "📝 總結全文"
-  },
-  "defaultSummarizePrompt": {
-    "message": "請用繁體中文總結這篇網頁正文部分的核心內容"
+  "darkModeLabel": {
+    "message": "深色模式"
   },
   "defaultOutlineLabel": {
     "message": "🎯 提煉要點"
@@ -269,83 +89,200 @@
   "defaultOutlinePrompt": {
     "message": "請提煉這篇網頁正文部分的要點，以列表形式列出"
   },
+  "defaultSummarizeLabel": {
+    "message": "📝 總結全文"
+  },
+  "defaultSummarizePrompt": {
+    "message": "請用繁體中文總結這篇網頁正文部分的核心內容"
+  },
   "defaultTranslateLabel": {
     "message": "🌐 翻譯"
   },
   "defaultTranslatePrompt": {
     "message": "請將這篇網頁的正文部分翻譯成繁體中文"
   },
-  "newButtonLabel": {
-    "message": "新按鈕"
+  "deleteButton": {
+    "message": "刪除"
   },
-  "languageLabel": {
-    "message": "語言"
+  "errorNoApiKey": {
+    "message": "❌ 未設定 API Key，請在擴充功能設定中設定"
   },
-  "darkModeLabel": {
-    "message": "深色模式"
+  "exitFullscreenButton": {
+    "message": "結束全螢幕"
   },
-  "groupParameters": {
-    "message": "請求參數"
+  "exportButton": {
+    "message": "導出對話"
   },
-  "streamOutputLabel": {
-    "message": "串流輸出"
+  "exportDownload": {
+    "message": "下載 .md 文件"
   },
-  "streamOutputDesc": {
-    "message": "逐字顯示 AI 回覆內容。若 API 不支援串流，請關閉此選項"
+  "exportExported": {
+    "message": "已複製到剪貼板"
   },
-  "groupAdvanced": {
-    "message": "高級參數"
+  "exportMarkdown": {
+    "message": "複製 Markdown"
   },
-  "temperatureLabel": {
-    "message": "溫度"
+  "exportPdf": {
+    "message": "下載 PDF"
   },
-  "temperatureDesc": {
-    "message": "控制輸出的隨機性，值越高越有創造力"
+  "exportPdfFailed": {
+    "message": "PDF 匯出失敗"
   },
-  "maxTokensLabel": {
-    "message": "最多 Token"
+  "exportPdfSuccess": {
+    "message": "PDF 匯出成功"
   },
-  "maxTokensDesc": {
-    "message": "單次回覆的最大 token 數"
+  "exportText": {
+    "message": "複製純文字"
   },
-  "reasoningLabel": {
-    "message": "推理深度"
+  "exportWord": {
+    "message": "下載 Word 文件"
   },
-  "reasoningDesc": {
-    "message": "控制模型的思考深度，部分模型自動適配"
+  "exportWordFailed": {
+    "message": "Word 匯出失敗"
   },
-  "topPDesc": {
-    "message": "核採樣閾值，與溫度互補"
+  "exportWordSuccess": {
+    "message": "Word 匯出成功"
   },
-  "freqPenaltyLabel": {
-    "message": "頻率懲罰"
+  "extDesc": {
+    "message": "在瀏覽網頁時與 DeepSeek 對話——總結全文、提煉要點、自由問答"
+  },
+  "extName": {
+    "message": "DeepPage"
   },
   "freqPenaltyDesc": {
     "message": "懲罰已出現過的 token，減少重複"
   },
-  "presPenaltyLabel": {
-    "message": "存在懲罰"
+  "freqPenaltyLabel": {
+    "message": "頻率懲罰"
+  },
+  "fullscreenButton": {
+    "message": "全螢幕"
+  },
+  "getApiKeyLink": {
+    "message": "從 platform.deepseek.com 取得"
+  },
+  "groupAdvanced": {
+    "message": "高級參數"
+  },
+  "groupButtons": {
+    "message": "按鈕"
+  },
+  "groupConnection": {
+    "message": "連接"
+  },
+  "groupConversation": {
+    "message": "對話"
+  },
+  "groupEndpoint": {
+    "message": "接口"
+  },
+  "groupLanguage": {
+    "message": "語言"
+  },
+  "groupParameters": {
+    "message": "請求參數"
+  },
+  "groupTheme": {
+    "message": "主題"
+  },
+  "historyButton": {
+    "message": "歷史"
+  },
+  "historyEmpty": {
+    "message": "暫無對話"
+  },
+  "historyNoMatch": {
+    "message": "無符合的對話"
+  },
+  "historySearchPlaceholder": {
+    "message": "搜尋對話…"
+  },
+  "inputPlaceholder": {
+    "message": "輸入問題..."
+  },
+  "justNow": {
+    "message": "剛剛"
+  },
+  "languageDesc": {
+    "message": "界面語言"
+  },
+  "languageLabel": {
+    "message": "語言"
+  },
+  "loginNoticeStep1": {
+    "message": "· 點擊擴充功能圖示 → 選項 → 輸入 API Key"
+  },
+  "loginNoticeStep2": {
+    "message": "· 或前往 platform.deepseek.com 取得"
+  },
+  "loginNoticeTitle": {
+    "message": "需要設定 DeepSeek API Key"
+  },
+  "maxContextDesc": {
+    "message": "發送給 AI 的頁面正文最大字元數，超出部分將被截斷"
+  },
+  "maxContextLabel": {
+    "message": "頁面內容截斷"
+  },
+  "maxRoundsDesc": {
+    "message": "超過此輪數的早期消息將被自動裁剪，避免超出 token 限制"
+  },
+  "maxRoundsDesc2": {
+    "message": "超出限制的早期消息將被自動裁剪"
+  },
+  "maxRoundsLabel": {
+    "message": "最大對話輪數"
+  },
+  "maxTokensDesc": {
+    "message": "單次回覆的最大 token 數"
+  },
+  "maxTokensLabel": {
+    "message": "最多 Token"
+  },
+  "newButtonLabel": {
+    "message": "新按鈕"
+  },
+  "newChat": {
+    "message": "新對話"
+  },
+  "newChatShort": {
+    "message": "新對話"
+  },
+  "optionDesc": {
+    "message": "使用 DeepSeek 官方 API 與瀏覽的網頁對話"
+  },
+  "optionTitle": {
+    "message": "DeepPage 設定"
+  },
+  "panelTitle": {
+    "message": "DeepPage"
   },
   "presPenaltyDesc": {
     "message": "鼓勵模型談論新主題，提高多樣性"
   },
-  "stopSeqLabel": {
-    "message": "停止序列"
+  "presPenaltyLabel": {
+    "message": "存在懲罰"
   },
-  "stopSeqDesc": {
-    "message": "逗號分隔，遇到這些序列時停止生成"
+  "promptLabel": {
+    "message": "提示詞"
   },
-  "systemPromptLabel": {
-    "message": "自訂 System Prompt"
+  "promptPlaceholder": {
+    "message": "點擊按鈕時自動輸入的提示詞"
   },
-  "systemPromptDesc": {
-    "message": "附加在自動生成的上下文提示之後"
+  "quickActionsSection": {
+    "message": "快速操作按鈕"
   },
-  "systemPromptPlaceholder": {
-    "message": "例如：請一步步思考，用中文回答"
+  "reasoningDesc": {
+    "message": "控制模型的思考深度，部分模型自動適配"
   },
-  "thinkingLabel": {
-    "message": "思考過程"
+  "reasoningLabel": {
+    "message": "推理深度"
+  },
+  "renameButton": {
+    "message": "重新命名"
+  },
+  "renamePlaceholder": {
+    "message": "輸入新標題"
   },
   "resetButton": {
     "message": "重置所有設定"
@@ -356,19 +293,97 @@
   "resetHint": {
     "message": "所有配置將恢復為預設值，不可撤銷"
   },
-  "extName": {
-    "message": "DeepPage"
+  "saveButton": {
+    "message": "儲存"
   },
-  "extDesc": {
-    "message": "在瀏覽網頁時與 DeepSeek 對話——總結全文、提煉要點、自由問答"
+  "savedSuccess": {
+    "message": "✅ 已儲存"
   },
-  "exportWord": {
-    "message": "下載 Word 文件"
+  "sectionApi": {
+    "message": "API"
   },
-  "fullscreenButton": {
-    "message": "全螢幕"
+  "sectionAppearance": {
+    "message": "外觀"
   },
-  "exitFullscreenButton": {
-    "message": "結束全螢幕"
+  "sectionConfig": {
+    "message": "配置"
+  },
+  "sectionPreferences": {
+    "message": "偏好"
+  },
+  "sectionQuick": {
+    "message": "快捷按鈕"
+  },
+  "selAskButton": {
+    "message": "💬 對此段提問"
+  },
+  "selContextLabel": {
+    "message": "選中內容"
+  },
+  "selectModelPlaceholder": {
+    "message": "-- 選擇或輸入模型名稱 --"
+  },
+  "stopSeqDesc": {
+    "message": "逗號分隔，遇到這些序列時停止生成"
+  },
+  "stopSeqLabel": {
+    "message": "停止序列"
+  },
+  "streamOutputDesc": {
+    "message": "逐字顯示 AI 回覆內容。若 API 不支援串流，請關閉此選項"
+  },
+  "streamOutputLabel": {
+    "message": "串流輸出"
+  },
+  "systemPromptDesc": {
+    "message": "附加在自動生成的上下文提示之後"
+  },
+  "systemPromptLabel": {
+    "message": "自訂 System Prompt"
+  },
+  "systemPromptPlaceholder": {
+    "message": "例如：請一步步思考，用中文回答"
+  },
+  "tabApi": {
+    "message": "API"
+  },
+  "tabAppearance": {
+    "message": "外觀"
+  },
+  "tabQuick": {
+    "message": "快捷按鈕"
+  },
+  "temperatureDesc": {
+    "message": "控制輸出的隨機性，值越高越有創造力"
+  },
+  "temperatureLabel": {
+    "message": "溫度"
+  },
+  "testApiButton": {
+    "message": "測試連接"
+  },
+  "testApiDesc": {
+    "message": "驗證 API Key 和接口是否可用"
+  },
+  "testApiFailed": {
+    "message": "❌ 連接失敗："
+  },
+  "testApiLabel": {
+    "message": "測試連接"
+  },
+  "testApiRequired": {
+    "message": "請先填寫接口地址、API Key 和模型名稱"
+  },
+  "testApiSuccess": {
+    "message": "✅ 連接成功"
+  },
+  "thinkingLabel": {
+    "message": "思考過程"
+  },
+  "titleGenPrompt": {
+    "message": "為這段對話生成一個簡潔的繁體中文標題，不超過15個字，不要引號、不要句號，直接輸出標題："
+  },
+  "topPDesc": {
+    "message": "核採樣閾值，與溫度互補"
   }
 }

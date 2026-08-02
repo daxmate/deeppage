@@ -153,9 +153,10 @@ test.describe("面板 UI 功能", () => {
     await expect(pdfItem).toBeVisible();
     await expect(pdfItem).toContainText("PDF");
 
-    // 点击触发下载
+    // 点击触发下载（同时断言 SweetAlert2 toast 成功提示出现）
     const [download] = await Promise.all([
       page.waitForEvent("download", { timeout: 30000 }),
+      page.waitForSelector(".swal2-toast", { timeout: 30000, state: "visible" }),
       pdfItem.click(),
     ]);
     expect(download.suggestedFilename()).toMatch(/\.pdf$/);
@@ -181,9 +182,10 @@ test.describe("面板 UI 功能", () => {
     await expect(wordItem).toBeVisible();
     await expect(wordItem).toContainText("Word");
 
-    // 点击触发下载
+    // 点击触发下载（同时断言 SweetAlert2 toast 成功提示出现）
     const [download] = await Promise.all([
       page.waitForEvent("download", { timeout: 30000 }),
+      page.waitForSelector(".swal2-toast", { timeout: 30000, state: "visible" }),
       wordItem.click(),
     ]);
     expect(download.suggestedFilename()).toMatch(/\.docx$/);

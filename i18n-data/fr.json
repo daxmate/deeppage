@@ -1,36 +1,18 @@
 {
-  "appName": {
-    "message": "DeepPage"
+  "addButton": {
+    "message": "＋ Ajouter un bouton"
   },
-  "appDesc": {
-    "message": "Discutez avec DeepSeek pendant la navigation — résumer, points clés, traduire, poser des questions"
+  "apiBaseUrlHint": {
+    "message": "Chemin de base complet (incluant le suffixe /v1)"
   },
-  "panelTitle": {
-    "message": "DeepPage"
+  "apiBaseUrlHint2": {
+    "message": "Adresse du point de terminaison API"
   },
-  "inputPlaceholder": {
-    "message": "Posez une question..."
+  "apiBaseUrlLabel": {
+    "message": "URL de base"
   },
-  "contextLoaded": {
-    "message": "« $1 » chargé comme contexte de conversation"
-  },
-  "loginNoticeTitle": {
-    "message": "Clé API DeepSeek requise"
-  },
-  "loginNoticeStep1": {
-    "message": "· Cliquez sur l\\'icône de l\\'extension → Options → Entrez la clé API"
-  },
-  "loginNoticeStep2": {
-    "message": "· Ou obtenez-en une sur platform.deepseek.com"
-  },
-  "errorNoApiKey": {
-    "message": "❌ Clé API non configurée. Veuillez la configurer dans les options de l\\'extension."
-  },
-  "optionTitle": {
-    "message": "Paramètres DeepPage"
-  },
-  "optionDesc": {
-    "message": "Discutez avec DeepSeek via l\\'API officielle en naviguant sur le web"
+  "apiKeyHint": {
+    "message": "Entrez votre clé API"
   },
   "apiKeyLabel": {
     "message": "Clé API"
@@ -38,86 +20,44 @@
   "apiKeyPlaceholder": {
     "message": "sk-..."
   },
-  "getApiKeyLink": {
-    "message": "Obtenez-en une sur platform.deepseek.com"
-  },
-  "quickActionsSection": {
-    "message": "Boutons d\\'action rapide"
-  },
-  "addButton": {
-    "message": "＋ Ajouter un bouton"
-  },
-  "saveButton": {
-    "message": "Enregistrer"
-  },
-  "savedSuccess": {
-    "message": "✅ Enregistré"
-  },
   "apiKeyRequired": {
     "message": "Veuillez entrer une clé API"
   },
-  "buttonLabel": {
-    "message": "Étiquette du bouton"
+  "apiModelHint": {
+    "message": "Nom du modèle supporté par votre endpoint"
   },
-  "promptLabel": {
-    "message": "Invite"
+  "apiModelHint2": {
+    "message": "Sélectionnez ou saisissez le modèle"
   },
-  "buttonLabelPlaceholder": {
-    "message": "ex. 📝 Résumer"
+  "apiModelLabel": {
+    "message": "Modèle"
   },
-  "promptPlaceholder": {
-    "message": "Invite envoyée lors du clic sur le bouton"
+  "apiProviderHint": {
+    "message": "Choisissez votre fournisseur d\\'IA"
   },
-  "deleteButton": {
-    "message": "Supprimer"
+  "apiProviderLabel": {
+    "message": "Fournisseur API"
   },
-  "renameButton": {
-    "message": "Renommer"
+  "apiTypeDesc": {
+    "message": "Compatible OpenAI ou format Anthropic"
   },
-  "renamePlaceholder": {
-    "message": "Saisir un nouveau titre"
+  "apiTypeLabel": {
+    "message": "Format d\\'API"
   },
-  "copyButton": {
-    "message": "Copier"
+  "appDesc": {
+    "message": "Discutez avec DeepSeek pendant la navigation — résumer, points clés, traduire, poser des questions"
   },
-  "historyButton": {
-    "message": "Historique"
+  "appName": {
+    "message": "DeepPage"
   },
   "backToChat": {
     "message": "Retour"
   },
-  "historyEmpty": {
-    "message": "Aucune conversation"
+  "buttonLabel": {
+    "message": "Étiquette du bouton"
   },
-  "historySearchPlaceholder": {
-    "message": "Rechercher des conversations…"
-  },
-  "historyNoMatch": {
-    "message": "Aucune conversation correspondante"
-  },
-  "justNow": {
-    "message": "à l\\'instant"
-  },
-  "newChat": {
-    "message": "Nouvelle conversation"
-  },
-  "newChatShort": {
-    "message": "Nouveau"
-  },
-  "titleGenPrompt": {
-    "message": "Générez un titre concis en français pour cette conversation, 10 mots maximum, sans guillemets ni points, générez uniquement le titre :"
-  },
-  "selAskButton": {
-    "message": "💬 Questionner la sélection"
-  },
-  "selContextLabel": {
-    "message": "Sélection"
-  },
-  "maxRoundsLabel": {
-    "message": "Maximum de tours"
-  },
-  "maxRoundsDesc": {
-    "message": "Les messages anciens au-delà de cette limite seront supprimés pour éviter le dépassement de tokens"
+  "buttonLabelPlaceholder": {
+    "message": "ex. 📝 Résumer"
   },
   "clearContextBtn": {
     "message": "Effacer le contexte"
@@ -125,143 +65,23 @@
   "contextCleared": {
     "message": "Contexte effacé"
   },
-  "exportButton": {
-    "message": "Exporter"
+  "contextLoaded": {
+    "message": "« $1 » chargé comme contexte de conversation"
   },
-  "exportMarkdown": {
-    "message": "Copier Markdown"
+  "copyButton": {
+    "message": "Copier"
   },
-  "exportText": {
-    "message": "Copier le texte brut"
-  },
-  "exportDownload": {
-    "message": "Télécharger .md"
-  },
-  "exportPdf": {
-    "message": "Télécharger PDF"
-  },
-  "exportExported": {
-    "message": "Copié dans le presse-papier"
-  },
-  "apiTypeLabel": {
-    "message": "Format d\\'API"
-  },
-  "apiBaseUrlLabel": {
-    "message": "URL de base"
-  },
-  "apiBaseUrlHint": {
-    "message": "Chemin de base complet (incluant le suffixe /v1)"
+  "copySuccess": {
+    "message": "Copié"
   },
   "customLabel": {
     "message": "🔧 Personnalisé"
   },
-  "apiModelLabel": {
-    "message": "Modèle"
-  },
-  "apiModelHint": {
-    "message": "Nom du modèle supporté par votre endpoint"
-  },
-  "apiProviderLabel": {
-    "message": "Fournisseur API"
-  },
-  "testApiLabel": {
-    "message": "Tester la connexion"
-  },
-  "testApiButton": {
-    "message": "Tester la connexion"
-  },
-  "testApiSuccess": {
-    "message": "✅ Connexion réussie"
-  },
-  "testApiFailed": {
-    "message": "❌ Échec de connexion："
-  },
-  "testApiRequired": {
-    "message": "Veuillez d'abord saisir l'URL de base, la clé API et le nom du modèle"
-  },
-  "tabApi": {
-    "message": "API"
-  },
-  "tabQuick": {
-    "message": "Actions rapides"
-  },
-  "tabAppearance": {
-    "message": "Apparence"
-  },
-  "selectModelPlaceholder": {
-    "message": "-- sélectionnez ou saisissez le modèle --"
-  },
-  "apiProviderHint": {
-    "message": "Choisissez votre fournisseur d\\'IA"
-  },
-  "apiTypeDesc": {
-    "message": "Compatible OpenAI ou format Anthropic"
-  },
-  "apiBaseUrlHint2": {
-    "message": "Adresse du point de terminaison API"
-  },
-  "apiKeyHint": {
-    "message": "Entrez votre clé API"
-  },
-  "apiModelHint2": {
-    "message": "Sélectionnez ou saisissez le modèle"
-  },
-  "testApiDesc": {
-    "message": "Vérifier la clé API et le point de terminaison"
-  },
-  "languageDesc": {
-    "message": "Langue de l\\'interface"
-  },
   "darkModeDesc": {
     "message": "Utiliser le thème sombre"
   },
-  "maxRoundsDesc2": {
-    "message": "Les messages anciens au-delà de cette limite seront supprimés"
-  },
-  "maxContextLabel": {
-    "message": "Contexte de page max."
-  },
-  "maxContextDesc": {
-    "message": "Longueur maximale du texte de page envoyé à l'IA"
-  },
-  "sectionConfig": {
-    "message": "CONFIGURATION"
-  },
-  "sectionApi": {
-    "message": "API"
-  },
-  "sectionQuick": {
-    "message": "Actions rapides"
-  },
-  "sectionPreferences": {
-    "message": "PRÉFÉRENCES"
-  },
-  "sectionAppearance": {
-    "message": "Apparence"
-  },
-  "groupConnection": {
-    "message": "CONNEXION"
-  },
-  "groupEndpoint": {
-    "message": "ENDPOINT"
-  },
-  "groupLanguage": {
-    "message": "LANGUE"
-  },
-  "groupTheme": {
-    "message": "THÈME"
-  },
-  "groupConversation": {
-    "message": "CONVERSATION"
-  },
-  "groupButtons": {
-    "message": "BOUTONS"
-  },
-  "defaultSummarizeLabel": {
-    "message": "📝 Résumer"
-  },
-  "defaultSummarizePrompt": {
-    "message": "Veuillez résumer le contenu principal de cette page web en français"
+  "darkModeLabel": {
+    "message": "Mode sombre"
   },
   "defaultOutlineLabel": {
     "message": "🎯 Points clés"
@@ -269,83 +89,200 @@
   "defaultOutlinePrompt": {
     "message": "Veuillez extraire les points clés de cette page web et les lister"
   },
+  "defaultSummarizeLabel": {
+    "message": "📝 Résumer"
+  },
+  "defaultSummarizePrompt": {
+    "message": "Veuillez résumer le contenu principal de cette page web en français"
+  },
   "defaultTranslateLabel": {
     "message": "🌐 Traduire"
   },
   "defaultTranslatePrompt": {
     "message": "Veuillez traduire le contenu principal de cette page web en français"
   },
-  "newButtonLabel": {
-    "message": "Nouveau bouton"
+  "deleteButton": {
+    "message": "Supprimer"
   },
-  "languageLabel": {
-    "message": "Langue"
+  "errorNoApiKey": {
+    "message": "❌ Clé API non configurée. Veuillez la configurer dans les options de l\\'extension."
   },
-  "darkModeLabel": {
-    "message": "Mode sombre"
+  "exitFullscreenButton": {
+    "message": "Quitter le plein écran"
   },
-  "groupParameters": {
-    "message": "PARAMÈTRES"
+  "exportButton": {
+    "message": "Exporter"
   },
-  "streamOutputLabel": {
-    "message": "Sortie en streaming"
+  "exportDownload": {
+    "message": "Télécharger .md"
   },
-  "streamOutputDesc": {
-    "message": "Affiche les jetons au fur et à mesure. Désactivez pour les API sans streaming"
+  "exportExported": {
+    "message": "Copié dans le presse-papier"
   },
-  "groupAdvanced": {
-    "message": "PARAMÈTRES AVANCÉS"
+  "exportMarkdown": {
+    "message": "Copier Markdown"
   },
-  "temperatureLabel": {
-    "message": "Température"
+  "exportPdf": {
+    "message": "Télécharger PDF"
   },
-  "temperatureDesc": {
-    "message": "Contrôle le caractère aléatoire. Plus haut = plus créatif"
+  "exportPdfFailed": {
+    "message": "Échec de l'export PDF"
   },
-  "maxTokensLabel": {
-    "message": "Max de tokens"
+  "exportPdfSuccess": {
+    "message": "PDF exporté"
   },
-  "maxTokensDesc": {
-    "message": "Nombre maximum de tokens par réponse"
+  "exportText": {
+    "message": "Copier le texte brut"
   },
-  "reasoningLabel": {
-    "message": "Profondeur de raisonnement"
+  "exportWord": {
+    "message": "Télécharger Word"
   },
-  "reasoningDesc": {
-    "message": "Contrôle la profondeur de réflexion. S'adapte par modèle"
+  "exportWordFailed": {
+    "message": "Échec de l'export Word"
   },
-  "topPDesc": {
-    "message": "Seuil d'échantillonnage nucléaire, complète la température"
+  "exportWordSuccess": {
+    "message": "Document Word exporté"
   },
-  "freqPenaltyLabel": {
-    "message": "Pénalité de fréquence"
+  "extDesc": {
+    "message": "Discutez avec DeepSeek pendant la navigation — résumer, points clés, traduire, poser des questions"
+  },
+  "extName": {
+    "message": "DeepPage"
   },
   "freqPenaltyDesc": {
     "message": "Pénalise les tokens déjà apparus, réduit les répétitions"
   },
-  "presPenaltyLabel": {
-    "message": "Pénalité de présence"
+  "freqPenaltyLabel": {
+    "message": "Pénalité de fréquence"
+  },
+  "fullscreenButton": {
+    "message": "Plein écran"
+  },
+  "getApiKeyLink": {
+    "message": "Obtenez-en une sur platform.deepseek.com"
+  },
+  "groupAdvanced": {
+    "message": "PARAMÈTRES AVANCÉS"
+  },
+  "groupButtons": {
+    "message": "BOUTONS"
+  },
+  "groupConnection": {
+    "message": "CONNEXION"
+  },
+  "groupConversation": {
+    "message": "CONVERSATION"
+  },
+  "groupEndpoint": {
+    "message": "ENDPOINT"
+  },
+  "groupLanguage": {
+    "message": "LANGUE"
+  },
+  "groupParameters": {
+    "message": "PARAMÈTRES"
+  },
+  "groupTheme": {
+    "message": "THÈME"
+  },
+  "historyButton": {
+    "message": "Historique"
+  },
+  "historyEmpty": {
+    "message": "Aucune conversation"
+  },
+  "historyNoMatch": {
+    "message": "Aucune conversation correspondante"
+  },
+  "historySearchPlaceholder": {
+    "message": "Rechercher des conversations…"
+  },
+  "inputPlaceholder": {
+    "message": "Posez une question..."
+  },
+  "justNow": {
+    "message": "à l\\'instant"
+  },
+  "languageDesc": {
+    "message": "Langue de l\\'interface"
+  },
+  "languageLabel": {
+    "message": "Langue"
+  },
+  "loginNoticeStep1": {
+    "message": "· Cliquez sur l\\'icône de l\\'extension → Options → Entrez la clé API"
+  },
+  "loginNoticeStep2": {
+    "message": "· Ou obtenez-en une sur platform.deepseek.com"
+  },
+  "loginNoticeTitle": {
+    "message": "Clé API DeepSeek requise"
+  },
+  "maxContextDesc": {
+    "message": "Longueur maximale du texte de page envoyé à l'IA"
+  },
+  "maxContextLabel": {
+    "message": "Contexte de page max."
+  },
+  "maxRoundsDesc": {
+    "message": "Les messages anciens au-delà de cette limite seront supprimés pour éviter le dépassement de tokens"
+  },
+  "maxRoundsDesc2": {
+    "message": "Les messages anciens au-delà de cette limite seront supprimés"
+  },
+  "maxRoundsLabel": {
+    "message": "Maximum de tours"
+  },
+  "maxTokensDesc": {
+    "message": "Nombre maximum de tokens par réponse"
+  },
+  "maxTokensLabel": {
+    "message": "Max de tokens"
+  },
+  "newButtonLabel": {
+    "message": "Nouveau bouton"
+  },
+  "newChat": {
+    "message": "Nouvelle conversation"
+  },
+  "newChatShort": {
+    "message": "Nouveau"
+  },
+  "optionDesc": {
+    "message": "Discutez avec DeepSeek via l\\'API officielle en naviguant sur le web"
+  },
+  "optionTitle": {
+    "message": "Paramètres DeepPage"
+  },
+  "panelTitle": {
+    "message": "DeepPage"
   },
   "presPenaltyDesc": {
     "message": "Encourage le modèle à aborder de nouveaux sujets"
   },
-  "stopSeqLabel": {
-    "message": "Séquences d'arrêt"
+  "presPenaltyLabel": {
+    "message": "Pénalité de présence"
   },
-  "stopSeqDesc": {
-    "message": "Séparés par des virgules. Arrête la génération à leur rencontre"
+  "promptLabel": {
+    "message": "Invite"
   },
-  "systemPromptLabel": {
-    "message": "Invite système personnalisée"
+  "promptPlaceholder": {
+    "message": "Invite envoyée lors du clic sur le bouton"
   },
-  "systemPromptDesc": {
-    "message": "Ajouté après l'invite de contexte générée automatiquement"
+  "quickActionsSection": {
+    "message": "Boutons d\\'action rapide"
   },
-  "systemPromptPlaceholder": {
-    "message": "p. ex. Réfléchissez étape par étape, répondez en français"
+  "reasoningDesc": {
+    "message": "Contrôle la profondeur de réflexion. S'adapte par modèle"
   },
-  "thinkingLabel": {
-    "message": "Réflexion"
+  "reasoningLabel": {
+    "message": "Profondeur de raisonnement"
+  },
+  "renameButton": {
+    "message": "Renommer"
+  },
+  "renamePlaceholder": {
+    "message": "Saisir un nouveau titre"
   },
   "resetButton": {
     "message": "Réinitialiser tous les paramètres"
@@ -356,19 +293,97 @@
   "resetHint": {
     "message": "Tous les paramètres seront restaurés aux valeurs par défaut. Cette action est irréversible."
   },
-  "extName": {
-    "message": "DeepPage"
+  "saveButton": {
+    "message": "Enregistrer"
   },
-  "extDesc": {
-    "message": "Discutez avec DeepSeek pendant la navigation — résumer, points clés, traduire, poser des questions"
+  "savedSuccess": {
+    "message": "✅ Enregistré"
   },
-  "exportWord": {
-    "message": "Télécharger Word"
+  "sectionApi": {
+    "message": "API"
   },
-  "fullscreenButton": {
-    "message": "Plein écran"
+  "sectionAppearance": {
+    "message": "Apparence"
   },
-  "exitFullscreenButton": {
-    "message": "Quitter le plein écran"
+  "sectionConfig": {
+    "message": "CONFIGURATION"
+  },
+  "sectionPreferences": {
+    "message": "PRÉFÉRENCES"
+  },
+  "sectionQuick": {
+    "message": "Actions rapides"
+  },
+  "selAskButton": {
+    "message": "💬 Questionner la sélection"
+  },
+  "selContextLabel": {
+    "message": "Sélection"
+  },
+  "selectModelPlaceholder": {
+    "message": "-- sélectionnez ou saisissez le modèle --"
+  },
+  "stopSeqDesc": {
+    "message": "Séparés par des virgules. Arrête la génération à leur rencontre"
+  },
+  "stopSeqLabel": {
+    "message": "Séquences d'arrêt"
+  },
+  "streamOutputDesc": {
+    "message": "Affiche les jetons au fur et à mesure. Désactivez pour les API sans streaming"
+  },
+  "streamOutputLabel": {
+    "message": "Sortie en streaming"
+  },
+  "systemPromptDesc": {
+    "message": "Ajouté après l'invite de contexte générée automatiquement"
+  },
+  "systemPromptLabel": {
+    "message": "Invite système personnalisée"
+  },
+  "systemPromptPlaceholder": {
+    "message": "p. ex. Réfléchissez étape par étape, répondez en français"
+  },
+  "tabApi": {
+    "message": "API"
+  },
+  "tabAppearance": {
+    "message": "Apparence"
+  },
+  "tabQuick": {
+    "message": "Actions rapides"
+  },
+  "temperatureDesc": {
+    "message": "Contrôle le caractère aléatoire. Plus haut = plus créatif"
+  },
+  "temperatureLabel": {
+    "message": "Température"
+  },
+  "testApiButton": {
+    "message": "Tester la connexion"
+  },
+  "testApiDesc": {
+    "message": "Vérifier la clé API et le point de terminaison"
+  },
+  "testApiFailed": {
+    "message": "❌ Échec de connexion："
+  },
+  "testApiLabel": {
+    "message": "Tester la connexion"
+  },
+  "testApiRequired": {
+    "message": "Veuillez d'abord saisir l'URL de base, la clé API et le nom du modèle"
+  },
+  "testApiSuccess": {
+    "message": "✅ Connexion réussie"
+  },
+  "thinkingLabel": {
+    "message": "Réflexion"
+  },
+  "titleGenPrompt": {
+    "message": "Générez un titre concis en français pour cette conversation, 10 mots maximum, sans guillemets ni points, générez uniquement le titre :"
+  },
+  "topPDesc": {
+    "message": "Seuil d'échantillonnage nucléaire, complète la température"
   }
 }

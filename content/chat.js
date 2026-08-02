@@ -78,6 +78,7 @@ async function clearContext() {
   if (chat) {
     chat.innerHTML = "";
     addMsg("user", keepContent);
+    toastSuccess(t("contextCleared") || "Context cleared");
   }
   // 保存到 storage
   await saveCurrentMessages();
@@ -534,6 +535,7 @@ function addMsg(role, text, extra) {
       navigator.clipboard.writeText(text).then(() => {
         copyBtn.classList.add("__dp-copied");
         setTimeout(() => copyBtn.classList.remove("__dp-copied"), 1500);
+        toastSuccess(t("copySuccess") || "Copied");
       });
     });
     div.appendChild(copyBtn);
@@ -826,6 +828,7 @@ async function sendMessage() {
               navigator.clipboard.writeText(fullText).then(() => {
                 copyBtn.classList.add("__dp-copied");
                 setTimeout(() => copyBtn.classList.remove("__dp-copied"), 1500);
+                toastSuccess(t("copySuccess") || "Copied");
               });
             });
             assistantDiv.appendChild(copyBtn);
@@ -1047,6 +1050,10 @@ async function exportPdf() {
       })
       .from(wrap);
     await worker.save();
+    toastSuccess(t("exportPdfSuccess") || "PDF exported");
+  } catch (err) {
+    console.error("[DeepPage] PDF 导出失败:", err);
+    toastError(t("exportPdfFailed") || "PDF export failed");
   } finally {
     document.body.removeChild(wrap);
   }
@@ -1130,20 +1137,26 @@ async function exportWord() {
   }
 
   const doc = new Document({ sections: [{ children }] });
-  const blob = await Packer.toBlob(doc);
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  const name = (pageContext ? pageContext.title : "deeppage")
-    .replace(/[^\w\u4e00-\u9fff-]/g, "_")
-    .slice(0, 50);
-  a.download = `${name}_deeppage.docx`;
-  document.body.appendChild(a);
-  _suppressClose = true;
-  a.click();
-  _suppressClose = false;
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  try {
+    const blob = await Packer.toBlob(doc);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    const name = (pageContext ? pageContext.title : "deeppage")
+      .replace(/[^\w\u4e00-\u9fff-]/g, "_")
+      .slice(0, 50);
+    a.download = `${name}_deeppage.docx`;
+    document.body.appendChild(a);
+    _suppressClose = true;
+    a.click();
+    _suppressClose = false;
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toastSuccess(t("exportWordSuccess") || "Word document exported");
+  } catch (err) {
+    console.error("[DeepPage] Word 导出失败:", err);
+    toastError(t("exportWordFailed") || "Word export failed");
+  }
 }
 
 async function exportConversation(format) {
@@ -1196,6 +1209,7 @@ async function exportConversation(format) {
       document.body.removeChild(ta);
     }
     // 显示反馈
+    toastSuccess(t("exportExported") || "Copied to clipboard");
     const btn = document.getElementById("__dp-export-btn");
     const orig = btn.innerHTML;
     const feedback = document.createElement("span");

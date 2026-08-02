@@ -87,7 +87,9 @@ const LANG_CODES = extractObject(src, "LANG_CODES");
 
 const langCodes = LANG_CODES;
 const keys = Object.keys(TRANSLATIONS);
-console.log(`发现 ${keys.length} 个 key × ${langCodes.length} 种语言(顺序: ${langCodes.join(", ")})`);
+console.log(
+  `发现 ${keys.length} 个 key × ${langCodes.length} 种语言(顺序: ${langCodes.join(", ")})`
+);
 
 // ---- 校验:数组长度与顺序 ----
 let errors = 0;
@@ -131,7 +133,11 @@ for (const code of langCodes) {
   // manifest name/description 国际化用的标准 key
   messages.extName = { message: TRANSLATIONS.appName[idx] };
   messages.extDesc = { message: TRANSLATIONS.appDesc[idx] };
-  fs.writeFileSync(path.join(OUT, `${code}.json`), JSON.stringify(messages, null, 2) + "\n", "utf8");
+  fs.writeFileSync(
+    path.join(OUT, `${code}.json`),
+    JSON.stringify(messages, null, 2) + "\n",
+    "utf8"
+  );
 }
 
 // ---- 汇总 ----

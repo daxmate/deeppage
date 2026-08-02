@@ -1,36 +1,18 @@
 {
-  "appName": {
-    "message": "DeepPage"
+  "addButton": {
+    "message": "＋ Thêm nút"
   },
-  "appDesc": {
-    "message": "Trò chuyện với DeepSeek trong khi duyệt web — tóm tắt, rút gọn ý chính, dịch thuật, hỏi đáp"
+  "apiBaseUrlHint": {
+    "message": "Đường dẫn cơ sở đầy đủ (bao gồm hậu tố /v1)"
   },
-  "panelTitle": {
-    "message": "DeepPage"
+  "apiBaseUrlHint2": {
+    "message": "Địa chỉ endpoint API"
   },
-  "inputPlaceholder": {
-    "message": "Nhập câu hỏi..."
+  "apiBaseUrlLabel": {
+    "message": "URL cơ sở"
   },
-  "contextLoaded": {
-    "message": "Đã tải «$1» làm ngữ cảnh hội thoại"
-  },
-  "loginNoticeTitle": {
-    "message": "Yêu cầu khóa API DeepSeek"
-  },
-  "loginNoticeStep1": {
-    "message": "· Nhấp biểu tượng tiện ích → Tùy chọn → Nhập khóa API"
-  },
-  "loginNoticeStep2": {
-    "message": "· Hoặc lấy tại platform.deepseek.com"
-  },
-  "errorNoApiKey": {
-    "message": "❌ Chưa cấu hình khóa API. Vui lòng cấu hình trong tùy chọn tiện ích."
-  },
-  "optionTitle": {
-    "message": "Cài đặt DeepPage"
-  },
-  "optionDesc": {
-    "message": "Trò chuyện với DeepSeek bằng API chính thức trong khi duyệt web"
+  "apiKeyHint": {
+    "message": "Nhập API Key"
   },
   "apiKeyLabel": {
     "message": "Khóa API"
@@ -38,86 +20,44 @@
   "apiKeyPlaceholder": {
     "message": "sk-..."
   },
-  "getApiKeyLink": {
-    "message": "Lấy tại platform.deepseek.com"
-  },
-  "quickActionsSection": {
-    "message": "Nút thao tác nhanh"
-  },
-  "addButton": {
-    "message": "＋ Thêm nút"
-  },
-  "saveButton": {
-    "message": "Lưu"
-  },
-  "savedSuccess": {
-    "message": "✅ Đã lưu"
-  },
   "apiKeyRequired": {
     "message": "Vui lòng nhập khóa API"
   },
-  "buttonLabel": {
-    "message": "Nhãn nút"
+  "apiModelHint": {
+    "message": "Nhập tên mô hình mà endpoint của bạn hỗ trợ"
   },
-  "promptLabel": {
-    "message": "Lời nhắc"
+  "apiModelHint2": {
+    "message": "Chọn hoặc nhập tên mô hình"
   },
-  "buttonLabelPlaceholder": {
-    "message": "vd 📝 Tóm tắt"
+  "apiModelLabel": {
+    "message": "Mô hình"
   },
-  "promptPlaceholder": {
-    "message": "Lời nhắc tự động gửi khi nhấp nút"
+  "apiProviderHint": {
+    "message": "Chọn nhà cung cấp AI"
   },
-  "deleteButton": {
-    "message": "Xóa"
+  "apiProviderLabel": {
+    "message": "Nhà cung cấp API"
   },
-  "renameButton": {
-    "message": "Đổi tên"
+  "apiTypeDesc": {
+    "message": "Tương thích OpenAI hoặc định dạng Anthropic"
   },
-  "renamePlaceholder": {
-    "message": "Nhập tiêu đề mới"
+  "apiTypeLabel": {
+    "message": "Định dạng API"
   },
-  "copyButton": {
-    "message": "Sao chép"
+  "appDesc": {
+    "message": "Trò chuyện với DeepSeek trong khi duyệt web — tóm tắt, rút gọn ý chính, dịch thuật, hỏi đáp"
   },
-  "historyButton": {
-    "message": "Lịch sử"
+  "appName": {
+    "message": "DeepPage"
   },
   "backToChat": {
     "message": "Quay lại"
   },
-  "historyEmpty": {
-    "message": "Chưa có cuộc trò chuyện"
+  "buttonLabel": {
+    "message": "Nhãn nút"
   },
-  "historySearchPlaceholder": {
-    "message": "Tìm kiếm cuộc trò chuyện…"
-  },
-  "historyNoMatch": {
-    "message": "Không có cuộc trò chuyện phù hợp"
-  },
-  "justNow": {
-    "message": "vừa xong"
-  },
-  "newChat": {
-    "message": "Cuộc trò chuyện mới"
-  },
-  "newChatShort": {
-    "message": "Mới"
-  },
-  "titleGenPrompt": {
-    "message": "Tạo tiêu đề ngắn gọn bằng tiếng Việt cho cuộc trò chuyện này, tối đa 10 từ, không dấu ngoặc kép hay dấu chấm, chỉ xuất ra tiêu đề:"
-  },
-  "selAskButton": {
-    "message": "💬 Hỏi về đoạn đã chọn"
-  },
-  "selContextLabel": {
-    "message": "Đoạn chọn"
-  },
-  "maxRoundsLabel": {
-    "message": "Số vòng tối đa"
-  },
-  "maxRoundsDesc": {
-    "message": "Các tin nhắn cũ vượt quá giới hạn này sẽ tự động bị cắt để tránh vượt quá token"
+  "buttonLabelPlaceholder": {
+    "message": "vd 📝 Tóm tắt"
   },
   "clearContextBtn": {
     "message": "Xóa ngữ cảnh"
@@ -125,143 +65,23 @@
   "contextCleared": {
     "message": "Đã xóa ngữ cảnh"
   },
-  "exportButton": {
-    "message": "Xuất"
+  "contextLoaded": {
+    "message": "Đã tải «$1» làm ngữ cảnh hội thoại"
   },
-  "exportMarkdown": {
-    "message": "Sao chép Markdown"
+  "copyButton": {
+    "message": "Sao chép"
   },
-  "exportText": {
-    "message": "Sao chép văn bản"
-  },
-  "exportDownload": {
-    "message": "Tải xuống .md"
-  },
-  "exportPdf": {
-    "message": "Tải xuống PDF"
-  },
-  "exportExported": {
-    "message": "Đã sao chép vào clipboard"
-  },
-  "apiTypeLabel": {
-    "message": "Định dạng API"
-  },
-  "apiBaseUrlLabel": {
-    "message": "URL cơ sở"
-  },
-  "apiBaseUrlHint": {
-    "message": "Đường dẫn cơ sở đầy đủ (bao gồm hậu tố /v1)"
+  "copySuccess": {
+    "message": "Đã sao chép"
   },
   "customLabel": {
     "message": "🔧 Tùy chỉnh"
   },
-  "apiModelLabel": {
-    "message": "Mô hình"
-  },
-  "apiModelHint": {
-    "message": "Nhập tên mô hình mà endpoint của bạn hỗ trợ"
-  },
-  "apiProviderLabel": {
-    "message": "Nhà cung cấp API"
-  },
-  "testApiLabel": {
-    "message": "Kiểm tra kết nối"
-  },
-  "testApiButton": {
-    "message": "Kiểm tra kết nối"
-  },
-  "testApiSuccess": {
-    "message": "✅ Kết nối thành công"
-  },
-  "testApiFailed": {
-    "message": "❌ Kết nối thất bại："
-  },
-  "testApiRequired": {
-    "message": "Vui lòng điền URL cơ sở, API Key và tên mô hình trước"
-  },
-  "tabApi": {
-    "message": "API"
-  },
-  "tabQuick": {
-    "message": "Thao tác nhanh"
-  },
-  "tabAppearance": {
-    "message": "Giao diện"
-  },
-  "selectModelPlaceholder": {
-    "message": "-- chọn hoặc nhập tên mô hình --"
-  },
-  "apiProviderHint": {
-    "message": "Chọn nhà cung cấp AI"
-  },
-  "apiTypeDesc": {
-    "message": "Tương thích OpenAI hoặc định dạng Anthropic"
-  },
-  "apiBaseUrlHint2": {
-    "message": "Địa chỉ endpoint API"
-  },
-  "apiKeyHint": {
-    "message": "Nhập API Key"
-  },
-  "apiModelHint2": {
-    "message": "Chọn hoặc nhập tên mô hình"
-  },
-  "testApiDesc": {
-    "message": "Xác minh API Key và endpoint"
-  },
-  "languageDesc": {
-    "message": "Ngôn ngữ giao diện"
-  },
   "darkModeDesc": {
     "message": "Sử dụng giao diện tối"
   },
-  "maxRoundsDesc2": {
-    "message": "Các tin nhắn cũ vượt quá giới hạn sẽ bị cắt"
-  },
-  "maxContextLabel": {
-    "message": "Độ dài nội dung trang tối đa"
-  },
-  "maxContextDesc": {
-    "message": "Độ dài tối đa của nội dung trang gửi đến AI"
-  },
-  "sectionConfig": {
-    "message": "CẤU HÌNH"
-  },
-  "sectionApi": {
-    "message": "API"
-  },
-  "sectionQuick": {
-    "message": "Thao tác nhanh"
-  },
-  "sectionPreferences": {
-    "message": "TÙY CHỈNH"
-  },
-  "sectionAppearance": {
-    "message": "Giao diện"
-  },
-  "groupConnection": {
-    "message": "KẾT NỐI"
-  },
-  "groupEndpoint": {
-    "message": "ENDPOINT"
-  },
-  "groupLanguage": {
-    "message": "NGÔN NGỮ"
-  },
-  "groupTheme": {
-    "message": "GIAO DIỆN"
-  },
-  "groupConversation": {
-    "message": "HỘI THOẠI"
-  },
-  "groupButtons": {
-    "message": "NÚT"
-  },
-  "defaultSummarizeLabel": {
-    "message": "📝 Tóm tắt"
-  },
-  "defaultSummarizePrompt": {
-    "message": "Vui lòng tóm tắt nội dung chính của trang web này bằng tiếng Việt"
+  "darkModeLabel": {
+    "message": "Chế độ tối"
   },
   "defaultOutlineLabel": {
     "message": "🎯 Ý chính"
@@ -269,83 +89,200 @@
   "defaultOutlinePrompt": {
     "message": "Vui lòng rút trích các ý chính của trang web này và liệt kê chúng"
   },
+  "defaultSummarizeLabel": {
+    "message": "📝 Tóm tắt"
+  },
+  "defaultSummarizePrompt": {
+    "message": "Vui lòng tóm tắt nội dung chính của trang web này bằng tiếng Việt"
+  },
   "defaultTranslateLabel": {
     "message": "🌐 Dịch"
   },
   "defaultTranslatePrompt": {
     "message": "Vui lòng dịch nội dung chính của trang web này sang tiếng Việt"
   },
-  "newButtonLabel": {
-    "message": "Nút mới"
+  "deleteButton": {
+    "message": "Xóa"
   },
-  "languageLabel": {
-    "message": "Ngôn ngữ"
+  "errorNoApiKey": {
+    "message": "❌ Chưa cấu hình khóa API. Vui lòng cấu hình trong tùy chọn tiện ích."
   },
-  "darkModeLabel": {
-    "message": "Chế độ tối"
+  "exitFullscreenButton": {
+    "message": "Thoát toàn màn hình"
   },
-  "groupParameters": {
-    "message": "THAM SỐ"
+  "exportButton": {
+    "message": "Xuất"
   },
-  "streamOutputLabel": {
-    "message": "Xuất phát trực tuyến"
+  "exportDownload": {
+    "message": "Tải xuống .md"
   },
-  "streamOutputDesc": {
-    "message": "Hiển thị token khi đang tạo. Tắt cho API chỉ hỗ trợ phản hồi không trực tuyến"
+  "exportExported": {
+    "message": "Đã sao chép vào clipboard"
   },
-  "groupAdvanced": {
-    "message": "THAM SỐ NÂNG CAO"
+  "exportMarkdown": {
+    "message": "Sao chép Markdown"
   },
-  "temperatureLabel": {
-    "message": "Nhiệt độ"
+  "exportPdf": {
+    "message": "Tải xuống PDF"
   },
-  "temperatureDesc": {
-    "message": "Kiểm soát tính ngẫu nhiên. Cao hơn = sáng tạo hơn"
+  "exportPdfFailed": {
+    "message": "Xuất PDF thất bại"
   },
-  "maxTokensLabel": {
-    "message": "Token tối đa"
+  "exportPdfSuccess": {
+    "message": "Đã xuất PDF"
   },
-  "maxTokensDesc": {
-    "message": "Token tối đa mỗi phản hồi"
+  "exportText": {
+    "message": "Sao chép văn bản"
   },
-  "reasoningLabel": {
-    "message": "Độ sâu suy luận"
+  "exportWord": {
+    "message": "Tải xuống Word"
   },
-  "reasoningDesc": {
-    "message": "Kiểm soát độ sâu suy nghĩ. Tự động thích ứng theo mô hình"
+  "exportWordFailed": {
+    "message": "Xuất Word thất bại"
   },
-  "topPDesc": {
-    "message": "Ngưỡng lấy mẫu hạt nhân, bổ sung cho nhiệt độ"
+  "exportWordSuccess": {
+    "message": "Đã xuất tài liệu Word"
   },
-  "freqPenaltyLabel": {
-    "message": "Phạt tần suất"
+  "extDesc": {
+    "message": "Trò chuyện với DeepSeek trong khi duyệt web — tóm tắt, rút gọn ý chính, dịch thuật, hỏi đáp"
+  },
+  "extName": {
+    "message": "DeepPage"
   },
   "freqPenaltyDesc": {
     "message": "Phạt các token đã xuất hiện, giảm lặp lại"
   },
-  "presPenaltyLabel": {
-    "message": "Phạt hiện diện"
+  "freqPenaltyLabel": {
+    "message": "Phạt tần suất"
+  },
+  "fullscreenButton": {
+    "message": "Toàn màn hình"
+  },
+  "getApiKeyLink": {
+    "message": "Lấy tại platform.deepseek.com"
+  },
+  "groupAdvanced": {
+    "message": "THAM SỐ NÂNG CAO"
+  },
+  "groupButtons": {
+    "message": "NÚT"
+  },
+  "groupConnection": {
+    "message": "KẾT NỐI"
+  },
+  "groupConversation": {
+    "message": "HỘI THOẠI"
+  },
+  "groupEndpoint": {
+    "message": "ENDPOINT"
+  },
+  "groupLanguage": {
+    "message": "NGÔN NGỮ"
+  },
+  "groupParameters": {
+    "message": "THAM SỐ"
+  },
+  "groupTheme": {
+    "message": "GIAO DIỆN"
+  },
+  "historyButton": {
+    "message": "Lịch sử"
+  },
+  "historyEmpty": {
+    "message": "Chưa có cuộc trò chuyện"
+  },
+  "historyNoMatch": {
+    "message": "Không có cuộc trò chuyện phù hợp"
+  },
+  "historySearchPlaceholder": {
+    "message": "Tìm kiếm cuộc trò chuyện…"
+  },
+  "inputPlaceholder": {
+    "message": "Nhập câu hỏi..."
+  },
+  "justNow": {
+    "message": "vừa xong"
+  },
+  "languageDesc": {
+    "message": "Ngôn ngữ giao diện"
+  },
+  "languageLabel": {
+    "message": "Ngôn ngữ"
+  },
+  "loginNoticeStep1": {
+    "message": "· Nhấp biểu tượng tiện ích → Tùy chọn → Nhập khóa API"
+  },
+  "loginNoticeStep2": {
+    "message": "· Hoặc lấy tại platform.deepseek.com"
+  },
+  "loginNoticeTitle": {
+    "message": "Yêu cầu khóa API DeepSeek"
+  },
+  "maxContextDesc": {
+    "message": "Độ dài tối đa của nội dung trang gửi đến AI"
+  },
+  "maxContextLabel": {
+    "message": "Độ dài nội dung trang tối đa"
+  },
+  "maxRoundsDesc": {
+    "message": "Các tin nhắn cũ vượt quá giới hạn này sẽ tự động bị cắt để tránh vượt quá token"
+  },
+  "maxRoundsDesc2": {
+    "message": "Các tin nhắn cũ vượt quá giới hạn sẽ bị cắt"
+  },
+  "maxRoundsLabel": {
+    "message": "Số vòng tối đa"
+  },
+  "maxTokensDesc": {
+    "message": "Token tối đa mỗi phản hồi"
+  },
+  "maxTokensLabel": {
+    "message": "Token tối đa"
+  },
+  "newButtonLabel": {
+    "message": "Nút mới"
+  },
+  "newChat": {
+    "message": "Cuộc trò chuyện mới"
+  },
+  "newChatShort": {
+    "message": "Mới"
+  },
+  "optionDesc": {
+    "message": "Trò chuyện với DeepSeek bằng API chính thức trong khi duyệt web"
+  },
+  "optionTitle": {
+    "message": "Cài đặt DeepPage"
+  },
+  "panelTitle": {
+    "message": "DeepPage"
   },
   "presPenaltyDesc": {
     "message": "Khuyến khích mô hình nói về chủ đề mới"
   },
-  "stopSeqLabel": {
-    "message": "Chuỗi dừng"
+  "presPenaltyLabel": {
+    "message": "Phạt hiện diện"
   },
-  "stopSeqDesc": {
-    "message": "Phân cách bằng dấu phẩy. Dừng tạo khi gặp"
+  "promptLabel": {
+    "message": "Lời nhắc"
   },
-  "systemPromptLabel": {
-    "message": "System Prompt tùy chỉnh"
+  "promptPlaceholder": {
+    "message": "Lời nhắc tự động gửi khi nhấp nút"
   },
-  "systemPromptDesc": {
-    "message": "Được thêm vào sau prompt ngữ cảnh tự động tạo"
+  "quickActionsSection": {
+    "message": "Nút thao tác nhanh"
   },
-  "systemPromptPlaceholder": {
-    "message": "vd: Suy nghĩ từng bước, trả lời bằng tiếng Việt"
+  "reasoningDesc": {
+    "message": "Kiểm soát độ sâu suy nghĩ. Tự động thích ứng theo mô hình"
   },
-  "thinkingLabel": {
-    "message": "Quá trình suy nghĩ"
+  "reasoningLabel": {
+    "message": "Độ sâu suy luận"
+  },
+  "renameButton": {
+    "message": "Đổi tên"
+  },
+  "renamePlaceholder": {
+    "message": "Nhập tiêu đề mới"
   },
   "resetButton": {
     "message": "Đặt lại tất cả cài đặt"
@@ -356,19 +293,97 @@
   "resetHint": {
     "message": "Tất cả cài đặt sẽ được khôi phục về mặc định. Không thể hoàn tác."
   },
-  "extName": {
-    "message": "DeepPage"
+  "saveButton": {
+    "message": "Lưu"
   },
-  "extDesc": {
-    "message": "Trò chuyện với DeepSeek trong khi duyệt web — tóm tắt, rút gọn ý chính, dịch thuật, hỏi đáp"
+  "savedSuccess": {
+    "message": "✅ Đã lưu"
   },
-  "exportWord": {
-    "message": "Tải xuống Word"
+  "sectionApi": {
+    "message": "API"
   },
-  "fullscreenButton": {
-    "message": "Toàn màn hình"
+  "sectionAppearance": {
+    "message": "Giao diện"
   },
-  "exitFullscreenButton": {
-    "message": "Thoát toàn màn hình"
+  "sectionConfig": {
+    "message": "CẤU HÌNH"
+  },
+  "sectionPreferences": {
+    "message": "TÙY CHỈNH"
+  },
+  "sectionQuick": {
+    "message": "Thao tác nhanh"
+  },
+  "selAskButton": {
+    "message": "💬 Hỏi về đoạn đã chọn"
+  },
+  "selContextLabel": {
+    "message": "Đoạn chọn"
+  },
+  "selectModelPlaceholder": {
+    "message": "-- chọn hoặc nhập tên mô hình --"
+  },
+  "stopSeqDesc": {
+    "message": "Phân cách bằng dấu phẩy. Dừng tạo khi gặp"
+  },
+  "stopSeqLabel": {
+    "message": "Chuỗi dừng"
+  },
+  "streamOutputDesc": {
+    "message": "Hiển thị token khi đang tạo. Tắt cho API chỉ hỗ trợ phản hồi không trực tuyến"
+  },
+  "streamOutputLabel": {
+    "message": "Xuất phát trực tuyến"
+  },
+  "systemPromptDesc": {
+    "message": "Được thêm vào sau prompt ngữ cảnh tự động tạo"
+  },
+  "systemPromptLabel": {
+    "message": "System Prompt tùy chỉnh"
+  },
+  "systemPromptPlaceholder": {
+    "message": "vd: Suy nghĩ từng bước, trả lời bằng tiếng Việt"
+  },
+  "tabApi": {
+    "message": "API"
+  },
+  "tabAppearance": {
+    "message": "Giao diện"
+  },
+  "tabQuick": {
+    "message": "Thao tác nhanh"
+  },
+  "temperatureDesc": {
+    "message": "Kiểm soát tính ngẫu nhiên. Cao hơn = sáng tạo hơn"
+  },
+  "temperatureLabel": {
+    "message": "Nhiệt độ"
+  },
+  "testApiButton": {
+    "message": "Kiểm tra kết nối"
+  },
+  "testApiDesc": {
+    "message": "Xác minh API Key và endpoint"
+  },
+  "testApiFailed": {
+    "message": "❌ Kết nối thất bại："
+  },
+  "testApiLabel": {
+    "message": "Kiểm tra kết nối"
+  },
+  "testApiRequired": {
+    "message": "Vui lòng điền URL cơ sở, API Key và tên mô hình trước"
+  },
+  "testApiSuccess": {
+    "message": "✅ Kết nối thành công"
+  },
+  "thinkingLabel": {
+    "message": "Quá trình suy nghĩ"
+  },
+  "titleGenPrompt": {
+    "message": "Tạo tiêu đề ngắn gọn bằng tiếng Việt cho cuộc trò chuyện này, tối đa 10 từ, không dấu ngoặc kép hay dấu chấm, chỉ xuất ra tiêu đề:"
+  },
+  "topPDesc": {
+    "message": "Ngưỡng lấy mẫu hạt nhân, bổ sung cho nhiệt độ"
   }
 }

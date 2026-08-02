@@ -380,6 +380,7 @@ document.getElementById("testApiBtn").addEventListener("click", async () => {
   if (!baseUrl || !apiKey || !model) {
     statusEl.textContent = t("testApiRequired") || "⚠️ Fill in Base URL, API Key, and Model first";
     statusEl.style.color = "#f59e0b";
+    toastError(t("testApiRequired") || "⚠️ Fill in Base URL, API Key, and Model first");
     btn.disabled = false;
     btn.textContent = t("testApiButton") || "Test Connection";
     return;
@@ -404,6 +405,7 @@ document.getElementById("testApiBtn").addEventListener("click", async () => {
     if (result.ok) {
       statusEl.textContent = t("testApiSuccess") || "✅ Connection OK";
       statusEl.style.color = "#34d399";
+      toastSuccess(t("testApiSuccess") || "✅ Connection OK");
       // 测试成功后获取模型列表
       chrome.runtime.sendMessage({ action: "getModels" }).then((modelsResult) => {
         if (modelsResult.models && modelsResult.models.length > 0) {
@@ -424,10 +426,12 @@ document.getElementById("testApiBtn").addEventListener("click", async () => {
     } else {
       statusEl.textContent = (t("testApiFailed") || "❌ Connection failed:") + (result.error || "");
       statusEl.style.color = "#f87171";
+      toastError((t("testApiFailed") || "❌ Connection failed:") + (result.error || ""));
     }
   } catch (err) {
     statusEl.textContent = (t("testApiFailed") || "❌ Connection failed:") + err.message;
     statusEl.style.color = "#f87171";
+    toastError((t("testApiFailed") || "❌ Connection failed:") + err.message);
   }
 
   btn.disabled = false;
@@ -469,6 +473,8 @@ btnAdd.addEventListener("click", () => {
 });
 
 // ---- 自动保存 ----
+// 保存成功 toast 防抖：连续保存（如快速切换多个设置）只提示一次
+let _saveToastTimer = null;
 function autoSave() {
   const providerId = document.getElementById("apiProvider").value;
   const provider = getProvider(providerId);
@@ -496,26 +502,34 @@ function autoSave() {
   } else {
     chrome.storage.local.remove("apiKey");
   }
-  chrome.storage.sync.set({
-    apiProvider: providerId,
-    apiBaseUrl: baseUrl,
-    apiModel: model,
-    apiType: providerId === "custom" ? apiType : undefined,
-    quickActions: cleaned,
-    quickActionsLang: getCurrentLang(),
-    maxRounds: maxRoundsInput ? parseInt(maxRoundsInput.value, 10) || 20 : 20,
-    maxContextLen: maxContextInput ? parseInt(maxContextInput.value, 10) || 15000 : 15000,
-    streamOutput: document.getElementById("stream-output-toggle").checked,
-    // new params
-    temperature: parseFloat(document.getElementById("temperature").value) || 1.0,
-    maxTokens: parseInt(document.getElementById("max-tokens").value, 10) || 4096,
-    topP: parseFloat(document.getElementById("top-p").value) || 1.0,
-    frequencyPenalty: parseFloat(document.getElementById("frequency-penalty").value) || 0,
-    presencePenalty: parseFloat(document.getElementById("presence-penalty").value) || 0,
-    stopSequences: document.getElementById("stop-sequences").value.trim(),
-    reasoningLevel: document.getElementById("reasoning-level").value,
-    customSystemPrompt: document.getElementById("custom-system-prompt").value.trim(),
-  });
+  chrome.storage.sync.set(
+    {
+      apiProvider: providerId,
+      apiBaseUrl: baseUrl,
+      apiModel: model,
+      apiType: providerId === "custom" ? apiType : undefined,
+      quickActions: cleaned,
+      quickActionsLang: getCurrentLang(),
+      maxRounds: maxRoundsInput ? parseInt(maxRoundsInput.value, 10) || 20 : 20,
+      maxContextLen: maxContextInput ? parseInt(maxContextInput.value, 10) || 15000 : 15000,
+      streamOutput: document.getElementById("stream-output-toggle").checked,
+      // new params
+      temperature: parseFloat(document.getElementById("temperature").value) || 1.0,
+      maxTokens: parseInt(document.getElementById("max-tokens").value, 10) || 4096,
+      topP: parseFloat(document.getElementById("top-p").value) || 1.0,
+      frequencyPenalty: parseFloat(document.getElementById("frequency-penalty").value) || 0,
+      presencePenalty: parseFloat(document.getElementById("presence-penalty").value) || 0,
+      stopSequences: document.getElementById("stop-sequences").value.trim(),
+      reasoningLevel: document.getElementById("reasoning-level").value,
+      customSystemPrompt: document.getElementById("custom-system-prompt").value.trim(),
+    },
+    () => {
+      clearTimeout(_saveToastTimer);
+      _saveToastTimer = setTimeout(() => {
+        toastSuccess(t("savedSuccess") || "✅ Saved");
+      }, 400);
+    }
+  );
   actions = cleaned;
 }
 
