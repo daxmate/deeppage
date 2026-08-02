@@ -5,6 +5,12 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.17.0] - 2026-08-02
+
+### 新增
+
+- **操作反馈 Toast 提示（SweetAlert2）**：引入 SweetAlert2 统一反馈体系，覆盖导出、复制、设置等关键操作——导出 PDF / Word 成功或失败、复制成功、清除上下文、设置保存、API 连接测试均有即时 Toast 提示；导出 PDF / Word 补充了失败捕获（try/catch），导出失败不再静默无反馈。新增 5 个 i18n key × 10 语言，E2E 增加 toast 可见性断言
+
 ## [1.16.4] - 2026-08-02
 
 ### 修复
