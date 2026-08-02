@@ -123,7 +123,7 @@ npm test        # 自动运行 i18n 校验 + 38 个 E2E 用例
 │   ├── options.css
 │   └── options.js
 ├── js/                     # 共享模块
-│   ├── i18n.js             # 多语言加载器（数据在 _locales/）
+│   ├── i18n.js             # 多语言加载器（数据在 i18n-data/）
 │   ├── utils.js            # 工具函数
 │   ├── providers.js        # API 提供商配置（单一数据源，background/options 共享）
 │   └── provider-icons.js   # 提供商图标映射（悬浮按钮状态指示）
@@ -138,8 +138,8 @@ npm test        # 自动运行 i18n 校验 + 38 个 E2E 用例
 │   ├── mock-server.js      # OpenAI 兼容 mock API
 │   └── fixtures.mjs        # 扩展 context / storage / mock 控制 fixture
 ├── scripts/
-│   ├── check-i18n.mjs      # i18n 校验（_locales 结构/空值/引用）
-│   └── migrate-i18n.mjs    # 旧版 TRANSLATIONS → _locales 一次性迁移
+│   ├── check-i18n.mjs      # i18n 校验（i18n-data 结构/空值/引用）
+│   └── migrate-i18n.mjs    # 旧版 TRANSLATIONS → i18n-data 一次性迁移
 ├── manifest.json           # 扩展配置
 ├── icons/                  # DeepSeek 图标
 └── .github/workflows/      # CI 发布配置（push tag 自动打包发版）
@@ -147,13 +147,11 @@ npm test        # 自动运行 i18n 校验 + 38 个 E2E 用例
 
 ### 添加新语言
 
-编辑 `i18n.js`：
-1. 在 `LANG_CODES` 数组末尾添加语言代码
-2. 在每个 `TRANSLATIONS` key 的数组末尾添加对应翻译（每个 key 一行，追加一个值即可）
-3. 在 `LANGUAGES` 数组中添加语言显示名
-4. 更新 `detectLanguage()`（如需自动检测）
+1. 新建 `i18n-data/<code>.json`，key 集合与现有语言完全一致（可复制 `i18n-data/zh_CN.json` 后逐个翻译）
+2. 在 `js/i18n.js` 的 `LANGUAGES` 数组添加语言显示名（语言选择器用）
+3. 如需浏览器自动检测，更新 `detectLanguage()`
 
-修改后运行 `npm run check:i18n` 校验 10 语言数组一致性（`npm test` 也会自动执行）。
+修改后运行 `npm run check:i18n` 校验 10 个语言文件 key 集合一致（`npm test` 也会自动执行）。
 
 ## 贡献
 

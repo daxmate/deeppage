@@ -104,7 +104,7 @@ npm test        # runs i18n validation + 38 E2E cases
 │   ├── options.css
 │   └── options.js
 ├── js/                     # Shared modules
-│   ├── i18n.js             # Translation loader (data in _locales/)
+│   ├── i18n.js             # Translation loader (data in i18n-data/)
 │   ├── utils.js            # Utility functions
 │   ├── providers.js        # API provider config (single source of truth, shared by background/options)
 │   └── provider-icons.js   # Provider icon map (floating button status indicator)
@@ -119,8 +119,8 @@ npm test        # runs i18n validation + 38 E2E cases
 │   ├── mock-server.js      # OpenAI-compatible mock API
 │   └── fixtures.mjs        # Extension context / storage / mock control fixtures
 ├── scripts/
-│   ├── check-i18n.mjs      # i18n validation (_locales structure/emptiness/references)
-│   └── migrate-i18n.mjs    # One-time TRANSLATIONS → _locales migration
+│   ├── check-i18n.mjs      # i18n validation (i18n-data structure/emptiness/references)
+│   └── migrate-i18n.mjs    # One-time TRANSLATIONS → i18n-data migration
 ├── manifest.json           # Extension manifest
 ├── icons/                  # DeepSeek icons
 └── .github/workflows/      # CI release config (auto-release on tag push)
@@ -128,13 +128,11 @@ npm test        # runs i18n validation + 38 E2E cases
 
 ### Adding a Language
 
-Edit `i18n.js`:
-1. Add the language code to the `LANG_CODES` array
-2. Append the translation to the end of every `TRANSLATIONS` key array
-3. Add the language display name to the `LANGUAGES` array
-4. Update `detectLanguage()` if needed
+1. Create `i18n-data/<code>.json` with the same key set as existing languages (copy `i18n-data/zh_CN.json` and translate)
+2. Add the language display name to the `LANGUAGES` array in `js/i18n.js` (used by the language selector)
+3. Update `detectLanguage()` in `js/i18n.js` if auto-detection is needed
 
-After changes, run `npm run check:i18n` to validate 10-language array consistency (also runs automatically with `npm test`).
+After changes, run `npm run check:i18n` to validate key-set consistency across the 10 language files (also runs automatically with `npm test`).
 
 ## Contributing
 
