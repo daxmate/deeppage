@@ -456,3 +456,10 @@ a.about-value:hover { text-decoration: underline; }
 #custom-system-prompt:focus { border-color: #4A6CF7; box-shadow: 0 0 0 2px rgba(74,108,247,0.15); }
 .__dp-dark-options #custom-system-prompt { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
 .__dp-dark-options #custom-system-prompt:focus { border-color: #4A6CF7; box-shadow: 0 0 0 2px rgba(74,108,247,0.2); }
+
+/* System dark mode (prefers-color-scheme) - must come AFTER the base #custom-system-prompt rule
+   to win the cascade (same specificity, later wins) */
+@media (prefers-color-scheme: dark) {
+  #custom-system-prompt { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
+  #custom-system-prompt:focus { border-color: #4A6CF7; box-shadow: 0 0 0 2px rgba(74,108,247,0.2); }
+}
