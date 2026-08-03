@@ -415,5 +415,29 @@
   },
   "topPDesc": {
     "message": "Schwellenwert für Nucleus Sampling, ergänzt Temperatur"
+  },
+  "tabAbout": {
+    "message": "Über"
+  },
+  "aboutTagline": {
+    "message": "Ein KI-Assistent für Webseiten, den ich für mich selbst gebaut habe – jetzt auch für dich."
+  },
+  "aboutAuthor": {
+    "message": "Autor"
+  },
+  "aboutVersion": {
+    "message": "Version"
+  },
+  "aboutHomepage": {
+    "message": "Projektseite"
+  },
+  "aboutEasterEggTitle": {
+    "message": "🐘 Easter Egg!"
+  },
+  "aboutEasterEggText": {
+    "message": "Du hast das Ei gefunden! Diese Erweiterung wurde ursprünglich von 🐘 für den Eigengebrauch entwickelt – beim Surfen mit DeepSeek plaudern, es wird einfach zur Gewohnheit."
+  },
+  "welcomeMessage": {
+    "message": "👋 Hallo, ich bin DeepPage. Markiere Text auf der Seite oder stelle mir einfach eine Frage."
   }
 }

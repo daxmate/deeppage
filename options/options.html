@@ -27,6 +27,11 @@
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     <span id="l10n-tabAppearance">Appearance</span>
   </button>
+  <div class="tab-section-header"><span id="l10n-sectionAbout">ABOUT</span></div>
+  <button class="option-tab" data-tab="about">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span id="l10n-tabAbout">About</span>
+  </button>
 </div>
 
 <!-- Content -->
@@ -295,6 +300,24 @@
     <div class="settings-group-title"><span id="l10n-groupButtons">BUTTONS</span></div>
     <div id="actions-container"></div>
     <button id="btn-add" class="btn-add"><span id="l10n-addButton">Add Button</span></button>
+  </div>
+</div>
+
+<!-- ===== About Tab ===== -->
+<div id="tab-about" class="tab-panel" style="display:none">
+  <div class="settings-group">
+    <div class="settings-group-title"><span id="l10n-sectionAbout">ABOUT</span></div>
+    <div class="settings-card about-card">
+      <div class="about-logo">🐋</div>
+      <h3 class="about-name">DeepPage</h3>
+      <p class="about-tagline"><span id="l10n-aboutTagline"></span></p>
+      <div class="about-meta">
+        <div class="about-row"><span class="about-label"><span id="l10n-aboutAuthor">Author</span></span><span class="about-value" id="about-author">daxmate</span></div>
+        <div class="about-row"><span class="about-label"><span id="l10n-aboutVersion">Version</span></span><span class="about-value about-version" id="about-version">v0.0.0</span></div>
+        <div class="about-row"><span class="about-label"><span id="l10n-aboutHomepage">Homepage</span></span><a class="about-value" id="about-homepage" href="https://github.com/daxmate/deeppage" target="_blank" rel="noopener">github.com/daxmate/deeppage ↗</a></div>
+      </div>
+      <p class="about-easter-egg" id="about-easter-egg" hidden>🐘</p>
+    </div>
   </div>
 </div>
 

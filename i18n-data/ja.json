@@ -415,5 +415,29 @@
   },
   "topPDesc": {
     "message": "核サンプリングの閾値。温度と補完関係"
+  },
+  "tabAbout": {
+    "message": "情報"
+  },
+  "aboutTagline": {
+    "message": "自分用に作ったウェブページ向け AI アシスタント。あなたにもどうぞ。"
+  },
+  "aboutAuthor": {
+    "message": "作者"
+  },
+  "aboutVersion": {
+    "message": "バージョン"
+  },
+  "aboutHomepage": {
+    "message": "ホームページ"
+  },
+  "aboutEasterEggTitle": {
+    "message": "🐘 イースターエッグ！"
+  },
+  "aboutEasterEggText": {
+    "message": "イースターエッグを見つけましたね！この拡張機能は元々 🐘 が自分用に作ったものです — ブラウジング中にいつでも DeepSeek と雑談、どんどん手放せなくなります。"
+  },
+  "welcomeMessage": {
+    "message": "👋 こんにちは、DeepPage です。ページ上の文字を選択するか、そのまま質問してください。"
   }
 }

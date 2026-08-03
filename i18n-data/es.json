@@ -415,5 +415,29 @@
   },
   "topPDesc": {
     "message": "Umbral de muestreo nuclear, complementa la temperatura"
+  },
+  "tabAbout": {
+    "message": "Acerca de"
+  },
+  "aboutTagline": {
+    "message": "Un asistente de IA para páginas web que hice para mí mismo — ahora compartido contigo."
+  },
+  "aboutAuthor": {
+    "message": "Autor"
+  },
+  "aboutVersion": {
+    "message": "Versión"
+  },
+  "aboutHomepage": {
+    "message": "Página del proyecto"
+  },
+  "aboutEasterEggTitle": {
+    "message": "🐘 ¡Huevo de Pascua!"
+  },
+  "aboutEasterEggText": {
+    "message": "¡Encontraste el huevo! Esta extensión fue creada originalmente por 🐘 para uso personal — chatear con DeepSeek mientras navegas, se vuelve adictivo."
+  },
+  "welcomeMessage": {
+    "message": "👋 Hola, soy DeepPage. Selecciona texto en la página o simplemente hazme una pregunta."
   }
 }

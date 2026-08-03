@@ -415,5 +415,29 @@
   },
   "topPDesc": {
     "message": "核採樣閾值，與溫度互補"
+  },
+  "tabAbout": {
+    "message": "關於"
+  },
+  "aboutTagline": {
+    "message": "最初寫給自己的網頁 AI 助手，現在也分享給你。"
+  },
+  "aboutAuthor": {
+    "message": "作者"
+  },
+  "aboutVersion": {
+    "message": "版本"
+  },
+  "aboutHomepage": {
+    "message": "專案首頁"
+  },
+  "aboutEasterEggTitle": {
+    "message": "🐘 彩蛋！"
+  },
+  "aboutEasterEggText": {
+    "message": "彩蛋被你找到了！這個擴充功能最初是 🐘 寫給自己的 —— 瀏覽網頁時隨時和 DeepSeek 聊幾句，越用越順手。"
+  },
+  "welcomeMessage": {
+    "message": "👋 你好，我是 DeepPage。選取網頁上的文字，或直接向我提問。"
   }
 }

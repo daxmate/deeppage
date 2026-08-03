@@ -415,5 +415,29 @@
   },
   "topPDesc": {
     "message": "核采样阈值，与温度互补"
+  },
+  "tabAbout": {
+    "message": "关于"
+  },
+  "aboutTagline": {
+    "message": "最初写给自己的网页 AI 助手，现在也分享给你。"
+  },
+  "aboutAuthor": {
+    "message": "作者"
+  },
+  "aboutVersion": {
+    "message": "版本"
+  },
+  "aboutHomepage": {
+    "message": "项目主页"
+  },
+  "aboutEasterEggTitle": {
+    "message": "🐘 彩蛋！"
+  },
+  "aboutEasterEggText": {
+    "message": "彩蛋被你找到了！这个扩展最初是 🐘 写给自己的 —— 浏览网页时随时和 DeepSeek 聊几句，越用越顺手。"
+  },
+  "welcomeMessage": {
+    "message": "👋 你好，我是 DeepPage。选中网页上的文字，或直接向我提问。"
   }
 }

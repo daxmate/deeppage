@@ -415,5 +415,29 @@
   },
   "topPDesc": {
     "message": "핵 샘플링 임계값. 온도와 보완 관계"
+  },
+  "tabAbout": {
+    "message": "정보"
+  },
+  "aboutTagline": {
+    "message": "나 자신을 위해 만든 웹 AI 어시스턴트. 이제 여러분께도 공유합니다."
+  },
+  "aboutAuthor": {
+    "message": "제작자"
+  },
+  "aboutVersion": {
+    "message": "버전"
+  },
+  "aboutHomepage": {
+    "message": "홈페이지"
+  },
+  "aboutEasterEggTitle": {
+    "message": "🐘 이스터 에그!"
+  },
+  "aboutEasterEggText": {
+    "message": "이스터 에그를 찾으셨네요! 이 확장 프로그램은 원래 🐘 이 개인용으로 만든 것입니다 — 웹을 보면서 DeepSeek와 대화하면, 점점 손에 익어갑니다."
+  },
+  "welcomeMessage": {
+    "message": "👋 안녕하세요, DeepPage입니다. 페이지의 텍스트를 선택하거나 바로 질문해 주세요."
   }
 }

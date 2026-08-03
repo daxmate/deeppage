@@ -415,5 +415,29 @@
   },
   "topPDesc": {
     "message": "Ngưỡng lấy mẫu hạt nhân, bổ sung cho nhiệt độ"
+  },
+  "tabAbout": {
+    "message": "Giới thiệu"
+  },
+  "aboutTagline": {
+    "message": "Trợ lý AI cho trang web tôi viết cho chính mình — giờ chia sẻ với bạn."
+  },
+  "aboutAuthor": {
+    "message": "Tác giả"
+  },
+  "aboutVersion": {
+    "message": "Phiên bản"
+  },
+  "aboutHomepage": {
+    "message": "Trang chủ"
+  },
+  "aboutEasterEggTitle": {
+    "message": "🐘 Easter egg!"
+  },
+  "aboutEasterEggText": {
+    "message": "Bạn đã tìm thấy quả trứng! Tiện ích này ban đầu được 🐘 viết cho riêng mình — trò chuyện với DeepSeek khi lướt web, dùng là ghiền."
+  },
+  "welcomeMessage": {
+    "message": "👋 Xin chào, tôi là DeepPage. Chọn văn bản trên trang hoặc cứ hỏi tôi bất cứ điều gì."
   }
 }

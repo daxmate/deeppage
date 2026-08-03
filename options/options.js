@@ -1,5 +1,7 @@
 import { API_PROVIDERS } from "../js/providers.js";
 
+/* global Swal */
+
 // ---- 页面文本本地化 ----
 function localizePage() {
   const elements = document.querySelectorAll('[id^="l10n-"]');
@@ -32,12 +34,38 @@ function populateLanguageSelect() {
   });
 }
 
+// ---- About：版本号 + 连点彩蛋 ----
+function initAbout() {
+  const versionEl = document.getElementById("about-version");
+  if (!versionEl) return;
+  versionEl.textContent = "v" + chrome.runtime.getManifest().version;
+  let clicks = 0;
+  let timer = null;
+  versionEl.addEventListener("click", () => {
+    clicks++;
+    clearTimeout(timer);
+    timer = setTimeout(() => (clicks = 0), 1500);
+    if (clicks >= 5) {
+      clicks = 0;
+      const egg = document.getElementById("about-easter-egg");
+      if (egg) egg.hidden = false;
+      Swal.fire({
+        title: t("aboutEasterEggTitle") || "🐘 Easter egg!",
+        text: t("aboutEasterEggText") || "",
+        icon: "info",
+        confirmButtonText: "OK",
+      });
+    }
+  });
+}
+
 // ---- 初始化 ----
 loadLanguage(() => {
   initTabs();
   localizePage();
   populateLanguageSelect();
   loadSavedData();
+  initAbout();
 });
 
 // ---- Tab 切换 ----

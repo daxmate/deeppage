@@ -327,6 +327,25 @@ small { display: block; color: #9ca3af; font-size: 12px; margin-top: 4px; }
 small a { color: #4A6CF7; text-decoration: none; }
 small a:hover { text-decoration: underline; }
 
+/* ===== About Tab ===== */
+.about-card { padding: 28px 20px; text-align: center; }
+.about-logo { font-size: 44px; line-height: 1; margin-bottom: 8px; }
+.about-name { font-size: 18px; font-weight: 700; color: #1f2937; margin: 0 0 6px; }
+.about-tagline { font-size: 13px; color: #6b7280; margin: 0 0 18px; line-height: 1.6; }
+.about-meta { border-top: 1px solid #f3f4f6; padding-top: 10px; text-align: left; }
+.about-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; font-size: 13px; }
+.about-label { color: #9ca3af; }
+.about-value { color: #1f2937; font-weight: 500; }
+a.about-value { color: #4A6CF7; text-decoration: none; }
+a.about-value:hover { text-decoration: underline; }
+.about-version { cursor: pointer; user-select: none; transition: transform 0.1s ease; }
+.about-version:active { transform: scale(0.92); }
+.about-easter-egg { font-size: 34px; margin: 12px 0 0; animation: about-egg-bounce 0.8s ease infinite; }
+@keyframes about-egg-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
 /* ===== Dark Mode ===== */
 @media (prefers-color-scheme: dark) {
   body { background: #1a1b1e; color: #e4e5e7; }
@@ -358,6 +377,11 @@ small a:hover { text-decoration: underline; }
   .btn-test { background: #2c3035; border-color: #373a40; color: #9ca3af; }
   .btn-test:hover { border-color: #4A6CF7; color: #6B8AFF; }
   .action-card { background: #212529; border-color: #2c3035; box-shadow: none; }
+  .about-name { color: #e4e5e7; }
+  .about-tagline { color: #6b7280; }
+  .about-meta { border-top-color: #2c3035; }
+  .about-label { color: #6b7280; }
+  .about-value { color: #e4e5e7; }
   .action-card.dragging { border-color: #4A6CF7; box-shadow: 0 4px 14px rgba(74,108,247,0.25); }
   .action-card-drag { color: #6b7280; }
   .action-card-drag:hover { color: #93a5fd; background: #2a3040; }

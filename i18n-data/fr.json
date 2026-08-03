@@ -415,5 +415,29 @@
   },
   "topPDesc": {
     "message": "Seuil d'échantillonnage nucléaire, complète la température"
+  },
+  "tabAbout": {
+    "message": "À propos"
+  },
+  "aboutTagline": {
+    "message": "Un assistant IA pour les pages web, créé pour moi-même — désormais partagé avec vous."
+  },
+  "aboutAuthor": {
+    "message": "Auteur"
+  },
+  "aboutVersion": {
+    "message": "Version"
+  },
+  "aboutHomepage": {
+    "message": "Page du projet"
+  },
+  "aboutEasterEggTitle": {
+    "message": "🐘 Œuf de Pâques !"
+  },
+  "aboutEasterEggText": {
+    "message": "Vous avez trouvé l'œuf ! Cette extension a d'abord été créée par 🐘 pour un usage personnel — discuter avec DeepSeek en naviguant, on s'y habitue vite."
+  },
+  "welcomeMessage": {
+    "message": "👋 Bonjour, je suis DeepPage. Sélectionnez un texte sur la page ou posez-moi simplement une question."
   }
 }

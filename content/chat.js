@@ -325,6 +325,10 @@ async function loadActiveConversation() {
   pageContext = extractPageContent();
   updateContext(pageContext.title);
   document.getElementById("__dp-chat").innerHTML = "";
+  addMsg("assistant", t("welcomeMessage"), {
+    skipTrack: true,
+    dataset: { msgType: "welcome" },
+  });
   addMsg("assistant", `📄 ${t("contextLoaded", pageContext ? pageContext.title : "")}`, {
     skipTrack: true,
     dataset: { msgType: "context-loaded" },
