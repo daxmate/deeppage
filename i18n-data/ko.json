@@ -439,5 +439,8 @@
   },
   "welcomeMessage": {
     "message": "👋 안녕하세요, DeepPage입니다. 페이지의 텍스트를 선택하거나 바로 질문해 주세요."
+  },
+  "sectionAbout": {
+    "message": "정보"
   }
 }

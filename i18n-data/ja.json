@@ -439,5 +439,8 @@
   },
   "welcomeMessage": {
     "message": "👋 こんにちは、DeepPage です。ページ上の文字を選択するか、そのまま質問してください。"
+  },
+  "sectionAbout": {
+    "message": "情報"
   }
 }

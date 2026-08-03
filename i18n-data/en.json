@@ -439,5 +439,8 @@
   },
   "welcomeMessage": {
     "message": "👋 Hi, I'm DeepPage. Select any text on the page, or just ask me anything."
+  },
+  "sectionAbout": {
+    "message": "About"
   }
 }

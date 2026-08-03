@@ -439,5 +439,8 @@
   },
   "welcomeMessage": {
     "message": "👋 你好，我是 DeepPage。选中网页上的文字，或直接向我提问。"
+  },
+  "sectionAbout": {
+    "message": "关于"
   }
 }
