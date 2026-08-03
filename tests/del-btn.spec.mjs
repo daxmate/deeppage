@@ -16,17 +16,17 @@ test.describe("消息删除按钮", () => {
   });
 
   test("每条消息有删除按钮，hover 显示，删除同步 storage", async ({ page, sw }) => {
-    // 发送消息 → 欢迎 + user + assistant 共 3 条
+    // 发送消息 → 欢迎 + context-loaded + user + assistant 共 4 条
     await page.fill("#__dp-input", "hello delete test");
     await page.click("#__dp-send");
     await expect(
       page.locator("#__dp-chat .__dp-msg.__dp-assistant:not([data-msg-type]) .__dp-bubble-content")
     ).toContainText("回复内容。", { timeout: 15000 });
-    await expect(page.locator("#__dp-chat .__dp-msg")).toHaveCount(3);
+    await expect(page.locator("#__dp-chat .__dp-msg")).toHaveCount(4);
 
     // 每条消息都有删除按钮
     const delCount = await page.locator("#__dp-chat .__dp-msg .__dp-del-btn").count();
-    expect(delCount).toBe(3);
+    expect(delCount).toBe(4);
 
     // hover 显示删除按钮（opacity 从隐藏到可见）
     const delBtn = page.locator("#__dp-chat .__dp-msg").nth(0).locator(".__dp-del-btn");
@@ -40,7 +40,7 @@ test.describe("消息删除按钮", () => {
     // 删除欢迎消息（skipTrack）→ 只删 DOM，storage 不受影响（欢迎消息本就不入 storage，剩余 user + assistant 均在）
     await page.hover("#__dp-chat .__dp-msg >> nth=0");
     await page.click("#__dp-chat .__dp-msg >> nth=0 >> .__dp-del-btn");
-    await expect(page.locator("#__dp-chat .__dp-msg")).toHaveCount(2);
+    await expect(page.locator("#__dp-chat .__dp-msg")).toHaveCount(3);
 
     const storage1 = await sw.evaluate(
       () =>
@@ -50,6 +50,11 @@ test.describe("消息删除按钮", () => {
     );
     const storedMsgs1 = storage1?.conversations?.[0]?.messages ?? [];
     expect(storedMsgs1.map((m) => m.role)).toEqual(["user", "assistant"]); // 欢迎消息不入 storage
+
+    // 删除 context-loaded 消息（skipTrack）→ 只删 DOM，storage 仍不受影响
+    await page.hover("#__dp-chat .__dp-msg >> nth=0");
+    await page.click("#__dp-chat .__dp-msg >> nth=0 >> .__dp-del-btn");
+    await expect(page.locator("#__dp-chat .__dp-msg")).toHaveCount(2);
 
     // 删除 user 消息 → DOM 剩 assistant，storage 同步更新
     await page.hover("#__dp-chat .__dp-msg >> nth=0");

@@ -282,7 +282,7 @@ test.describe("面板 UI 功能", () => {
         page.locator("#__dp-chat .__dp-msg.__dp-assistant:not([data-msg-type])").last()
       ).toContainText("这是来自 mock 服务器的回复。", { timeout: 15000 });
     }
-    await expect(page.locator("#__dp-chat .__dp-msg")).toHaveCount(5); // context-loaded + 2 user + 2 assistant
+    await expect(page.locator("#__dp-chat .__dp-msg")).toHaveCount(6); // welcome + context-loaded + 2 user + 2 assistant
 
     // 清除上下文
     await page.click("#__dp-clear-ctx-btn");
