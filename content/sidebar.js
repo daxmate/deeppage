@@ -15,9 +15,24 @@ let _selBtn = null;
 
 function initDefaultActions() {
   DEFAULT_QUICK_ACTIONS = [
-    { id: "summarize", label: t("defaultSummarizeLabel"), prompt: t("defaultSummarizePrompt") },
-    { id: "outline", label: t("defaultOutlineLabel"), prompt: t("defaultOutlinePrompt") },
-    { id: "translate", label: t("defaultTranslateLabel"), prompt: t("defaultTranslatePrompt") },
+    {
+      id: "summarize",
+      label: t("defaultSummarizeLabel"),
+      prompt: t("defaultSummarizePrompt"),
+      thinking: "off",
+    },
+    {
+      id: "outline",
+      label: t("defaultOutlineLabel"),
+      prompt: t("defaultOutlinePrompt"),
+      thinking: "off",
+    },
+    {
+      id: "translate",
+      label: t("defaultTranslateLabel"),
+      prompt: t("defaultTranslatePrompt"),
+      thinking: "off",
+    },
   ];
 }
 
@@ -29,8 +44,7 @@ function renderQuickActions() {
     const btn = document.createElement("button");
     btn.textContent = action.label;
     btn.addEventListener("click", () => {
-      document.getElementById("__dp-input").value = action.prompt;
-      sendMessage();
+      sendMessage({ prompt: action.prompt, thinking: action.thinking });
     });
     container.appendChild(btn);
   }
@@ -42,7 +56,17 @@ function loadQuickActionsFromStorage() {
     const savedLang = result.quickActionsLang;
     // 语言变了 → 用默认值
     if (result.quickActions && result.quickActions.length && savedLang === currentLang) {
-      quickActions = result.quickActions;
+      // 迁移：旧快照没有 thinking 字段
+      // - label 和 prompt 都与当前默认值一致（原封未动的默认动作）→ 补 "off"
+      // - 其余（编辑过 prompt / 用户自定义）→ 补 "default"，跟随全局设置
+      const defaults = DEFAULT_QUICK_ACTIONS;
+      quickActions = result.quickActions.map((a) => {
+        if (a.thinking) return a;
+        const isUntouchedDefault = defaults.some(
+          (d) => d.label === a.label && d.prompt === a.prompt
+        );
+        return { ...a, thinking: isUntouchedDefault ? "off" : "default" };
+      });
     } else {
       quickActions = DEFAULT_QUICK_ACTIONS;
     }

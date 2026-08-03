@@ -163,7 +163,7 @@ test.describe("Options 页", () => {
       waitUntil: "domcontentloaded",
     });
     // 调高视口，保证 6 张卡片全部可见（#tab-contents 内层滚动容器会被裁剪）
-    await page.setViewportSize({ width: 1200, height: 2200 });
+    await page.setViewportSize({ width: 1200, height: 2800 });
     await page
       .locator("#apiProvider option")
       .first()

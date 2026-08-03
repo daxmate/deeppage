@@ -401,6 +401,15 @@
   "thinkingLabel": {
     "message": "思考過程"
   },
+  "thinkingModeLabel": {
+    "message": "思考モード"
+  },
+  "thinkingFollowGlobal": {
+    "message": "グローバル設定に従う"
+  },
+  "thinkingOff": {
+    "message": "思考をオフにする"
+  },
   "titleGenPrompt": {
     "message": "この会話に簡潔な日本語のタイトルを付けてください。15文字以内、引用符や句読点なし、タイトルのみを出力："
   },

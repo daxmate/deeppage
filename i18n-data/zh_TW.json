@@ -401,6 +401,15 @@
   "thinkingLabel": {
     "message": "思考過程"
   },
+  "thinkingModeLabel": {
+    "message": "思考模式"
+  },
+  "thinkingFollowGlobal": {
+    "message": "跟隨全局設置"
+  },
+  "thinkingOff": {
+    "message": "關閉思考"
+  },
   "titleGenPrompt": {
     "message": "為這段對話生成一個簡潔的繁體中文標題，不超過15個字，不要引號、不要句號，直接輸出標題："
   },

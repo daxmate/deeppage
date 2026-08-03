@@ -143,10 +143,16 @@ function render() {
       <div class="action-card-body">
         <label>${t("promptLabel")}</label>
         <textarea class="fld-prompt" rows="2" placeholder="${t("promptPlaceholder")}"></textarea>
+        <label>${t("thinkingModeLabel")}</label>
+        <select class="fld-thinking">
+          <option value="default">${t("thinkingFollowGlobal")}</option>
+          <option value="off">${t("thinkingOff")}</option>
+        </select>
       </div>
     `;
     card.querySelector(".action-card-label-input").value = action.label || "";
     card.querySelector(".fld-prompt").value = action.prompt || "";
+    card.querySelector(".fld-thinking").value = action.thinking || "default";
     card.querySelector(".action-card-del").addEventListener("click", () => {
       actions.splice(i, 1);
       render();
@@ -192,7 +198,8 @@ container.addEventListener("drop", (e) => {
   container.querySelectorAll(".action-card").forEach((card) => {
     const label = card.querySelector(".action-card-label-input").value.trim();
     const prompt = card.querySelector(".fld-prompt").value.trim();
-    if (label) reordered.push({ label, prompt });
+    const thinking = card.querySelector(".fld-thinking").value;
+    if (label) reordered.push({ label, prompt, thinking });
   });
   actions = reordered;
   render(); // 刷新序号
@@ -312,12 +319,20 @@ function loadSavedData() {
       const currentLang = getCurrentLang();
       const savedLang = result.quickActionsLang;
       const defaults = [
-        { label: t("defaultSummarizeLabel"), prompt: t("defaultSummarizePrompt") },
-        { label: t("defaultOutlineLabel"), prompt: t("defaultOutlinePrompt") },
-        { label: t("defaultTranslateLabel"), prompt: t("defaultTranslatePrompt") },
+        { label: t("defaultSummarizeLabel"), prompt: t("defaultSummarizePrompt"), thinking: "off" },
+        { label: t("defaultOutlineLabel"), prompt: t("defaultOutlinePrompt"), thinking: "off" },
+        { label: t("defaultTranslateLabel"), prompt: t("defaultTranslatePrompt"), thinking: "off" },
       ];
       if (result.quickActions && result.quickActions.length && savedLang === currentLang) {
-        actions = result.quickActions.map((a) => ({ label: a.label, prompt: a.prompt }));
+        // 迁移：旧快照没有 thinking 字段 → 与当前默认完全一致的原封默认动作补 "off"，其余补 "default"（跟随全局）
+        actions = result.quickActions.map((a) => {
+          const base = { label: a.label, prompt: a.prompt };
+          if (a.thinking) return { ...base, thinking: a.thinking };
+          const isUntouchedDefault = defaults.some(
+            (d) => d.label === a.label && d.prompt === a.prompt
+          );
+          return { ...base, thinking: isUntouchedDefault ? "off" : "default" };
+        });
       } else {
         actions = defaults.map((a) => ({ ...a }));
       }
@@ -549,7 +564,8 @@ function autoSave() {
   cards.forEach((card) => {
     const label = card.querySelector(".action-card-label-input").value.trim();
     const prompt = card.querySelector(".fld-prompt").value.trim();
-    if (label) cleaned.push({ label, prompt });
+    const thinking = card.querySelector(".fld-thinking").value;
+    if (label) cleaned.push({ label, prompt, thinking });
   });
 
   // 🔒 API Key 仅存本地，其余设置仍同步

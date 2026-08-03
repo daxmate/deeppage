@@ -100,8 +100,11 @@ chrome.runtime.onConnect.addListener((port) => {
       let systemPrompt = msg.pageContext
         ? `你是一个网页助手。用户正在浏览以下网页，请根据网页内容回答问题。\n\n标题: ${msg.pageContext.title}\nURL: ${msg.pageContext.url}\n\n网页全文：\n${msg.pageContext.text}`
         : "你是一个网页助手。";
+      // 快捷动作可覆盖全局思考模式：msg.thinking === "off" 时强制关闭（默认三件套等工具型任务）
+      const disableThinking = msg.thinking === "off";
       // Reasoning-level based instruction (for non-o-series models)
       if (
+        !disableThinking &&
         reasoningLevel &&
         reasoningLevel !== "off" &&
         !(model && (model.startsWith("o1") || model.startsWith("o3")))
@@ -138,6 +141,7 @@ chrome.runtime.onConnect.addListener((port) => {
         reasoningLevel,
         apiProvider,
         baseUrl,
+        disableThinking,
       });
 
       const resp = await fetch(url, { method: "POST", headers, body });

@@ -282,6 +282,18 @@ body {
   min-height: 44px;
 }
 .action-card-body textarea:focus { border-color: #4A6CF7; }
+.action-card-body select.fld-thinking {
+  width: 100%;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 13px;
+  outline: none;
+  color: #1f2937;
+  font-family: inherit;
+}
+.action-card-body select.fld-thinking:focus { border-color: #4A6CF7; }
 
 .btn-add {
   padding: 10px 16px;
@@ -358,6 +370,8 @@ small a:hover { text-decoration: underline; }
   .action-card-body label { color: #6b7280; }
   .action-card-body textarea { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
   .action-card-body textarea:focus { border-color: #4A6CF7; }
+  .action-card-body select.fld-thinking { background: #2c3035; border-color: #373a40; color: #e4e5e7; }
+  .action-card-body select.fld-thinking:focus { border-color: #4A6CF7; }
   .btn-add { color: #6B8AFF; border-color: #4A6CF7; }
   .btn-add:hover { background: #1a2740; }
 

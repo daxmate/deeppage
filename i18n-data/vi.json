@@ -401,6 +401,15 @@
   "thinkingLabel": {
     "message": "Quá trình suy nghĩ"
   },
+  "thinkingModeLabel": {
+    "message": "Chế độ suy nghĩ"
+  },
+  "thinkingFollowGlobal": {
+    "message": "Theo cài đặt chung"
+  },
+  "thinkingOff": {
+    "message": "Tắt suy nghĩ"
+  },
   "titleGenPrompt": {
     "message": "Tạo tiêu đề ngắn gọn bằng tiếng Việt cho cuộc trò chuyện này, tối đa 10 từ, không dấu ngoặc kép hay dấu chấm, chỉ xuất ra tiêu đề:"
   },

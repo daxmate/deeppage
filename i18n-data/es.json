@@ -401,6 +401,15 @@
   "thinkingLabel": {
     "message": "Razonamiento"
   },
+  "thinkingModeLabel": {
+    "message": "Modo de razonamiento"
+  },
+  "thinkingFollowGlobal": {
+    "message": "Seguir configuración global"
+  },
+  "thinkingOff": {
+    "message": "Desactivar razonamiento"
+  },
   "titleGenPrompt": {
     "message": "Genera un título conciso en español para esta conversación, máximo 10 palabras, sin comillas ni puntos, genera solo el título:"
   },

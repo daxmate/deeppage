@@ -401,6 +401,15 @@
   "thinkingLabel": {
     "message": "思考过程"
   },
+  "thinkingModeLabel": {
+    "message": "思考模式"
+  },
+  "thinkingFollowGlobal": {
+    "message": "跟随全局设置"
+  },
+  "thinkingOff": {
+    "message": "关闭思考"
+  },
   "titleGenPrompt": {
     "message": "为这段对话生成一个简洁的中文标题，不超过15个字，不要引号、不要句号，直接输出标题："
   },

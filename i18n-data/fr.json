@@ -401,6 +401,15 @@
   "thinkingLabel": {
     "message": "Réflexion"
   },
+  "thinkingModeLabel": {
+    "message": "Mode de réflexion"
+  },
+  "thinkingFollowGlobal": {
+    "message": "Suivre le réglage global"
+  },
+  "thinkingOff": {
+    "message": "Désactiver la réflexion"
+  },
   "titleGenPrompt": {
     "message": "Générez un titre concis en français pour cette conversation, 10 mots maximum, sans guillemets ni points, générez uniquement le titre :"
   },

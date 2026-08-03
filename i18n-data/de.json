@@ -401,6 +401,15 @@
   "thinkingLabel": {
     "message": "Denkprozess"
   },
+  "thinkingModeLabel": {
+    "message": "Denkmodus"
+  },
+  "thinkingFollowGlobal": {
+    "message": "Globaler Einstellung folgen"
+  },
+  "thinkingOff": {
+    "message": "Denken deaktivieren"
+  },
   "titleGenPrompt": {
     "message": "Erstelle einen prägnanten deutschen Titel für dieses Gespräch, höchstens 10 Wörter, keine Anführungszeichen oder Punkte, gib nur den Titel aus:"
   },

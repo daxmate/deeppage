@@ -625,15 +625,19 @@ function showLoginNotice(show) {
   sendBtn.disabled = show;
 }
 
-async function sendMessage() {
+async function sendMessage(opts = {}) {
   if (_sending) return;
   _sending = true;
   const input = document.getElementById("__dp-input");
-  const text = input.value.trim();
+  // opts.prompt 用于快捷按钮直接发送（不经过输入框，避免冲掉正在输入的内容）
+  const isDirect = opts.prompt !== undefined;
+  const text = isDirect ? opts.prompt : input.value.trim();
   if (!text) return;
 
-  input.value = "";
-  input.style.height = "auto";
+  if (!isDirect) {
+    input.value = "";
+    input.style.height = "auto";
+  }
 
   addMsg("user", text);
   showLoading();
@@ -873,7 +877,7 @@ async function sendMessage() {
       });
 
       // 发送请求
-      port.postMessage({ action: "chat", pageContext, chatHistory });
+      port.postMessage({ action: "chat", pageContext, chatHistory, thinking: opts.thinking });
     });
 
     const respData = await fullTextPromise;

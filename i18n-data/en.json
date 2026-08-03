@@ -401,6 +401,15 @@
   "thinkingLabel": {
     "message": "Thinking"
   },
+  "thinkingModeLabel": {
+    "message": "Thinking Mode"
+  },
+  "thinkingFollowGlobal": {
+    "message": "Follow global setting"
+  },
+  "thinkingOff": {
+    "message": "Disable thinking"
+  },
   "titleGenPrompt": {
     "message": "Generate a concise English title for this conversation, max 10 words, no quotes or periods, output only the title:"
   },

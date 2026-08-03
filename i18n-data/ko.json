@@ -401,6 +401,15 @@
   "thinkingLabel": {
     "message": "생각 과정"
   },
+  "thinkingModeLabel": {
+    "message": "생각 모드"
+  },
+  "thinkingFollowGlobal": {
+    "message": "전역 설정 따르기"
+  },
+  "thinkingOff": {
+    "message": "사고 끄기"
+  },
   "titleGenPrompt": {
     "message": "이 대화에 대한 간결한 한국어 제목을 생성하세요. 15자 이내, 따옴표나 마침표 없이, 제목만 출력하세요:"
   },
