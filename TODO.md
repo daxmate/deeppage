@@ -21,6 +21,12 @@
 - [x] **注入状态指示** ✅ 已完成（v1.11.0） — 悬浮按钮图标随当前配置的 AI 提供商切换（12 家单色 logo），悬停显示「提供商 · 模型」，切换配置实时刷新
 - [ ] **本地 LLM 一键配置** — Ollama 的配置入口更深一点（provider 下拉选了 ollama 但仍需手动设置），可加「检测本地 Ollama」按钮自动填充
 - [ ] **回复改写** — 对 AI 回复不满意时，选中该回复生成「请改写这条回复（更简洁/更正式…）」指令发给 AI，AI 重写后替换原气泡。**不做直接编辑气泡文本**（编辑的是渲染结果、对话上下文未同步，易误导；且「替 AI 说话」与对话定位冲突）——要改就引导 AI 自己改
+- [ ] **联网搜索** — 当前网页信息不足、或 AI 知识滞后时自动联网补充。**面向普通用户，不依赖 OpenClaw**。三条可选路径（可并行，优先级待定）：
+  - A. **复用已有 provider 的联网能力**（最省事）— Moonshot Kimi（API `web_search` 工具）、智谱 GLM（`web-search` 工具）都支持联网参数；**DeepSeek 实测支持**（2026-08-03 验证：`POST /v1/responses` + `deepseek-v4-flash` + `tools:[{type:"web_search"}]` 真实触发搜索并引用当日新闻；标准 `chat/completions` 不支持，报 `unknown variant web_search`）→ 需给 DeepPage 新增 Responses API 端点格式支持；选项页加「🔍 联网搜索」开关即可，用户已有 key 零新增依赖
+  - B. **新增 Perplexity provider**（几乎零代码）— `sonar` 系列模型原生联网，OpenAI 兼容，`providers.js` 加一项即可（同 Moonshot/Groq 模式）
+  - C. **集成 Tavily 搜索 API**（最通用）— 提问前先搜索，结果拼入 prompt 再发 AI，所有 provider 通用；用户需另配一个搜索 key
+- [ ] **OpenClaw channel 集成**（进阶玩法，决策待定）— 让 DeepPage 成为 OpenClaw 的浏览器 channel：持久会话 + agent 工具（含原生联网搜索）+ 记忆，回复确定性路由回侧边栏。预研已完成并实测验证（握手/chat.send/流式事件全通），蓝图见 [docs/openclaw-channel-integration.md](./docs/openclaw-channel-integration.md)；仅服务已安装 OpenClaw 的用户，与上方联网搜索（大众向）不冲突
+- [ ] **Responses API 端点格式支持** — DeepSeek 联网搜索的前置条件：新增 `/v1/responses` 端点格式（output 块结构、`web_search_call` 事件、流式事件类型均与 chat/completions 不同，`buildBody` 需新增分支）。已实测确认 DeepSeek Responses API 支持 `web_search`（2026-08-03，模型 `deepseek-v4-flash`）；实现后 DeepSeek 用户可联网搜索，也为将来接入其他 Responses API 兼容 provider 铺路
 
 ## 📦 已完成归档（摘要）
 
