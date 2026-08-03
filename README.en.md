@@ -147,6 +147,12 @@ Issues and Pull Requests are welcome! Please keep these conventions in mind:
 
 > Full development guide (adding API providers / writing tests / i18n) → [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md)
 
+## Made by
+
+This extension started as a tool for myself — a way to chat with DeepSeek while browsing.
+
+Maintained by [daxmate](https://github.com/daxmate). If you find it useful, consider giving it a [star](https://github.com/daxmate/deeppage) or sharing your thoughts in [Issues](https://github.com/daxmate/deeppage/issues).
+
 ## License
 
 MIT

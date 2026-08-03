@@ -167,6 +167,12 @@ npm test        # 自动运行 i18n 校验 + 40 个 E2E 用例
 
 > 完整开发指南（添加 API 提供商 / 写测试 / i18n）见 [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md)
 
+## Made by
+
+这个扩展最初是写给自己的 —— 浏览网页时想随时和 DeepSeek 聊几句，于是就有了它。
+
+由 [daxmate](https://github.com/daxmate) 维护，如果觉得好用，欢迎 [Star](https://github.com/daxmate/deeppage)，或在 [Issues](https://github.com/daxmate/deeppage/issues) 里聊聊你的想法。
+
 ## License
 
 MIT
