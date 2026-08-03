@@ -573,8 +573,8 @@ function attachDelBtn(div) {
 }
 
 async function deleteMessage(div) {
-  // 欢迎消息（skipTrack，不入数组）：只删 DOM，不影响数据
-  if (div.dataset.msgType === "context-loaded") {
+  // 欢迎/context-loaded 消息（skipTrack，不入数组）：只删 DOM，不影响数据
+  if (div.dataset.msgType === "context-loaded" || div.dataset.msgType === "welcome") {
     div.remove();
     return;
   }
