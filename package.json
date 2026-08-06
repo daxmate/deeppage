@@ -1,6 +1,6 @@
 {
   "name": "deeppage",
-  "version": "1.18.4",
+  "version": "1.18.5",
   "private": true,
   "description": "DeepPage — Chat with DeepSeek while browsing",
   "scripts": {
