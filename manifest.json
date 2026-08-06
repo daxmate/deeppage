@@ -27,7 +27,11 @@
                 "js/toast.js",
                 "lib/html2pdf.bundle.min.js",
                 "lib/docx.bundle.min.js",
-                "content/chat.js",
+                "content/chat/state.js",
+                "content/chat/history.js",
+                "content/chat/render.js",
+                "content/chat/send.js",
+                "content/chat/export.js",
                 "js/provider-icons.js",
                 "content/sidebar.js",
                 "content/content.js"

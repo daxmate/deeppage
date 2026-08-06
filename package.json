@@ -11,8 +11,8 @@
     "bump:version": "node scripts/bump-version.mjs",
     "lint": "eslint js/ content/ background/ options/ tests/ scripts/",
     "lint:fix": "eslint js/ content/ background/ options/ tests/ scripts/ --fix",
-    "format": "prettier --write \"js/*.js\" \"content/*.js\" \"background/*.js\" \"options/*.js\" \"tests/*.mjs\" \"tests/*.js\" \"scripts/*.mjs\" \"playwright.config.js\"",
-    "format:check": "prettier --check \"js/*.js\" \"content/*.js\" \"background/*.js\" \"options/*.js\" \"tests/*.mjs\" \"tests/*.js\" \"scripts/*.mjs\" \"playwright.config.js\""
+    "format": "prettier --write \"js/*.js\" \"content/*.js\" \"content/chat/*.js\" \"background/*.js\" \"options/*.js\" \"tests/*.mjs\" \"tests/*.js\" \"scripts/*.mjs\" \"playwright.config.js\"",
+    "format:check": "prettier --check \"js/*.js\" \"content/*.js\" \"content/chat/*.js\" \"background/*.js\" \"options/*.js\" \"tests/*.mjs\" \"tests/*.js\" \"scripts/*.mjs\" \"playwright.config.js\""
   },
   "devDependencies": {
     "eslint": "^9.39.5",

@@ -7,7 +7,6 @@ let chatPanel = null;
 let panelOpen = false;
 let quickActions = [];
 let DEFAULT_QUICK_ACTIONS = [];
-let _suppressClose = false;
 let _exportMenuOpen = false;
 let _selBtn = null;
 
