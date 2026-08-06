@@ -75,7 +75,7 @@
     "message": "已复制"
   },
   "customLabel": {
-    "message": "🔧 自定义"
+    "message": "自定义"
   },
   "darkModeDesc": {
     "message": "使用深色主题"
@@ -84,19 +84,19 @@
     "message": "深色模式"
   },
   "defaultOutlineLabel": {
-    "message": "🎯 提炼要点"
+    "message": "提炼要点"
   },
   "defaultOutlinePrompt": {
     "message": "请提炼这篇网页正文部分的要点，以列表形式列出"
   },
   "defaultSummarizeLabel": {
-    "message": "📝 总结全文"
+    "message": "总结全文"
   },
   "defaultSummarizePrompt": {
     "message": "请用中文总结这篇网页正文部分的核心内容"
   },
   "defaultTranslateLabel": {
-    "message": "🌐 翻译"
+    "message": "翻译"
   },
   "defaultTranslatePrompt": {
     "message": "请将这篇网页的正文部分翻译成中文"
@@ -108,7 +108,7 @@
     "message": "拖拽排序"
   },
   "errorNoApiKey": {
-    "message": "❌ 未配置 API Key，请在扩展设置中配置"
+    "message": "未配置 API Key，请在扩展设置中配置"
   },
   "exitFullscreenButton": {
     "message": "退出全屏"
@@ -318,7 +318,7 @@
     "message": "保存"
   },
   "savedSuccess": {
-    "message": "✅ 已保存"
+    "message": "已保存"
   },
   "sectionApi": {
     "message": "API"
@@ -336,7 +336,7 @@
     "message": "快捷按钮"
   },
   "selAskButton": {
-    "message": "💬 对此段提问"
+    "message": "对此段提问"
   },
   "selContextLabel": {
     "message": "选中内容"
@@ -387,7 +387,7 @@
     "message": "验证 API Key 和接口是否可用"
   },
   "testApiFailed": {
-    "message": "❌ 连接失败："
+    "message": "连接失败："
   },
   "testApiLabel": {
     "message": "测试连接"
@@ -396,7 +396,7 @@
     "message": "请先填写接口地址、API Key 和模型名称"
   },
   "testApiSuccess": {
-    "message": "✅ 连接成功"
+    "message": "连接成功"
   },
   "thinkingLabel": {
     "message": "思考过程"

@@ -98,7 +98,7 @@ function populateProviderSelect() {
   API_PROVIDERS.forEach((p) => {
     const opt = document.createElement("option");
     opt.value = p.id;
-    opt.textContent = p.label || t("customLabel") || "🔧 Custom";
+    opt.textContent = p.label || t("customLabel") || "Custom";
     select.appendChild(opt);
   });
 }
@@ -155,6 +155,12 @@ function updateApiUI(providerId) {
   }
 }
 
+// 测试状态显示：自绘图标 + 文本（span.textContent 避免 XSS）
+function setTestStatus(statusEl, icon, text, color) {
+  statusEl.innerHTML = `${icon} <span></span>`;
+  statusEl.querySelector("span").textContent = text;
+  statusEl.style.color = color;
+}
 // ---- 渲染卡片列表 ----
 function render() {
   container.innerHTML = "";
@@ -166,7 +172,7 @@ function render() {
         <span class="action-card-drag" draggable="true" title="${t("dragSortHint")}">⠿</span>
         <span class="action-card-index">${i + 1}</span>
         <input class="action-card-label-input" type="text" placeholder="${t("buttonLabelPlaceholder")}" />
-        <button class="action-card-del" title="${t("deleteButton")}">✕</button>
+        <button class="action-card-del" title="${t("deleteButton")}">${iconClose(12)}</button>
       </div>
       <div class="action-card-body">
         <label>${t("promptLabel")}</label>
@@ -477,9 +483,9 @@ document.getElementById("testApiBtn").addEventListener("click", async () => {
   const model = document.getElementById("apiModel").value.trim();
 
   if (!baseUrl || !apiKey || !model) {
-    statusEl.textContent = t("testApiRequired") || "⚠️ Fill in Base URL, API Key, and Model first";
-    statusEl.style.color = "#f59e0b";
-    toastError(t("testApiRequired") || "⚠️ Fill in Base URL, API Key, and Model first");
+    const msg = t("testApiRequired") || "Fill in Base URL, API Key, and Model first";
+    setTestStatus(statusEl, iconWarn(14), msg, "#f59e0b");
+    toastError(msg);
     btn.disabled = false;
     btn.textContent = t("testApiButton") || "Test Connection";
     return;
@@ -502,9 +508,9 @@ document.getElementById("testApiBtn").addEventListener("click", async () => {
   try {
     const result = await chrome.runtime.sendMessage({ action: "testApi" });
     if (result.ok) {
-      statusEl.textContent = t("testApiSuccess") || "✅ Connection OK";
-      statusEl.style.color = "#34d399";
-      toastSuccess(t("testApiSuccess") || "✅ Connection OK");
+      const okMsg = t("testApiSuccess") || "Connection OK";
+      setTestStatus(statusEl, iconSuccess(14), okMsg, "#34d399");
+      toastSuccess(okMsg);
       // 测试成功后获取模型列表
       chrome.runtime.sendMessage({ action: "getModels" }).then((modelsResult) => {
         if (modelsResult.models && modelsResult.models.length > 0) {
@@ -523,14 +529,14 @@ document.getElementById("testApiBtn").addEventListener("click", async () => {
         }
       });
     } else {
-      statusEl.textContent = (t("testApiFailed") || "❌ Connection failed:") + (result.error || "");
-      statusEl.style.color = "#f87171";
-      toastError((t("testApiFailed") || "❌ Connection failed:") + (result.error || ""));
+      const errMsg = (t("testApiFailed") || "Connection failed:") + (result.error || "");
+      setTestStatus(statusEl, iconError(14), errMsg, "#f87171");
+      toastError(errMsg);
     }
   } catch (err) {
-    statusEl.textContent = (t("testApiFailed") || "❌ Connection failed:") + err.message;
-    statusEl.style.color = "#f87171";
-    toastError((t("testApiFailed") || "❌ Connection failed:") + err.message);
+    const errMsg = (t("testApiFailed") || "Connection failed:") + err.message;
+    setTestStatus(statusEl, iconError(14), errMsg, "#f87171");
+    toastError(errMsg);
   }
 
   btn.disabled = false;
@@ -626,7 +632,7 @@ function autoSave() {
     () => {
       clearTimeout(_saveToastTimer);
       _saveToastTimer = setTimeout(() => {
-        toastSuccess(t("savedSuccess") || "✅ Saved");
+        toastSuccess(t("savedSuccess") || "Saved");
       }, 400);
     }
   );

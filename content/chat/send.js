@@ -284,7 +284,7 @@ async function sendMessage(opts = {}) {
     if (loading) loading.remove();
 
     const errMsg = err.message === "NO_API_KEY" ? t("errorNoApiKey") : err.message;
-    addMsg("assistant", `❌ ${errMsg}`);
+    addMsg("assistant", errMsg, { icon: iconError(14) });
     if (err.message === "NO_API_KEY") showLoginNotice(true);
     chatHistory.pop();
   }

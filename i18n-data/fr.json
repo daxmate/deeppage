@@ -75,7 +75,7 @@
     "message": "Copié"
   },
   "customLabel": {
-    "message": "🔧 Personnalisé"
+    "message": "Personnalisé"
   },
   "darkModeDesc": {
     "message": "Utiliser le thème sombre"
@@ -84,19 +84,19 @@
     "message": "Mode sombre"
   },
   "defaultOutlineLabel": {
-    "message": "🎯 Points clés"
+    "message": "Points clés"
   },
   "defaultOutlinePrompt": {
     "message": "Veuillez extraire les points clés de cette page web et les lister"
   },
   "defaultSummarizeLabel": {
-    "message": "📝 Résumer"
+    "message": "Résumer"
   },
   "defaultSummarizePrompt": {
     "message": "Veuillez résumer le contenu principal de cette page web en français"
   },
   "defaultTranslateLabel": {
-    "message": "🌐 Traduire"
+    "message": "Traduire"
   },
   "defaultTranslatePrompt": {
     "message": "Veuillez traduire le contenu principal de cette page web en français"
@@ -108,7 +108,7 @@
     "message": "Glisser pour réordonner"
   },
   "errorNoApiKey": {
-    "message": "❌ Clé API non configurée. Veuillez la configurer dans les options de l\\'extension."
+    "message": "Clé API non configurée. Veuillez la configurer dans les options de l\\'extension."
   },
   "exitFullscreenButton": {
     "message": "Quitter le plein écran"
@@ -318,7 +318,7 @@
     "message": "Enregistrer"
   },
   "savedSuccess": {
-    "message": "✅ Enregistré"
+    "message": "Enregistré"
   },
   "sectionApi": {
     "message": "API"
@@ -336,7 +336,7 @@
     "message": "Actions rapides"
   },
   "selAskButton": {
-    "message": "💬 Questionner la sélection"
+    "message": "Questionner la sélection"
   },
   "selContextLabel": {
     "message": "Sélection"
@@ -387,7 +387,7 @@
     "message": "Vérifier la clé API et le point de terminaison"
   },
   "testApiFailed": {
-    "message": "❌ Échec de connexion："
+    "message": "Échec de connexion："
   },
   "testApiLabel": {
     "message": "Tester la connexion"
@@ -396,7 +396,7 @@
     "message": "Veuillez d'abord saisir l'URL de base, la clé API et le nom du modèle"
   },
   "testApiSuccess": {
-    "message": "✅ Connexion réussie"
+    "message": "Connexion réussie"
   },
   "thinkingLabel": {
     "message": "Réflexion"

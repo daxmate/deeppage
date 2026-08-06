@@ -75,7 +75,7 @@
     "message": "Kopiert"
   },
   "customLabel": {
-    "message": "🔧 Benutzerdefiniert"
+    "message": "Benutzerdefiniert"
   },
   "darkModeDesc": {
     "message": "Dunkles Thema verwenden"
@@ -84,19 +84,19 @@
     "message": "Dunkelmodus"
   },
   "defaultOutlineLabel": {
-    "message": "🎯 Schlüsselpunkte"
+    "message": "Schlüsselpunkte"
   },
   "defaultOutlinePrompt": {
     "message": "Bitte extrahiere die wichtigsten Punkte dieser Webseite und liste sie auf"
   },
   "defaultSummarizeLabel": {
-    "message": "📝 Zusammenfassen"
+    "message": "Zusammenfassen"
   },
   "defaultSummarizePrompt": {
     "message": "Bitte fasse den Kerninhalt dieser Webseite auf Deutsch zusammen"
   },
   "defaultTranslateLabel": {
-    "message": "🌐 Übersetzen"
+    "message": "Übersetzen"
   },
   "defaultTranslatePrompt": {
     "message": "Bitte übersetze den Hauptinhalt dieser Webseite ins Deutsche"
@@ -108,7 +108,7 @@
     "message": "Zum Sortieren ziehen"
   },
   "errorNoApiKey": {
-    "message": "❌ Kein API-Schlüssel konfiguriert. Bitte in den Erweiterungsoptionen einrichten."
+    "message": "Kein API-Schlüssel konfiguriert. Bitte in den Erweiterungsoptionen einrichten."
   },
   "exitFullscreenButton": {
     "message": "Vollbild beenden"
@@ -318,7 +318,7 @@
     "message": "Speichern"
   },
   "savedSuccess": {
-    "message": "✅ Gespeichert"
+    "message": "Gespeichert"
   },
   "sectionApi": {
     "message": "API"
@@ -336,7 +336,7 @@
     "message": "Schnellaktionen"
   },
   "selAskButton": {
-    "message": "💬 Auswahl befragen"
+    "message": "Auswahl befragen"
   },
   "selContextLabel": {
     "message": "Auswahl"
@@ -387,7 +387,7 @@
     "message": "API-Schlüssel und Endpunkt überprüfen"
   },
   "testApiFailed": {
-    "message": "❌ Verbindung fehlgeschlagen："
+    "message": "Verbindung fehlgeschlagen："
   },
   "testApiLabel": {
     "message": "Verbindung testen"
@@ -396,7 +396,7 @@
     "message": "Bitte geben Sie zuerst Basis-URL, API-Schlüssel und Modellname ein"
   },
   "testApiSuccess": {
-    "message": "✅ Verbindung OK"
+    "message": "Verbindung OK"
   },
   "thinkingLabel": {
     "message": "Denkprozess"

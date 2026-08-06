@@ -111,9 +111,10 @@ async function loadActiveConversation() {
         pageContext = extractPageContent();
         updateContext(pageContext.title);
         document.getElementById("__dp-chat").innerHTML = "";
-        addMsg("assistant", `📄 ${t("contextLoaded", pageContext ? pageContext.title : "")}`, {
+        addMsg("assistant", t("contextLoaded", pageContext ? pageContext.title : ""), {
           skipTrack: true,
           dataset: { msgType: "context-loaded" },
+          icon: iconContext(14),
         });
         return;
       }
@@ -154,9 +155,10 @@ async function loadActiveConversation() {
     skipTrack: true,
     dataset: { msgType: "welcome" },
   });
-  addMsg("assistant", `📄 ${t("contextLoaded", pageContext ? pageContext.title : "")}`, {
+  addMsg("assistant", t("contextLoaded", pageContext ? pageContext.title : ""), {
     skipTrack: true,
     dataset: { msgType: "context-loaded" },
+    icon: iconContext(14),
   });
 }
 

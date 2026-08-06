@@ -108,6 +108,20 @@ const contentScriptGlobals = {
   PROVIDER_ICONS: 'readonly',
   PROVIDER_LABELS: 'readonly',
   PROVIDER_ICON_FALLBACK: 'readonly',
+  // ---- js/icons.js（自绘 SVG 图标）----
+  iconSummarize: 'readonly',
+  iconOutline: 'readonly',
+  iconTranslate: 'readonly',
+  iconCustom: 'readonly',
+  iconAsk: 'readonly',
+  iconContext: 'readonly',
+  iconError: 'readonly',
+  iconSuccess: 'readonly',
+  iconWarn: 'readonly',
+  iconClose: 'readonly',
+  iconSend: 'readonly',
+  iconNew: 'readonly',
+  iconForAction: 'readonly',
 };
 
 export default [

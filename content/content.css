@@ -349,6 +349,13 @@
   color: var(--dp-quick-btn-text);
   cursor: pointer;
   transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+#__dp-quick-actions button .__dp-quick-icon {
+  display: inline-flex;
+  align-items: center;
 }
 #__dp-quick-actions button:hover {
   background: #4a6cf7;
@@ -497,6 +504,13 @@
   background: var(--dp-assistant-bubble-bg);
   color: var(--dp-assistant-bubble-text);
   border-bottom-left-radius: 4px;
+}
+/* 消息前置图标（系统消息等）：与正文垂直居中对齐 */
+.__dp-msg-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 6px;
+  color: var(--dp-text-secondary, inherit);
 }
 .__dp-bubble code {
   background: var(--dp-code-bg);

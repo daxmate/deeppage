@@ -44,6 +44,14 @@ function addMsg(role, text, extra) {
   contentEl.className = "__dp-bubble-content";
   contentEl.innerHTML = markdownToHtml(text);
   bubble.appendChild(contentEl);
+  // 自绘图标（系统消息等）：作为独立 span 插在正文前，不进入文本内容
+  // （导出/复制纯文本时不会带上 SVG 源码）
+  if (extra && extra.icon) {
+    const iconEl = document.createElement("span");
+    iconEl.className = "__dp-msg-icon";
+    iconEl.innerHTML = extra.icon;
+    bubble.insertBefore(iconEl, contentEl);
+  }
   div.appendChild(bubble);
 
   // 追踪消息（跳过历史加载时的重渲染）

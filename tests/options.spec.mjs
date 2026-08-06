@@ -90,7 +90,11 @@ test.describe("Options 页", () => {
     });
 
     await page.click("#testApiBtn");
-    await expect(page.locator("#testApiStatus")).toContainText("✅", { timeout: 15000 });
+    // 状态显示：自绘成功图标 + 文案（不再用 emoji）
+    await expect(page.locator("#testApiStatus svg")).toBeVisible({ timeout: 15000 });
+    await expect(page.locator("#testApiStatus span")).toContainText("Connection", {
+      timeout: 15000,
+    });
   });
 
   test("旧版 sync 中的 API Key 自动迁移到本地并清除云端", async ({ extensionId, page, sw }) => {

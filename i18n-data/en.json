@@ -75,7 +75,7 @@
     "message": "Copied"
   },
   "customLabel": {
-    "message": "🔧 Custom"
+    "message": "Custom"
   },
   "darkModeDesc": {
     "message": "Use dark theme"
@@ -84,19 +84,19 @@
     "message": "Dark Mode"
   },
   "defaultOutlineLabel": {
-    "message": "🎯 Key Points"
+    "message": "Key Points"
   },
   "defaultOutlinePrompt": {
     "message": "Please extract the key points from this web page and list them"
   },
   "defaultSummarizeLabel": {
-    "message": "📝 Summarize"
+    "message": "Summarize"
   },
   "defaultSummarizePrompt": {
     "message": "Please summarize the core content of this web page in English"
   },
   "defaultTranslateLabel": {
-    "message": "🌐 Translate"
+    "message": "Translate"
   },
   "defaultTranslatePrompt": {
     "message": "Please translate the main content of this web page to English"
@@ -108,7 +108,7 @@
     "message": "Drag to reorder"
   },
   "errorNoApiKey": {
-    "message": "❌ API Key not configured. Please set it in the extension options."
+    "message": "API Key not configured. Please set it in the extension options."
   },
   "exitFullscreenButton": {
     "message": "Exit Fullscreen"
@@ -318,7 +318,7 @@
     "message": "Save"
   },
   "savedSuccess": {
-    "message": "✅ Saved"
+    "message": "Saved"
   },
   "sectionApi": {
     "message": "API"
@@ -336,7 +336,7 @@
     "message": "Quick Actions"
   },
   "selAskButton": {
-    "message": "💬 Ask about selection"
+    "message": "Ask about selection"
   },
   "selContextLabel": {
     "message": "Selection"
@@ -387,7 +387,7 @@
     "message": "Verify API key and endpoint"
   },
   "testApiFailed": {
-    "message": "❌ Connection failed: "
+    "message": "Connection failed: "
   },
   "testApiLabel": {
     "message": "Test Connection"
@@ -396,7 +396,7 @@
     "message": "Fill in Base URL, API Key, and Model first"
   },
   "testApiSuccess": {
-    "message": "✅ Connection OK"
+    "message": "Connection OK"
   },
   "thinkingLabel": {
     "message": "Thinking"

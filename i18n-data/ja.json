@@ -75,7 +75,7 @@
     "message": "コピーしました"
   },
   "customLabel": {
-    "message": "🔧 カスタム"
+    "message": "カスタム"
   },
   "darkModeDesc": {
     "message": "ダークテーマを使用"
@@ -84,19 +84,19 @@
     "message": "ダークモード"
   },
   "defaultOutlineLabel": {
-    "message": "🎯 ポイント抽出"
+    "message": "ポイント抽出"
   },
   "defaultOutlinePrompt": {
     "message": "このウェブページの要点をリスト形式で抽出してください"
   },
   "defaultSummarizeLabel": {
-    "message": "📝 要約"
+    "message": "要約"
   },
   "defaultSummarizePrompt": {
     "message": "このウェブページの本文の核心内容を日本語で要約してください"
   },
   "defaultTranslateLabel": {
-    "message": "🌐 翻訳"
+    "message": "翻訳"
   },
   "defaultTranslatePrompt": {
     "message": "このウェブページの本文を日本語に翻訳してください"
@@ -108,7 +108,7 @@
     "message": "ドラッグで並べ替え"
   },
   "errorNoApiKey": {
-    "message": "❌ API キーが設定されていません。拡張機能のオプションで設定してください。"
+    "message": "API キーが設定されていません。拡張機能のオプションで設定してください。"
   },
   "exitFullscreenButton": {
     "message": "全画面を終了"
@@ -318,7 +318,7 @@
     "message": "保存"
   },
   "savedSuccess": {
-    "message": "✅ 保存しました"
+    "message": "保存しました"
   },
   "sectionApi": {
     "message": "API"
@@ -336,7 +336,7 @@
     "message": "クイック操作"
   },
   "selAskButton": {
-    "message": "💬 選択部分について質問"
+    "message": "選択部分について質問"
   },
   "selContextLabel": {
     "message": "選択内容"
@@ -387,7 +387,7 @@
     "message": "APIキーとエンドポイントを確認"
   },
   "testApiFailed": {
-    "message": "❌ 接続失敗："
+    "message": "接続失敗："
   },
   "testApiLabel": {
     "message": "接続テスト"
@@ -396,7 +396,7 @@
     "message": "先にベースURL、APIキー、モデル名を入力してください"
   },
   "testApiSuccess": {
-    "message": "✅ 接続成功"
+    "message": "接続成功"
   },
   "thinkingLabel": {
     "message": "思考過程"

@@ -75,7 +75,7 @@
     "message": "Copiado"
   },
   "customLabel": {
-    "message": "🔧 Personalizado"
+    "message": "Personalizado"
   },
   "darkModeDesc": {
     "message": "Usar tema oscuro"
@@ -84,19 +84,19 @@
     "message": "Modo oscuro"
   },
   "defaultOutlineLabel": {
-    "message": "🎯 Puntos clave"
+    "message": "Puntos clave"
   },
   "defaultOutlinePrompt": {
     "message": "Por favor, extrae los puntos clave de esta página web y enuméralos"
   },
   "defaultSummarizeLabel": {
-    "message": "📝 Resumir"
+    "message": "Resumir"
   },
   "defaultSummarizePrompt": {
     "message": "Por favor, resume el contenido principal de esta página web en español"
   },
   "defaultTranslateLabel": {
-    "message": "🌐 Traducir"
+    "message": "Traducir"
   },
   "defaultTranslatePrompt": {
     "message": "Por favor, traduce el contenido principal de esta página web al español"
@@ -108,7 +108,7 @@
     "message": "Arrastrar para reordenar"
   },
   "errorNoApiKey": {
-    "message": "❌ Clave API no configurada. Configúrala en las opciones de la extensión."
+    "message": "Clave API no configurada. Configúrala en las opciones de la extensión."
   },
   "exitFullscreenButton": {
     "message": "Salir de pantalla completa"
@@ -318,7 +318,7 @@
     "message": "Guardar"
   },
   "savedSuccess": {
-    "message": "✅ Guardado"
+    "message": "Guardado"
   },
   "sectionApi": {
     "message": "API"
@@ -336,7 +336,7 @@
     "message": "Acciones rápidas"
   },
   "selAskButton": {
-    "message": "💬 Preguntar sobre selección"
+    "message": "Preguntar sobre selección"
   },
   "selContextLabel": {
     "message": "Selección"
@@ -387,7 +387,7 @@
     "message": "Verificar clave API y endpoint"
   },
   "testApiFailed": {
-    "message": "❌ Conexión fallida："
+    "message": "Conexión fallida："
   },
   "testApiLabel": {
     "message": "Probar conexión"
@@ -396,7 +396,7 @@
     "message": "Primero complete la URL base, la clave API y el nombre del modelo"
   },
   "testApiSuccess": {
-    "message": "✅ Conexión exitosa"
+    "message": "Conexión exitosa"
   },
   "thinkingLabel": {
     "message": "Razonamiento"

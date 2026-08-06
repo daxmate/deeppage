@@ -75,7 +75,7 @@
     "message": "Скопировано"
   },
   "customLabel": {
-    "message": "🔧 Пользовательский"
+    "message": "Пользовательский"
   },
   "darkModeDesc": {
     "message": "Использовать темную тему"
@@ -84,19 +84,19 @@
     "message": "Тёмная тема"
   },
   "defaultOutlineLabel": {
-    "message": "🎯 Ключевые моменты"
+    "message": "Ключевые моменты"
   },
   "defaultOutlinePrompt": {
     "message": "Пожалуйста, выделите ключевые моменты этой веб-страницы и перечислите их"
   },
   "defaultSummarizeLabel": {
-    "message": "📝 Резюме"
+    "message": "Резюме"
   },
   "defaultSummarizePrompt": {
     "message": "Пожалуйста, резюмируйте основное содержание этой веб-страницы на русском языке"
   },
   "defaultTranslateLabel": {
-    "message": "🌐 Перевести"
+    "message": "Перевести"
   },
   "defaultTranslatePrompt": {
     "message": "Пожалуйста, переведите основное содержание этой веб-страницы на русский язык"
@@ -108,7 +108,7 @@
     "message": "Перетащить для сортировки"
   },
   "errorNoApiKey": {
-    "message": "❌ Ключ API не настроен. Пожалуйста, настройте его в параметрах расширения."
+    "message": "Ключ API не настроен. Пожалуйста, настройте его в параметрах расширения."
   },
   "exitFullscreenButton": {
     "message": "Выйти из полноэкранного режима"
@@ -318,7 +318,7 @@
     "message": "Сохранить"
   },
   "savedSuccess": {
-    "message": "✅ Сохранено"
+    "message": "Сохранено"
   },
   "sectionApi": {
     "message": "API"
@@ -336,7 +336,7 @@
     "message": "Быстрые действия"
   },
   "selAskButton": {
-    "message": "💬 Спросить о выделенном"
+    "message": "Спросить о выделенном"
   },
   "selContextLabel": {
     "message": "Выделенное"
@@ -387,7 +387,7 @@
     "message": "Проверить ключ API и конечную точку"
   },
   "testApiFailed": {
-    "message": "❌ Ошибка соединения："
+    "message": "Ошибка соединения："
   },
   "testApiLabel": {
     "message": "Проверить соединение"
@@ -396,7 +396,7 @@
     "message": "Сначала укажите базовый URL, API-ключ и название модели"
   },
   "testApiSuccess": {
-    "message": "✅ Соединение OK"
+    "message": "Соединение OK"
   },
   "thinkingLabel": {
     "message": "Размышление"

@@ -75,7 +75,7 @@
     "message": "복사됨"
   },
   "customLabel": {
-    "message": "🔧 사용자 정의"
+    "message": "사용자 정의"
   },
   "darkModeDesc": {
     "message": "다크 테마 사용"
@@ -84,19 +84,19 @@
     "message": "다크 모드"
   },
   "defaultOutlineLabel": {
-    "message": "🎯 핵심 정리"
+    "message": "핵심 정리"
   },
   "defaultOutlinePrompt": {
     "message": "이 웹페이지의 핵심 포인트를 목록 형식으로 추출해주세요"
   },
   "defaultSummarizeLabel": {
-    "message": "📝 요약"
+    "message": "요약"
   },
   "defaultSummarizePrompt": {
     "message": "이 웹페이지 본문의 핵심 내용을 한국어로 요약해주세요"
   },
   "defaultTranslateLabel": {
-    "message": "🌐 번역"
+    "message": "번역"
   },
   "defaultTranslatePrompt": {
     "message": "이 웹페이지의 본문을 한국어로 번역해주세요"
@@ -108,7 +108,7 @@
     "message": "드래그하여 정렬"
   },
   "errorNoApiKey": {
-    "message": "❌ API 키가 설정되지 않았습니다. 확장 프로그램 옵션에서 설정해주세요."
+    "message": "API 키가 설정되지 않았습니다. 확장 프로그램 옵션에서 설정해주세요."
   },
   "exitFullscreenButton": {
     "message": "전체 화면 종료"
@@ -318,7 +318,7 @@
     "message": "저장"
   },
   "savedSuccess": {
-    "message": "✅ 저장됨"
+    "message": "저장됨"
   },
   "sectionApi": {
     "message": "API"
@@ -336,7 +336,7 @@
     "message": "빠른 작업"
   },
   "selAskButton": {
-    "message": "💬 선택한 내용 질문"
+    "message": "선택한 내용 질문"
   },
   "selContextLabel": {
     "message": "선택 내용"
@@ -387,7 +387,7 @@
     "message": "API 키와 엔드포인트 확인"
   },
   "testApiFailed": {
-    "message": "❌ 연결 실패："
+    "message": "연결 실패："
   },
   "testApiLabel": {
     "message": "연결 테스트"
@@ -396,7 +396,7 @@
     "message": "먼저 기본 URL, API 키 및 모델 이름을 입력하세요"
   },
   "testApiSuccess": {
-    "message": "✅ 연결 성공"
+    "message": "연결 성공"
   },
   "thinkingLabel": {
     "message": "생각 과정"

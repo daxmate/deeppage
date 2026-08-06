@@ -75,7 +75,7 @@
     "message": "Đã sao chép"
   },
   "customLabel": {
-    "message": "🔧 Tùy chỉnh"
+    "message": "Tùy chỉnh"
   },
   "darkModeDesc": {
     "message": "Sử dụng giao diện tối"
@@ -84,19 +84,19 @@
     "message": "Chế độ tối"
   },
   "defaultOutlineLabel": {
-    "message": "🎯 Ý chính"
+    "message": "Ý chính"
   },
   "defaultOutlinePrompt": {
     "message": "Vui lòng rút trích các ý chính của trang web này và liệt kê chúng"
   },
   "defaultSummarizeLabel": {
-    "message": "📝 Tóm tắt"
+    "message": "Tóm tắt"
   },
   "defaultSummarizePrompt": {
     "message": "Vui lòng tóm tắt nội dung chính của trang web này bằng tiếng Việt"
   },
   "defaultTranslateLabel": {
-    "message": "🌐 Dịch"
+    "message": "Dịch"
   },
   "defaultTranslatePrompt": {
     "message": "Vui lòng dịch nội dung chính của trang web này sang tiếng Việt"
@@ -108,7 +108,7 @@
     "message": "Kéo để sắp xếp"
   },
   "errorNoApiKey": {
-    "message": "❌ Chưa cấu hình khóa API. Vui lòng cấu hình trong tùy chọn tiện ích."
+    "message": "Chưa cấu hình khóa API. Vui lòng cấu hình trong tùy chọn tiện ích."
   },
   "exitFullscreenButton": {
     "message": "Thoát toàn màn hình"
@@ -318,7 +318,7 @@
     "message": "Lưu"
   },
   "savedSuccess": {
-    "message": "✅ Đã lưu"
+    "message": "Đã lưu"
   },
   "sectionApi": {
     "message": "API"
@@ -336,7 +336,7 @@
     "message": "Thao tác nhanh"
   },
   "selAskButton": {
-    "message": "💬 Hỏi về đoạn đã chọn"
+    "message": "Hỏi về đoạn đã chọn"
   },
   "selContextLabel": {
     "message": "Đoạn chọn"
@@ -387,7 +387,7 @@
     "message": "Xác minh API Key và endpoint"
   },
   "testApiFailed": {
-    "message": "❌ Kết nối thất bại："
+    "message": "Kết nối thất bại："
   },
   "testApiLabel": {
     "message": "Kiểm tra kết nối"
@@ -396,7 +396,7 @@
     "message": "Vui lòng điền URL cơ sở, API Key và tên mô hình trước"
   },
   "testApiSuccess": {
-    "message": "✅ Kết nối thành công"
+    "message": "Kết nối thành công"
   },
   "thinkingLabel": {
     "message": "Quá trình suy nghĩ"

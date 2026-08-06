@@ -75,7 +75,7 @@
     "message": "已複製"
   },
   "customLabel": {
-    "message": "🔧 自定義"
+    "message": "自定義"
   },
   "darkModeDesc": {
     "message": "使用深色主題"
@@ -84,19 +84,19 @@
     "message": "深色模式"
   },
   "defaultOutlineLabel": {
-    "message": "🎯 提煉要點"
+    "message": "提煉要點"
   },
   "defaultOutlinePrompt": {
     "message": "請提煉這篇網頁正文部分的要點，以列表形式列出"
   },
   "defaultSummarizeLabel": {
-    "message": "📝 總結全文"
+    "message": "總結全文"
   },
   "defaultSummarizePrompt": {
     "message": "請用繁體中文總結這篇網頁正文部分的核心內容"
   },
   "defaultTranslateLabel": {
-    "message": "🌐 翻譯"
+    "message": "翻譯"
   },
   "defaultTranslatePrompt": {
     "message": "請將這篇網頁的正文部分翻譯成繁體中文"
@@ -108,7 +108,7 @@
     "message": "拖拽排序"
   },
   "errorNoApiKey": {
-    "message": "❌ 未設定 API Key，請在擴充功能設定中設定"
+    "message": "未設定 API Key，請在擴充功能設定中設定"
   },
   "exitFullscreenButton": {
     "message": "結束全螢幕"
@@ -318,7 +318,7 @@
     "message": "儲存"
   },
   "savedSuccess": {
-    "message": "✅ 已儲存"
+    "message": "已儲存"
   },
   "sectionApi": {
     "message": "API"
@@ -336,7 +336,7 @@
     "message": "快捷按鈕"
   },
   "selAskButton": {
-    "message": "💬 對此段提問"
+    "message": "對此段提問"
   },
   "selContextLabel": {
     "message": "選中內容"
@@ -387,7 +387,7 @@
     "message": "驗證 API Key 和接口是否可用"
   },
   "testApiFailed": {
-    "message": "❌ 連接失敗："
+    "message": "連接失敗："
   },
   "testApiLabel": {
     "message": "測試連接"
@@ -396,7 +396,7 @@
     "message": "請先填寫接口地址、API Key 和模型名稱"
   },
   "testApiSuccess": {
-    "message": "✅ 連接成功"
+    "message": "連接成功"
   },
   "thinkingLabel": {
     "message": "思考過程"

@@ -41,7 +41,15 @@ function renderQuickActions() {
   container.innerHTML = "";
   for (const action of quickActions) {
     const btn = document.createElement("button");
-    btn.textContent = action.label;
+    btn.className = "__dp-quick-btn";
+    // 自绘图标 + 纯文字 label（i18n 文案已去除 emoji 前缀）
+    const icon = document.createElement("span");
+    icon.className = "__dp-quick-icon";
+    icon.innerHTML = iconForAction(action.id);
+    const label = document.createElement("span");
+    label.textContent = action.label;
+    btn.appendChild(icon);
+    btn.appendChild(label);
     btn.addEventListener("click", () => {
       sendMessage({ prompt: action.prompt, thinking: action.thinking });
     });
@@ -95,10 +103,10 @@ function createChatPanel() {
       </div>
       <button id="__dp-clear-ctx-btn" title="${t("clearContextBtn") || "Clear Context"}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>
       <button id="__dp-fullscreen-btn" title="${t("fullscreenButton") || "Fullscreen"}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg></button>
-      <button id="__dp-close">✕</button>
+      <button id="__dp-close">${iconClose(16)}</button>
     </div>
     <div id="__dp-context-bar" class="__dp-hidden">
-      📄 <span id="__dp-context-title"></span>
+      ${iconContext(14)} <span id="__dp-context-title"></span>
     </div>
     <div id="__dp-quick-actions" class="__dp-hidden"></div>
     <div id="__dp-login-notice" class="__dp-hidden">
@@ -110,9 +118,9 @@ function createChatPanel() {
     </div>
     <div id="__dp-chat"></div>
     <div id="__dp-input-row">
-      <button id="__dp-new-btn" title="${t("newChatShort") || "New"}">+</button>
+      <button id="__dp-new-btn" title="${t("newChatShort") || "New"}">${iconNew(16)}</button>
       <textarea id="__dp-input" placeholder="${t("inputPlaceholder")}" rows="1"></textarea>
-      <button id="__dp-send">➤</button>
+      <button id="__dp-send">${iconSend(16)}</button>
     </div>
     <!-- 四个拖拽手柄 -->
     <div class="__dp-resize-handle tl" data-dir="tl"></div>
@@ -382,7 +390,7 @@ function createSelBtn() {
   if (_selBtn) _selBtn.remove();
   _selBtn = document.createElement("button");
   _selBtn.id = "__dp-sel-btn";
-  _selBtn.textContent = t("selAskButton") || "💬 对此段提问";
+  _selBtn.innerHTML = `${iconAsk(13)} <span>${escapeHtml(t("selAskButton") || "对此段提问")}</span>`;
   _selBtn.addEventListener("click", onSelAsk);
   document.body.appendChild(_selBtn);
 }
@@ -421,7 +429,7 @@ async function onSelAsk() {
   }
 
   // 将选中内容作为用户消息发送
-  const msg = `📝 ${t("selContextLabel") || "选中内容"}：\n\n${text.slice(0, 8000)}`;
+  const msg = `${t("selContextLabel") || "选中内容"}：\n\n${text.slice(0, 8000)}`;
   const input = document.getElementById("__dp-input");
   if (input) {
     input.value = msg;
@@ -433,7 +441,7 @@ async function onSelAsk() {
 function showSelBtn(x, y) {
   if (!_selBtn) createSelBtn();
   // 更新文字（语言可能变了）
-  _selBtn.textContent = t("selAskButton") || "💬 对此段提问";
+  _selBtn.innerHTML = `${iconAsk(13)} <span>${escapeHtml(t("selAskButton") || "对此段提问")}</span>`;
   _selBtn.style.left = Math.min(x, window.innerWidth - _selBtn.offsetWidth - 10) + "px";
   _selBtn.style.top = Math.max(4, y - _selBtn.offsetHeight - 6) + "px";
   _selBtn.classList.add("__dp-show");
@@ -715,12 +723,12 @@ function createButton() {
         // 重新初始化默认按钮并刷新
         initDefaultActions();
         updateLangSelection();
-        // 更新已发送的「已加载」消息
+        // 更新已发送的「已加载」消息（只更新正文 span，保留前置图标）
         const ctxMsg = document.querySelector('[data-msg-type="context-loaded"]');
         if (ctxMsg) {
-          const bubble = ctxMsg.querySelector(".__dp-bubble");
-          if (bubble && pageContext)
-            bubble.textContent = `📄 ${t("contextLoaded", pageContext.title)}`;
+          const content = ctxMsg.querySelector(".__dp-bubble-content");
+          if (content && pageContext)
+            content.textContent = `${t("contextLoaded", pageContext.title)}`;
         }
         // 更新所有复制按钮的提示文字
         document.querySelectorAll(".__dp-copy-btn").forEach((btn) => {
@@ -756,7 +764,8 @@ function createButton() {
           if (items[4]) items[4].textContent = t("exportWord") || "Download Word";
         }
         // 更新选中文本按钮
-        if (_selBtn) _selBtn.textContent = t("selAskButton") || "💬 对此段提问";
+        if (_selBtn)
+          _selBtn.innerHTML = `${iconAsk(13)} <span>${escapeHtml(t("selAskButton") || "对此段提问")}</span>`;
         if (panelOpen) {
           loadQuickActionsFromStorage();
         }
