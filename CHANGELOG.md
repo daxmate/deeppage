@@ -5,6 +5,14 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
+## [1.18.6] - 2026-08-06
+
+### 🐛 修复
+
+- **宿主网页 CSS 污染面板样式（全面防御）**：面板注入宿主页面后，宿主的全局规则（`p/div/span/button/svg/input` 的 `!important` 规则、CSS reset 等）会直接命中面板子元素，优先级高于继承，导致气泡文字变色、按钮背景/边框/圆角被覆盖、SVG 图标被撑大、字号行高崩坏——不同网站出现不同坏法。现已将核心 UI 视觉属性（颜色/背景/边框/圆角/字号/行高/尺寸等）全部改为 `!important` 显式声明，不再依赖继承；气泡内容用 `#__dp-panel` ID 前缀提升特异性；SVG 加尺寸上下限防撑大
+- **用户消息气泡文字在部分网站看不清**：宿主页面的 `p { color }` 规则覆盖了气泡内文字（继承优先级低于直接命中）。已显式声明气泡内容颜色并 `!important` 防宿主
+- **复制/删除按钮 hover 失效**：批量加固时基础态 `opacity: 0 !important` 压制了 hover 的 `opacity: 1`，已同步加固 hover 态
+
 ## [1.18.5] - 2026-08-06
 
 ### 🐛 修复
