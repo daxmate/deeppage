@@ -23,7 +23,7 @@
 
   /* ----- Theme colors (light default) ----- */
   --dp-bg: #ffffff;
-  --dp-text: inherit;
+  --dp-text: #1f2937;
   --dp-panel-border: rgba(255, 255, 255, 0.1);
   --dp-chat-bg: #f7f9fc;
   --dp-context-bar-bg: #eef2ff;
@@ -40,10 +40,10 @@
   --dp-new-btn-text: #6b7280;
   --dp-input-bg: white;
   --dp-input-border: #d0d9f0;
-  --dp-input-text: inherit;
+  --dp-input-text: #1f2937;
   --dp-input-disabled-bg: #f1f3f5;
   --dp-assistant-bubble-bg: #f1f3f5;
-  --dp-assistant-bubble-text: inherit;
+  --dp-assistant-bubble-text: #1f2937;
   --dp-code-bg: #e9ecf5;
   --dp-pre-bg: #1e293b;
   --dp-pre-text: #f8fafc;
